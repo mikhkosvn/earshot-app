@@ -1,0 +1,10 @@
+SPEC.md
+HANDOFF.md
+AGENTS.md
+CLAUDE.md
+sections/
+raw/
+screenshots/
+.claude/
+src/generated/
+bun.lock

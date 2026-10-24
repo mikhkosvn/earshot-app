@@ -1,0 +1,23 @@
+{
+  "mcpServers": {
+    "next-devtools": {
+      "command": "bunx",
+      "args": ["next-devtools-mcp@latest"]
+    },
+    "shadcn": {
+      "command": "bunx",
+      "args": ["--bun", "shadcn@latest", "mcp"]
+    },
+    "playwright": {
+      "command": "bunx",
+      "args": [
+        "@playwright/mcp@latest",
+        "--isolated",
+        "--viewport-size",
+        "1440x900",
+        "--output-dir",
+        "C:/Users/Administrator/Desktop/pw-output"
+      ]
+    }
+  }
+}
