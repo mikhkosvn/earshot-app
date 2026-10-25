@@ -39,4 +39,7 @@ export const localDiskAdapter: StorageAdapter = {
   remove: async (key) => {
     await rm(resolveKey(key), { force: true });
   },
+  removeFolder: async (prefix) => {
+    await rm(resolveKey(prefix), { recursive: true, force: true });
+  },
 };
