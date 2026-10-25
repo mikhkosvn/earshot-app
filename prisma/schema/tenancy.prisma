@@ -72,6 +72,7 @@ model Organization {
   allowDuplicateCallIds       Boolean                @default(true)
   restrictNumbersToOwnImports Boolean                @default(false)
   telephonyPhoneNumbers       TelephonyPhoneNumber[]
+  teamSize                    TeamSize?
 }
 
 model OrganizationMember {

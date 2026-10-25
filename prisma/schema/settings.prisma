@@ -23,6 +23,14 @@ enum WebhookNotification {
   daily_report                 @map("daily.report")
 }
 
+enum TeamSize {
+  one             @map("1")
+  under_10        @map("<10")
+  from_10_to_100  @map("10-100")
+  from_100_to_500 @map("100-500")
+  over_500        @map("500+")
+}
+
 enum ShareLinkTarget {
   result
   run
