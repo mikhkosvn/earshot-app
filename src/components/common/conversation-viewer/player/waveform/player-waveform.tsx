@@ -28,24 +28,26 @@ export function PlayerWaveform({
 
   return (
     <div className="flex flex-col gap-1 px-4 pt-3">
-      <Button
-        type="button"
-        variant="unstyled"
-        size="unstyled"
-        aria-label="Seek in the recording"
-        className="relative flex w-full cursor-pointer flex-col items-stretch gap-1"
-        onClick={(event) => {
-          const rect = event.currentTarget.getBoundingClientRect();
-          const ratio = (event.clientX - rect.left) / Math.max(rect.width, 1);
-          seekAudio(audioRef.current, ratio * durationSeconds);
-        }}
-      >
+      <div className="relative flex w-full flex-col gap-1">
         <WaveformLane peaks={lanes.main} className="fill-emerald-500" />
         <WaveformLane peaks={lanes.testing} className="fill-rose-400" />
         <WaveformCursor
           percent={progressPercent(currentTime, durationSeconds)}
         />
-      </Button>
+        <Button
+          type="button"
+          variant="unstyled"
+          size="unstyled"
+          aria-label="Seek in the recording"
+          className="absolute inset-0 cursor-pointer"
+          onClick={(event) => {
+            const rect = event.currentTarget.getBoundingClientRect();
+            const ratio =
+              (event.clientX - rect.left) / Math.max(rect.width, 1);
+            seekAudio(audioRef.current, ratio * durationSeconds);
+          }}
+        />
+      </div>
       <WaveformTimeAxis duration={durationSeconds} />
     </div>
   );

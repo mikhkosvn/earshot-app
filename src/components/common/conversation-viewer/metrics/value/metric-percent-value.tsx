@@ -16,7 +16,7 @@ export function MetricPercentValue({ metric }: MetricPercentValueProps) {
       <Progress
         value={percent}
         aria-label={`${metric.name} score`}
-        className="w-20"
+        className="w-20 **:data-[slot=progress-indicator]:bg-emerald-500"
       />
     </span>
   );

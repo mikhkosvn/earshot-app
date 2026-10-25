@@ -18,12 +18,19 @@ export const downsamplePeaks = (
   });
 };
 
+const scaled = (peaks: number[], loudest: number) => {
+  if (loudest <= 0) return peaks;
+  return peaks.map((peak) => Math.abs(peak) / loudest);
+};
+
 export const waveformLanes = (waveform: ConversationWaveformView | null) => {
   if (!waveform) return { main: [], testing: [] };
   const testingIndex = waveform.testingChannelIndex;
-  const mainIndex = 1 - testingIndex;
-  return {
-    main: waveform.peaks[mainIndex] ?? [],
-    testing: waveform.peaks[testingIndex] ?? [],
-  };
+  const main = waveform.peaks[1 - testingIndex] ?? [];
+  const testing = waveform.peaks[testingIndex] ?? [];
+  const loudest = Math.max(
+    0,
+    ...[...main, ...testing].map((peak) => Math.abs(peak)),
+  );
+  return { main: scaled(main, loudest), testing: scaled(testing, loudest) };
 };
