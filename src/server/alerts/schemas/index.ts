@@ -27,11 +27,7 @@ const numberSchema = (label: string) =>
 
 export const projectScopeSchema = z.object({ projectId: idSchema });
 
-export const alertWindowSchema = z.union([
-  z.literal(AlertWindowHours.day),
-  z.literal(AlertWindowHours.threeDays),
-  z.literal(AlertWindowHours.week),
-]);
+export const alertWindowSchema = z.enum(AlertWindowHours);
 
 export const alertReviewSchema = z.object({
   projectId: idSchema,
@@ -46,6 +42,8 @@ export const alertMetadataFilterSchema = z.object({
     .max(ALERT_FILTER_TEXT_MAX),
   value: z.string().trim().max(ALERT_FILTER_TEXT_MAX),
 });
+
+export const callMetadataSchema = z.record(z.string(), z.unknown()).catch({});
 
 export const alertFiltersSchema = z.object({
   agentIds: z.array(idSchema).max(ALERT_FILTER_ROWS_MAX),
@@ -69,7 +67,7 @@ const thresholdParamsSchema = z
     windowSize: countSchema('window'),
   })
   .refine((params) => params.minBreaches <= params.windowSize, {
-    message: 'The minimum breaches must not be more than the window.',
+    error: 'The minimum breaches must not be more than the window.',
     path: ['minBreaches'],
   })
   .refine(
@@ -77,7 +75,7 @@ const thresholdParamsSchema = z
       params.thresholdOperator !== ThresholdOperator.outside ||
       params.thresholdUpperValue > params.thresholdValue,
     {
-      message: 'The high value must be more than the low value.',
+      error: 'The high value must be more than the low value.',
       path: ['thresholdUpperValue'],
     },
   );

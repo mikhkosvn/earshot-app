@@ -1,9 +1,6 @@
 import { z } from 'zod';
 
-import {
-  CallEvaluationStatus,
-  RunStatus,
-} from '@/generated/prisma/enums';
+import { CallEvaluationStatus, RunStatus } from '@/generated/prisma/enums';
 import {
   RESULT_PAGE_SIZE_MAX,
   RunSortField,
@@ -26,16 +23,12 @@ const pageSchema = {
   pageSize: z.number().int().positive().max(RESULT_PAGE_SIZE_MAX),
 };
 
-export const listResultsSchema = z.object({
-  projectId: idSchema,
-  filters: resultFiltersSchema,
-  ...pageSchema,
-});
-
 export const exportResultsSchema = z.object({
   projectId: idSchema,
   filters: resultFiltersSchema,
 });
+
+export const listResultsSchema = exportResultsSchema.extend(pageSchema);
 
 export const listRunsSchema = z.object({
   projectId: idSchema,

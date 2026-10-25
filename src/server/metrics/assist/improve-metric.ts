@@ -1,22 +1,16 @@
 import 'server-only';
 
-import { z } from 'zod';
-
 import { MetricEvalType } from '@/generated/prisma/enums';
 import { prisma } from '@/lib/prisma';
 import { generateObject } from '@/server/ai/generate-object';
 import { withValidation } from '@/server/common/run-action';
 import { MetricFormType } from '@/server/metrics/constants/definition/metric-form-type';
-import { improveMetricSchema } from '@/server/metrics/schemas';
+import {
+  improvedMetricSchema,
+  improveMetricSchema,
+} from '@/server/metrics/schemas';
 import type { ImprovedMetric } from '@/server/metrics/types';
 import { requireProjectAccess } from '@/server/projects/utils/require-project-access';
-
-const improvedSchema = z.object({
-  refinedText: z.string().min(1),
-  evalType: z.enum(MetricEvalType),
-  summary: z.string(),
-  resolvedEdgeCases: z.array(z.string()),
-});
 
 const SYSTEM_PROMPT = [
   'You improve evaluation metrics for voice AI agents.',
@@ -69,7 +63,7 @@ export const improveMetric = withValidation(
     return generateObject({
       system: SYSTEM_PROMPT,
       prompt: `Agent: ${agent.name}\nAgent description:\n${agent.description}\n\nMetric form: ${type}\nMetric type: ${evalType}\n\nCurrent definition:\n${text}`,
-      schema: improvedSchema,
+      schema: improvedMetricSchema,
       mock: () => improvedMock(type, text, evalType),
     });
   },

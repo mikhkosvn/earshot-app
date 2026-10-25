@@ -51,6 +51,31 @@ export const updateLabFeedbackSchema = z.object({
     ),
 });
 
+export const labRunJobResultSchema = z.object({
+  summary: z.string(),
+  deepLink: z.string(),
+  metricId: z.number(),
+  matched: z.number(),
+  total: z.number(),
+  changedReviewIds: z.array(z.number()),
+});
+
+export const labRunScoreSchema = labRunJobResultSchema
+  .pick({ matched: true, total: true })
+  .nullable()
+  .catch(null);
+
+export const labRunChangedReviewIdsSchema = z
+  .object({
+    changedReviewIds: z
+      .array(z.unknown())
+      .transform((items) =>
+        items.filter((item): item is number => typeof item === 'number'),
+      )
+      .catch([]),
+  })
+  .catch({ changedReviewIds: [] });
+
 export const deleteLabTestSetsSchema = z.object({
   metricId: idSchema,
   testSetIds: z.array(idSchema).min(1, 'Select at least one row.'),

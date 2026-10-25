@@ -21,7 +21,7 @@ const hasAudioExtension = (fileName: string) =>
 export const cloneVoiceFormSchema = z.object({
   name: z.string().trim().min(1, 'Enter a voice name.').max(255),
   sample: z
-    .instanceof(File, { message: 'Choose an audio file.' })
+    .instanceof(File, { error: 'Choose an audio file.' })
     .nullable()
     .refine((file) => file !== null, 'Choose an audio file.')
     .refine(

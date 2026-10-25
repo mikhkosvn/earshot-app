@@ -21,11 +21,15 @@ import type {
   createMetricSchema,
   deleteMetricsSchema,
   generatedMetricSchema,
+  generatedTriggerSchema,
   generateEvaluationTriggerSchema,
+  improvedMetricSchema,
   improveMetricSchema,
   listMetricsSchema,
   metricDefinitionObject,
   metricIdSchema,
+  metricSnapshotSchema,
+  metricValueSchema,
   projectIdSchema,
   reorderMetricsSchema,
   reviewIdSchema,
@@ -75,7 +79,7 @@ export type SetPatternCorrectionInput = z.input<
   typeof setPatternCorrectionSchema
 >;
 
-export type MetricValue = boolean | number | string | null;
+export type MetricValue = z.output<typeof metricValueSchema>;
 
 export interface MetricListItem {
   id: number;
@@ -149,7 +153,7 @@ export interface PredefinedMetricCard {
   added: boolean;
 }
 
-export type MetricSnapshot = MetricDefinitionValues;
+export type MetricSnapshot = z.output<typeof metricSnapshotSchema>;
 
 export interface MetricVersionView {
   id: number;
@@ -174,16 +178,9 @@ export interface MetricGenerationJobResult {
   metrics: GeneratedMetricDraft[];
 }
 
-export interface ImprovedMetric {
-  refinedText: string;
-  evalType: MetricEvalType;
-  summary: string;
-  resolvedEdgeCases: string[];
-}
+export type ImprovedMetric = z.output<typeof improvedMetricSchema>;
 
-export interface GeneratedTrigger {
-  prompt: string;
-}
+export type GeneratedTrigger = z.output<typeof generatedTriggerSchema>;
 
 export interface PatternEvidenceView {
   speaker: TranscriptRole;

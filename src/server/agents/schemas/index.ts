@@ -13,10 +13,23 @@ import {
   MOCK_TOOL_MAX_DELAY_SECONDS,
   MOCK_TOOL_NAME_PATTERN,
 } from '@/server/agents/constants/agent-limits';
+import { ConnectionType } from '@/server/agents/constants/connection-type';
+import {
+  TestConnectionStatus,
+  TestStepKey,
+  TestStepStatus,
+  TestVerdict,
+} from '@/server/agents/constants/test-call';
 
 const idSchema = z.number().int().positive();
 
 const PHONE_PATTERN = /^\+[1-9]\d{6,14}$/;
+
+const urlSchema = z.url();
+
+export const storedJsonObjectSchema = z
+  .record(z.string(), z.unknown())
+  .catch({});
 
 export const normalizePhoneNumber = (value: string) =>
   value.replace(/[\s().-]/g, '');
@@ -85,7 +98,7 @@ export const agentWebhookSchema = z.object({
     .string()
     .trim()
     .refine(
-      (value) => value === '' || z.url().safeParse(value).success,
+      (value) => value === '' || urlSchema.safeParse(value).success,
       'Enter a valid URL.',
     ),
   webhookSecret: z.string().trim().max(2000),
@@ -145,7 +158,7 @@ export const knowledgeConnectorFormSchema = z
   })
   .superRefine((values, context) => {
     if (values.type === KnowledgeConnectorType.website_scraper) {
-      if (!z.url().safeParse(values.url).success) {
+      if (!urlSchema.safeParse(values.url).success) {
         context.addIssue({
           code: 'custom',
           path: ['url'],
@@ -192,7 +205,7 @@ export const mockToolMappingSchema = z.object({
         .number()
         .int()
         .refine(isAllowedStatusCode, {
-          message:
+          error:
             'Use a status code from 200 to 299 except 204 and 205, or from 400 to 599.',
         })
         .optional(),
@@ -260,3 +273,36 @@ export const renameAgentVersionSchema = z.object({
 });
 
 export const agentVersionIdSchema = z.object({ agentVersionId: idSchema });
+
+export const testStepSchema = z.object({
+  key: z.enum(TestStepKey),
+  label: z.string(),
+  status: z.enum(TestStepStatus),
+});
+
+export const testTranscriptLineSchema = z.object({
+  role: z.string(),
+  content: z.string(),
+  time: z.string(),
+});
+
+export const testConnectionProgressSchema = z.object({
+  type: z.enum(ConnectionType),
+  status: z.enum(TestConnectionStatus),
+  statusLabel: z.string(),
+  target: z.string().nullable(),
+  steps: z.array(testStepSchema),
+  agentFirstMessage: z.string().nullable(),
+  answeredAfterSeconds: z.number().nullable(),
+  durationSeconds: z.number().nullable(),
+  turnCount: z.number(),
+  endedReason: z.string().nullable(),
+  transcriptPreview: z.array(testTranscriptLineSchema),
+});
+
+export const testCallProgressSchema = z.object({
+  agentId: z.number(),
+  verdict: z.enum(TestVerdict).nullable(),
+  headline: z.string(),
+  connections: z.array(testConnectionProgressSchema),
+});

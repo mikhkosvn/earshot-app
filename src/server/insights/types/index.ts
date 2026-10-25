@@ -14,6 +14,7 @@ import type {
   insightRangeSchema,
   newCategoryAlertSchema,
   projectScopeSchema,
+  researchResultSchema,
   runInsightSchema,
   saveInsightConfigSchema,
 } from '@/server/insights/schemas';
@@ -27,6 +28,7 @@ export type NewCategoryAlertInput = z.infer<typeof newCategoryAlertSchema>;
 export type RunInsightInput = z.infer<typeof runInsightSchema>;
 export type CategoryIdInput = z.infer<typeof categoryIdSchema>;
 export type FailureModeIdInput = z.infer<typeof failureModeIdSchema>;
+export type ResearchResult = z.output<typeof researchResultSchema>;
 
 export interface PassCondition {
   operator: ComparisonOperator;

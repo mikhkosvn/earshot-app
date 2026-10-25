@@ -3,8 +3,8 @@ import 'server-only';
 import { Prisma } from '@/generated/prisma/client';
 import { prisma } from '@/lib/prisma';
 import { withValidation } from '@/server/common/run-action';
-import { metricIdSchema } from '@/server/metrics/schemas';
-import type { MetricSnapshot, MetricVersionView } from '@/server/metrics/types';
+import { metricIdSchema, metricSnapshotSchema } from '@/server/metrics/schemas';
+import type { MetricVersionView } from '@/server/metrics/types';
 import { requireMetricAccess } from '@/server/metrics/utils/require-metric-access';
 
 export const listMetricVersions = withValidation(
@@ -26,7 +26,7 @@ export const listMetricVersions = withValidation(
     });
     return rows.map((row) => ({
       ...row,
-      snapshot: row.snapshot as MetricSnapshot,
+      snapshot: metricSnapshotSchema.parse(row.snapshot),
     }));
   },
 );

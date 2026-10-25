@@ -1,6 +1,7 @@
 import 'server-only';
 
 import { Prisma } from '@/generated/prisma/client';
+import { evaluatorSnapshotReaderSchema } from '@/server/runs/schemas';
 import type { EvaluatorSnapshot } from '@/server/runs/types';
 
 export const evaluatorSnapshotSelect = {
@@ -40,43 +41,11 @@ export const toEvaluatorSnapshot = (
   metricIds: row.metrics.map((entry) => entry.metricId),
 });
 
-const asRecord = (value: Prisma.JsonValue): Record<string, unknown> => {
-  if (!value || typeof value !== 'object' || Array.isArray(value)) return {};
-  return value;
-};
-
-const textOf = (record: Record<string, unknown>, key: string) => {
-  const value = record[key];
-  if (typeof value === 'string') return value;
-  return null;
-};
-
-const numbersOf = (record: Record<string, unknown>, key: string) => {
-  const value = record[key];
-  if (!Array.isArray(value)) return [];
-  return value.filter((item): item is number => typeof item === 'number');
-};
+export const readEvaluatorSnapshot = (snapshot: Prisma.JsonValue) =>
+  evaluatorSnapshotReaderSchema.parse(snapshot);
 
 export const readSnapshotName = (snapshot: Prisma.JsonValue) =>
-  textOf(asRecord(snapshot), 'name') ?? '';
+  readEvaluatorSnapshot(snapshot).name;
 
 export const readSnapshotMetricIds = (snapshot: Prisma.JsonValue) =>
-  numbersOf(asRecord(snapshot), 'metricIds');
-
-const numberOf = (record: Record<string, unknown>, key: string) => {
-  const value = record[key];
-  if (typeof value === 'number') return value;
-  return null;
-};
-
-export const readEvaluatorSnapshot = (snapshot: Prisma.JsonValue) => {
-  const record = asRecord(snapshot);
-  return {
-    name: textOf(record, 'name') ?? '',
-    instructions: textOf(record, 'instructions') ?? '',
-    expectedOutcomePrompt: textOf(record, 'expectedOutcomePrompt'),
-    firstMessage: textOf(record, 'firstMessage'),
-    maxDurationSeconds: numberOf(record, 'maxDurationSeconds'),
-    metricIds: numbersOf(record, 'metricIds'),
-  };
-};
+  readEvaluatorSnapshot(snapshot).metricIds;

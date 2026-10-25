@@ -1,6 +1,7 @@
 import 'server-only';
 
 import { Prisma } from '@/generated/prisma/client';
+import { storedJsonObjectSchema } from '@/server/agents/schemas';
 
 export const agentSnapshotInclude = {
   redactionFields: { select: { field: true } },
@@ -82,18 +83,6 @@ const SNAPSHOT_FIELD_LABEL: Record<keyof AgentSnapshot, string> = {
   knowledgeBaseConnectors: 'Connectors',
 };
 
-const isSnapshotObject = (
-  value: Prisma.JsonValue,
-): value is Prisma.JsonObject =>
-  typeof value === 'object' && value !== null && !Array.isArray(value);
-
-const toSnapshotObject = (
-  value: Prisma.JsonValue | null,
-): Prisma.JsonObject => {
-  if (value && isSnapshotObject(value)) return value;
-  return {};
-};
-
 const isSnapshotKey = (key: string): key is keyof AgentSnapshot =>
   key in SNAPSHOT_FIELD_LABEL;
 
@@ -102,7 +91,7 @@ export const describeSnapshotChange = (
   next: AgentSnapshot,
   extraLabels: string[],
 ) => {
-  const before = toSnapshotObject(previous);
+  const before = storedJsonObjectSchema.parse(previous);
   const keys = Object.keys(SNAPSHOT_FIELD_LABEL).filter(isSnapshotKey);
   const changed = keys
     .filter(

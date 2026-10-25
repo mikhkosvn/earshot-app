@@ -54,3 +54,14 @@ export const runInsightSchema = insightMetricSchema.extend({
 export const categoryIdSchema = z.object({ categoryId: idSchema });
 
 export const failureModeIdSchema = z.object({ failureModeId: idSchema });
+
+export const researchResultSchema = z.object({
+  headline: z.string(),
+  failureModes: z.array(
+    z.object({
+      title: z.string(),
+      description: z.string(),
+      callLogIds: z.array(z.number().int()),
+    }),
+  ),
+});

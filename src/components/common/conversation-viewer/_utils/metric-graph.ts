@@ -1,3 +1,5 @@
+import { z } from 'zod';
+
 import type { ConversationMetricItem } from '@/server/conversations/types';
 
 import { FALLBACK_LINE_COLOR, PERCENTILE_COLORS } from '../_constants/chart';
@@ -14,13 +16,10 @@ export interface GraphLine {
   color: string;
 }
 
-const isRecord = (value: unknown): value is Record<string, unknown> =>
-  typeof value === 'object' && value !== null && !Array.isArray(value);
+const jsonRecordSchema = z.record(z.string(), z.unknown());
 
-const recordOf = (value: unknown) => {
-  if (!isRecord(value)) return null;
-  return value;
-};
+const recordOf = (value: unknown) =>
+  jsonRecordSchema.safeParse(value).data ?? null;
 
 export const findMetricByFunction = (
   metrics: readonly ConversationMetricItem[],

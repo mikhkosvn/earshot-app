@@ -5,10 +5,10 @@ import type {
   CallEvaluationStatus,
   ResultSource,
   RunStatus,
-  ScenarioType,
 } from '@/generated/prisma/enums';
 import type { RunChannel } from '@/server/runs/constants/run-channel';
 import type {
+  evaluatorSnapshotSchema,
   reevaluateConversationsSchema,
   reevaluateResultSchema,
   resultIdSchema,
@@ -16,6 +16,7 @@ import type {
   runDefaultsSchema,
   runSettingsSchema,
   startRunSchema,
+  testProfileSnapshotSchema,
   testSuiteRequestSchema,
 } from '@/server/runs/schemas';
 
@@ -54,27 +55,9 @@ export interface CreatedRunBatch {
   runIds: number[];
 }
 
-export interface EvaluatorSnapshot {
-  id: number | null;
-  key: string | null;
-  name: string;
-  scenarioType: ScenarioType;
-  instructions: string;
-  expectedOutcomePrompt: string | null;
-  firstMessage: string | null;
-  language: string;
-  maxDurationSeconds: number | null;
-  tools: string[];
-  tags: string[];
-  metricIds: number[];
-}
+export type EvaluatorSnapshot = z.output<typeof evaluatorSnapshotSchema>;
 
-export interface TestProfileSnapshot {
-  id: number;
-  name: string;
-  mainAgentVariables: Record<string, string>;
-  testingAgentVariables: Record<string, string>;
-}
+export type TestProfileSnapshot = z.output<typeof testProfileSnapshotSchema>;
 
 export interface RunPlanCase {
   evaluatorId: number | null;

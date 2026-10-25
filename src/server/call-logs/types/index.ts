@@ -21,11 +21,11 @@ import type {
   uploadCallLogsSchema,
   evaluatorsFromCallsSchema,
 } from '@/server/call-logs/schemas';
+import type { filterValueSchema } from '@/server/call-logs/schemas/filters';
 import type { RubricVerdict } from '@/server/metric-scoring/types';
 import type { MetricValue } from '@/server/metrics/types';
 
-export type FilterValue =
-  string | number | boolean | null | (string | number | boolean)[];
+export type FilterValue = z.output<typeof filterValueSchema>;
 
 export interface FilterCondition {
   field: string;

@@ -107,3 +107,34 @@ export const restoreEvaluatorVersionSchema = z.object({
   evaluatorId: evaluatorIdSchema,
   versionId: z.number().int().positive(),
 });
+
+export const evaluatorExpectedToolCallViewSchema = z.object({
+  mockToolId: z.number(),
+  mockToolName: z.string(),
+  input: z.string(),
+  output: z.string(),
+});
+
+export const evaluatorSnapshotSchema = z.object({
+  name: z.string(),
+  agentId: z.number().nullable(),
+  agentName: z.string().nullable(),
+  folderPath: z.string().nullable(),
+  tags: z.array(z.string()),
+  scenarioType: z.enum(ScenarioType),
+  testProfileId: z.number().nullable(),
+  testProfileName: z.string().nullable(),
+  firstMessage: z.string(),
+  instructions: z.string(),
+  personalityId: z.number().nullable(),
+  personalityName: z.string().nullable(),
+  language: z.enum(Language),
+  expectedOutcomePrompt: z.string(),
+  metricIds: z.array(z.number()),
+  metricNames: z.array(z.string()),
+  expectedToolCalls: z.array(evaluatorExpectedToolCallViewSchema),
+  phoneNumberId: z.number().nullable(),
+  phoneNumber: z.string().nullable(),
+  tools: z.array(z.enum(ScenarioTool)),
+  maxDurationSeconds: z.number().nullable(),
+});

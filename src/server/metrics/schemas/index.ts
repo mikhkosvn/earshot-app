@@ -59,6 +59,13 @@ export const metricDefinitionObject = z.object({
   addToNewAgents: z.boolean(),
 });
 
+export const metricSnapshotSchema = metricDefinitionObject.extend({
+  name: z.string(),
+  slug: z.string(),
+  enumValues: z.array(z.string()),
+  dependencyIds: z.array(z.number()),
+});
+
 type MetricDefinitionShape = z.output<typeof metricDefinitionObject>;
 
 const addIssue = (context: z.RefinementCtx, path: string, message: string) =>
@@ -254,11 +261,20 @@ export const generateEvaluationTriggerSchema = z.object({
   description: z.string().trim().min(1, 'Enter a description first.'),
 });
 
+export const improvedMetricSchema = z.object({
+  refinedText: z.string().min(1),
+  evalType: z.enum(MetricEvalType),
+  summary: z.string(),
+  resolvedEdgeCases: z.array(z.string()),
+});
+
+export const generatedTriggerSchema = z.object({ prompt: z.string().min(1) });
+
 export const reviewIdSchema = z.object({
   reviewId: idSchema,
 });
 
-export const patternCorrectionValueSchema = z.union([
+export const metricValueSchema = z.union([
   z.boolean(),
   z.number(),
   z.string(),
@@ -270,7 +286,7 @@ export const setPatternCorrectionSchema = z.object({
   groupKey: z.string().min(1),
   correction: z
     .object({
-      value: patternCorrectionValueSchema,
+      value: metricValueSchema,
       note: z.string().trim().max(2000),
     })
     .nullable(),

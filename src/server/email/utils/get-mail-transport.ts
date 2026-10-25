@@ -1,6 +1,7 @@
 import 'server-only';
 
 import nodemailer, { type Transporter } from 'nodemailer';
+import { z } from 'zod';
 
 import {
   DEVELOPMENT_SMTP_HOST,
@@ -21,11 +22,13 @@ const readSmtpHost = () => {
   return DEVELOPMENT_SMTP_HOST;
 };
 
-const readSmtpPort = () => {
-  const port = Number(process.env.SMTP_PORT);
-  if (Number.isInteger(port) && port > 0) return port;
-  return DEVELOPMENT_SMTP_PORT;
-};
+const smtpPortSchema = z.coerce
+  .number()
+  .int()
+  .positive()
+  .catch(DEVELOPMENT_SMTP_PORT);
+
+const readSmtpPort = () => smtpPortSchema.parse(process.env.SMTP_PORT);
 
 const readSmtpAuth = () => {
   const user = process.env.SMTP_USER;

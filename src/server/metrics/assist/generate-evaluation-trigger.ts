@@ -1,14 +1,13 @@
 import 'server-only';
 
-import { z } from 'zod';
-
 import { generateObject } from '@/server/ai/generate-object';
 import { withValidation } from '@/server/common/run-action';
-import { generateEvaluationTriggerSchema } from '@/server/metrics/schemas';
+import {
+  generatedTriggerSchema,
+  generateEvaluationTriggerSchema,
+} from '@/server/metrics/schemas';
 import type { GeneratedTrigger } from '@/server/metrics/types';
 import { requireProjectAccess } from '@/server/projects/utils/require-project-access';
-
-const triggerSchema = z.object({ prompt: z.string().min(1) });
 
 const SYSTEM_PROMPT = [
   'You write evaluation trigger prompts for voice AI agent metrics.',
@@ -38,7 +37,7 @@ export const generateEvaluationTrigger = withValidation(
     return generateObject({
       system: SYSTEM_PROMPT,
       prompt: `Metric description:\n${description}`,
-      schema: triggerSchema,
+      schema: generatedTriggerSchema,
       mock: () => triggerMock(description),
     });
   },

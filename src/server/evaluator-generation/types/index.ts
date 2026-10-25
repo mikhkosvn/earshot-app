@@ -8,13 +8,12 @@ import type {
   ScenarioTool,
 } from '@/generated/prisma/enums';
 import type {
-  AssistantMode,
-  AssistantStatus,
-} from '@/server/evaluator-generation/constants';
-import type {
   answerEvaluatorAssistantSchema,
   assistantJobInputSchema,
+  assistantJobResultSchema,
+  clarificationQuestionSchema,
   generationJobInputSchema,
+  generationJobResultSchema,
   generationOptionsSchema,
   generationSessionIdSchema,
   listGenerationSessionsSchema,
@@ -43,34 +42,11 @@ export interface StartedAssistant {
   sessionId: number;
 }
 
-export type ClarificationQuestion = {
-  question: string;
-};
-
-export type AssistantJobResult = {
-  mode: AssistantMode;
-  status: AssistantStatus;
-  sessionId: number;
-  message: string;
-  clarificationQuestions: ClarificationQuestion[];
-  baseExtraInstructions: string | null;
-  extraInstructionsList: string[];
-  generationJobId: string | null;
-  summary: string;
-  deepLink: string;
-};
-
-export type GenerationJobResult = {
-  agentId: number;
-  sessionId: number;
-  completedScenarios: number;
-  failedScenarios: number;
-  totalScenarios: number;
-  scenarioIds: number[];
-  errors: string[];
-  summary?: string;
-  deepLink?: string;
-};
+export type ClarificationQuestion = z.output<
+  typeof clarificationQuestionSchema
+>;
+export type AssistantJobResult = z.output<typeof assistantJobResultSchema>;
+export type GenerationJobResult = z.output<typeof generationJobResultSchema>;
 
 export interface GenerationJobView<TResult> {
   id: string;

@@ -1,6 +1,7 @@
 import 'server-only';
 
 import { Prisma } from '@/generated/prisma/client';
+import { metricExtraSchema } from '@/server/call-logs/schemas';
 import { endedReasonLabel } from '@/server/conversations/utils/ended-reason-label';
 import { valueFromParts } from '@/server/metric-scoring/utils/value-parts';
 import {
@@ -60,31 +61,19 @@ export type RunRowRecord = Prisma.RunGetPayload<{
   select: typeof runRowSelect;
 }>;
 
-const numberField = (record: Record<string, unknown> | null, key: string) => {
-  const value = record?.[key];
-  if (typeof value === 'number') return value;
-  return null;
-};
-
-const recordOf = (value: Prisma.JsonValue | null) => {
-  if (!value || typeof value !== 'object' || Array.isArray(value)) return null;
-  return value;
-};
-
 const toCell = (
   evaluation: RunRowRecord['conversation']['metricEvaluations'][number],
 ): RunMetricCell => {
-  const extra = recordOf(evaluation.extra);
-  const percentiles = recordOf(extra?.percentiles ?? null);
+  const extra = metricExtraSchema.parse(evaluation.extra);
   return {
     value: valueFromParts({
       number: evaluation.valueNumber,
       boolean: evaluation.valueBoolean,
       text: evaluation.valueText,
     }),
-    firstTurn: numberField(extra, 'first_turn'),
-    p50: numberField(percentiles, 'p50'),
-    p99: numberField(percentiles, 'p99'),
+    firstTurn: extra.first_turn,
+    p50: extra.percentiles.p50,
+    p99: extra.percentiles.p99,
   };
 };
 

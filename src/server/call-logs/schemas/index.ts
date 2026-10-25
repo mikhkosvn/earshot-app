@@ -23,6 +23,17 @@ const timeExpressionSchema = z
     'Enter a time such as now-30d or 2026-10-01 00:00:00.',
   );
 
+const storedNumberSchema = z.number().nullable().catch(null);
+
+export const metricExtraSchema = z
+  .object({
+    first_turn: storedNumberSchema,
+    percentiles: z
+      .object({ p50: storedNumberSchema, p99: storedNumberSchema })
+      .catch({ p50: null, p99: null }),
+  })
+  .catch({ first_turn: null, percentiles: { p50: null, p99: null } });
+
 export const projectScopeSchema = z.object({ projectId: idSchema });
 
 export const callLogIdSchema = z.object({ callLogId: idSchema });

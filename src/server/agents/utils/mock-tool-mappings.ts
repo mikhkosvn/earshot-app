@@ -1,6 +1,7 @@
 import 'server-only';
 
 import { Prisma } from '@/generated/prisma/client';
+import { storedJsonObjectSchema } from '@/server/agents/schemas';
 import type { MockToolMappingValue } from '@/server/agents/types';
 
 interface MappingRow {
@@ -13,13 +14,8 @@ interface MappingRow {
 
 const FAILURE_STATUS_MIN = 400;
 
-const toObject = (value: Prisma.JsonValue | null): Record<string, unknown> => {
-  if (!value || typeof value !== 'object' || Array.isArray(value)) return {};
-  return value;
-};
-
 const toHeaders = (value: Prisma.JsonValue | null) => {
-  const entries = Object.entries(toObject(value)).filter(
+  const entries = Object.entries(storedJsonObjectSchema.parse(value)).filter(
     (entry): entry is [string, string] => typeof entry[1] === 'string',
   );
   if (entries.length === 0) return undefined;
@@ -44,8 +40,8 @@ const toResponse = (row: MappingRow) => {
 export const toMappingValue = (row: MappingRow): MockToolMappingValue => {
   const response = toResponse(row);
   return {
-    input: toObject(row.input),
-    output: toObject(row.output),
+    input: storedJsonObjectSchema.parse(row.input),
+    output: storedJsonObjectSchema.parse(row.output),
     ...(response && { response }),
   };
 };

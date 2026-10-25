@@ -2,6 +2,8 @@ import { z } from 'zod';
 
 import { ScenarioTool, ScenarioType } from '@/generated/prisma/enums';
 import {
+  AssistantMode,
+  AssistantStatus,
   EXTRA_INSTRUCTIONS_MAX_LENGTH,
   GENERATION_MAX_SCENARIOS,
   GENERATION_MIN_SCENARIOS,
@@ -58,7 +60,7 @@ export const answerEvaluatorAssistantSchema = z
     skipped: z.boolean(),
   })
   .refine((value) => value.skipped || value.answer.length > 0, {
-    message: 'Type an answer or skip the question.',
+    error: 'Type an answer or skip the question.',
     path: ['answer'],
   });
 
@@ -72,3 +74,39 @@ export const generationJobInputSchema = z.object({
   sessionId,
   instructions: z.array(z.string()),
 });
+
+export const clarificationQuestionSchema = z.object({
+  question: z.string(),
+});
+
+export const assistantJobResultSchema = z.object({
+  mode: z.enum(AssistantMode),
+  status: z.enum(AssistantStatus),
+  sessionId: z.number(),
+  message: z.string(),
+  clarificationQuestions: z.array(clarificationQuestionSchema),
+  baseExtraInstructions: z.string().nullable(),
+  extraInstructionsList: z.array(z.string()),
+  generationJobId: z.string().nullable(),
+  summary: z.string(),
+  deepLink: z.string(),
+});
+
+export const generationJobResultSchema = z.object({
+  agentId: z.number(),
+  sessionId: z.number(),
+  completedScenarios: z.number(),
+  failedScenarios: z.number(),
+  totalScenarios: z.number(),
+  scenarioIds: z.array(z.number()),
+  errors: z.array(z.string()),
+  summary: z.string().optional(),
+  deepLink: z.string().optional(),
+});
+
+export const sessionOptionsSchema = z
+  .object({
+    folderPath: z.string().catch(''),
+    numScenarios: z.number().catch(GENERATION_MIN_SCENARIOS),
+  })
+  .catch({ folderPath: '', numScenarios: GENERATION_MIN_SCENARIOS });

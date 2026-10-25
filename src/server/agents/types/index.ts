@@ -9,12 +9,6 @@ import type {
 } from '@/generated/prisma/enums';
 import type { ConnectionType } from '@/server/agents/constants/connection-type';
 import type {
-  TestConnectionStatus,
-  TestStepKey,
-  TestStepStatus,
-  TestVerdict,
-} from '@/server/agents/constants/test-call';
-import type {
   addDynamicVariablesSchema,
   agentConfigSchema,
   agentIdSchema,
@@ -36,6 +30,10 @@ import type {
   projectIdSchema,
   renameAgentVersionSchema,
   setMockToolsEnabledSchema,
+  testCallProgressSchema,
+  testConnectionProgressSchema,
+  testStepSchema,
+  testTranscriptLineSchema,
   updateAgentSchema,
   updateDynamicVariableSchema,
   updateMockToolSchema,
@@ -193,38 +191,15 @@ export interface CreatedAgent {
   check: ConnectionCheck;
 }
 
-export type TestStep = {
-  key: TestStepKey;
-  label: string;
-  status: TestStepStatus;
-};
+export type TestStep = z.output<typeof testStepSchema>;
 
-export type TestTranscriptLine = {
-  role: string;
-  content: string;
-  time: string;
-};
+export type TestTranscriptLine = z.output<typeof testTranscriptLineSchema>;
 
-export type TestConnectionProgress = {
-  type: ConnectionType;
-  status: TestConnectionStatus;
-  statusLabel: string;
-  target: string | null;
-  steps: TestStep[];
-  agentFirstMessage: string | null;
-  answeredAfterSeconds: number | null;
-  durationSeconds: number | null;
-  turnCount: number;
-  endedReason: string | null;
-  transcriptPreview: TestTranscriptLine[];
-};
+export type TestConnectionProgress = z.output<
+  typeof testConnectionProgressSchema
+>;
 
-export type TestCallProgress = {
-  agentId: number;
-  verdict: TestVerdict | null;
-  headline: string;
-  connections: TestConnectionProgress[];
-};
+export type TestCallProgress = z.output<typeof testCallProgressSchema>;
 
 export interface StartedTestCall {
   jobId: string;

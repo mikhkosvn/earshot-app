@@ -10,6 +10,7 @@ import {
 } from '@/server/metrics/pattern-reviews/utils/pattern-review-view';
 import { requireReviewAccess } from '@/server/metrics/pattern-reviews/utils/require-review-access';
 import { setPatternCorrectionSchema } from '@/server/metrics/schemas';
+import type { SetPatternCorrectionInput } from '@/server/metrics/types';
 
 const EDITABLE_STATUSES: PatternReviewStatus[] = [
   PatternReviewStatus.ready,
@@ -17,7 +18,7 @@ const EDITABLE_STATUSES: PatternReviewStatus[] = [
 ];
 
 const correctionData = (
-  correction: { value: boolean | number | string | null; note: string } | null,
+  correction: SetPatternCorrectionInput['correction'],
 ) => {
   if (!correction) {
     return {

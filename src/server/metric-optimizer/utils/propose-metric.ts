@@ -9,6 +9,7 @@ import {
   OPTIMIZER_SYSTEM_PROMPT,
   SUMMARY_HEADINGS,
 } from '@/server/metric-optimizer/constants/optimizer-text';
+import { proposalSummarySchema } from '@/server/metric-optimizer/schemas';
 import type { ProposalSummary } from '@/server/metric-optimizer/types';
 import { proposalMock } from '@/server/metric-optimizer/utils/proposal-mock';
 import type { ScoringMetric } from '@/server/metric-scoring/types';
@@ -45,13 +46,7 @@ const proposalSchema = z.object({
   triggerType: z.enum(TriggerType),
   evaluationTriggerPrompt: z.string(),
   evaluationTriggerCustomCode: z.string(),
-  summary: z.object({
-    whatChanged: z.array(z.string()),
-    whatItChecks: z.string(),
-    returnsFalseWhen: z.string(),
-    returnsTrueWhen: z.string(),
-    notApplicableWhen: z.string(),
-  }),
+  summary: proposalSummarySchema,
 });
 
 const valueText = (value: MetricValue) => JSON.stringify(value);

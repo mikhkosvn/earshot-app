@@ -1,7 +1,11 @@
+import { z } from 'zod';
+
 interface Variable {
   key: string;
   value: string;
 }
+
+const variablesJsonSchema = z.record(z.string(), z.unknown());
 
 export const variablesToJson = (variables: readonly Variable[]) =>
   JSON.stringify(
@@ -14,9 +18,6 @@ export const variablesToJson = (variables: readonly Variable[]) =>
     2,
   );
 
-const isPlainObject = (value: unknown): value is Record<string, unknown> =>
-  typeof value === 'object' && value !== null && !Array.isArray(value);
-
 const readJson = (text: string) => {
   try {
     const value: unknown = JSON.parse(text);
@@ -28,14 +29,15 @@ const readJson = (text: string) => {
 
 export const parseVariablesJson = (text: string) => {
   const { value } = readJson(text);
-  if (!isPlainObject(value)) {
+  const parsed = variablesJsonSchema.safeParse(value);
+  if (!parsed.success) {
     return {
       variables: null,
       error: 'Enter a JSON object, for example {"name": "Sarah"}.',
     };
   }
   return {
-    variables: Object.entries(value).map(([key, entry]) => ({
+    variables: Object.entries(parsed.data).map(([key, entry]) => ({
       key,
       value: String(entry),
     })),

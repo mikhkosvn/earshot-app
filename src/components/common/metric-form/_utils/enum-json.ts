@@ -1,13 +1,13 @@
+import { z } from 'zod';
+
 const JSON_ERROR = { message: 'Enter a JSON array of strings.' };
 
-const isStringArray = (value: unknown): value is string[] =>
-  Array.isArray(value) && value.every((item) => typeof item === 'string');
+const enumValuesJsonSchema = z.array(z.string());
 
 export const parseEnumJson = (text: string) => {
   try {
     const value: unknown = JSON.parse(text);
-    if (!isStringArray(value)) return null;
-    return value;
+    return enumValuesJsonSchema.safeParse(value).data ?? null;
   } catch {
     return null;
   }

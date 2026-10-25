@@ -10,6 +10,7 @@ import type {
   labDraftSchema,
   labMetricSchema,
   labProjectSchema,
+  labRunJobResultSchema,
   startLabRunSchema,
   updateLabExpectedSchema,
   updateLabFeedbackSchema,
@@ -94,14 +95,7 @@ export interface LabRowOutcome {
   matched: boolean;
 }
 
-export type LabRunJobResult = {
-  summary: string;
-  deepLink: string;
-  metricId: number;
-  matched: number;
-  total: number;
-  changedReviewIds: number[];
-};
+export type LabRunJobResult = z.output<typeof labRunJobResultSchema>;
 
 export interface LabReviewChange {
   reviewId: number;

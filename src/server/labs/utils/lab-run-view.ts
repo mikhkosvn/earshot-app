@@ -4,7 +4,11 @@ import { Prisma } from '@/generated/prisma/client';
 import { JobKind } from '@/generated/prisma/enums';
 import { prisma } from '@/lib/prisma';
 import { LAB_RUN_INPUT_KEY } from '@/server/labs/constants/lab-run';
-import type { LabRunView, LabScore } from '@/server/labs/types';
+import {
+  labRunChangedReviewIdsSchema,
+  labRunScoreSchema,
+} from '@/server/labs/schemas';
+import type { LabRunView } from '@/server/labs/types';
 
 const labRunSelect = {
   id: true,
@@ -19,34 +23,15 @@ type LabRunRow = Prisma.BackgroundJobGetPayload<{
   select: typeof labRunSelect;
 }>;
 
-const asRecord = (value: Prisma.JsonValue | null): Record<string, unknown> => {
-  if (!value || typeof value !== 'object' || Array.isArray(value)) return {};
-  return value;
-};
-
-const scoreOf = (result: Record<string, unknown>): LabScore | null => {
-  if (typeof result.matched !== 'number' || typeof result.total !== 'number') {
-    return null;
-  }
-  return { matched: result.matched, total: result.total };
-};
-
-const changedIdsOf = (result: Record<string, unknown>) => {
-  if (!Array.isArray(result.changedReviewIds)) return [];
-  return result.changedReviewIds.filter(
-    (id): id is number => typeof id === 'number',
-  );
-};
-
 const toLabRunView = (row: LabRunRow): LabRunView => {
-  const result = asRecord(row.result);
   return {
     jobId: row.id,
     status: row.status,
     step: row.currentStep,
     error: row.error,
-    score: scoreOf(result),
-    changedReviewIds: changedIdsOf(result),
+    score: labRunScoreSchema.parse(row.result),
+    changedReviewIds: labRunChangedReviewIdsSchema.parse(row.result)
+      .changedReviewIds,
     createdAt: row.createdAt,
   };
 };
