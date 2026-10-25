@@ -13,6 +13,7 @@ enum NotificationSeverity {
 
 enum NotificationEventType {
   scenario_generation_complete
+  scenario_agent_question
   metric_generation_complete
   run_completed
   monitor_failed
