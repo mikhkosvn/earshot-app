@@ -27,57 +27,77 @@ import type {
   StartRunInput,
   TestSuiteRequestInput,
 } from '@/server/runs/types';
+import { RunsActionOperation } from '@/server/runs/actions/action-operation';
+import { withActionEvent } from '@/server/common/logging/with-action-event';
 
 export async function getRunDefaultsAction(
   args: RunDefaultsInput,
 ): Promise<RunDefaults> {
-  return getRunDefaults(args);
+  return withActionEvent(RunsActionOperation.getRunDefaults, () =>
+    getRunDefaults(args),
+  );
 }
 
 export async function getRunAgentConfigurationAction(
   args: RunAgentInput,
 ): Promise<RunAgentConfiguration> {
-  return getRunAgentConfiguration(args);
+  return withActionEvent(RunsActionOperation.getRunAgentConfiguration, () =>
+    getRunAgentConfiguration(args),
+  );
 }
 
 export async function getRunBatchStatusAction(
   args: ResultIdInput,
 ): Promise<RunBatchStatus> {
-  return getRunBatchStatus(args);
+  return withActionEvent(RunsActionOperation.getRunBatchStatus, () =>
+    getRunBatchStatus(args),
+  );
 }
 
 export async function startRunAction(
   args: StartRunInput,
 ): Promise<ActionResult<CreatedRunBatch>> {
-  return runAction(() => startRunBatch(args));
+  return withActionEvent(RunsActionOperation.startRun, () =>
+    runAction(() => startRunBatch(args)),
+  );
 }
 
 export async function checkTestSuiteAction(
   args: TestSuiteRequestInput,
 ): Promise<ActionResult<SpecCheck>> {
-  return runAction(() => checkTestSuite(args));
+  return withActionEvent(RunsActionOperation.checkTestSuite, () =>
+    runAction(() => checkTestSuite(args)),
+  );
 }
 
 export async function runTestSuiteAction(
   args: TestSuiteRequestInput,
 ): Promise<ActionResult<CreatedRunBatch>> {
-  return runAction(() => runTestSuite(args));
+  return withActionEvent(RunsActionOperation.runTestSuite, () =>
+    runAction(() => runTestSuite(args)),
+  );
 }
 
 export async function cancelResultAction(
   args: ResultIdInput,
 ): Promise<ActionResult<CancelledResult>> {
-  return runAction(() => cancelResult(args));
+  return withActionEvent(RunsActionOperation.cancelResult, () =>
+    runAction(() => cancelResult(args)),
+  );
 }
 
 export async function reevaluateResultAction(
   args: ReevaluateResultInput,
 ): Promise<ActionResult<StartedReevaluation>> {
-  return runAction(() => reevaluateResult(args));
+  return withActionEvent(RunsActionOperation.reevaluateResult, () =>
+    runAction(() => reevaluateResult(args)),
+  );
 }
 
 export async function reevaluateConversationsAction(
   args: ReevaluateConversationsInput,
 ): Promise<ActionResult<StartedReevaluation>> {
-  return runAction(() => reevaluateConversations(args));
+  return withActionEvent(RunsActionOperation.reevaluateConversations, () =>
+    runAction(() => reevaluateConversations(args)),
+  );
 }

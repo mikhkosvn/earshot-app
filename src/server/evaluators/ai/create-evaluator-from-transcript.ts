@@ -6,6 +6,7 @@ import { CreationMethod, ScenarioType } from '@/generated/prisma/enums';
 import { prisma } from '@/lib/prisma';
 import { generateObject } from '@/server/ai/generate-object';
 import { TRANSCRIPT_ROLE_LABEL } from '@/server/call-engine/constants';
+import { addEventFields } from '@/server/common/logging/event-fields';
 import { ActionError, withValidation } from '@/server/common/run-action';
 import { transcriptEvaluatorMock } from '@/server/evaluators/ai/mocks/transcript-evaluator-mock';
 import { DEFAULT_SCENARIO_TOOLS } from '@/server/evaluators/constants/scenario-tool-descriptions';
@@ -33,6 +34,11 @@ export const createEvaluatorFromTranscript = withValidation(
     const transcript = turns
       .map((turn) => `${TRANSCRIPT_ROLE_LABEL[turn.role]}: ${turn.content}`)
       .join('\n');
+    addEventFields({
+      project: { id: projectId },
+      agent: { id: agentId },
+      transcript: { turn_count: turns.length },
+    });
     const draft = await generateObject({
       system: SYSTEM_PROMPT,
       prompt: transcript,
@@ -67,6 +73,12 @@ export const createEvaluatorFromTranscript = withValidation(
         userId: user.id,
         fields,
         creationMethod: CreationMethod.manual_with_generate,
+      });
+      addEventFields({
+        evaluator: {
+          id: created.id,
+          creation_method: CreationMethod.manual_with_generate,
+        },
       });
       await recordEvaluatorVersion(tx, {
         evaluatorId: created.id,

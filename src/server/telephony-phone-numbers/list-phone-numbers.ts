@@ -1,6 +1,7 @@
 import 'server-only';
 
 import { prisma } from '@/lib/prisma';
+import { addEventFields } from '@/server/common/logging/event-fields';
 import { withValidation } from '@/server/common/run-action';
 import { requireOrganizationAccess } from '@/server/organization-settings/utils/require-organization-access';
 import { listPhoneNumbersSchema } from '@/server/telephony-phone-numbers/schemas';
@@ -18,6 +19,10 @@ export const listPhoneNumbers = withValidation(
       where: { organizationId },
       orderBy: { id: 'asc' },
       select: phoneNumberRowSelect,
+    });
+    addEventFields({
+      organization: { id: organizationId },
+      phone_numbers: { count: phoneNumbers.length },
     });
     return phoneNumbers.map(toPhoneNumberRow);
   },

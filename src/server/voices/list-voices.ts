@@ -3,6 +3,7 @@ import 'server-only';
 import { Prisma } from '@/generated/prisma/client';
 import type { VoiceModel } from '@/generated/prisma/enums';
 import { prisma } from '@/lib/prisma';
+import { addEventFields } from '@/server/common/logging/event-fields';
 import { withValidation } from '@/server/common/run-action';
 import { requireProjectAccess } from '@/server/projects/utils/require-project-access';
 import {
@@ -33,8 +34,17 @@ export const listVoices = withValidation(
       orderBy: { createdAt: Prisma.SortOrder.desc },
       select: { id: true, name: true, sampleFileId: true },
     });
+    const catalog = catalogFor(voiceModel);
+    addEventFields({
+      project: { id: projectId },
+      voices: {
+        voice_model: voiceModel,
+        catalog_count: catalog.length,
+        cloned_count: cloned.length,
+      },
+    });
     return {
-      catalog: catalogFor(voiceModel),
+      catalog,
       cloned: cloned.map((voice) => ({
         id: voice.id,
         label: voice.name,

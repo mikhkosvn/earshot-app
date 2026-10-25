@@ -14,27 +14,40 @@ import type {
   RunsOverviewConfigurationItem,
   RunsOverviewFilterOptions,
 } from '@/server/runs-overview/types';
+import { RunsOverviewActionOperation } from '@/server/runs-overview/actions/action-operation';
+import { withActionEvent } from '@/server/common/logging/with-action-event';
 
 export async function getRunsOverviewAction(
   args: GetRunsOverviewInput,
 ): Promise<RunsOverview> {
-  return getRunsOverview(args);
+  return withActionEvent(RunsOverviewActionOperation.getRunsOverview, () =>
+    getRunsOverview(args),
+  );
 }
 
 export async function getRunsOverviewFilterOptionsAction(
   args: ProjectIdInput,
 ): Promise<RunsOverviewFilterOptions> {
-  return getFilterOptions(args);
+  return withActionEvent(
+    RunsOverviewActionOperation.getRunsOverviewFilterOptions,
+    () => getFilterOptions(args),
+  );
 }
 
 export async function listRunsOverviewConfigurationsAction(
   args: ProjectIdInput,
 ): Promise<RunsOverviewConfigurationItem[]> {
-  return listConfigurations(args);
+  return withActionEvent(
+    RunsOverviewActionOperation.listRunsOverviewConfigurations,
+    () => listConfigurations(args),
+  );
 }
 
 export async function createRunsOverviewConfigurationAction(
   args: CreateConfigurationInput,
 ): Promise<ActionResult<RunsOverviewConfigurationItem>> {
-  return runAction(() => createConfiguration(args));
+  return withActionEvent(
+    RunsOverviewActionOperation.createRunsOverviewConfiguration,
+    () => runAction(() => createConfiguration(args)),
+  );
 }

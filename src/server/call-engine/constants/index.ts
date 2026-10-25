@@ -72,3 +72,14 @@ export const MAIN_CHANNEL_INDEX = 0;
 export const TESTING_CHANNEL_INDEX = 1;
 export const WAVEFORM_PEAK_COUNT = 1500;
 export const WAVEFORM_VERSION = 1;
+
+export const CallEngineOperation = {
+  start_call: 'calls.create',
+  receive_push: 'call_engine.receive_push',
+  deliver_mock_event: 'call_engine.deliver_mock_event',
+  download_recording: 'recordings.download',
+  verify_push_token: 'id_token.verify',
+} as const;
+
+export type CallEngineOperation =
+  (typeof CallEngineOperation)[keyof typeof CallEngineOperation];

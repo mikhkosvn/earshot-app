@@ -1,6 +1,7 @@
 import 'server-only';
 
 import { prisma } from '@/lib/prisma';
+import { addEventFields } from '@/server/common/logging/event-fields';
 import { ActionError, withValidation } from '@/server/common/run-action';
 import { updateMetricSampleRateSchema } from '@/server/metrics/schemas';
 import {
@@ -20,6 +21,7 @@ export const updateMetricSampleRate = withValidation(
     if (!current.samplingEnabled) {
       throw new ActionError('Turn on sampling for this metric first.');
     }
+    addEventFields({ metric: { id: metricId, sample_rate: sampleRate } });
     const row = await prisma.metric.update({
       where: { id: metricId },
       data: { sampleRate },

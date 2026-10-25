@@ -2,6 +2,7 @@ import 'server-only';
 
 import { Prisma } from '@/generated/prisma/client';
 import { prisma } from '@/lib/prisma';
+import { addEventFields } from '@/server/common/logging/event-fields';
 import { withValidation } from '@/server/common/run-action';
 import { listEvaluatorsSchema } from '@/server/evaluators/schemas/evaluator-list';
 import type {
@@ -74,6 +75,10 @@ export const listEvaluators = withValidation(
         take: pageSize,
       }),
     ]);
+    addEventFields({
+      project: { id: filter.projectId },
+      evaluators: { count: rows.length, total_count: count, page },
+    });
     const result: EvaluatorListPage = { count, rows: rows.map(toListRow) };
     return result;
   },

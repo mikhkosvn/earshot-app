@@ -2,6 +2,7 @@ import 'server-only';
 
 import { Prisma } from '@/generated/prisma/client';
 import { prisma } from '@/lib/prisma';
+import { addEventFields } from '@/server/common/logging/event-fields';
 import { withValidation } from '@/server/common/run-action';
 import { dashboardIdSchema } from '@/server/dashboards/schemas';
 import type { DashboardItem } from '@/server/dashboards/types';
@@ -53,6 +54,9 @@ export const duplicateDashboard = withValidation(
         },
       },
       select: dashboardItemSelect,
+    });
+    addEventFields({
+      dashboard: { copy_id: row.id, widget_count: source.widgets.length },
     });
     return toDashboardItem(row);
   },

@@ -6,6 +6,8 @@ import {
 } from '@/generated/prisma/enums';
 import { prisma } from '@/lib/prisma';
 import { UrlGenerator } from '@/lib/url-generator/url-generator';
+import { AlertStep } from '@/server/alerts/constants/alert-step';
+import { recordStepFailure } from '@/server/common/logging/event-fields';
 import { EmailNotificationKind } from '@/server/email/constants/email-notification-kind';
 import { notifyProjectMembersByEmail } from '@/server/email/notify-project-members-by-email';
 import { appUrl } from '@/server/runs/utils/app-url';
@@ -69,11 +71,11 @@ const projectMemberIds = async (projectId: number) => {
   return members.map((member) => member.userId);
 };
 
-const settle = async (label: string, task: () => Promise<unknown>) => {
+const settle = async (step: AlertStep, task: () => Promise<unknown>) => {
   try {
     await task();
   } catch (error) {
-    console.error(`[alerts] The ${label} of a fired alert failed.`, error);
+    recordStepFailure(step, error);
   }
 };
 
@@ -82,7 +84,7 @@ const notifyRule = async (fires: AlertFire[]) => {
   const deepLink = UrlGenerator.alerts({ projectId: rule.projectId });
   const title = `Alert fired: ${rule.name}`;
   const body = bodyOf(fires);
-  await settle('notification', async () => {
+  await settle(AlertStep.fire_notification, async () => {
     const userIds = await projectMemberIds(rule.projectId);
     await prisma.notification.createMany({
       data: userIds.map((userId) => ({
@@ -96,7 +98,7 @@ const notifyRule = async (fires: AlertFire[]) => {
       })),
     });
   });
-  await settle('email', () =>
+  await settle(AlertStep.fire_email, () =>
     notifyProjectMembersByEmail({
       projectId: rule.projectId,
       kind: EmailNotificationKind.alert,

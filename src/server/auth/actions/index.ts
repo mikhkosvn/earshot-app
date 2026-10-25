@@ -7,25 +7,35 @@ import { signOut } from '@/server/auth/sign-out';
 import { signUp } from '@/server/auth/sign-up';
 import type { SignInInput, SignUpInput } from '@/server/auth/types';
 import { runAction } from '@/server/common/run-action';
+import { AuthActionOperation } from '@/server/auth/actions/action-operation';
+import { withActionEvent } from '@/server/common/logging/with-action-event';
 
 export async function signInAction(
   args: SignInInput,
 ): Promise<ActionResult<{ userId: number }>> {
-  return runAction(() => signIn(args));
+  return withActionEvent(AuthActionOperation.signIn, () =>
+    runAction(() => signIn(args)),
+  );
 }
 
 export async function signUpAction(
   args: SignUpInput,
 ): Promise<ActionResult<{ userId: number; projectId: number }>> {
-  return runAction(() => signUp(args));
+  return withActionEvent(AuthActionOperation.signUp, () =>
+    runAction(() => signUp(args)),
+  );
 }
 
 export async function signOutAction(): Promise<
   ActionResult<{ signedOut: boolean }>
 > {
-  return runAction(() => signOut());
+  return withActionEvent(AuthActionOperation.signOut, () =>
+    runAction(() => signOut()),
+  );
 }
 
 export async function isSignupOpenAction(): Promise<boolean> {
-  return isSignupOpen();
+  return withActionEvent(AuthActionOperation.isSignupOpen, () =>
+    isSignupOpen(),
+  );
 }

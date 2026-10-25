@@ -3,6 +3,7 @@ import 'server-only';
 import { JobKind } from '@/generated/prisma/enums';
 import { prisma } from '@/lib/prisma';
 import { requireUser } from '@/server/auth';
+import { addEventFields } from '@/server/common/logging/event-fields';
 import { ActionError, withValidation } from '@/server/common/run-action';
 import { startJob } from '@/server/jobs/start-job';
 import { scoreConversation } from '@/server/metric-scoring/score-conversation';
@@ -84,6 +85,13 @@ export const reevaluateConversations = withValidation(
     const projectIds = [...new Set(rows.map((row) => row.projectId))];
     if (projectIds.length !== 1) throw new ActionError(MIXED_PROJECTS_MESSAGE);
     const [projectId] = projectIds;
+    addEventFields({
+      project: { id: projectId },
+      reevaluation: {
+        conversation_count: unique.length,
+        metric_count: metricIds?.length ?? null,
+      },
+    });
     const input: ConversationsInput = {
       conversationIds: unique,
       metricIds: metricIds ?? null,

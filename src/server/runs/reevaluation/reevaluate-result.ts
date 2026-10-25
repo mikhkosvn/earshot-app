@@ -4,6 +4,7 @@ import { JobKind, RunStatus } from '@/generated/prisma/enums';
 import { prisma } from '@/lib/prisma';
 import { UrlGenerator } from '@/lib/url-generator/url-generator';
 import { requireUser } from '@/server/auth';
+import { addEventFields } from '@/server/common/logging/event-fields';
 import { ActionError, withValidation } from '@/server/common/run-action';
 import { startJob } from '@/server/jobs/start-job';
 import { analyzeResult } from '@/server/result-analysis/analyze-result';
@@ -61,6 +62,7 @@ const rescoreRuns = async (
       },
     });
   }
+  addEventFields({ reevaluation: { rescored_run_count: runs.length } });
   return runs.length;
 };
 
@@ -89,6 +91,14 @@ export const reevaluateResult = withValidation(
     const runs = await prisma.run.findMany({
       where: { resultId, status: RunStatus.completed, ...runIdFilter(runIds) },
       select: { id: true },
+    });
+    addEventFields({
+      result: { id: resultId, status: result.status },
+      project: { id: result.projectId },
+      reevaluation: {
+        run_count: runs.length,
+        metric_count: metricIds?.length ?? null,
+      },
     });
     if (runs.length === 0) throw new ActionError(NO_RUNS_MESSAGE);
     await prisma.result.update({

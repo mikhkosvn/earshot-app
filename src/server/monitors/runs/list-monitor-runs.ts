@@ -3,6 +3,7 @@ import 'server-only';
 import { Prisma } from '@/generated/prisma/client';
 import { prisma } from '@/lib/prisma';
 import { requireUser } from '@/server/auth';
+import { addEventFields } from '@/server/common/logging/event-fields';
 import { withValidation } from '@/server/common/run-action';
 import { MONITOR_RUN_HISTORY_LIMIT } from '@/server/monitors/constants/monitor-limits';
 import { monitorIdSchema } from '@/server/monitors/schemas';
@@ -30,6 +31,11 @@ export const listMonitorRuns = withValidation(
         finishedAt: true,
         resultId: true,
       },
+    });
+    addEventFields({
+      project: { id: monitor.projectId },
+      monitor: { id: monitor.id },
+      monitor_runs: { count: runs.length },
     });
     return runs.map((run) => ({ ...run, projectId: monitor.projectId }));
   },

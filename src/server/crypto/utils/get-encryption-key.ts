@@ -2,6 +2,8 @@ import 'server-only';
 
 import { createHash } from 'node:crypto';
 
+import { addEventFields } from '@/server/common/logging/event-fields';
+
 const DEVELOPMENT_KEY_SEED = 'earshot-development-encryption-key';
 const KEY_LENGTH_BYTES = 32;
 
@@ -21,9 +23,7 @@ const deriveDevelopmentKey = () => {
   if (process.env.NODE_ENV === 'production') {
     throw new Error('ENCRYPTION_KEY is not set.');
   }
-  console.warn(
-    '[crypto] ENCRYPTION_KEY is not set. Secrets use a development key. Do not use this key in production.',
-  );
+  addEventFields({ encryption: { development_key: true } });
   return createHash('sha256').update(DEVELOPMENT_KEY_SEED).digest();
 };
 

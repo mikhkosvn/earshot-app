@@ -18,43 +18,59 @@ import type {
   UpdateProjectInput,
 } from '@/server/projects/types';
 import { updateProject } from '@/server/projects/update-project';
+import { ProjectsActionOperation } from '@/server/projects/actions/action-operation';
+import { withActionEvent } from '@/server/common/logging/with-action-event';
 
 export async function getCurrentProjectIdAction(): Promise<number> {
-  return getCurrentProjectId();
+  return withActionEvent(ProjectsActionOperation.getCurrentProjectId, () =>
+    getCurrentProjectId(),
+  );
 }
 
 export async function getProjectAction(
   args: ProjectIdInput,
 ): Promise<ProjectDetail> {
-  return getProject(args);
+  return withActionEvent(ProjectsActionOperation.getProject, () =>
+    getProject(args),
+  );
 }
 
 export async function listProjectsAction(
   args: ListProjectsInput,
 ): Promise<ProjectSummary[]> {
-  return listProjects(args);
+  return withActionEvent(ProjectsActionOperation.listProjects, () =>
+    listProjects(args),
+  );
 }
 
 export async function createProjectAction(
   args: CreateProjectInput,
 ): Promise<ActionResult<ProjectSummary>> {
-  return runAction(() => createProject(args));
+  return withActionEvent(ProjectsActionOperation.createProject, () =>
+    runAction(() => createProject(args)),
+  );
 }
 
 export async function updateProjectAction(
   args: UpdateProjectInput,
 ): Promise<ActionResult<ProjectSummary>> {
-  return runAction(() => updateProject(args));
+  return withActionEvent(ProjectsActionOperation.updateProject, () =>
+    runAction(() => updateProject(args)),
+  );
 }
 
 export async function deleteProjectAction(
   args: ProjectIdInput,
 ): Promise<ActionResult<DeleteProjectResult>> {
-  return runAction(() => deleteProject(args));
+  return withActionEvent(ProjectsActionOperation.deleteProject, () =>
+    runAction(() => deleteProject(args)),
+  );
 }
 
 export async function switchProjectAction(
   args: ProjectIdInput,
 ): Promise<ActionResult<{ projectId: number }>> {
-  return runAction(() => switchProject(args));
+  return withActionEvent(ProjectsActionOperation.switchProject, () =>
+    runAction(() => switchProject(args)),
+  );
 }

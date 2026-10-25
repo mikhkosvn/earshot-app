@@ -5,6 +5,7 @@ import { prisma } from '@/lib/prisma';
 import { NEW_MODE_DEFAULT_MIN_CALLS } from '@/server/alerts/constants/alert-presets';
 import { AlertTypeLabel } from '@/server/alerts/constants/alert-type-labels';
 import { EMPTY_ALERT_FILTERS } from '@/server/alerts/utils/alert-filters';
+import { addEventFields } from '@/server/common/logging/event-fields';
 import { withValidation } from '@/server/common/run-action';
 import { newCategoryAlertSchema } from '@/server/insights/schemas';
 import { requireProjectAccess } from '@/server/projects/utils/require-project-access';
@@ -21,6 +22,12 @@ export const setNewCategoryAlert = withValidation(
     const rule = await prisma.alertRule.findFirst({
       where: { metricId, type: AlertType.insight_new_mode },
       select: { id: true },
+    });
+    addEventFields({
+      project: { id: projectId },
+      metric: { id: metricId },
+      insight_config: { alert_on_new_categories: enabled },
+      alert: { id: rule?.id, existed: rule !== null },
     });
     if (rule) {
       await prisma.alertRule.updateMany({

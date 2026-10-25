@@ -2,6 +2,7 @@ import 'server-only';
 
 import { prisma } from '@/lib/prisma';
 import { requireUser } from '@/server/auth';
+import { addEventFields } from '@/server/common/logging/event-fields';
 
 export const requireProjectAccess = async (projectId: number) => {
   const { user } = await requireUser();
@@ -21,6 +22,11 @@ export const requireProjectAccess = async (projectId: number) => {
     },
   });
   const [membership] = organization.members;
+  addEventFields({
+    project: { id: project.id },
+    organization: { id: organization.id },
+    membership: { role: membership.role },
+  });
 
   return {
     user,

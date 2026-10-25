@@ -1,5 +1,6 @@
 import 'server-only';
 
+import { addEventFields } from '@/server/common/logging/event-fields';
 import { MONITOR_SCHEDULER_INTERVAL_MS } from '@/server/monitors/constants/monitor-scheduler';
 import { failStalledMonitorRuns } from '@/server/monitors/scheduler/fail-stalled-monitor-runs';
 import { finishMonitorRuns } from '@/server/monitors/scheduler/finish-monitor-runs';
@@ -11,7 +12,8 @@ export const monitorSchedulerTask: WorkerTask = {
   name: 'monitor-scheduler',
   intervalMs: MONITOR_SCHEDULER_INTERVAL_MS,
   run: async () => {
-    await queueDueMonitors();
+    const queued = await queueDueMonitors();
+    addEventFields({ worker: { monitors_queued: queued.length } });
     await startQueuedMonitorRuns();
     await finishMonitorRuns();
     await failStalledMonitorRuns();

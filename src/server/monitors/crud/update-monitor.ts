@@ -2,6 +2,7 @@ import 'server-only';
 
 import { prisma } from '@/lib/prisma';
 import { requireUser } from '@/server/auth';
+import { addEventFields } from '@/server/common/logging/event-fields';
 import { withValidation } from '@/server/common/run-action';
 import { updateMonitorSchema } from '@/server/monitors/schemas';
 import type { MonitorRef } from '@/server/monitors/types';
@@ -23,6 +24,14 @@ export const updateMonitor = withValidation(
     });
     const { evaluatorIds, personalityIds, agentNumber } =
       await validateMonitorFields(monitor.projectId, fields);
+    addEventFields({
+      project: { id: monitor.projectId },
+      monitor: {
+        id: monitor.id,
+        evaluator_count: evaluatorIds.length,
+        personality_count: personalityIds.length,
+      },
+    });
     return prisma.monitor.update({
       where: { id: monitor.id },
       data: {

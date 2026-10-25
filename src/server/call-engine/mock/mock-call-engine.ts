@@ -20,6 +20,8 @@ import {
 } from '@/server/call-engine/mock/personality-voice';
 import { scheduleTurns } from '@/server/call-engine/mock/schedule-turns';
 import { waitFor } from '@/server/call-engine/mock/wait-for';
+import { addEventFields } from '@/server/common/logging/event-fields';
+import { readOutgoingTraceContext } from '@/server/common/logging/trace/read-outgoing-trace-context';
 import type {
   CallEngine,
   CallEventPayload,
@@ -93,8 +95,8 @@ const runUnansweredCall = async (
   startedMs: number,
 ) => {
   await waitForCall(NO_ANSWER_RING_SECONDS, startedMs);
-  await deliverMockEvent(
-    endOfCallPayload({
+  await deliverMockEvent({
+    payload: endOfCallPayload({
       request,
       providerCallId,
       endedReason: CallEndedReason.no_answer,
@@ -103,8 +105,9 @@ const runUnansweredCall = async (
       turns: [],
       recordingUrl: null,
     }),
-    null,
-  );
+    recording: null,
+    traceContext: request.trace_context,
+  });
 };
 
 const runAnsweredCall = async (
@@ -136,8 +139,8 @@ const runAnsweredCall = async (
     random,
   });
   await waitForCall(schedule.durationSeconds, startedMs);
-  await deliverMockEvent(
-    endOfCallPayload({
+  await deliverMockEvent({
+    payload: endOfCallPayload({
       request,
       providerCallId,
       endedReason: schedule.endedReason,
@@ -147,7 +150,8 @@ const runAnsweredCall = async (
       recordingUrl: mockRecordingUrl(providerCallId),
     }),
     recording,
-  );
+    traceContext: request.trace_context,
+  });
 };
 
 const runMockCall = async (
@@ -168,9 +172,8 @@ const reportFailedCall = async (
   providerCallId: string,
   error: unknown,
 ) => {
-  console.error(`[call-engine] The mock call ${providerCallId} failed.`, error);
-  await deliverMockEvent(
-    endOfCallPayload({
+  await deliverMockEvent({
+    payload: endOfCallPayload({
       request,
       providerCallId,
       endedReason: CallEndedReason.error,
@@ -179,20 +182,28 @@ const reportFailedCall = async (
       turns: [],
       recordingUrl: null,
     }),
-    null,
-  );
+    recording: null,
+    traceContext: request.trace_context,
+    failure: error,
+  });
 };
+
+const ignoreLoggedFailure = () => undefined;
 
 const startMockCall = (request: StartCallRequest): Promise<StartedCall> => {
   const providerCallId = `${CallEngineKind.mock}_${randomUUID()}`;
-  void runMockCall(request, providerCallId)
-    .catch((error: unknown) => reportFailedCall(request, providerCallId, error))
+  const tracedRequest = {
+    ...request,
+    trace_context: readOutgoingTraceContext(),
+  };
+  addEventFields({
+    call: { engine: CallEngineKind.mock, provider_call_id: providerCallId },
+  });
+  void runMockCall(tracedRequest, providerCallId)
     .catch((error: unknown) =>
-      console.error(
-        `[call-engine] The mock call ${providerCallId} did not report its end.`,
-        error,
-      ),
-    );
+      reportFailedCall(tracedRequest, providerCallId, error),
+    )
+    .catch(ignoreLoggedFailure);
   return Promise.resolve({ providerCallId });
 };
 

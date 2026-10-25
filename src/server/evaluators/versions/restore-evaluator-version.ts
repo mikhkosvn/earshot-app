@@ -3,6 +3,7 @@ import 'server-only';
 import type { Prisma } from '@/generated/prisma/client';
 import { prisma } from '@/lib/prisma';
 import { requireUser } from '@/server/auth';
+import { addEventFields } from '@/server/common/logging/event-fields';
 import { ActionError, withValidation } from '@/server/common/run-action';
 import {
   evaluatorFieldsSchema,
@@ -67,6 +68,11 @@ export const restoreEvaluatorVersion = withValidation(
         select: { version: true, snapshot: true },
       });
       const snapshot = evaluatorSnapshotSchema.parse(version.snapshot);
+      addEventFields({
+        project: { id: evaluator.projectId },
+        evaluator: { id: evaluatorId },
+        evaluator_version: { id: versionId, restored_version: version.version },
+      });
       if (!snapshot.agentId || !snapshot.personalityId) {
         throw new ActionError(
           'This version has no agent or personality. It cannot be restored.',

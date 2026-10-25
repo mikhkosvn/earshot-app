@@ -2,6 +2,11 @@ import 'server-only';
 
 import { AiSummaryStatus } from '@/generated/prisma/enums';
 import { prisma } from '@/lib/prisma';
+import {
+  addEventFields,
+  recordStepFailure,
+} from '@/server/common/logging/event-fields';
+import { AnalysisStep } from '@/server/result-analysis/constants/analysis-step';
 import { generateAiSummary } from '@/server/result-analysis/generate-ai-summary';
 import { generateFailureReasons } from '@/server/result-analysis/generate-failure-reasons';
 import { generateMetricSummaries } from '@/server/result-analysis/generate-metric-summaries';
@@ -22,14 +27,14 @@ import type {
 } from '@/server/result-analysis/types';
 
 const withFallback = async <T>(
-  label: string,
+  step: AnalysisStep,
   task: () => Promise<T>,
   fallback: () => T,
 ) => {
   try {
     return await task();
   } catch (error) {
-    console.error(`[result-analysis] The ${label} step failed.`, error);
+    recordStepFailure(step, error);
     return fallback();
   }
 };
@@ -40,17 +45,17 @@ const failureAnalysis = async (input: AnalysisInput) => {
   }
   return {
     aiSummary: await withFallback(
-      'summary',
+      AnalysisStep.summary,
       () => generateAiSummary(input),
       () => mockAiSummary(input),
     ),
     failureReasons: await withFallback(
-      'failure reasons',
+      AnalysisStep.failure_reasons,
       () => generateFailureReasons(input),
       () => mockFailureReasons(input.runs),
     ),
     nextSteps: await withFallback(
-      'next steps',
+      AnalysisStep.next_steps,
       () => generateNextSteps(input),
       () => mockNextSteps(input.runs),
     ),
@@ -63,15 +68,22 @@ export const analyzeResult = async (resultId: number) => {
     data: { aiSummaryStatus: AiSummaryStatus.pending },
   });
   const input = await loadAnalysisInput(resultId);
+  addEventFields({
+    result: { id: resultId },
+    analysis: {
+      run_count: input.runs.length,
+      failed_run_count: input.runs.filter((run) => run.failed).length,
+    },
+  });
   const analysis: ResultAnalysis = {
     ...(await failureAnalysis(input)),
     workflowPaths: await withFallback(
-      'workflow coverage',
+      AnalysisStep.workflow_coverage,
       () => generateWorkflowCoverage(input),
       () => mockWorkflowCoverage(input),
     ),
     metricSummaries: await withFallback(
-      'metric summaries',
+      AnalysisStep.metric_summaries,
       () => generateMetricSummaries(input),
       () => mockMetricSummaries(input.runs),
     ),

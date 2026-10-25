@@ -2,6 +2,7 @@ import 'server-only';
 
 import { ProviderKeyProvider } from '@/generated/prisma/enums';
 import { prisma } from '@/lib/prisma';
+import { addEventFields } from '@/server/common/logging/event-fields';
 import { withValidation } from '@/server/common/run-action';
 import { decryptSecret } from '@/server/crypto/decrypt-secret';
 import { requireProjectAccess } from '@/server/projects/utils/require-project-access';
@@ -16,6 +17,10 @@ export const listProviderApiKeys = withValidation(
     const records = await prisma.providerApiKey.findMany({
       where: { projectId },
       select: { provider: true, encryptedKey: true, updatedAt: true },
+    });
+    addEventFields({
+      project: { id: projectId },
+      provider_keys: { configured_count: records.length },
     });
     const byProvider = new Map(
       records.map((record) => [record.provider, record]),

@@ -16,6 +16,7 @@ import { buildCallLogsCsv } from '@/server/call-exports/utils/build-call-logs-cs
 import type { CallJobStarted } from '@/server/call-logs/types';
 import { callLogListWhere } from '@/server/call-logs/utils/filters/call-log-list-where';
 import { publicCallLogSelect } from '@/server/call-logs/utils/payload/public-call-log';
+import { addEventFields } from '@/server/common/logging/event-fields';
 import { withValidation } from '@/server/common/run-action';
 import { saveFile } from '@/server/files/save-file';
 import { startJob } from '@/server/jobs/start-job';
@@ -31,6 +32,10 @@ export const exportCallLogs = withValidation(
   async ({ numRecords, ...scope }): Promise<CallJobStarted> => {
     const { user } = await requireProjectAccess(scope.projectId);
     const where = await callLogListWhere(scope);
+    addEventFields({
+      project: { id: scope.projectId },
+      export: { num_records: numRecords },
+    });
     return startJob({
       projectId: scope.projectId,
       userId: user.id,
@@ -59,6 +64,10 @@ export const exportCallLogs = withValidation(
           fileName: `${CALL_EXPORT_FILE_PREFIX}${format(new Date(), CALL_EXPORT_DATE_FORMAT)}.csv`,
           contentType: CALL_EXPORT_CONTENT_TYPE,
           data: new TextEncoder().encode(buildCallLogsCsv(records, metrics)),
+        });
+        addEventFields({
+          export: { rows: records.length, metric_count: metrics.length },
+          file: { id: file.id },
         });
         await setResult({
           summary: rowsText(records.length),

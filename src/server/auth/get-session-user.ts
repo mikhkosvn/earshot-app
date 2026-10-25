@@ -3,11 +3,12 @@ import 'server-only';
 import { cache } from 'react';
 
 import { prisma } from '@/lib/prisma';
+import { addEventFields } from '@/server/common/logging/event-fields';
 
 import { readSessionCookie } from './utils/session-cookie';
 import { hashSessionToken } from './utils/session-token';
 
-export const getSessionUser = cache(async () => {
+const readSessionUser = cache(async () => {
   const token = await readSessionCookie();
   if (!token) return null;
 
@@ -24,3 +25,12 @@ export const getSessionUser = cache(async () => {
 
   return session.user;
 });
+
+export const getSessionUser = async () => {
+  const user = await readSessionUser();
+  if (!user) return null;
+  addEventFields({
+    user: { id: user.id, created_at: user.createdAt.toISOString() },
+  });
+  return user;
+};

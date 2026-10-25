@@ -11,21 +11,32 @@ import type {
   ProjectKnowledgeVersionRow,
   SaveProjectKnowledgeInput,
 } from '@/server/project-knowledge/types';
+import { ProjectKnowledgeActionOperation } from '@/server/project-knowledge/actions/action-operation';
+import { withActionEvent } from '@/server/common/logging/with-action-event';
 
 export async function getProjectKnowledgeAction(
   args: ProjectKnowledgeIdInput,
 ): Promise<ProjectKnowledge> {
-  return getProjectKnowledge(args);
+  return withActionEvent(
+    ProjectKnowledgeActionOperation.getProjectKnowledge,
+    () => getProjectKnowledge(args),
+  );
 }
 
 export async function listProjectKnowledgeVersionsAction(
   args: ProjectKnowledgeIdInput,
 ): Promise<ProjectKnowledgeVersionRow[]> {
-  return listProjectKnowledgeVersions(args);
+  return withActionEvent(
+    ProjectKnowledgeActionOperation.listProjectKnowledgeVersions,
+    () => listProjectKnowledgeVersions(args),
+  );
 }
 
 export async function saveProjectKnowledgeAction(
   args: SaveProjectKnowledgeInput,
 ): Promise<ActionResult<{ id: number; version: number }>> {
-  return runAction(() => saveProjectKnowledge(args));
+  return withActionEvent(
+    ProjectKnowledgeActionOperation.saveProjectKnowledge,
+    () => runAction(() => saveProjectKnowledge(args)),
+  );
 }

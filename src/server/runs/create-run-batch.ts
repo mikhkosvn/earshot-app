@@ -2,6 +2,7 @@ import 'server-only';
 
 import { CallerNumberMode } from '@/generated/prisma/enums';
 import { prisma } from '@/lib/prisma';
+import { addEventFields } from '@/server/common/logging/event-fields';
 import { ActionError } from '@/server/common/run-action';
 import {
   RUN_BATCH_MAX_RUNS,
@@ -70,7 +71,7 @@ export const createRunBatch = async (
     throw new ActionError(RunMessage.tooManyRuns);
   }
 
-  return insertRunBatch(
+  const batch = await insertRunBatch(
     {
       projectId: args.projectId,
       createdById: args.createdById,
@@ -88,4 +89,16 @@ export const createRunBatch = async (
     },
     expandRunPlan(plan),
   );
+  addEventFields({
+    project: { id: args.projectId },
+    agent: { id: agent.id },
+    result: {
+      id: batch.resultId,
+      run_count: batch.runIds.length,
+      source: args.source,
+      evaluator_count: evaluators.length,
+      frequency,
+    },
+  });
+  return batch;
 };

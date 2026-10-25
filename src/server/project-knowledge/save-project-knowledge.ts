@@ -1,6 +1,7 @@
 import 'server-only';
 
 import { prisma } from '@/lib/prisma';
+import { addEventFields } from '@/server/common/logging/event-fields';
 import { withValidation } from '@/server/common/run-action';
 import { saveProjectKnowledgeSchema } from '@/server/project-knowledge/schemas';
 import { requireProjectAccess } from '@/server/projects/utils/require-project-access';
@@ -14,7 +15,7 @@ export const saveProjectKnowledge = withValidation(
         where: { projectId },
         _max: { version: true },
       });
-      return tx.projectKnowledgeVersion.create({
+      const created = await tx.projectKnowledgeVersion.create({
         data: {
           projectId,
           content,
@@ -23,6 +24,10 @@ export const saveProjectKnowledge = withValidation(
         },
         select: { id: true, version: true },
       });
+      addEventFields({
+        project_knowledge: { id: created.id, version: created.version },
+      });
+      return created;
     });
   },
 );

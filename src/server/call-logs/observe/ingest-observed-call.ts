@@ -1,6 +1,7 @@
 import 'server-only';
 
 import { prisma } from '@/lib/prisma';
+import { addEventFields } from '@/server/common/logging/event-fields';
 import type { ApiKeyAuth } from '@/server/api-keys/types';
 import { observeCallSchema } from '@/server/call-logs/schemas/observe';
 import { createCallRecord } from '@/server/call-logs/utils/create-call-record';
@@ -54,6 +55,16 @@ export const ingestObservedCall = async ({
       })),
     }),
   );
+  addEventFields({
+    organization: { id: auth.organizationId },
+    project: { id: agent.projectId },
+    agent: { id: agent.id },
+    call_log: {
+      id: callLog.id,
+      turn_count: input.transcript_json.length,
+      has_recording_url: Boolean(input.voice_recording_url),
+    },
+  });
   await startCallProcessing(agent.projectId, {
     callLogId: callLog.id,
     recordingUrl: input.voice_recording_url ?? null,

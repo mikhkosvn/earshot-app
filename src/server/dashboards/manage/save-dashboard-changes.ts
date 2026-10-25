@@ -1,6 +1,7 @@
 import 'server-only';
 
 import { prisma } from '@/lib/prisma';
+import { addEventFields } from '@/server/common/logging/event-fields';
 import { ActionError, withValidation } from '@/server/common/run-action';
 import { saveDashboardChangesSchema } from '@/server/dashboards/schemas';
 import type { DashboardDetail, PlotConfig } from '@/server/dashboards/types';
@@ -54,6 +55,13 @@ export const saveDashboardChanges = withValidation(
         throw new ActionError('A plot does not exist.', 404);
       }
     }
+    addEventFields({
+      plots: {
+        count: plots.length,
+        kept: keptIds.size,
+        deleted: existingIds.size - keptIds.size,
+      },
+    });
     const row = await prisma.$transaction(async (tx) => {
       await tx.widget.deleteMany({
         where: { dashboardId, id: { notIn: [...keptIds] } },

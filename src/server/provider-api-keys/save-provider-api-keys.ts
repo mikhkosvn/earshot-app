@@ -2,6 +2,7 @@ import 'server-only';
 
 import { ProviderKeyProvider } from '@/generated/prisma/enums';
 import { prisma } from '@/lib/prisma';
+import { addEventFields } from '@/server/common/logging/event-fields';
 import { withValidation } from '@/server/common/run-action';
 import { encryptSecret } from '@/server/crypto/encrypt-secret';
 import { requireProjectAccess } from '@/server/projects/utils/require-project-access';
@@ -25,6 +26,13 @@ export const saveProviderApiKeys = withValidation(
         }),
       ),
     );
+    addEventFields({
+      project: { id: projectId },
+      provider_keys: {
+        providers: typedKeys.map(({ provider }) => provider),
+        saved_count: typedKeys.length,
+      },
+    });
     return { projectId, savedCount: typedKeys.length };
   },
 );

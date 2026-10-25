@@ -2,6 +2,7 @@ import 'server-only';
 
 import type { Prisma } from '@/generated/prisma/client';
 import { prisma } from '@/lib/prisma';
+import { addEventFields } from '@/server/common/logging/event-fields';
 import { withValidation } from '@/server/common/run-action';
 import { forkPersonalitySchema } from '@/server/personalities/schemas';
 import type { PersonalityRef } from '@/server/personalities/types';
@@ -45,7 +46,7 @@ export const forkPersonality = withValidation(
       where: { id: personalityId, AND: [visiblePersonalityWhere(projectId)] },
       select: forkedSettingsSelect,
     });
-    return prisma.personality.create({
+    const created = await prisma.personality.create({
       data: {
         ...settings,
         projectId,
@@ -55,5 +56,10 @@ export const forkPersonality = withValidation(
       },
       select: { id: true },
     });
+    addEventFields({
+      project: { id: projectId },
+      personality: { id: created.id, forked_from_id: personalityId },
+    });
+    return created;
   },
 );

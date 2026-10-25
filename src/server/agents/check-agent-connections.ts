@@ -6,6 +6,7 @@ import type { ConnectionCheck } from '@/server/agents/types';
 import { checkConnections } from '@/server/agents/utils/check-connections';
 import { agentAccessWhere } from '@/server/agents/utils/require-agent-access';
 import { requireUser } from '@/server/auth';
+import { addEventFields } from '@/server/common/logging/event-fields';
 import { withValidation } from '@/server/common/run-action';
 
 export const checkAgentConnections = withValidation(
@@ -21,11 +22,20 @@ export const checkAgentConnections = withValidation(
         providerApiKeyEncrypted: true,
       },
     });
-    return checkConnections({
+    const check = checkConnections({
       provider: agent.provider,
       phoneNumber: agent.phoneNumber,
       providerAgentId: agent.providerAgentId,
       apiKeyConfigured: Boolean(agent.providerApiKeyEncrypted),
     });
+    addEventFields({
+      agent: { id: agentId, provider: agent.provider },
+      connection_check: {
+        valid: check.valid,
+        connection_count: check.connections.length,
+        connection_types: check.connections.map((item) => item.type),
+      },
+    });
+    return check;
   },
 );

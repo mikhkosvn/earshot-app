@@ -2,6 +2,7 @@ import 'server-only';
 
 import type { DashboardSource } from '@/generated/prisma/enums';
 import { prisma } from '@/lib/prisma';
+import { addEventFields } from '@/server/common/logging/event-fields';
 import {
   DEFAULT_DASHBOARD_FILTERS,
   DEFAULT_DASHBOARD_NAME,
@@ -33,6 +34,10 @@ export const ensureDefaultDashboard = (
     const existing = await tx.dashboard.count({ where: { projectId, source } });
     if (existing > 0) return;
     const metricIds = await metricIdsByFunction(projectId, tx);
+    const widgetConfigs = defaultWidgetConfigs(source, metricIds);
+    addEventFields({
+      default_dashboard: { created: true, widget_count: widgetConfigs.length },
+    });
     await tx.dashboard.create({
       data: {
         projectId,
@@ -40,7 +45,7 @@ export const ensureDefaultDashboard = (
         name: DEFAULT_DASHBOARD_NAME[source],
         filters: toStoredFilters(DEFAULT_DASHBOARD_FILTERS),
         widgets: {
-          create: defaultWidgetConfigs(source, metricIds).map((config, index) =>
+          create: widgetConfigs.map((config, index) =>
             toWidgetData(config, index),
           ),
         },

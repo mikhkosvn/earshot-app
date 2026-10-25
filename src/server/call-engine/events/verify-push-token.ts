@@ -2,6 +2,9 @@ import 'server-only';
 
 import { OAuth2Client } from 'google-auth-library';
 
+import { CallEngineOperation } from '@/server/call-engine/constants';
+import { recordStepFailure } from '@/server/common/logging/event-fields';
+
 const BEARER_PREFIX = 'Bearer ';
 
 const authClient = new OAuth2Client();
@@ -23,7 +26,8 @@ const readTokenEmail = async (idToken: string, audience: string) => {
     const payload = ticket.getPayload();
     if (!payload?.email_verified) return null;
     return payload.email ?? null;
-  } catch {
+  } catch (error) {
+    recordStepFailure(CallEngineOperation.verify_push_token, error);
     return null;
   }
 };

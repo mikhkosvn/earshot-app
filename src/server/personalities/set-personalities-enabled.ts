@@ -1,6 +1,7 @@
 import 'server-only';
 
 import { prisma } from '@/lib/prisma';
+import { addEventFields } from '@/server/common/logging/event-fields';
 import { withValidation } from '@/server/common/run-action';
 import { setPersonalitiesEnabledSchema } from '@/server/personalities/schemas';
 import {
@@ -23,6 +24,14 @@ export const setPersonalitiesEnabled = withValidation(
       select: { id: true },
     });
     const personalityIds = personalities.map((personality) => personality.id);
+    addEventFields({
+      project: { id: projectId },
+      personalities: {
+        count: personalityIds.length,
+        enabled,
+        language_filter: language,
+      },
+    });
     if (enabled) {
       await prisma.projectPersonality.createMany({
         data: personalityIds.map((personalityId) => ({

@@ -3,6 +3,7 @@ import 'server-only';
 import { Prisma } from '@/generated/prisma/client';
 import { prisma } from '@/lib/prisma';
 import { requireUser } from '@/server/auth';
+import { addEventFields } from '@/server/common/logging/event-fields';
 import { withValidation } from '@/server/common/run-action';
 import {
   evaluatorSnapshotSchema,
@@ -31,6 +32,10 @@ export const listEvaluatorVersions = withValidation(
         snapshot: true,
         createdBy: { select: { name: true } },
       },
+    });
+    addEventFields({
+      evaluator: { id: evaluatorId },
+      evaluator_versions: { count: rows.length },
     });
     return rows.map((row, index): EvaluatorVersionView => ({
       id: row.id,

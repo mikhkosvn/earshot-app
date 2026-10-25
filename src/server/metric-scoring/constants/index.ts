@@ -37,3 +37,18 @@ export const LATENCY_SEARCH_SECONDS = 3;
 export const PERCENTILE_POINTS = [25, 50, 75, 90, 95, 99] as const;
 
 export const NOT_SCORED_INPUT = 'Input not scored';
+
+export const MetricScoringStep = {
+  score_metric: 'metric_scoring.score_metric',
+  recording_load: 'metric_scoring.recording_load',
+} as const;
+
+export type MetricScoringStep =
+  (typeof MetricScoringStep)[keyof typeof MetricScoringStep];
+
+export const MetricScoringOperation = {
+  run_code: 'code.run',
+} as const;
+
+export type MetricScoringOperation =
+  (typeof MetricScoringOperation)[keyof typeof MetricScoringOperation];

@@ -1,6 +1,7 @@
 import 'server-only';
 
 import { prisma } from '@/lib/prisma';
+import { addEventFields } from '@/server/common/logging/event-fields';
 import { withValidation } from '@/server/common/run-action';
 import { setPersonalityEnabledSchema } from '@/server/personalities/schemas';
 import { visiblePersonalityWhere } from '@/server/personalities/utils/personality-access';
@@ -13,6 +14,10 @@ export const setPersonalityEnabled = withValidation(
     await prisma.personality.findUniqueOrThrow({
       where: { id: personalityId, AND: [visiblePersonalityWhere(projectId)] },
       select: { id: true },
+    });
+    addEventFields({
+      project: { id: projectId },
+      personality: { id: personalityId, enabled },
     });
     if (enabled) {
       await prisma.projectPersonality.upsert({

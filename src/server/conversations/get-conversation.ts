@@ -2,6 +2,7 @@ import 'server-only';
 
 import { prisma } from '@/lib/prisma';
 import { requireUser } from '@/server/auth';
+import { addEventFields } from '@/server/common/logging/event-fields';
 import { withValidation } from '@/server/common/run-action';
 import { getConversationSchema } from '@/server/conversations/schemas';
 import type { ConversationDetail } from '@/server/conversations/types';
@@ -19,6 +20,13 @@ export const getConversation = withValidation(
     const row = await prisma.conversation.findUniqueOrThrow({
       where: { id: conversationId, project: projectAccessWhere(user.id) },
       select: conversationDetailSelect,
+    });
+    addEventFields({
+      conversation: {
+        id: conversationId,
+        has_recording: row.recordingFileId !== null,
+      },
+      project: { id: row.projectId },
     });
     return toConversationDetail(row, sessionRecordingUrls(row.recordingFileId));
   },

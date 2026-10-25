@@ -3,6 +3,7 @@ import 'server-only';
 import { Prisma } from '@/generated/prisma/client';
 import { prisma } from '@/lib/prisma';
 import { requireUser } from '@/server/auth';
+import { addEventFields } from '@/server/common/logging/event-fields';
 import { withValidation } from '@/server/common/run-action';
 import { resultIdSchema } from '@/server/runs/schemas';
 import type { RunBatchStatus } from '@/server/runs/types';
@@ -36,6 +37,15 @@ export const getRunBatchStatus = withValidation(
       },
     });
     const counts = countRuns(result.runs);
+    addEventFields({
+      result: {
+        id: result.id,
+        status: result.status,
+        run_count: counts.total,
+        finished_run_count: counts.finished,
+      },
+      project: { id: result.projectId },
+    });
     return {
       resultId: result.id,
       projectId: result.projectId,

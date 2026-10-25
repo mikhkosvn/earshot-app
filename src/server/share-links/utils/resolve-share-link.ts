@@ -1,6 +1,7 @@
 import 'server-only';
 
 import { prisma } from '@/lib/prisma';
+import { addEventFields } from '@/server/common/logging/event-fields';
 
 const shareLinkSelect = {
   id: true,
@@ -20,7 +21,12 @@ export const findShareLink = async (token: string) => {
     where: { token },
     select: shareLinkSelect,
   });
-  if (!link || link.revokedAt) return null;
+  if (!link) return null;
+  addEventFields({
+    share_link: { id: link.id, target: link.target },
+    project: { id: link.projectId },
+  });
+  if (link.revokedAt) return null;
   if (link.expiresAt && link.expiresAt.getTime() < Date.now()) return null;
   return link;
 };

@@ -3,6 +3,7 @@ import 'server-only';
 import { Prisma } from '@/generated/prisma/client';
 import { prisma } from '@/lib/prisma';
 import { requireUser } from '@/server/auth';
+import { addEventFields } from '@/server/common/logging/event-fields';
 import { withValidation } from '@/server/common/run-action';
 import { monitorIdSchema } from '@/server/monitors/schemas';
 import type { MonitorDetail } from '@/server/monitors/types';
@@ -36,6 +37,10 @@ export const getMonitor = withValidation(
           },
         },
       });
+    addEventFields({
+      monitor: { id: monitor.id },
+      agent: { id: monitor.agentId },
+    });
     return {
       ...monitor,
       evaluatorIds: evaluators.map((row) => row.evaluatorId),

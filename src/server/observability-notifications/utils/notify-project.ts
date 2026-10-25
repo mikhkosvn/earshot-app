@@ -6,8 +6,10 @@ import {
   type ObservabilityNotificationKind,
 } from '@/generated/prisma/enums';
 import { prisma } from '@/lib/prisma';
+import { recordStepFailure } from '@/server/common/logging/event-fields';
 import type { EmailNotificationKind } from '@/server/email/constants/email-notification-kind';
 import { notifyProjectMembersByEmail } from '@/server/email/notify-project-members-by-email';
+import { ObservabilityNotificationStep } from '@/server/observability-notifications/constants';
 import { appUrl } from '@/server/runs/utils/app-url';
 
 interface NotifyProjectArgs {
@@ -21,11 +23,14 @@ interface NotifyProjectArgs {
   callCount?: number;
 }
 
-const settle = async (label: string, task: () => Promise<unknown>) => {
+const settle = async (
+  step: ObservabilityNotificationStep,
+  task: () => Promise<unknown>,
+) => {
   try {
     await task();
   } catch (error) {
-    console.error(`[observability] The ${label} failed.`, error);
+    recordStepFailure(step, error);
   }
 };
 
@@ -47,7 +52,7 @@ export const notifyProject = async ({
       callCount: callCount ?? 0,
     },
   });
-  await settle('notification', async () => {
+  await settle(ObservabilityNotificationStep.in_app_notification, async () => {
     const members = await prisma.organizationMember.findMany({
       where: { organization: { projects: { some: { id: projectId } } } },
       select: { userId: true },
@@ -64,7 +69,7 @@ export const notifyProject = async ({
       })),
     });
   });
-  await settle('email', () =>
+  await settle(ObservabilityNotificationStep.email, () =>
     notifyProjectMembersByEmail({
       projectId,
       kind: emailKind,

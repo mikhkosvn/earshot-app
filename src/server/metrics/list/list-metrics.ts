@@ -2,6 +2,7 @@ import 'server-only';
 
 import type { Prisma } from '@/generated/prisma/client';
 import { prisma } from '@/lib/prisma';
+import { addEventFields } from '@/server/common/logging/event-fields';
 import { withValidation } from '@/server/common/run-action';
 import { listMetricsSchema } from '@/server/metrics/schemas';
 import {
@@ -37,6 +38,10 @@ export const listMetrics = withValidation(
       where: { projectId, ...(await viewFilter(projectId, viewId)) },
       orderBy: metricOrder,
       select: metricListSelect,
+    });
+    addEventFields({
+      project: { id: projectId },
+      metrics: { count: rows.length, filtered_by_view: Boolean(viewId) },
     });
     return rows.map(toMetricListItem);
   },

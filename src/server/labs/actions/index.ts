@@ -20,37 +20,49 @@ import type {
 } from '@/server/labs/types';
 import { updateLabExpected } from '@/server/labs/update-lab-expected';
 import { updateLabFeedback } from '@/server/labs/update-lab-feedback';
+import { LabsActionOperation } from '@/server/labs/actions/action-operation';
+import { withActionEvent } from '@/server/common/logging/with-action-event';
 
 export async function listLabMetricsAction(
   args: LabProjectInput,
 ): Promise<LabMetricListItem[]> {
-  return listLabMetrics(args);
+  return withActionEvent(LabsActionOperation.listLabMetrics, () =>
+    listLabMetrics(args),
+  );
 }
 
 export async function getLabAction(args: LabMetricInput): Promise<LabView> {
-  return getLab(args);
+  return withActionEvent(LabsActionOperation.getLab, () => getLab(args));
 }
 
 export async function updateLabExpectedAction(
   args: UpdateLabExpectedInput,
 ): Promise<ActionResult<LabReviewChange>> {
-  return runAction(() => updateLabExpected(args));
+  return withActionEvent(LabsActionOperation.updateLabExpected, () =>
+    runAction(() => updateLabExpected(args)),
+  );
 }
 
 export async function updateLabFeedbackAction(
   args: UpdateLabFeedbackInput,
 ): Promise<ActionResult<LabReviewChange>> {
-  return runAction(() => updateLabFeedback(args));
+  return withActionEvent(LabsActionOperation.updateLabFeedback, () =>
+    runAction(() => updateLabFeedback(args)),
+  );
 }
 
 export async function deleteLabTestSetsAction(
   args: DeleteLabTestSetsInput,
 ): Promise<ActionResult<{ count: number }>> {
-  return runAction(() => deleteLabTestSets(args));
+  return withActionEvent(LabsActionOperation.deleteLabTestSets, () =>
+    runAction(() => deleteLabTestSets(args)),
+  );
 }
 
 export async function startLabRunAction(
   args: StartLabRunInput,
 ): Promise<ActionResult<StartedJob>> {
-  return runAction(() => startLabRun(args));
+  return withActionEvent(LabsActionOperation.startLabRun, () =>
+    runAction(() => startLabRun(args)),
+  );
 }

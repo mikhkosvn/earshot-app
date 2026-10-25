@@ -1,6 +1,7 @@
 import 'server-only';
 
 import { prisma } from '@/lib/prisma';
+import { addEventFields } from '@/server/common/logging/event-fields';
 import { withValidation } from '@/server/common/run-action';
 import { updateOptimizerScheduleSchema } from '@/server/metric-optimizer/schemas';
 import { nextScheduleRun } from '@/server/metric-optimizer/schedules/utils/next-schedule-run';
@@ -25,6 +26,10 @@ export const updateOptimizerSchedule = withValidation(
         nextRunAt: nextScheduleRun({ cronExpression, timezone, isActive }),
       },
       select: scheduleSelect,
+    });
+    addEventFields({
+      project: { id: schedule.projectId },
+      optimizer_schedule: { id: scheduleId, is_active: isActive },
     });
     return toScheduleView(row);
   },

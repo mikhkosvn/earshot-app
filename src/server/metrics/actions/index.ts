@@ -62,156 +62,208 @@ import type {
   UpdateMetricInput,
   UpdateMetricSampleRateInput,
 } from '@/server/metrics/types';
+import { MetricsActionOperation } from '@/server/metrics/actions/action-operation';
+import { withActionEvent } from '@/server/common/logging/with-action-event';
 
 export async function listMetricsAction(
   args: ListMetricsInput,
 ): Promise<MetricListItem[]> {
-  return listMetrics(args);
+  return withActionEvent(MetricsActionOperation.listMetrics, () =>
+    listMetrics(args),
+  );
 }
 
 export async function listMetricOptionsAction(
   args: ProjectIdInput,
 ): Promise<MetricOption[]> {
-  return listMetricOptions(args);
+  return withActionEvent(MetricsActionOperation.listMetricOptions, () =>
+    listMetricOptions(args),
+  );
 }
 
 export async function listAgentOptionsAction(
   args: ProjectIdInput,
 ): Promise<AgentOption[]> {
-  return listAgentOptions(args);
+  return withActionEvent(MetricsActionOperation.listAgentOptions, () =>
+    listAgentOptions(args),
+  );
 }
 
 export async function listScenarioOptionsAction(
   args: ProjectIdInput,
 ): Promise<ScenarioOption[]> {
-  return listScenarioOptions(args);
+  return withActionEvent(MetricsActionOperation.listScenarioOptions, () =>
+    listScenarioOptions(args),
+  );
 }
 
 export async function listPredefinedMetricsAction(
   args: ProjectIdInput,
 ): Promise<PredefinedMetricCard[]> {
-  return listPredefinedMetrics(args);
+  return withActionEvent(MetricsActionOperation.listPredefinedMetrics, () =>
+    listPredefinedMetrics(args),
+  );
 }
 
 export async function getMetricAction(
   args: MetricIdInput,
 ): Promise<MetricDetail> {
-  return getMetric(args);
+  return withActionEvent(MetricsActionOperation.getMetric, () =>
+    getMetric(args),
+  );
 }
 
 export async function listMetricVersionsAction(
   args: MetricIdInput,
 ): Promise<MetricVersionView[]> {
-  return listMetricVersions(args);
+  return withActionEvent(MetricsActionOperation.listMetricVersions, () =>
+    listMetricVersions(args),
+  );
 }
 
 export async function getPatternReviewAction(
   args: ReviewIdInput,
 ): Promise<PatternReviewView> {
-  return getPatternReview(args);
+  return withActionEvent(MetricsActionOperation.getPatternReview, () =>
+    getPatternReview(args),
+  );
 }
 
 export async function createMetricAction(
   args: CreateMetricInput,
 ): Promise<ActionResult<CreatedMetric>> {
-  return runAction(() => createMetric(args));
+  return withActionEvent(MetricsActionOperation.createMetric, () =>
+    runAction(() => createMetric(args)),
+  );
 }
 
 export async function updateMetricAction(
   args: UpdateMetricInput,
 ): Promise<ActionResult<{ id: number }>> {
-  return runAction(() => updateMetric(args));
+  return withActionEvent(MetricsActionOperation.updateMetric, () =>
+    runAction(() => updateMetric(args)),
+  );
 }
 
 export async function deleteMetricsAction(
   args: DeleteMetricsInput,
 ): Promise<ActionResult<{ count: number }>> {
-  return runAction(() => deleteMetrics(args));
+  return withActionEvent(MetricsActionOperation.deleteMetrics, () =>
+    runAction(() => deleteMetrics(args)),
+  );
 }
 
 export async function updateMetricFlagsAction(
   args: UpdateMetricFlagsInput,
 ): Promise<ActionResult<MetricListItem>> {
-  return runAction(() => updateMetricFlags(args));
+  return withActionEvent(MetricsActionOperation.updateMetricFlags, () =>
+    runAction(() => updateMetricFlags(args)),
+  );
 }
 
 export async function bulkUpdateMetricFlagsAction(
   args: BulkUpdateMetricFlagsInput,
 ): Promise<ActionResult<{ count: number }>> {
-  return runAction(() => bulkUpdateMetricFlags(args));
+  return withActionEvent(MetricsActionOperation.bulkUpdateMetricFlags, () =>
+    runAction(() => bulkUpdateMetricFlags(args)),
+  );
 }
 
 export async function updateMetricSampleRateAction(
   args: UpdateMetricSampleRateInput,
 ): Promise<ActionResult<MetricListItem>> {
-  return runAction(() => updateMetricSampleRate(args));
+  return withActionEvent(MetricsActionOperation.updateMetricSampleRate, () =>
+    runAction(() => updateMetricSampleRate(args)),
+  );
 }
 
 export async function reorderMetricsAction(
   args: ReorderMetricsInput,
 ): Promise<ActionResult<{ metricIds: number[] }>> {
-  return runAction(() => reorderMetrics(args));
+  return withActionEvent(MetricsActionOperation.reorderMetrics, () =>
+    runAction(() => reorderMetrics(args)),
+  );
 }
 
 export async function updateMetricAgentsAction(
   args: UpdateMetricAgentsInput,
 ): Promise<ActionResult<MetricListItem>> {
-  return runAction(() => updateMetricAgents(args));
+  return withActionEvent(MetricsActionOperation.updateMetricAgents, () =>
+    runAction(() => updateMetricAgents(args)),
+  );
 }
 
 export async function assignMetricAgentsAction(
   args: AssignMetricAgentsInput,
 ): Promise<ActionResult<{ count: number }>> {
-  return runAction(() => assignMetricAgents(args));
+  return withActionEvent(MetricsActionOperation.assignMetricAgents, () =>
+    runAction(() => assignMetricAgents(args)),
+  );
 }
 
 export async function copyPredefinedMetricsAction(
   args: CopyPredefinedMetricsInput,
 ): Promise<ActionResult<MetricReference[]>> {
-  return runAction(() => copyPredefinedMetrics(args));
+  return withActionEvent(MetricsActionOperation.copyPredefinedMetrics, () =>
+    runAction(() => copyPredefinedMetrics(args)),
+  );
 }
 
 export async function startMetricGenerationAction(
   args: StartMetricGenerationInput,
 ): Promise<ActionResult<StartedJob>> {
-  return runAction(() => startMetricGeneration(args));
+  return withActionEvent(MetricsActionOperation.startMetricGeneration, () =>
+    runAction(() => startMetricGeneration(args)),
+  );
 }
 
 export async function bulkCreateMetricsAction(
   args: BulkCreateMetricsInput,
 ): Promise<ActionResult<MetricReference[]>> {
-  return runAction(async () => {
-    const created = await bulkCreateMetrics(args);
-    return created.map(({ id, name }) => ({ id, name }));
-  });
+  return withActionEvent(MetricsActionOperation.bulkCreateMetrics, () =>
+    runAction(async () => {
+      const created = await bulkCreateMetrics(args);
+      return created.map(({ id, name }) => ({ id, name }));
+    }),
+  );
 }
 
 export async function startQuickMetricBuildAction(
   args: StartQuickMetricBuildInput,
 ): Promise<ActionResult<StartedJob>> {
-  return runAction(() => startQuickMetricBuild(args));
+  return withActionEvent(MetricsActionOperation.startQuickMetricBuild, () =>
+    runAction(() => startQuickMetricBuild(args)),
+  );
 }
 
 export async function improveMetricAction(
   args: ImproveMetricInput,
 ): Promise<ActionResult<ImprovedMetric>> {
-  return runAction(() => improveMetric(args));
+  return withActionEvent(MetricsActionOperation.improveMetric, () =>
+    runAction(() => improveMetric(args)),
+  );
 }
 
 export async function generateEvaluationTriggerAction(
   args: GenerateEvaluationTriggerInput,
 ): Promise<ActionResult<GeneratedTrigger>> {
-  return runAction(() => generateEvaluationTrigger(args));
+  return withActionEvent(MetricsActionOperation.generateEvaluationTrigger, () =>
+    runAction(() => generateEvaluationTrigger(args)),
+  );
 }
 
 export async function setPatternCorrectionAction(
   args: SetPatternCorrectionInput,
 ): Promise<ActionResult<PatternReviewView>> {
-  return runAction(() => setPatternCorrection(args));
+  return withActionEvent(MetricsActionOperation.setPatternCorrection, () =>
+    runAction(() => setPatternCorrection(args)),
+  );
 }
 
 export async function rebuildPatternReviewAction(
   args: ReviewIdInput,
 ): Promise<ActionResult<StartedJob>> {
-  return runAction(() => rebuildPatternReview(args));
+  return withActionEvent(MetricsActionOperation.rebuildPatternReview, () =>
+    runAction(() => rebuildPatternReview(args)),
+  );
 }

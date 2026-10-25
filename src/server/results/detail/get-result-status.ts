@@ -2,6 +2,7 @@ import 'server-only';
 
 import { prisma } from '@/lib/prisma';
 import { requireUser } from '@/server/auth';
+import { addEventFields } from '@/server/common/logging/event-fields';
 import { withValidation } from '@/server/common/run-action';
 import { projectAccessWhere } from '@/server/projects/utils/project-access-where';
 import { resultIdSchema } from '@/server/results/schemas';
@@ -28,6 +29,14 @@ export const getResultStatus = withValidation(
     const success = result.runs.filter((run) =>
       isPassedEvaluation(run.evaluationStatus),
     ).length;
+    addEventFields({
+      result: {
+        id: result.id,
+        status: result.status,
+        run_count: result.runs.length,
+        completed_run_count: completed,
+      },
+    });
     return {
       id: result.id,
       status: result.status,

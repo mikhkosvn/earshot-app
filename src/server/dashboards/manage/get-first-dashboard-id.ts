@@ -1,6 +1,7 @@
 import 'server-only';
 
 import { prisma } from '@/lib/prisma';
+import { addEventFields } from '@/server/common/logging/event-fields';
 import { withValidation } from '@/server/common/run-action';
 import { projectSourceSchema } from '@/server/dashboards/schemas';
 import { dashboardListOrder } from '@/server/dashboards/utils/dashboard-row';
@@ -17,6 +18,7 @@ export const getFirstDashboardId = withValidation(
       orderBy: dashboardListOrder,
       select: { id: true },
     });
+    addEventFields({ dashboard: { id: first.id, source } });
     return first.id;
   },
 );

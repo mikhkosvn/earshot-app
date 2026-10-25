@@ -1,6 +1,7 @@
 import 'server-only';
 
 import { prisma } from '@/lib/prisma';
+import { addEventFields } from '@/server/common/logging/event-fields';
 import { ActionError, withValidation } from '@/server/common/run-action';
 import { createPersonalitySchema } from '@/server/personalities/schemas';
 import type { PersonalityRef } from '@/server/personalities/types';
@@ -13,7 +14,7 @@ export const createPersonality = withValidation(
     await requireProjectAccess(projectId);
     const { language, ...data } = personalityData(values);
     if (!language) throw new ActionError('Select a language.', 400);
-    return prisma.personality.create({
+    const created = await prisma.personality.create({
       data: {
         ...data,
         language,
@@ -23,5 +24,10 @@ export const createPersonality = withValidation(
       },
       select: { id: true },
     });
+    addEventFields({
+      project: { id: projectId },
+      personality: { id: created.id, language },
+    });
+    return created;
   },
 );

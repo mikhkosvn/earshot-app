@@ -10,6 +10,7 @@ import {
 } from '@/server/agents/utils/agent-config-data';
 import { checkConnections } from '@/server/agents/utils/check-connections';
 import { createAgentRecord } from '@/server/agents/utils/create-agent-record';
+import { addEventFields } from '@/server/common/logging/event-fields';
 import { ActionError, withValidation } from '@/server/common/run-action';
 import { requireProjectAccess } from '@/server/projects/utils/require-project-access';
 
@@ -24,6 +25,15 @@ export const createAgent = withValidation(
       providerAgentId: data.providerAgentId,
       apiKeyConfigured: Boolean(data.providerApiKeyEncrypted),
     });
+    addEventFields({
+      project: { id: projectId },
+      agent: { provider: data.provider },
+      connection_check: {
+        valid: check.valid,
+        connection_count: check.connections.length,
+        connection_types: check.connections.map((item) => item.type),
+      },
+    });
     if (!check.valid) throw new ActionError(check.message ?? '', 400);
 
     const agent = await prisma.$transaction(
@@ -36,6 +46,7 @@ export const createAgent = withValidation(
         }),
       { timeout: AGENT_TRANSACTION_TIMEOUT_MS },
     );
+    addEventFields({ agent: { id: agent.id } });
     return { id: agent.id, name: agent.name, check };
   },
 );

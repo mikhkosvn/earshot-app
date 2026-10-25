@@ -64,6 +64,8 @@ import { listAgentVersions } from '@/server/agents/versions/list-agent-versions'
 import { renameAgentVersion } from '@/server/agents/versions/rename-agent-version';
 import { restoreAgentVersion } from '@/server/agents/versions/restore-agent-version';
 import { runAction } from '@/server/common/run-action';
+import { AgentsActionOperation } from '@/server/agents/actions/action-operation';
+import { withActionEvent } from '@/server/common/logging/with-action-event';
 
 interface AgentRef {
   agentId: number;
@@ -76,171 +78,227 @@ interface RecordRef {
 export async function listAgentsAction(
   args: ListAgentsInput,
 ): Promise<AgentListPage> {
-  return listAgents(args);
+  return withActionEvent(AgentsActionOperation.listAgents, () =>
+    listAgents(args),
+  );
 }
 
 export async function listAgentOptionsAction(
   args: ProjectIdInput,
 ): Promise<AgentOption[]> {
-  return listAgentOptions(args);
+  return withActionEvent(AgentsActionOperation.listAgentOptions, () =>
+    listAgentOptions(args),
+  );
 }
 
 export async function getAgentAction(args: AgentIdInput): Promise<AgentDetail> {
-  return getAgent(args);
+  return withActionEvent(AgentsActionOperation.getAgent, () => getAgent(args));
 }
 
 export async function listKnowledgeFilesAction(
   args: AgentIdInput,
 ): Promise<KnowledgeFileItem[]> {
-  return listKnowledgeFiles(args);
+  return withActionEvent(AgentsActionOperation.listKnowledgeFiles, () =>
+    listKnowledgeFiles(args),
+  );
 }
 
 export async function listKnowledgeConnectorsAction(
   args: AgentIdInput,
 ): Promise<KnowledgeConnectorItem[]> {
-  return listKnowledgeConnectors(args);
+  return withActionEvent(AgentsActionOperation.listKnowledgeConnectors, () =>
+    listKnowledgeConnectors(args),
+  );
 }
 
 export async function listMockToolsAction(
   args: AgentIdInput,
 ): Promise<MockToolItem[]> {
-  return listMockTools(args);
+  return withActionEvent(AgentsActionOperation.listMockTools, () =>
+    listMockTools(args),
+  );
 }
 
 export async function listDynamicVariablesAction(
   args: AgentIdInput,
 ): Promise<DynamicVariableItem[]> {
-  return listDynamicVariables(args);
+  return withActionEvent(AgentsActionOperation.listDynamicVariables, () =>
+    listDynamicVariables(args),
+  );
 }
 
 export async function listAgentVersionsAction(
   args: AgentIdInput,
 ): Promise<AgentVersionList> {
-  return listAgentVersions(args);
+  return withActionEvent(AgentsActionOperation.listAgentVersions, () =>
+    listAgentVersions(args),
+  );
 }
 
 export async function checkAgentConfigAction(
   args: CheckAgentConfigInput,
 ): Promise<ActionResult<ConnectionCheck>> {
-  return runAction(() => checkAgentConfig(args));
+  return withActionEvent(AgentsActionOperation.checkAgentConfig, () =>
+    runAction(() => checkAgentConfig(args)),
+  );
 }
 
 export async function checkAgentConnectionsAction(
   args: AgentIdInput,
 ): Promise<ActionResult<ConnectionCheck>> {
-  return runAction(() => checkAgentConnections(args));
+  return withActionEvent(AgentsActionOperation.checkAgentConnections, () =>
+    runAction(() => checkAgentConnections(args)),
+  );
 }
 
 export async function createAgentAction(
   args: CreateAgentInput,
 ): Promise<ActionResult<CreatedAgent>> {
-  return runAction(() => createAgent(args));
+  return withActionEvent(AgentsActionOperation.createAgent, () =>
+    runAction(() => createAgent(args)),
+  );
 }
 
 export async function updateAgentAction(
   args: UpdateAgentInput,
 ): Promise<ActionResult<AgentDetail>> {
-  return runAction(() => updateAgent(args));
+  return withActionEvent(AgentsActionOperation.updateAgent, () =>
+    runAction(() => updateAgent(args)),
+  );
 }
 
 export async function duplicateAgentAction(
   args: AgentIdInput,
 ): Promise<ActionResult<AgentOption>> {
-  return runAction(() => duplicateAgent(args));
+  return withActionEvent(AgentsActionOperation.duplicateAgent, () =>
+    runAction(() => duplicateAgent(args)),
+  );
 }
 
 export async function deleteAgentAction(
   args: DeleteAgentInput,
 ): Promise<ActionResult<AgentRef>> {
-  return runAction(() => deleteAgent(args));
+  return withActionEvent(AgentsActionOperation.deleteAgent, () =>
+    runAction(() => deleteAgent(args)),
+  );
 }
 
 export async function reconfigureAgentAction(
   args: AgentIdInput,
 ): Promise<ActionResult<never>> {
-  return runAction(() => reconfigureAgent(args));
+  return withActionEvent(AgentsActionOperation.reconfigureAgent, () =>
+    runAction(() => reconfigureAgent(args)),
+  );
 }
 
 export async function startTestCallAction(
   args: AgentIdInput,
 ): Promise<ActionResult<StartedTestCall>> {
-  return runAction(() => startTestCall(args));
+  return withActionEvent(AgentsActionOperation.startTestCall, () =>
+    runAction(() => startTestCall(args)),
+  );
 }
 
 export async function uploadKnowledgeFileAction(
   args: UploadKnowledgeFileInput,
 ): Promise<ActionResult<{ id: number }>> {
-  return runAction(() => uploadKnowledgeFile(args));
+  return withActionEvent(AgentsActionOperation.uploadKnowledgeFile, () =>
+    runAction(() => uploadKnowledgeFile(args)),
+  );
 }
 
 export async function deleteKnowledgeFileAction(
   args: KnowledgeFileIdInput,
 ): Promise<ActionResult<RecordRef>> {
-  return runAction(() => deleteKnowledgeFile(args));
+  return withActionEvent(AgentsActionOperation.deleteKnowledgeFile, () =>
+    runAction(() => deleteKnowledgeFile(args)),
+  );
 }
 
 export async function createKnowledgeConnectorAction(
   args: CreateKnowledgeConnectorInput,
 ): Promise<ActionResult<RecordRef>> {
-  return runAction(() => createKnowledgeConnector(args));
+  return withActionEvent(AgentsActionOperation.createKnowledgeConnector, () =>
+    runAction(() => createKnowledgeConnector(args)),
+  );
 }
 
 export async function deleteKnowledgeConnectorAction(
   args: KnowledgeConnectorIdInput,
 ): Promise<ActionResult<RecordRef>> {
-  return runAction(() => deleteKnowledgeConnector(args));
+  return withActionEvent(AgentsActionOperation.deleteKnowledgeConnector, () =>
+    runAction(() => deleteKnowledgeConnector(args)),
+  );
 }
 
 export async function createMockToolAction(
   args: CreateMockToolInput,
 ): Promise<ActionResult<RecordRef>> {
-  return runAction(() => createMockTool(args));
+  return withActionEvent(AgentsActionOperation.createMockTool, () =>
+    runAction(() => createMockTool(args)),
+  );
 }
 
 export async function updateMockToolAction(
   args: UpdateMockToolInput,
 ): Promise<ActionResult<RecordRef>> {
-  return runAction(() => updateMockTool(args));
+  return withActionEvent(AgentsActionOperation.updateMockTool, () =>
+    runAction(() => updateMockTool(args)),
+  );
 }
 
 export async function deleteMockToolAction(
   args: MockToolIdInput,
 ): Promise<ActionResult<RecordRef>> {
-  return runAction(() => deleteMockTool(args));
+  return withActionEvent(AgentsActionOperation.deleteMockTool, () =>
+    runAction(() => deleteMockTool(args)),
+  );
 }
 
 export async function setMockToolsEnabledAction(
   args: SetMockToolsEnabledInput,
 ): Promise<ActionResult<{ id: number; mockToolsEnabled: boolean }>> {
-  return runAction(() => setMockToolsEnabled(args));
+  return withActionEvent(AgentsActionOperation.setMockToolsEnabled, () =>
+    runAction(() => setMockToolsEnabled(args)),
+  );
 }
 
 export async function addDynamicVariablesAction(
   args: AddDynamicVariablesInput,
 ): Promise<ActionResult<{ agentId: number; count: number }>> {
-  return runAction(() => addDynamicVariables(args));
+  return withActionEvent(AgentsActionOperation.addDynamicVariables, () =>
+    runAction(() => addDynamicVariables(args)),
+  );
 }
 
 export async function updateDynamicVariableAction(
   args: UpdateDynamicVariableInput,
 ): Promise<ActionResult<RecordRef>> {
-  return runAction(() => updateDynamicVariable(args));
+  return withActionEvent(AgentsActionOperation.updateDynamicVariable, () =>
+    runAction(() => updateDynamicVariable(args)),
+  );
 }
 
 export async function deleteDynamicVariableAction(
   args: DynamicVariableIdInput,
 ): Promise<ActionResult<RecordRef>> {
-  return runAction(() => deleteDynamicVariable(args));
+  return withActionEvent(AgentsActionOperation.deleteDynamicVariable, () =>
+    runAction(() => deleteDynamicVariable(args)),
+  );
 }
 
 export async function renameAgentVersionAction(
   args: RenameAgentVersionInput,
 ): Promise<ActionResult<RecordRef>> {
-  return runAction(() => renameAgentVersion(args));
+  return withActionEvent(AgentsActionOperation.renameAgentVersion, () =>
+    runAction(() => renameAgentVersion(args)),
+  );
 }
 
 export async function restoreAgentVersionAction(
   args: AgentVersionIdInput,
 ): Promise<ActionResult<{ id: number; version: number }>> {
-  return runAction(() => restoreAgentVersion(args));
+  return withActionEvent(AgentsActionOperation.restoreAgentVersion, () =>
+    runAction(() => restoreAgentVersion(args)),
+  );
 }

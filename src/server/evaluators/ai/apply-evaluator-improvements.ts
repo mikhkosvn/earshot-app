@@ -1,6 +1,7 @@
 import 'server-only';
 
 import { prisma } from '@/lib/prisma';
+import { addEventFields } from '@/server/common/logging/event-fields';
 import { withValidation } from '@/server/common/run-action';
 import { EvaluatorTextKind } from '@/server/evaluators/constants/evaluator-text-kind';
 import { applyEvaluatorImprovementsSchema } from '@/server/evaluators/schemas/evaluator-ai';
@@ -37,6 +38,13 @@ export const applyEvaluatorImprovements = withValidation(
           changeReason: 'Improve Scenarios',
         });
       }
+      addEventFields({
+        project: { id: projectId },
+        evaluators: {
+          requested_count: changes.length,
+          updated_count: updatedIds.size,
+        },
+      });
       return { count: updatedIds.size };
     });
   },

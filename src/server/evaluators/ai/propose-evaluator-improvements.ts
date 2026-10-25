@@ -5,6 +5,7 @@ import { z } from 'zod';
 import { Prisma } from '@/generated/prisma/client';
 import { prisma } from '@/lib/prisma';
 import { generateObject } from '@/server/ai/generate-object';
+import { addEventFields } from '@/server/common/logging/event-fields';
 import { withValidation } from '@/server/common/run-action';
 import { EvaluatorTextKind } from '@/server/evaluators/constants/evaluator-text-kind';
 import {
@@ -68,6 +69,10 @@ export const proposeEvaluatorImprovements = withValidation(
       ...row,
       expectedOutcomePrompt: row.expectedOutcomePrompt ?? '',
     }));
+    addEventFields({
+      project: { id: filter.projectId },
+      evaluators: { count: sources.length, limit },
+    });
     if (sources.length === 0) {
       return {
         message: 'No evaluators match the current filters.',
@@ -100,6 +105,12 @@ export const proposeEvaluatorImprovements = withValidation(
         ];
       },
     );
+    addEventFields({
+      evaluator_improvements: {
+        proposed_count: result.proposals.length,
+        kept_count: proposals.length,
+      },
+    });
     return {
       message: result.message,
       evaluatorCount: sources.length,

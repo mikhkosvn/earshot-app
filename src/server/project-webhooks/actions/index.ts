@@ -12,21 +12,31 @@ import type {
   TestProjectWebhookInput,
   TestProjectWebhookResult,
 } from '@/server/project-webhooks/types';
+import { ProjectWebhooksActionOperation } from '@/server/project-webhooks/actions/action-operation';
+import { withActionEvent } from '@/server/common/logging/with-action-event';
 
 export async function getProjectWebhookAction(
   args: ProjectWebhookIdInput,
 ): Promise<ProjectWebhookSettings> {
-  return getProjectWebhook(args);
+  return withActionEvent(ProjectWebhooksActionOperation.getProjectWebhook, () =>
+    getProjectWebhook(args),
+  );
 }
 
 export async function saveProjectWebhookAction(
   args: SaveProjectWebhookInput,
 ): Promise<ActionResult<{ projectId: number }>> {
-  return runAction(() => saveProjectWebhook(args));
+  return withActionEvent(
+    ProjectWebhooksActionOperation.saveProjectWebhook,
+    () => runAction(() => saveProjectWebhook(args)),
+  );
 }
 
 export async function testProjectWebhookAction(
   args: TestProjectWebhookInput,
 ): Promise<ActionResult<TestProjectWebhookResult>> {
-  return runAction(() => testProjectWebhook(args));
+  return withActionEvent(
+    ProjectWebhooksActionOperation.testProjectWebhook,
+    () => runAction(() => testProjectWebhook(args)),
+  );
 }

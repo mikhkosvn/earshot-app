@@ -14,6 +14,8 @@ import type {
   ListFoldersInput,
   RenameFolderInput,
 } from '@/server/folders/types';
+import { FoldersActionOperation } from '@/server/folders/actions/action-operation';
+import { withActionEvent } from '@/server/common/logging/with-action-event';
 
 interface FolderPathResult {
   id: number;
@@ -23,29 +25,39 @@ interface FolderPathResult {
 export async function listFoldersAction(
   args: ListFoldersInput,
 ): Promise<FolderView[]> {
-  return listFolders(args);
+  return withActionEvent(FoldersActionOperation.listFolders, () =>
+    listFolders(args),
+  );
 }
 
 export async function createFolderAction(
   args: CreateFolderInput,
 ): Promise<ActionResult<FolderPathResult>> {
-  return runAction(() => createFolder(args));
+  return withActionEvent(FoldersActionOperation.createFolder, () =>
+    runAction(() => createFolder(args)),
+  );
 }
 
 export async function renameFolderAction(
   args: RenameFolderInput,
 ): Promise<ActionResult<FolderPathResult>> {
-  return runAction(() => renameFolder(args));
+  return withActionEvent(FoldersActionOperation.renameFolder, () =>
+    runAction(() => renameFolder(args)),
+  );
 }
 
 export async function deleteFolderAction(
   args: FolderTargetInput,
 ): Promise<ActionResult<{ path: string; deletedFolderCount: number }>> {
-  return runAction(() => deleteFolder(args));
+  return withActionEvent(FoldersActionOperation.deleteFolder, () =>
+    runAction(() => deleteFolder(args)),
+  );
 }
 
 export async function duplicateFolderAction(
   args: FolderTargetInput,
 ): Promise<ActionResult<{ path: string; evaluatorCount: number }>> {
-  return runAction(() => duplicateFolder(args));
+  return withActionEvent(FoldersActionOperation.duplicateFolder, () =>
+    runAction(() => duplicateFolder(args)),
+  );
 }

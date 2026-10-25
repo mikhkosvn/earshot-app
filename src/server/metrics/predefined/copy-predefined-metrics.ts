@@ -3,6 +3,7 @@ import 'server-only';
 import { Prisma } from '@/generated/prisma/client';
 import { HistoryChangeType } from '@/generated/prisma/enums';
 import { prisma } from '@/lib/prisma';
+import { addEventFields } from '@/server/common/logging/event-fields';
 import { ActionError, withValidation } from '@/server/common/run-action';
 import { copyPredefinedMetricsSchema } from '@/server/metrics/schemas';
 import { writeMetricVersion } from '@/server/metrics/utils/records/metric-version';
@@ -95,7 +96,7 @@ export const copyPredefinedMetrics = withValidation(
   copyPredefinedMetricsSchema,
   async ({ projectId, codes }) => {
     const { user } = await requireProjectAccess(projectId);
-    return prisma.$transaction(async (tx) => {
+    const created = await prisma.$transaction(async (tx) => {
       const catalogMetrics = await tx.predefinedMetric.findMany({
         where: {
           code: { in: codes },
@@ -123,5 +124,10 @@ export const copyPredefinedMetrics = withValidation(
       }
       return created;
     });
+    addEventFields({
+      project: { id: projectId },
+      metrics: { requested_count: codes.length, created_count: created.length },
+    });
+    return created;
   },
 );

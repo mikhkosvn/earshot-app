@@ -2,6 +2,7 @@ import 'server-only';
 
 import { CreationMethod } from '@/generated/prisma/enums';
 import { prisma } from '@/lib/prisma';
+import { addEventFields } from '@/server/common/logging/event-fields';
 import { withValidation } from '@/server/common/run-action';
 import { createEvaluatorSchema } from '@/server/evaluators/schemas/evaluator-fields';
 import { recordEvaluatorVersion } from '@/server/evaluators/utils/record-evaluator-version';
@@ -22,6 +23,15 @@ export const createEvaluator = withValidation(
       await recordEvaluatorVersion(tx, {
         evaluatorId: created.id,
         userId: user.id,
+      });
+      addEventFields({
+        project: { id: projectId },
+        agent: { id: fields.agentId },
+        evaluator: {
+          id: created.id,
+          creation_method: CreationMethod.manual,
+          scenario_type: fields.scenarioType,
+        },
       });
       return { id: created.id, folderPath: fields.folderPath };
     });

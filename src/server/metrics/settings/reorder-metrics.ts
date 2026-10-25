@@ -1,6 +1,7 @@
 import 'server-only';
 
 import { prisma } from '@/lib/prisma';
+import { addEventFields } from '@/server/common/logging/event-fields';
 import { ActionError, withValidation } from '@/server/common/run-action';
 import { reorderMetricsSchema } from '@/server/metrics/schemas';
 import { metricOrder } from '@/server/metrics/utils/metric-view';
@@ -41,6 +42,10 @@ export const reorderMetrics = withValidation(
         }),
       ),
     );
+    addEventFields({
+      project: { id: projectId },
+      metrics: { count: order.length, moved_count: metricIds.length },
+    });
     return { metricIds: order };
   },
 );

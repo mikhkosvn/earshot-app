@@ -2,6 +2,7 @@ import 'server-only';
 
 import { FolderSystemRole } from '@/generated/prisma/enums';
 import { prisma } from '@/lib/prisma';
+import { addEventFields } from '@/server/common/logging/event-fields';
 import { ActionError, withValidation } from '@/server/common/run-action';
 import { renameFolderSchema } from '@/server/folders/schemas';
 import {
@@ -34,6 +35,9 @@ export const renameFolder = withValidation(
       await tx.folder.update({
         where: { id: folder.id },
         data: { path: nextPath },
+      });
+      addEventFields({
+        folder: { id: folder.id, descendant_count: descendants.length },
       });
       for (const descendant of descendants) {
         await tx.folder.update({

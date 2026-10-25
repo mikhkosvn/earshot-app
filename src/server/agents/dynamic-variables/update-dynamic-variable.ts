@@ -4,6 +4,7 @@ import { prisma } from '@/lib/prisma';
 import { updateDynamicVariableSchema } from '@/server/agents/schemas';
 import { agentAccessWhere } from '@/server/agents/utils/require-agent-access';
 import { requireUser } from '@/server/auth';
+import { addEventFields } from '@/server/common/logging/event-fields';
 import { ActionError, withValidation } from '@/server/common/run-action';
 
 export const updateDynamicVariable = withValidation(
@@ -28,10 +29,15 @@ export const updateDynamicVariable = withValidation(
         409,
       );
     }
-    return prisma.dynamicVariable.update({
+    const updated = await prisma.dynamicVariable.update({
       where: { id: dynamicVariableId },
       data: { name, description },
       select: { id: true, agentId: true },
     });
+    addEventFields({
+      agent: { id: updated.agentId },
+      dynamic_variable: { id: updated.id },
+    });
+    return updated;
   },
 );

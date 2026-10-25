@@ -11,8 +11,15 @@ import {
   MAIN_CHANNEL_INDEX,
   TESTING_CHANNEL_INDEX,
 } from '@/server/call-engine/constants';
+import {
+  addEventFields,
+  recordStepFailure,
+} from '@/server/common/logging/event-fields';
 import { readFileBytes } from '@/server/files/read-file-bytes';
-import { ScoringSource } from '@/server/metric-scoring/constants';
+import {
+  MetricScoringStep,
+  ScoringSource,
+} from '@/server/metric-scoring/constants';
 import type {
   ScoringAgent,
   ScoringConversation,
@@ -94,10 +101,7 @@ const loadRecording = async (
   try {
     return decodeWav(await readFileBytes(file));
   } catch (error) {
-    console.error(
-      `[metric-scoring] The recording ${file.id} did not decode.`,
-      error,
-    );
+    recordStepFailure(MetricScoringStep.recording_load, error);
     return null;
   }
 };
@@ -154,10 +158,20 @@ export const loadConversation = async (
     select: conversationSelect,
   });
   const recording = await loadRecording(row.recordingFile);
+  const source = sourceOf(row);
+  addEventFields({
+    conversation: {
+      id: row.id,
+      source,
+      turn_count: row.turns.length,
+      has_recording: recording !== null,
+    },
+    project: { id: row.projectId },
+  });
   return {
     id: row.id,
     projectId: row.projectId,
-    source: sourceOf(row),
+    source,
     runId: row.run?.id ?? null,
     callLogId: row.callLog?.id ?? null,
     turns: row.turns,

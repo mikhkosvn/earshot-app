@@ -9,6 +9,7 @@ import {
   toAgentDetail,
 } from '@/server/agents/utils/to-agent-detail';
 import { requireUser } from '@/server/auth';
+import { addEventFields } from '@/server/common/logging/event-fields';
 import { withValidation } from '@/server/common/run-action';
 
 export const getAgent = withValidation(
@@ -18,6 +19,10 @@ export const getAgent = withValidation(
     const agent = await prisma.agent.findUniqueOrThrow({
       where: { id: agentId, ...agentAccessWhere(user.id) },
       include: agentDetailInclude,
+    });
+    addEventFields({
+      project: { id: agent.projectId },
+      agent: { id: agent.id, provider: agent.provider },
     });
     return toAgentDetail(agent);
   },

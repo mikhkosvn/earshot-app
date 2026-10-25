@@ -2,6 +2,7 @@ import 'server-only';
 
 import { prisma } from '@/lib/prisma';
 import { requireUser } from '@/server/auth';
+import { addEventFields } from '@/server/common/logging/event-fields';
 import { withValidation } from '@/server/common/run-action';
 import { projectAccessWhere } from '@/server/projects/utils/project-access-where';
 import { updateRunEvaluationSchema } from '@/server/run-reviews/schemas';
@@ -21,6 +22,9 @@ export const updateRunEvaluation = withValidation(
       where: { id: runId },
       data: { evaluationStatus },
       select: reviewSelect,
+    });
+    addEventFields({
+      run: { id: run.id, evaluation_status: run.evaluationStatus },
     });
     return {
       runId: run.id,

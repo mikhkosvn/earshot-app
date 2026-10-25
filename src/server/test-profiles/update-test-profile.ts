@@ -2,6 +2,7 @@ import 'server-only';
 
 import { prisma } from '@/lib/prisma';
 import { requireUser } from '@/server/auth';
+import { addEventFields } from '@/server/common/logging/event-fields';
 import { ActionError, withValidation } from '@/server/common/run-action';
 import { updateTestProfileSchema } from '@/server/test-profiles/schemas';
 import { assertAgentInProject } from '@/server/test-profiles/utils/assert-agent-in-project';
@@ -30,6 +31,15 @@ export const updateTestProfile = withValidation(
           agentId: true,
           name: true,
           _count: { select: { evaluators: true } },
+        },
+      });
+      addEventFields({
+        project: { id: profile.projectId },
+        agent: { id: agentId },
+        test_profile: {
+          id: testProfileId,
+          agent_changed: agentId !== profile.agentId,
+          evaluator_count: profile._count.evaluators,
         },
       });
       await assertAgentInProject(tx, profile.projectId, agentId);

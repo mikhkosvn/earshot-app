@@ -2,6 +2,7 @@ import 'server-only';
 
 import { MonitorRunStatus, RunStatus } from '@/generated/prisma/enums';
 import { Prisma } from '@/generated/prisma/client';
+import { addEventFields } from '@/server/common/logging/event-fields';
 import { MONITOR_CLAIM_LIMIT } from '@/server/monitors/constants/monitor-scheduler';
 import { MonitorRunOutcome } from '@/server/monitors/constants/monitor-run-outcome';
 import { notifyMonitorRun } from '@/server/monitors/scheduler/notify-monitor-run';
@@ -103,6 +104,7 @@ export const finishMonitorRuns = async () => {
       for (const id of ids) finished.push(await finishMonitorRun(tx, id));
     },
   });
+  addEventFields({ monitor_runs: { finished: finished.length } });
   for (const run of finished) {
     if (!run.outcome) continue;
     await notifyMonitorRun({

@@ -3,9 +3,16 @@ import 'server-only';
 import { MonitorRunStatus, ResultSource } from '@/generated/prisma/enums';
 import { Prisma } from '@/generated/prisma/client';
 import { prisma } from '@/lib/prisma';
+import {
+  addEventFields,
+  recordStepFailure,
+} from '@/server/common/logging/event-fields';
 import { ActionError } from '@/server/common/run-action';
 import { MONITOR_RUN_START_FAILED } from '@/server/monitors/constants/monitor-messages';
-import { MONITOR_CLAIM_LIMIT } from '@/server/monitors/constants/monitor-scheduler';
+import {
+  MONITOR_CLAIM_LIMIT,
+  MonitorStep,
+} from '@/server/monitors/constants/monitor-scheduler';
 import { MonitorRunOutcome } from '@/server/monitors/constants/monitor-run-outcome';
 import { notifyMonitorRun } from '@/server/monitors/scheduler/notify-monitor-run';
 import { createRunBatch } from '@/server/runs/create-run-batch';
@@ -41,10 +48,7 @@ const loadMonitorRun = (monitorRunId: number) =>
 
 const failMonitorRun = async (monitorRunId: number, error: unknown) => {
   if (!(error instanceof ActionError)) {
-    console.error(
-      `[monitors] Monitor run ${monitorRunId} did not start.`,
-      error,
-    );
+    recordStepFailure(MonitorStep.run_start, error);
   }
   const errorMessage = startErrorMessage(error);
   await prisma.monitorRun.update({
@@ -80,8 +84,10 @@ const startMonitorRun = async (monitorRunId: number) => {
       agentNumber: monitor.agentNumber,
       monitorRunId,
     });
+    return true;
   } catch (error) {
     await failMonitorRun(monitorRunId, error);
+    return false;
   }
 };
 
@@ -98,5 +104,15 @@ export const startQueuedMonitorRuns = async () => {
       });
     },
   });
-  for (const id of ids) await startMonitorRun(id);
+  const failedIds: number[] = [];
+  for (const id of ids) {
+    if (!(await startMonitorRun(id))) failedIds.push(id);
+  }
+  addEventFields({
+    monitor_runs: {
+      claimed: ids.length,
+      started: ids.length - failedIds.length,
+      failed_ids: failedIds,
+    },
+  });
 };

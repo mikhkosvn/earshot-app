@@ -2,6 +2,7 @@ import 'server-only';
 
 import { Prisma } from '@/generated/prisma/client';
 import { prisma } from '@/lib/prisma';
+import { addEventFields } from '@/server/common/logging/event-fields';
 import { ActionError, withValidation } from '@/server/common/run-action';
 import {
   RUBRIC_OPERATORS,
@@ -85,6 +86,10 @@ export const saveRubric = withValidation(
       prisma.rubricRule.deleteMany({ where: { metric: { projectId } } }),
       prisma.rubricRule.createMany({ data }),
     ]);
+    addEventFields({
+      project: { id: projectId },
+      rubric: { rule_count: data.length },
+    });
     return { count: data.length };
   },
 );

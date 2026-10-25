@@ -2,6 +2,7 @@ import 'server-only';
 
 import type { NextRequest } from 'next/server';
 
+import { addEventFields } from '@/server/common/logging/event-fields';
 import { readFileStream } from '@/server/files/read-file-stream';
 import type { ByteRange } from '@/server/files/types';
 import {
@@ -14,6 +15,7 @@ import {
 } from '@/server/files/utils/parse-range-header';
 
 interface ServedFile {
+  id: string;
   storageKey: string;
   contentType: string;
   fileName: string;
@@ -73,6 +75,15 @@ export const fileResponse = (request: NextRequest, file: ServedFile) => {
     request.headers.get('range'),
     file.sizeBytes,
   );
+  addEventFields({
+    file: {
+      id: file.id,
+      content_type: file.contentType,
+      size_bytes: file.sizeBytes,
+      disposition,
+      range: parsedRange.kind,
+    },
+  });
   if (parsedRange.kind === RangeResult.unsatisfiable) {
     return new Response(null, {
       status: 416,

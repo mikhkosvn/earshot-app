@@ -6,7 +6,8 @@ import {
   callEventSchema,
   pubSubPushSchema,
 } from '@/server/call-engine/schemas';
-import type { CallEvent } from '@/server/call-engine/types';
+import type { CallEvent, PubSubPush } from '@/server/call-engine/types';
+import { addEventFields } from '@/server/common/logging/event-fields';
 
 const parseJson = (text: string): unknown => {
   try {
@@ -19,22 +20,20 @@ const parseJson = (text: string): unknown => {
 const decodeBase64 = (value: string) =>
   Buffer.from(value, 'base64').toString('utf8');
 
-const warnInvalid = (part: string, error: z.ZodError) =>
-  console.warn(
-    `[call-engine] The pushed ${part} is not valid.\n${z.prettifyError(error)}`,
-  );
+export const recordInvalidPush = (part: string, error: z.ZodError) =>
+  addEventFields({
+    validation: { part, message: z.prettifyError(error) },
+  });
 
-export const readPushedCallEvent = (body: string): CallEvent | null => {
-  const push = pubSubPushSchema.safeParse(parseJson(body));
-  if (!push.success) {
-    warnInvalid('message', push.error);
-    return null;
-  }
+export const parsePubSubPush = (body: string) =>
+  pubSubPushSchema.safeParse(parseJson(body));
+
+export const readPushedCallEvent = (push: PubSubPush): CallEvent | null => {
   const event = callEventSchema.safeParse(
-    parseJson(decodeBase64(push.data.message.data)),
+    parseJson(decodeBase64(push.message.data)),
   );
   if (!event.success) {
-    warnInvalid(`event ${push.data.message.messageId}`, event.error);
+    recordInvalidPush('event', event.error);
     return null;
   }
   return event.data;

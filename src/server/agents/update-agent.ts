@@ -14,6 +14,7 @@ import {
   agentDetailInclude,
   toAgentDetail,
 } from '@/server/agents/utils/to-agent-detail';
+import { addEventFields } from '@/server/common/logging/event-fields';
 import { withValidation } from '@/server/common/run-action';
 import { encryptSecret } from '@/server/crypto/encrypt-secret';
 
@@ -41,10 +42,14 @@ export const updateAgent = withValidation(
     webhookSecret,
     ...values
   }): Promise<AgentDetail> => {
-    const { user } = await requireAgentAccess(agentId);
+    const { user, agent: agentAccess } = await requireAgentAccess(agentId);
     const current = await prisma.agent.findUniqueOrThrow({
       where: { id: agentId },
       select: { provider: true },
+    });
+    addEventFields({
+      project: { id: agentAccess.projectId },
+      agent: { id: agentId, provider: current.provider },
     });
     const redactionFields = redactionFieldsOf(values);
 

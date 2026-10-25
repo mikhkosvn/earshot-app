@@ -2,6 +2,7 @@ import 'server-only';
 
 import { JobStatus } from '@/generated/prisma/enums';
 import { prisma } from '@/lib/prisma';
+import { addEventFields } from '@/server/common/logging/event-fields';
 import type { JobResultPayload } from '@/server/jobs/types';
 
 interface CompleteJobArgs {
@@ -20,5 +21,6 @@ export const completeJob = async ({ jobId, step, result }: CompleteJobArgs) => {
       finishedAt: new Date(),
     },
   });
+  addEventFields({ job: { id: jobId, completed: count > 0 } });
   return count > 0;
 };

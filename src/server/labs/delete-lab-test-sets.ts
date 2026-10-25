@@ -1,15 +1,20 @@
 import 'server-only';
 
 import { prisma } from '@/lib/prisma';
+import {
+  addEventFields,
+  recordStepFailure,
+} from '@/server/common/logging/event-fields';
 import { withValidation } from '@/server/common/run-action';
 import { deleteFile } from '@/server/files/delete-file';
+import { LabStep } from '@/server/labs/constants/lab-step';
 import { deleteLabTestSetsSchema } from '@/server/labs/schemas';
 import { requireMetricAccess } from '@/server/metrics/utils/require-metric-access';
 
 const removeRecordings = async (fileIds: string[]) => {
   for (const fileId of fileIds) {
     await deleteFile(fileId).catch((error: unknown) =>
-      console.error(`[labs] The recording ${fileId} was not deleted.`, error),
+      recordStepFailure(LabStep.recording_delete, error),
     );
   }
 };
@@ -47,12 +52,20 @@ export const deleteLabTestSets = withValidation(
         where: { id: { in: copies.map((conversation) => conversation.id) } },
       }),
     ]);
-    await removeRecordings(
-      copies.flatMap((conversation) => {
-        if (!conversation.recordingFileId) return [];
-        return [conversation.recordingFileId];
-      }),
-    );
+    const recordingFileIds = copies.flatMap((conversation) => {
+      if (!conversation.recordingFileId) return [];
+      return [conversation.recordingFileId];
+    });
+    addEventFields({
+      metric: { id: metricId },
+      lab_test_sets: {
+        requested: testSetIds.length,
+        deleted: testSets.length,
+        copy_conversations_deleted: copies.length,
+        recordings_deleted: recordingFileIds.length,
+      },
+    });
+    await removeRecordings(recordingFileIds);
     return { count: testSets.length };
   },
 );

@@ -1,6 +1,7 @@
 import 'server-only';
 
 import { prisma } from '@/lib/prisma';
+import { addEventFields } from '@/server/common/logging/event-fields';
 import { ActionError, withValidation } from '@/server/common/run-action';
 import { deleteProjectFiles } from '@/server/files/delete-project-files';
 import { projectIdSchema } from '@/server/projects/schemas';
@@ -24,6 +25,7 @@ export const deleteProject = withValidation(
       );
     }
 
+    addEventFields({ next_project: { id: nextProject.id } });
     await prisma.project.delete({ where: { id: projectId } });
     await deleteProjectFiles(projectId);
     await setCurrentProjectCookie(nextProject.id);

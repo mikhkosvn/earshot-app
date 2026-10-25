@@ -4,6 +4,7 @@ import type { NextRequest } from 'next/server';
 import { ZodError } from 'zod';
 
 import { authenticateApiKey } from '@/server/api-keys/authenticate-api-key';
+import { recordEventError } from '@/server/common/logging/event-fields';
 import { INVALID_API_KEY_DETAIL } from '@/server/public-api/constants';
 import {
   detailErrorResponse,
@@ -33,7 +34,10 @@ export const withApiKey =
         params: await routeContext.params,
       });
     } catch (error) {
-      if (error instanceof ZodError) return zodErrorResponse(error);
+      if (error instanceof ZodError) {
+        recordEventError(error);
+        return zodErrorResponse(error);
+      }
       throw error;
     }
   };

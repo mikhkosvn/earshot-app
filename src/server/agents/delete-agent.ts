@@ -4,16 +4,25 @@ import { prisma } from '@/lib/prisma';
 import { AGENT_TRANSACTION_TIMEOUT_MS } from '@/server/agents/constants/agent-limits';
 import { deleteAgentSchema } from '@/server/agents/schemas';
 import { requireAgentAccess } from '@/server/agents/utils/require-agent-access';
+import { addEventFields } from '@/server/common/logging/event-fields';
 import { withValidation } from '@/server/common/run-action';
 import { deleteFile } from '@/server/files/delete-file';
 
 export const deleteAgent = withValidation(
   deleteAgentSchema,
   async ({ agentId, deleteRelated }) => {
-    await requireAgentAccess(agentId);
+    const { agent } = await requireAgentAccess(agentId);
     const knowledgeFiles = await prisma.knowledgeBaseFile.findMany({
       where: { agentId },
       select: { fileId: true },
+    });
+    addEventFields({
+      project: { id: agent.projectId },
+      agent: {
+        id: agentId,
+        delete_related: deleteRelated,
+        knowledge_file_count: knowledgeFiles.length,
+      },
     });
     await prisma.$transaction(
       async (tx) => {
@@ -31,6 +40,9 @@ export const deleteAgent = withValidation(
           const conversationIds = [...callLogs, ...runs].map(
             (row) => row.conversationId,
           );
+          addEventFields({
+            agent: { conversation_count: conversationIds.length },
+          });
           await tx.conversation.deleteMany({
             where: { id: { in: conversationIds } },
           });

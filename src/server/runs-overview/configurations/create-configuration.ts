@@ -1,6 +1,7 @@
 import 'server-only';
 
 import { prisma } from '@/lib/prisma';
+import { addEventFields } from '@/server/common/logging/event-fields';
 import { ActionError, withValidation } from '@/server/common/run-action';
 import { requireProjectAccess } from '@/server/projects/utils/require-project-access';
 import { createConfigurationSchema } from '@/server/runs-overview/schemas';
@@ -59,6 +60,12 @@ export const createConfiguration = withValidation(
         },
       },
       select: configurationSelect,
+    });
+    addEventFields({
+      configuration: {
+        id: row.id,
+        include_metric_visibility: includeMetricVisibility,
+      },
     });
     return toConfigurationItem(row);
   },

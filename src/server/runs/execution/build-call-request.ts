@@ -36,6 +36,7 @@ const runCallSelect = {
   },
   result: {
     select: {
+      projectId: true,
       agentNumber: true,
       project: { select: { maxCallDuration: true } },
       agent: {

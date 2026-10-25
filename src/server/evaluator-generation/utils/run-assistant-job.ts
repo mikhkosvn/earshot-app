@@ -11,6 +11,7 @@ import {
 } from '@/generated/prisma/enums';
 import { prisma } from '@/lib/prisma';
 import { generateObject } from '@/server/ai/generate-object';
+import { addEventFields } from '@/server/common/logging/event-fields';
 import {
   ASSISTANT_THINKING_STEP,
   AssistantMode,
@@ -138,6 +139,11 @@ export const runAssistantJob = async (
       ChatRole.assistant,
       decision.question,
     );
+    addEventFields({
+      generation_session: { id: session.id },
+      agent: { id: session.agent?.id ?? null },
+      assistant: { status: AssistantStatus.needs_clarification },
+    });
     await notifyQuestion(session, context.userId, decision.question, deepLink);
     const result: AssistantJobResult = {
       ...base,
@@ -167,6 +173,15 @@ export const runAssistantJob = async (
     input: { sessionId: session.id, instructions },
     initialStep: GenerationStepText.starting,
     run: runGenerationJob,
+  });
+  addEventFields({
+    generation_session: { id: session.id },
+    agent: { id: session.agent?.id ?? null },
+    assistant: {
+      status: AssistantStatus.completed,
+      instruction_count: instructions.length,
+      generation_job_id: jobId,
+    },
   });
   const result: AssistantJobResult = {
     ...base,

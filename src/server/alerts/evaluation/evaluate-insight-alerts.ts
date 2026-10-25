@@ -3,6 +3,7 @@ import 'server-only';
 import { Prisma } from '@/generated/prisma/client';
 import { AlertType } from '@/generated/prisma/enums';
 import { prisma } from '@/lib/prisma';
+import { addEventFields } from '@/server/common/logging/event-fields';
 import { MILLISECONDS_PER_HOUR } from '@/server/alerts/constants/alert-limits';
 import {
   NEW_MODE_DEFAULT_MIN_CALLS,
@@ -199,6 +200,9 @@ export const evaluateInsightAlerts = async (projectId?: number) => {
       if (await recordAlertFire(fire)) fired.push(fire);
     }
   }
+  addEventFields({
+    insight_alerts: { rules: rules.length, fired: fired.length },
+  });
   await notifyAlertFires(fired);
   return { fired: fired.length };
 };

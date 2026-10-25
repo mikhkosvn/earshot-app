@@ -9,15 +9,21 @@ import type {
   ListSavedViewsInput,
   SavedViewItem,
 } from '@/server/saved-views/types';
+import { SavedViewsActionOperation } from '@/server/saved-views/actions/action-operation';
+import { withActionEvent } from '@/server/common/logging/with-action-event';
 
 export async function listSavedViewsAction(
   args: ListSavedViewsInput,
 ): Promise<SavedViewItem[]> {
-  return listSavedViews(args);
+  return withActionEvent(SavedViewsActionOperation.listSavedViews, () =>
+    listSavedViews(args),
+  );
 }
 
 export async function createSavedViewAction(
   args: CreateSavedViewInput,
 ): Promise<ActionResult<SavedViewItem>> {
-  return runAction(() => createSavedView(args));
+  return withActionEvent(SavedViewsActionOperation.createSavedView, () =>
+    runAction(() => createSavedView(args)),
+  );
 }

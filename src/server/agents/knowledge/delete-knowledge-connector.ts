@@ -4,6 +4,7 @@ import { prisma } from '@/lib/prisma';
 import { knowledgeConnectorIdSchema } from '@/server/agents/schemas';
 import { agentAccessWhere } from '@/server/agents/utils/require-agent-access';
 import { requireUser } from '@/server/auth';
+import { addEventFields } from '@/server/common/logging/event-fields';
 import { withValidation } from '@/server/common/run-action';
 
 export const deleteKnowledgeConnector = withValidation(
@@ -14,9 +15,14 @@ export const deleteKnowledgeConnector = withValidation(
       where: { id: knowledgeConnectorId, agent: agentAccessWhere(user.id) },
       select: { id: true },
     });
-    return prisma.knowledgeBaseConnector.delete({
+    const deleted = await prisma.knowledgeBaseConnector.delete({
       where: { id: knowledgeConnectorId },
       select: { id: true, agentId: true },
     });
+    addEventFields({
+      agent: { id: deleted.agentId },
+      knowledge_connector: { id: deleted.id },
+    });
+    return deleted;
   },
 );

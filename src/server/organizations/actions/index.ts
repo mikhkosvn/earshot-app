@@ -8,15 +8,21 @@ import type {
   OrganizationIdInput,
   OrganizationSummary,
 } from '@/server/organizations/types';
+import { OrganizationsActionOperation } from '@/server/organizations/actions/action-operation';
+import { withActionEvent } from '@/server/common/logging/with-action-event';
 
 export async function listOrganizationsAction(): Promise<
   OrganizationSummary[]
 > {
-  return listOrganizations();
+  return withActionEvent(OrganizationsActionOperation.listOrganizations, () =>
+    listOrganizations(),
+  );
 }
 
 export async function switchOrganizationAction(
   args: OrganizationIdInput,
 ): Promise<ActionResult<{ projectId: number }>> {
-  return runAction(() => switchOrganization(args));
+  return withActionEvent(OrganizationsActionOperation.switchOrganization, () =>
+    runAction(() => switchOrganization(args)),
+  );
 }

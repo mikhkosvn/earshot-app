@@ -1,3 +1,4 @@
+import { addEventFields } from '@/server/common/logging/event-fields';
 import 'server-only';
 
 import { withValidation } from '@/server/common/run-action';
@@ -11,6 +12,9 @@ export const getProjectKnowledge = withValidation(
   async ({ projectId }): Promise<ProjectKnowledge> => {
     await requireProjectAccess(projectId);
     const latest = await readLatestProjectKnowledge(projectId);
+    addEventFields({
+      project_knowledge: { version: latest?.version ?? null },
+    });
     if (!latest) return { content: '', exists: false, version: null };
     return { content: latest.content, exists: true, version: latest.version };
   },

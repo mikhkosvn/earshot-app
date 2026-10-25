@@ -1,6 +1,7 @@
 import 'server-only';
 
 import { prisma } from '@/lib/prisma';
+import { addEventFields } from '@/server/common/logging/event-fields';
 import { ActionError, withValidation } from '@/server/common/run-action';
 import { deleteFile } from '@/server/files/delete-file';
 import { saveFile } from '@/server/files/save-file';
@@ -22,10 +23,15 @@ export const cloneVoice = withValidation(
       data: new Uint8Array(await sample.arrayBuffer()),
     });
     try {
-      return await prisma.clonedVoice.create({
+      const voice = await prisma.clonedVoice.create({
         data: { name, sampleFileId: stored.id },
         select: { id: true, name: true },
       });
+      addEventFields({
+        project: { id: projectId },
+        cloned_voice: { id: voice.id },
+      });
+      return voice;
     } catch (error) {
       await deleteFile(stored.id);
       throw error;

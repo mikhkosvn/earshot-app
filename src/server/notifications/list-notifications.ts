@@ -1,12 +1,13 @@
 import 'server-only';
 
 import { prisma } from '@/lib/prisma';
+import { addEventFields } from '@/server/common/logging/event-fields';
 import { requireUser } from '@/server/auth';
 import { NOTIFICATION_LIST_LIMIT } from '@/server/notifications/constants';
 
 export const listNotifications = async () => {
   const { user } = await requireUser();
-  return prisma.notification.findMany({
+  const notifications = await prisma.notification.findMany({
     where: { userId: user.id },
     orderBy: [{ createdAt: 'desc' }, { id: 'desc' }],
     take: NOTIFICATION_LIST_LIMIT,
@@ -21,4 +22,6 @@ export const listNotifications = async () => {
       createdAt: true,
     },
   });
+  addEventFields({ notifications: { count: notifications.length } });
+  return notifications;
 };

@@ -2,6 +2,7 @@ import 'server-only';
 
 import { Prisma } from '@/generated/prisma/client';
 import { prisma } from '@/lib/prisma';
+import { addEventFields } from '@/server/common/logging/event-fields';
 import { withValidation } from '@/server/common/run-action';
 import { projectIdSchema } from '@/server/metrics/schemas';
 import type { PredefinedMetricCard } from '@/server/metrics/types';
@@ -27,6 +28,10 @@ export const listPredefinedMetrics = withValidation(
         badge: true,
         projectMetrics: { where: { projectId }, select: { id: true } },
       },
+    });
+    addEventFields({
+      project: { id: projectId },
+      predefined_metrics: { count: rows.length },
     });
     return rows.map(({ projectMetrics, ...row }) => ({
       ...row,

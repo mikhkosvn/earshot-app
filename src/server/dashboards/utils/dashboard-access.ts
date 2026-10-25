@@ -2,6 +2,7 @@ import 'server-only';
 
 import { prisma } from '@/lib/prisma';
 import { requireUser } from '@/server/auth';
+import { addEventFields } from '@/server/common/logging/event-fields';
 import { projectAccessWhere } from '@/server/projects/utils/project-access-where';
 
 export const dashboardAccessWhere = (userId: number) => ({
@@ -19,6 +20,10 @@ export const requireDashboardAccess = async (dashboardId: number) => {
       name: true,
       project: { select: { timezone: true } },
     },
+  });
+  addEventFields({
+    dashboard: { id: dashboard.id, source: dashboard.source },
+    project: { id: dashboard.projectId },
   });
   return { user, dashboard };
 };

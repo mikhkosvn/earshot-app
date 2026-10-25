@@ -9,15 +9,21 @@ import type {
   RubricView,
   SaveRubricInput,
 } from '@/server/rubric/types';
+import { RubricActionOperation } from '@/server/rubric/actions/action-operation';
+import { withActionEvent } from '@/server/common/logging/with-action-event';
 
 export async function getRubricAction(
   args: GetRubricInput,
 ): Promise<RubricView> {
-  return getRubric(args);
+  return withActionEvent(RubricActionOperation.getRubric, () =>
+    getRubric(args),
+  );
 }
 
 export async function saveRubricAction(
   args: SaveRubricInput,
 ): Promise<ActionResult<{ count: number }>> {
-  return runAction(() => saveRubric(args));
+  return withActionEvent(RubricActionOperation.saveRubric, () =>
+    runAction(() => saveRubric(args)),
+  );
 }

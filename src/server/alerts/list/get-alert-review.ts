@@ -16,6 +16,7 @@ import type {
   AlertTimelineBucket,
   FiredAlertSummary,
 } from '@/server/alerts/types';
+import { addEventFields } from '@/server/common/logging/event-fields';
 import { withValidation } from '@/server/common/run-action';
 import { requireProjectAccess } from '@/server/projects/utils/require-project-access';
 
@@ -122,6 +123,10 @@ export const getAlertReview = withValidation(
       select: fireSelect,
     });
     const alerts = summarize(fires);
+    addEventFields({
+      project: { id: projectId },
+      alert_review: { hours, fires: fires.length, alerts: alerts.length },
+    });
     const top = alerts.slice(0, ALERT_TOP_SERIES);
     const topIds = new Set(top.map((alert) => alert.id));
     const series: AlertSeries[] = top.map((alert) => ({

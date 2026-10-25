@@ -9,6 +9,7 @@ import {
   toCallLogRow,
 } from '@/server/call-logs/utils/call-log-row';
 import { callLogListWhere } from '@/server/call-logs/utils/filters/call-log-list-where';
+import { addEventFields } from '@/server/common/logging/event-fields';
 import { withValidation } from '@/server/common/run-action';
 import { requireProjectAccess } from '@/server/projects/utils/require-project-access';
 
@@ -30,6 +31,10 @@ export const listCallLogs = withValidation(
         select: callLogRowSelect,
       }),
     ]);
+    addEventFields({
+      project: { id: scope.projectId },
+      call_logs: { count, returned: rows.length, page, page_size: pageSize },
+    });
     return { count, rows: rows.map(toCallLogRow) };
   },
 );

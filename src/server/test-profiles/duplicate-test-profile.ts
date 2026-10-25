@@ -2,6 +2,7 @@ import 'server-only';
 
 import { prisma } from '@/lib/prisma';
 import { requireUser } from '@/server/auth';
+import { addEventFields } from '@/server/common/logging/event-fields';
 import { withValidation } from '@/server/common/run-action';
 import { testProfileIdSchema } from '@/server/test-profiles/schemas';
 import { testProfileAccessWhere } from '@/server/test-profiles/utils/test-profile-access-where';
@@ -36,6 +37,15 @@ export const duplicateTestProfile = withValidation(
         variables: { create: source.variables },
       },
       select: testProfileViewSelect,
+    });
+    addEventFields({
+      project: { id: source.projectId },
+      agent: { id: source.agentId },
+      test_profile: {
+        id: row.id,
+        source_id: testProfileId,
+        variable_count: source.variables.length,
+      },
     });
     return toTestProfileView(row);
   },

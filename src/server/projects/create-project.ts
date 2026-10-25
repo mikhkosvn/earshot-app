@@ -2,6 +2,7 @@ import 'server-only';
 
 import { prisma } from '@/lib/prisma';
 import { requireUser } from '@/server/auth';
+import { addEventFields } from '@/server/common/logging/event-fields';
 import { withValidation } from '@/server/common/run-action';
 import { PROJECT_TRANSACTION_TIMEOUT_MS } from '@/server/projects/constants/project-transaction';
 import { createProjectSchema } from '@/server/projects/schemas';
@@ -21,6 +22,10 @@ export const createProject = withValidation(
       (tx) => createProjectRecord(tx, { organizationId, name }),
       { timeout: PROJECT_TRANSACTION_TIMEOUT_MS },
     );
+    addEventFields({
+      project: { id: project.id },
+      organization: { id: organizationId },
+    });
     await setCurrentProjectCookie(project.id);
     return project;
   },

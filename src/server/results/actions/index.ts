@@ -29,61 +29,79 @@ import type {
   RunIdInput,
   RunListPage,
 } from '@/server/results/types';
+import { ResultsActionOperation } from '@/server/results/actions/action-operation';
+import { withActionEvent } from '@/server/common/logging/with-action-event';
 
 export async function listResultsAction(
   args: ListResultsInput,
 ): Promise<ResultListPage> {
-  return listResults(args);
+  return withActionEvent(ResultsActionOperation.listResults, () =>
+    listResults(args),
+  );
 }
 
 export async function listRunsAction(
   args: ListRunsInput,
 ): Promise<RunListPage> {
-  return listRuns(args);
+  return withActionEvent(ResultsActionOperation.listRuns, () => listRuns(args));
 }
 
 export async function listResultFilterOptionsAction(
   args: ProjectScopeInput,
 ): Promise<ResultFilterOptions> {
-  return listResultFilterOptions(args);
+  return withActionEvent(ResultsActionOperation.listResultFilterOptions, () =>
+    listResultFilterOptions(args),
+  );
 }
 
 export async function getResultAction(
   args: ResultIdInput,
 ): Promise<ResultDetail> {
-  return getResult(args);
+  return withActionEvent(ResultsActionOperation.getResult, () =>
+    getResult(args),
+  );
 }
 
 export async function getResultStatusAction(
   args: ResultIdInput,
 ): Promise<ResultStatusView> {
-  return getResultStatus(args);
+  return withActionEvent(ResultsActionOperation.getResultStatus, () =>
+    getResultStatus(args),
+  );
 }
 
 export async function getRunAction(args: RunIdInput): Promise<RunDetail> {
-  return getRun(args);
+  return withActionEvent(ResultsActionOperation.getRun, () => getRun(args));
 }
 
 export async function exportResultsAction(
   args: ExportResultsInput,
 ): Promise<ActionResult<{ fileName: string; content: string }>> {
-  return runAction(() => exportResults(args));
+  return withActionEvent(ResultsActionOperation.exportResults, () =>
+    runAction(() => exportResults(args)),
+  );
 }
 
 export async function deleteResultsAction(
   args: DeleteResultsInput,
 ): Promise<ActionResult<{ count: number }>> {
-  return runAction(() => deleteResults(args));
+  return withActionEvent(ResultsActionOperation.deleteResults, () =>
+    runAction(() => deleteResults(args)),
+  );
 }
 
 export async function deleteRunsAction(
   args: DeleteRunsInput,
 ): Promise<ActionResult<{ count: number }>> {
-  return runAction(() => deleteRuns(args));
+  return withActionEvent(ResultsActionOperation.deleteRuns, () =>
+    runAction(() => deleteRuns(args)),
+  );
 }
 
 export async function renameResultAction(
   args: RenameResultInput,
 ): Promise<ActionResult<{ id: number; name: string }>> {
-  return runAction(() => renameResult(args));
+  return withActionEvent(ResultsActionOperation.renameResult, () =>
+    runAction(() => renameResult(args)),
+  );
 }

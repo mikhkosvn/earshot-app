@@ -1,6 +1,7 @@
 import 'server-only';
 
 import { prisma } from '@/lib/prisma';
+import { addEventFields } from '@/server/common/logging/event-fields';
 import { withValidation } from '@/server/common/run-action';
 import { DEFAULT_DASHBOARD_FILTERS } from '@/server/dashboards/constants/dashboard-defaults';
 import { createDashboardSchema } from '@/server/dashboards/schemas';
@@ -25,6 +26,7 @@ export const createDashboard = withValidation(
       },
       select: dashboardItemSelect,
     });
+    addEventFields({ dashboard: { id: row.id, source } });
     return toDashboardItem(row);
   },
 );

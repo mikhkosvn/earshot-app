@@ -4,6 +4,7 @@ import { InsightStatus, JobKind } from '@/generated/prisma/enums';
 import { prisma } from '@/lib/prisma';
 import { UrlGenerator } from '@/lib/url-generator/url-generator';
 import { evaluateInsightAlerts } from '@/server/alerts/evaluation/evaluate-insight-alerts';
+import { addEventFields } from '@/server/common/logging/event-fields';
 import { ActionError, withValidation } from '@/server/common/run-action';
 import {
   type InsightRunOutcome,
@@ -37,6 +38,7 @@ export const startInsightRun = withValidation(
     if (!metric.insightConfig?.enabled) {
       throw new ActionError('Turn on insights for this metric first.', 422);
     }
+    addEventFields({ project: { id: projectId }, metric: { id: metric.id } });
     const window = insightWindowOf(from, to);
     return startJob({
       projectId,

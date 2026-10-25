@@ -1,6 +1,7 @@
 import 'server-only';
 
 import { prisma } from '@/lib/prisma';
+import { addEventFields } from '@/server/common/logging/event-fields';
 import { withValidation } from '@/server/common/run-action';
 import { saveInsightConfigSchema } from '@/server/insights/schemas';
 import {
@@ -45,6 +46,10 @@ export const saveInsightConfig = withValidation(
         ...stored,
       },
       update: { enabled: true, triageFailureLimit, ...stored },
+    });
+    addEventFields({
+      project: { id: projectId },
+      metric: { id: metric.id, eval_type: metric.evalType },
     });
     return { metricId: metric.id };
   },

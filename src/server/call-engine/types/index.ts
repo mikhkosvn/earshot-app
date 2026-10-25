@@ -14,7 +14,9 @@ import type {
 import type {
   callEventSchema,
   endOfCallEventSchema,
+  pubSubPushSchema,
 } from '@/server/call-engine/schemas';
+import type { TraceContext } from '@/server/common/logging/types';
 
 export interface CallerSetup {
   instructions: string;
@@ -37,6 +39,7 @@ export interface StartCallRequest {
   from_number: string | null;
   max_duration_seconds: number;
   caller: CallerSetup;
+  trace_context?: TraceContext;
 }
 
 export interface StartedCall {
@@ -46,6 +49,7 @@ export interface StartedCall {
 export type CallEvent = z.output<typeof callEventSchema>;
 export type CallEventPayload = z.input<typeof callEventSchema>;
 export type EndOfCallEvent = z.output<typeof endOfCallEventSchema>;
+export type PubSubPush = z.output<typeof pubSubPushSchema>;
 
 export interface TranscriptTurn {
   role: TranscriptRole;

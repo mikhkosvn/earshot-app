@@ -1,8 +1,12 @@
 import 'server-only';
 
 import { MetricType } from '@/generated/prisma/enums';
+import { recordStepFailure } from '@/server/common/logging/event-fields';
 import { scoreCustomCode } from '@/server/metric-scoring/code/score-custom-code';
-import { NOT_SCORED_INPUT } from '@/server/metric-scoring/constants';
+import {
+  MetricScoringStep,
+  NOT_SCORED_INPUT,
+} from '@/server/metric-scoring/constants';
 import { scoreLlmJudge } from '@/server/metric-scoring/judge/score-llm-judge';
 import {
   hasPredefinedScorer,
@@ -49,10 +53,7 @@ export const scoreMetric = async (
     }
     return await scoreBody(context);
   } catch (error) {
-    console.error(
-      `[metric-scoring] The metric ${context.metric.id} failed on conversation ${context.conversation.id}.`,
-      error,
-    );
+    recordStepFailure(MetricScoringStep.score_metric, error);
     return failed(errorText(error));
   }
 };

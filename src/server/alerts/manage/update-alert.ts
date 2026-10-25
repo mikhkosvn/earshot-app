@@ -1,6 +1,7 @@
 import 'server-only';
 
 import { prisma } from '@/lib/prisma';
+import { addEventFields } from '@/server/common/logging/event-fields';
 import { updateAlertSchema } from '@/server/alerts/schemas';
 import type { AlertParams } from '@/server/alerts/types';
 import { requireAlertAccess } from '@/server/alerts/utils/alert-access';
@@ -24,6 +25,14 @@ export const updateAlert = withValidation(
   async ({ alertId, name, enabled, params, direction, filters }) => {
     const { alert } = await requireAlertAccess(alertId);
     if (params) assertAlertTypeAllowed(alert.metric.evalType, params);
+    addEventFields({
+      alert: {
+        id: alert.id,
+        type: alert.type,
+        params_changed: Boolean(params),
+      },
+      project: { id: alert.metric.projectId },
+    });
     return prisma.alertRule.update({
       where: { id: alert.id },
       data: {

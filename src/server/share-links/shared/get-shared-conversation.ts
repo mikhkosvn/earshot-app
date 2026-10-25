@@ -1,6 +1,7 @@
 import 'server-only';
 
 import { prisma } from '@/lib/prisma';
+import { addEventFields } from '@/server/common/logging/event-fields';
 import { withValidation } from '@/server/common/run-action';
 import type { ConversationDetail } from '@/server/conversations/types';
 import {
@@ -18,6 +19,7 @@ export const getSharedConversation = withValidation(
   sharedConversationSchema,
   async ({ token, conversationId }): Promise<ConversationDetail> => {
     const link = await requireShareLink(token);
+    addEventFields({ conversation: { id: conversationId } });
     if (!(await shareAllowsConversation(link, conversationId))) {
       throw new Error('The share link does not include this conversation.');
     }

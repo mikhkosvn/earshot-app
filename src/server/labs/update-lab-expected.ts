@@ -1,6 +1,7 @@
 import 'server-only';
 
 import { prisma } from '@/lib/prisma';
+import { addEventFields } from '@/server/common/logging/event-fields';
 import { withValidation } from '@/server/common/run-action';
 import { updateLabExpectedSchema } from '@/server/labs/schemas';
 import { requireLabReviewAccess } from '@/server/labs/utils/require-lab-review-access';
@@ -18,6 +19,10 @@ export const updateLabExpected = withValidation(
         expectedBoolean: parts.boolean,
         expectedText: parts.text,
       },
+    });
+    addEventFields({
+      lab_review: { id: reviewId },
+      metric: { id: review.metricId },
     });
     return { reviewId, metricId: review.metricId };
   },

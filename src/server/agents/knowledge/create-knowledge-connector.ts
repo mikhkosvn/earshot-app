@@ -5,6 +5,7 @@ import { prisma } from '@/lib/prisma';
 import { createKnowledgeConnectorSchema } from '@/server/agents/schemas';
 import type { KnowledgeConnectorFormValues } from '@/server/agents/types';
 import { requireAgentAccess } from '@/server/agents/utils/require-agent-access';
+import { addEventFields } from '@/server/common/logging/event-fields';
 import { withValidation } from '@/server/common/run-action';
 import { encryptSecret } from '@/server/crypto/encrypt-secret';
 
@@ -22,8 +23,8 @@ const sourceData = (connector: KnowledgeConnectorFormValues) => {
 export const createKnowledgeConnector = withValidation(
   createKnowledgeConnectorSchema,
   async ({ agentId, connector }) => {
-    await requireAgentAccess(agentId);
-    return prisma.knowledgeBaseConnector.create({
+    const { agent } = await requireAgentAccess(agentId);
+    const created = await prisma.knowledgeBaseConnector.create({
       data: {
         agentId,
         name: connector.name,
@@ -34,5 +35,15 @@ export const createKnowledgeConnector = withValidation(
       },
       select: { id: true, agentId: true },
     });
+    addEventFields({
+      project: { id: agent.projectId },
+      agent: { id: agentId },
+      knowledge_connector: {
+        id: created.id,
+        type: connector.type,
+        sync_enabled: connector.syncEnabled,
+      },
+    });
+    return created;
   },
 );

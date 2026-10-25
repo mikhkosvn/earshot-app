@@ -1,6 +1,7 @@
 import 'server-only';
 
 import { prisma } from '@/lib/prisma';
+import { addEventFields } from '@/server/common/logging/event-fields';
 import { withValidation } from '@/server/common/run-action';
 import {
   RunSortField,
@@ -29,6 +30,10 @@ export const listSharedRuns = withValidation(
     const result = await prisma.result.findUniqueOrThrow({
       where: { id: link.resultId },
       select: { projectId: true },
+    });
+    addEventFields({
+      result: { id: link.resultId },
+      page: { number: page, size: pageSize },
     });
     return listRunPage({
       projectId: result.projectId,

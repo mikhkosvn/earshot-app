@@ -3,6 +3,7 @@ import 'server-only';
 import { Prisma } from '@/generated/prisma/client';
 import { HistoryChangeType, MetricType } from '@/generated/prisma/enums';
 import { prisma } from '@/lib/prisma';
+import { addEventFields } from '@/server/common/logging/event-fields';
 import { ActionError, withValidation } from '@/server/common/run-action';
 import { updateMetricSchema } from '@/server/metrics/schemas';
 import { requireMetricAccess } from '@/server/metrics/utils/require-metric-access';
@@ -92,6 +93,15 @@ export const updateMetric = withValidation(
         userId: user.id,
         changeType: HistoryChangeType.updated,
       });
+    });
+    addEventFields({
+      project: { id: metric.projectId },
+      metric: {
+        id: metricId,
+        kind: resolveType(metric.type, values.type),
+        eval_type: values.evalType,
+        dependency_count: dependencyIds.length,
+      },
     });
     return { id: metricId };
   },

@@ -10,7 +10,21 @@ import {
   CALL_UPLOAD_CONTENT_TYPE,
   callUploadFormatOf,
 } from '@/server/call-logs/constants/call-upload-format';
+import { CallLogOperation } from '@/server/call-logs/constants/call-log-step';
+import { ExternalService } from '@/server/common/logging/constants';
+import { ExternalCallError } from '@/server/common/logging/errors/external-call-error';
+import { readResponseError } from '@/server/common/logging/errors/read-response-error';
+import {
+  addEventFields,
+  recordExternalCall,
+} from '@/server/common/logging/event-fields';
 import type { TranscriptionFile } from '@/server/transcription/types';
+
+const RECORDING_DOWNLOAD_CALL = {
+  service: ExternalService.file_storage,
+  operation: CallLogOperation.download_recording,
+  attempt: 1,
+};
 
 const DEFAULT_CONTENT_TYPE = 'application/octet-stream';
 const DEFAULT_FILE_NAME = 'recording';
@@ -54,22 +68,63 @@ const readLimited = async (response: Response) => {
   return data;
 };
 
+const describeFetchFailure = (error: unknown) => {
+  if (error instanceof Error) return error.message;
+  return String(error);
+};
+
+const sendDownload = async (url: URL) => {
+  try {
+    return await fetch(url, {
+      signal: AbortSignal.timeout(RECORDING_DOWNLOAD_TIMEOUT_MS),
+      redirect: 'follow',
+    });
+  } catch (error) {
+    throw new ExternalCallError(
+      {
+        ...RECORDING_DOWNLOAD_CALL,
+        message: describeFetchFailure(error),
+        retriable: true,
+      },
+      { cause: error },
+    );
+  }
+};
+
+const recordDownload = (response: Response, startedMs: number) =>
+  recordExternalCall({
+    ...RECORDING_DOWNLOAD_CALL,
+    status_code: response.status,
+    duration_ms: Math.round(performance.now() - startedMs),
+  });
+
 export const downloadRecording = async (
   recordingUrl: string,
 ): Promise<TranscriptionFile> => {
   const url = new URL(recordingUrl);
-  const response = await fetch(url, {
-    signal: AbortSignal.timeout(RECORDING_DOWNLOAD_TIMEOUT_MS),
-    redirect: 'follow',
-  });
+  const startedMs = performance.now();
+  const response = await sendDownload(url);
   if (!response.ok) {
-    throw new Error(
-      `The recording URL answered with status ${response.status}.`,
+    recordDownload(response, startedMs);
+    const responseError = await readResponseError(
+      response,
+      RECORDING_DOWNLOAD_CALL,
+    );
+    throw new ExternalCallError(
+      {
+        ...responseError.fields,
+        message: `The recording URL answered with status ${response.status}.`,
+      },
+      { cause: responseError },
     );
   }
   const fileName = fileNameOf(url);
+  const data = await readLimited(response).finally(() =>
+    recordDownload(response, startedMs),
+  );
+  addEventFields({ recording: { size_bytes: data.byteLength } });
   return {
-    data: await readLimited(response),
+    data,
     contentType: contentTypeOf(response, fileName),
     fileName,
   };

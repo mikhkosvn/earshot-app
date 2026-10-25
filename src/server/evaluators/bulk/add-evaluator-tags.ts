@@ -1,6 +1,7 @@
 import 'server-only';
 
 import { prisma } from '@/lib/prisma';
+import { addEventFields } from '@/server/common/logging/event-fields';
 import { withValidation } from '@/server/common/run-action';
 import { addEvaluatorTagsSchema } from '@/server/evaluators/schemas/evaluator-bulk';
 import { recordEvaluatorVersion } from '@/server/evaluators/utils/record-evaluator-version';
@@ -32,6 +33,14 @@ export const addEvaluatorTags = withValidation(
           changeReason: 'Tags added',
         });
       }
+      addEventFields({
+        project: { id: projectId },
+        evaluators: {
+          requested_count: evaluatorIds.length,
+          updated_count: evaluators.length,
+        },
+        tags: { count: tagIds.length },
+      });
       return { count: evaluators.length };
     });
   },

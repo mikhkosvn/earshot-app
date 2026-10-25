@@ -4,6 +4,7 @@ import { differenceInDays, subDays } from 'date-fns';
 
 import { Prisma } from '@/generated/prisma/client';
 import { prisma } from '@/lib/prisma';
+import { addEventFields } from '@/server/common/logging/event-fields';
 import { parseTimeExpression } from '@/lib/time-range/parse-time-expression';
 import type { ApiKeyAuth } from '@/server/api-keys/types';
 import {
@@ -119,6 +120,12 @@ export const listPublicCallLogs = async ({
       select: publicCallLogSelect,
     }),
   ]);
+  addEventFields({
+    organization: { id: auth.organizationId },
+    project: { id: projectId },
+    agent: { id: query.agent },
+    call_logs: { count, returned: rows.length, page, page_size: pageSize },
+  });
   return paginate({
     page,
     pageSize,

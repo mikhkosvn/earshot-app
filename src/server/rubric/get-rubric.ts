@@ -2,6 +2,7 @@ import 'server-only';
 
 import { Prisma } from '@/generated/prisma/client';
 import { prisma } from '@/lib/prisma';
+import { addEventFields } from '@/server/common/logging/event-fields';
 import { withValidation } from '@/server/common/run-action';
 import { getRubricSchema } from '@/server/rubric/schemas';
 import type { RubricView } from '@/server/rubric/types';
@@ -53,6 +54,10 @@ export const getRubric = withValidation(
         operator: rule.operator,
         value: ruleValueOf(kindById.get(metricId)!, rule),
       }));
+    addEventFields({
+      project: { id: projectId },
+      rubric: { rule_count: rules.length, metric_count: options.length },
+    });
     return { rules, metrics: options };
   },
 );

@@ -2,6 +2,7 @@ import 'server-only';
 
 import { Prisma } from '@/generated/prisma/client';
 import { prisma } from '@/lib/prisma';
+import { addEventFields } from '@/server/common/logging/event-fields';
 import { withValidation } from '@/server/common/run-action';
 import { DEEP_RESEARCH_REPORTS_SHOWN } from '@/server/insights/constants/insight-limits';
 import { projectScopeSchema } from '@/server/insights/schemas';
@@ -12,6 +13,10 @@ export const getDeepResearch = withValidation(
   projectScopeSchema,
   async ({ projectId }): Promise<DeepResearchState> => {
     const { project } = await requireProjectAccess(projectId);
+    addEventFields({
+      project: { id: projectId },
+      deep_research: { enabled: project.deepResearchEnabled },
+    });
     if (!project.deepResearchEnabled) return { enabled: false, reports: [] };
     const reports = await prisma.deepResearchInsight.findMany({
       where: { projectId },
@@ -41,6 +46,7 @@ export const getDeepResearch = withValidation(
         },
       },
     });
+    addEventFields({ deep_research: { reports: reports.length } });
     return { enabled: true, reports };
   },
 );

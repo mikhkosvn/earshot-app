@@ -7,15 +7,27 @@ import {
   NotificationEventType,
   NotificationSeverity,
 } from '@/generated/prisma/enums';
+import { EventOutcome, TriggerType } from '@/lib/logging/constants';
 import { prisma } from '@/lib/prisma';
+import { EventKind } from '@/server/common/logging/constants';
+import {
+  addEventFields,
+  recordCaughtError,
+  recordStepFailure,
+} from '@/server/common/logging/event-fields';
+import { runWithEvent } from '@/server/common/logging/run-with-event';
 import { scheduleAfterResponse } from '@/server/common/schedule-after-response';
-import { JOB_KIND_NAME, JobCompletion } from '@/server/jobs/constants';
+import { JOB_KIND_NAME, JobCompletion, JobStep } from '@/server/jobs/constants';
 import type { JobContext, StartedJob, StartJobArgs } from '@/server/jobs/types';
 
 const errorText = (error: unknown) => {
   if (error instanceof Error && error.message) return error.message;
   return 'The task failed.';
 };
+
+const JOB_OPERATION_PREFIX = 'job.';
+
+const ignoreLoggedFailure = () => undefined;
 
 const notifyFailure = async (
   args: { projectId: number; userId: number | null; kind: JobKind },
@@ -32,6 +44,48 @@ const notifyFailure = async (
       body: message,
     },
   });
+};
+
+const runJob = async <TInput extends Prisma.InputJsonValue>(
+  jobId: string,
+  args: StartJobArgs<TInput>,
+  context: JobContext<TInput>,
+  userId: number | null,
+) => {
+  try {
+    await prisma.backgroundJob.update({
+      where: { id: jobId },
+      data: { status: JobStatus.running, startedAt: new Date() },
+    });
+    await args.run(context);
+    if (args.completion === JobCompletion.external) return;
+    await prisma.backgroundJob.update({
+      where: { id: jobId },
+      data: { status: JobStatus.completed, finishedAt: new Date() },
+    });
+  } catch (error) {
+    addEventFields({ outcome: EventOutcome.failure });
+    recordCaughtError(error);
+    const message = errorText(error);
+    await prisma.backgroundJob
+      .update({
+        where: { id: jobId },
+        data: {
+          status: JobStatus.failed,
+          error: message,
+          finishedAt: new Date(),
+        },
+      })
+      .catch((updateError: unknown) =>
+        recordStepFailure(JobStep.status_write, updateError),
+      );
+    await notifyFailure(
+      { projectId: args.projectId, userId, kind: args.kind },
+      message,
+    ).catch((notifyError: unknown) =>
+      recordStepFailure(JobStep.failure_notification, notifyError),
+    );
+  }
 };
 
 export const startJob = async <TInput extends Prisma.InputJsonValue>(
@@ -69,47 +123,21 @@ export const startJob = async <TInput extends Prisma.InputJsonValue>(
     },
   };
 
-  scheduleAfterResponse(async () => {
-    try {
-      await prisma.backgroundJob.update({
-        where: { id: job.id },
-        data: { status: JobStatus.running, startedAt: new Date() },
-      });
-      await args.run(context);
-      if (args.completion === JobCompletion.external) return;
-      await prisma.backgroundJob.update({
-        where: { id: job.id },
-        data: { status: JobStatus.completed, finishedAt: new Date() },
-      });
-    } catch (error) {
-      console.error(`[jobs] The job ${job.id} failed.`, error);
-      const message = errorText(error);
-      await prisma.backgroundJob
-        .update({
-          where: { id: job.id },
-          data: {
-            status: JobStatus.failed,
-            error: message,
-            finishedAt: new Date(),
-          },
-        })
-        .catch((updateError: unknown) =>
-          console.error(
-            `[jobs] The job ${job.id} status write failed.`,
-            updateError,
-          ),
-        );
-      await notifyFailure(
-        { projectId: args.projectId, userId, kind: args.kind },
-        message,
-      ).catch((notifyError: unknown) =>
-        console.error(
-          `[jobs] The failure notification of job ${job.id} failed.`,
-          notifyError,
-        ),
-      );
-    }
-  });
+  scheduleAfterResponse(() =>
+    runWithEvent(
+      {
+        kind: EventKind.job,
+        operation: `${JOB_OPERATION_PREFIX}${args.kind}`,
+        trigger: TriggerType.programmatic,
+        fields: {
+          job: { id: job.id, kind: args.kind },
+          project: { id: args.projectId },
+          user: { id: userId },
+        },
+      },
+      () => runJob(job.id, args, context, userId),
+    ).catch(ignoreLoggedFailure),
+  );
 
   return { jobId: job.id };
 };

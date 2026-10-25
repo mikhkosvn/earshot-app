@@ -4,6 +4,7 @@ import { format } from 'date-fns';
 
 import { Prisma } from '@/generated/prisma/client';
 import { prisma } from '@/lib/prisma';
+import { addEventFields } from '@/server/common/logging/event-fields';
 import { withValidation } from '@/server/common/run-action';
 import {
   EvaluatorExportFormat,
@@ -37,6 +38,14 @@ export const exportEvaluators = withValidation(
       where: { projectId, id: { in: evaluatorIds } },
       select: exportSourceSelect,
       orderBy: { id: Prisma.SortOrder.asc },
+    });
+    addEventFields({
+      project: { id: projectId },
+      evaluators: {
+        requested_count: evaluatorIds.length,
+        count: sources.length,
+      },
+      export: { format: exportFormat },
     });
     const file: EvaluatorFile = {
       fileName: `scenarios-export-${format(new Date(), 'yyyy-MM-dd')}.${exportFormat}`,

@@ -14,3 +14,10 @@ export const DailyReportOutcome = {
 
 export type DailyReportOutcome =
   (typeof DailyReportOutcome)[keyof typeof DailyReportOutcome];
+
+export const DailyReportStep = {
+  project_delivery: 'daily_report.project_delivery',
+} as const;
+
+export type DailyReportStep =
+  (typeof DailyReportStep)[keyof typeof DailyReportStep];

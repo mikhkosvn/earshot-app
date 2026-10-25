@@ -1,6 +1,7 @@
 import 'server-only';
 
 import { prisma } from '@/lib/prisma';
+import { addEventFields } from '@/server/common/logging/event-fields';
 import { ActionError, withValidation } from '@/server/common/run-action';
 import { removeMemberSchema } from '@/server/members/schemas';
 import { assertNotLastAdmin } from '@/server/members/utils/assert-not-last-admin';
@@ -15,6 +16,10 @@ export const removeMember = withValidation(
     }
     await assertNotLastAdmin(member);
     await prisma.organizationMember.delete({ where: { id: member.id } });
+    addEventFields({
+      member: { id: member.id, role: member.role },
+      organization: { id: member.organizationId },
+    });
     return { id: member.id, organizationId: member.organizationId };
   },
 );

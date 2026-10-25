@@ -23,39 +23,53 @@ import type {
   SharedView,
   ShareLinkTokenInput,
 } from '@/server/share-links/types';
+import { ShareLinksActionOperation } from '@/server/share-links/actions/action-operation';
+import { withActionEvent } from '@/server/common/logging/with-action-event';
 
 export async function createShareLinkAction(
   args: CreateShareLinkInput,
 ): Promise<ActionResult<CreatedShareLink>> {
-  return runAction(() => createShareLink(args));
+  return withActionEvent(ShareLinksActionOperation.createShareLink, () =>
+    runAction(() => createShareLink(args)),
+  );
 }
 
 export async function getSharedViewAction(
   args: ShareLinkTokenInput,
 ): Promise<SharedView | null> {
-  return getSharedView(args);
+  return withActionEvent(ShareLinksActionOperation.getSharedView, () =>
+    getSharedView(args),
+  );
 }
 
 export async function getSharedResultAction(
   args: ShareLinkTokenInput,
 ): Promise<ResultDetail> {
-  return getSharedResult(args);
+  return withActionEvent(ShareLinksActionOperation.getSharedResult, () =>
+    getSharedResult(args),
+  );
 }
 
 export async function listSharedRunsAction(
   args: SharedRunsInput,
 ): Promise<RunListPage> {
-  return listSharedRuns(args);
+  return withActionEvent(ShareLinksActionOperation.listSharedRuns, () =>
+    listSharedRuns(args),
+  );
 }
 
 export async function getSharedRunAction(
   args: SharedRunInput,
 ): Promise<RunDetail> {
-  return getSharedRun(args);
+  return withActionEvent(ShareLinksActionOperation.getSharedRun, () =>
+    getSharedRun(args),
+  );
 }
 
 export async function getSharedConversationAction(
   args: SharedConversationInput,
 ): Promise<ConversationDetail> {
-  return getSharedConversation(args);
+  return withActionEvent(ShareLinksActionOperation.getSharedConversation, () =>
+    getSharedConversation(args),
+  );
 }

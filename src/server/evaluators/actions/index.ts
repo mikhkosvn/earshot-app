@@ -54,6 +54,8 @@ import type {
 } from '@/server/evaluators/types';
 import { listEvaluatorVersions } from '@/server/evaluators/versions/list-evaluator-versions';
 import { restoreEvaluatorVersion } from '@/server/evaluators/versions/restore-evaluator-version';
+import { EvaluatorsActionOperation } from '@/server/evaluators/actions/action-operation';
+import { withActionEvent } from '@/server/common/logging/with-action-event';
 
 interface CountResult {
   count: number;
@@ -66,131 +68,180 @@ interface CreatedEvaluator {
 export async function listEvaluatorsAction(
   args: ListEvaluatorsInput,
 ): Promise<EvaluatorListPage> {
-  return listEvaluators(args);
+  return withActionEvent(EvaluatorsActionOperation.listEvaluators, () =>
+    listEvaluators(args),
+  );
 }
 
 export async function getEvaluatorAction(
   args: GetEvaluatorInput,
 ): Promise<EvaluatorDetail> {
-  return getEvaluator(args);
+  return withActionEvent(EvaluatorsActionOperation.getEvaluator, () =>
+    getEvaluator(args),
+  );
 }
 
 export async function listEvaluatorVersionsAction(
   args: GetEvaluatorInput,
 ): Promise<EvaluatorVersionView[]> {
-  return listEvaluatorVersions(args);
+  return withActionEvent(EvaluatorsActionOperation.listEvaluatorVersions, () =>
+    listEvaluatorVersions(args),
+  );
 }
 
 export async function listAgentOptionsAction(
   args: ProjectScopeInput,
 ): Promise<AgentOption[]> {
-  return listAgentOptions(args);
+  return withActionEvent(EvaluatorsActionOperation.listAgentOptions, () =>
+    listAgentOptions(args),
+  );
 }
 
 export async function listPersonalityOptionsAction(
   args: ProjectScopeInput,
 ): Promise<PersonalityOption[]> {
-  return listPersonalityOptions(args);
+  return withActionEvent(EvaluatorsActionOperation.listPersonalityOptions, () =>
+    listPersonalityOptions(args),
+  );
 }
 
 export async function listMetricOptionsAction(
   args: ProjectScopeInput,
 ): Promise<MetricOption[]> {
-  return listMetricOptions(args);
+  return withActionEvent(EvaluatorsActionOperation.listMetricOptions, () =>
+    listMetricOptions(args),
+  );
 }
 
 export async function listPhoneNumberOptionsAction(
   args: ProjectScopeInput,
 ): Promise<PhoneNumberOption[]> {
-  return listPhoneNumberOptions(args);
+  return withActionEvent(EvaluatorsActionOperation.listPhoneNumberOptions, () =>
+    listPhoneNumberOptions(args),
+  );
 }
 
 export async function listProjectOptionsAction(
   args: ProjectScopeInput,
 ): Promise<ProjectOption[]> {
-  return listProjectOptions(args);
+  return withActionEvent(EvaluatorsActionOperation.listProjectOptions, () =>
+    listProjectOptions(args),
+  );
 }
 
 export async function getAgentEvaluatorDefaultsAction(
   args: AgentScopeInput,
 ): Promise<AgentEvaluatorDefaults> {
-  return getAgentDefaults(args);
+  return withActionEvent(
+    EvaluatorsActionOperation.getAgentEvaluatorDefaults,
+    () => getAgentDefaults(args),
+  );
 }
 
 export async function createEvaluatorAction(
   args: CreateEvaluatorInput,
 ): Promise<ActionResult<CreatedEvaluator>> {
-  return runAction(() => createEvaluator(args));
+  return withActionEvent(EvaluatorsActionOperation.createEvaluator, () =>
+    runAction(() => createEvaluator(args)),
+  );
 }
 
 export async function updateEvaluatorAction(
   args: UpdateEvaluatorInput,
 ): Promise<ActionResult<EvaluatorDetail>> {
-  return runAction(() => updateEvaluator(args));
+  return withActionEvent(EvaluatorsActionOperation.updateEvaluator, () =>
+    runAction(() => updateEvaluator(args)),
+  );
 }
 
 export async function restoreEvaluatorVersionAction(
   args: RestoreEvaluatorVersionInput,
 ): Promise<ActionResult<EvaluatorDetail>> {
-  return runAction(() => restoreEvaluatorVersion(args));
+  return withActionEvent(
+    EvaluatorsActionOperation.restoreEvaluatorVersion,
+    () => runAction(() => restoreEvaluatorVersion(args)),
+  );
 }
 
 export async function deleteEvaluatorsAction(
   args: EvaluatorSelectionInput,
 ): Promise<ActionResult<CountResult>> {
-  return runAction(() => deleteEvaluators(args));
+  return withActionEvent(EvaluatorsActionOperation.deleteEvaluators, () =>
+    runAction(() => deleteEvaluators(args)),
+  );
 }
 
 export async function addEvaluatorTagsAction(
   args: AddEvaluatorTagsInput,
 ): Promise<ActionResult<CountResult>> {
-  return runAction(() => addEvaluatorTags(args));
+  return withActionEvent(EvaluatorsActionOperation.addEvaluatorTags, () =>
+    runAction(() => addEvaluatorTags(args)),
+  );
 }
 
 export async function moveEvaluatorsAction(
   args: MoveEvaluatorsInput,
 ): Promise<ActionResult<CountResult & { folderPath: string }>> {
-  return runAction(() => moveEvaluators(args));
+  return withActionEvent(EvaluatorsActionOperation.moveEvaluators, () =>
+    runAction(() => moveEvaluators(args)),
+  );
 }
 
 export async function duplicateEvaluatorsAction(
   args: DuplicateEvaluatorsInput,
 ): Promise<ActionResult<CountResult & { evaluatorIds: number[] }>> {
-  return runAction(() => duplicateEvaluators(args));
+  return withActionEvent(EvaluatorsActionOperation.duplicateEvaluators, () =>
+    runAction(() => duplicateEvaluators(args)),
+  );
 }
 
 export async function modifyEvaluatorsAction(
   args: ModifyEvaluatorsInput,
 ): Promise<ActionResult<CountResult>> {
-  return runAction(() => modifyEvaluators(args));
+  return withActionEvent(EvaluatorsActionOperation.modifyEvaluators, () =>
+    runAction(() => modifyEvaluators(args)),
+  );
 }
 
 export async function exportEvaluatorsAction(
   args: ExportEvaluatorsInput,
 ): Promise<ActionResult<EvaluatorFile>> {
-  return runAction(() => exportEvaluators(args));
+  return withActionEvent(EvaluatorsActionOperation.exportEvaluators, () =>
+    runAction(() => exportEvaluators(args)),
+  );
 }
 
 export async function improveEvaluatorTextAction(
   args: ImproveEvaluatorTextInput,
 ): Promise<ActionResult<{ text: string }>> {
-  return runAction(() => improveEvaluatorText(args));
+  return withActionEvent(EvaluatorsActionOperation.improveEvaluatorText, () =>
+    runAction(() => improveEvaluatorText(args)),
+  );
 }
 
 export async function proposeEvaluatorImprovementsAction(
   args: ProposeEvaluatorImprovementsInput,
 ): Promise<ActionResult<EvaluatorImprovementReply>> {
-  return runAction(() => proposeEvaluatorImprovements(args));
+  return withActionEvent(
+    EvaluatorsActionOperation.proposeEvaluatorImprovements,
+    () => runAction(() => proposeEvaluatorImprovements(args)),
+  );
 }
 
 export async function applyEvaluatorImprovementsAction(
   args: ApplyEvaluatorImprovementsInput,
 ): Promise<ActionResult<CountResult>> {
-  return runAction(() => applyEvaluatorImprovements(args));
+  return withActionEvent(
+    EvaluatorsActionOperation.applyEvaluatorImprovements,
+    () => runAction(() => applyEvaluatorImprovements(args)),
+  );
 }
 
 export async function createEvaluatorFromTranscriptAction(
   args: CreateEvaluatorFromTranscriptInput,
 ): Promise<ActionResult<CreatedEvaluator>> {
-  return runAction(() => createEvaluatorFromTranscript(args));
+  return withActionEvent(
+    EvaluatorsActionOperation.createEvaluatorFromTranscript,
+    () => runAction(() => createEvaluatorFromTranscript(args)),
+  );
 }

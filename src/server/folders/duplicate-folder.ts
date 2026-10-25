@@ -2,6 +2,7 @@ import 'server-only';
 
 import type { Prisma } from '@/generated/prisma/client';
 import { prisma } from '@/lib/prisma';
+import { addEventFields } from '@/server/common/logging/event-fields';
 import { withValidation } from '@/server/common/run-action';
 import { copyEvaluators } from '@/server/evaluators/utils/copy-evaluator';
 import { FOLDER_COPY_SUFFIX } from '@/server/folders/constants';
@@ -62,6 +63,13 @@ export const duplicateFolder = withValidation(
           namePrefix: '',
         },
       );
+      addEventFields({
+        folder: {
+          id: folder.id,
+          source_id: source.id,
+          evaluator_count: createdIds.length,
+        },
+      });
       return { path: folder.path, evaluatorCount: createdIds.length };
     });
   },

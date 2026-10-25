@@ -1,6 +1,7 @@
 import 'server-only';
 
 import { prisma } from '@/lib/prisma';
+import { addEventFields } from '@/server/common/logging/event-fields';
 import { withValidation } from '@/server/common/run-action';
 import {
   patternReviewSelect,
@@ -17,6 +18,7 @@ export const getPatternReview = withValidation(
       where: { id: reviewId },
       select: patternReviewSelect,
     });
+    addEventFields({ pattern_review: { id: reviewId, status: row.status } });
     return toPatternReviewView(row);
   },
 );

@@ -5,6 +5,7 @@ import { startOfDay } from 'date-fns';
 import { Prisma } from '@/generated/prisma/client';
 import { EvaluationConsumer } from '@/generated/prisma/enums';
 import { prisma } from '@/lib/prisma';
+import { addEventFields } from '@/server/common/logging/event-fields';
 import {
   readEvaluationCursor,
   settledPrefix,
@@ -86,5 +87,12 @@ export const triageNewFailures = async () => {
     );
   }
   await writeEvaluationCursor(EvaluationConsumer.insight_triage, last.id);
+  addEventFields({
+    insight_triage: {
+      evaluations: ready.length,
+      metrics: configs.length,
+      triaged,
+    },
+  });
   return { triaged };
 };

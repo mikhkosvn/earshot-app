@@ -2,6 +2,7 @@ import 'server-only';
 
 import { Prisma } from '@/generated/prisma/client';
 import { prisma } from '@/lib/prisma';
+import { addEventFields } from '@/server/common/logging/event-fields';
 import { withValidation } from '@/server/common/run-action';
 import { listGenerationSessionsSchema } from '@/server/evaluator-generation/schemas';
 import type { GenerationSessionSummary } from '@/server/evaluator-generation/types';
@@ -26,6 +27,7 @@ export const listGenerationSessions = withValidation(
         _count: { select: { evaluators: true } },
       },
     });
+    addEventFields({ generation_sessions: { count: rows.length } });
     return rows.map((row) => ({
       id: row.id,
       title: row.title,

@@ -1,6 +1,7 @@
 import 'server-only';
 
 import { prisma } from '@/lib/prisma';
+import { addEventFields } from '@/server/common/logging/event-fields';
 import { withValidation } from '@/server/common/run-action';
 import { requireProjectAccess } from '@/server/projects/utils/require-project-access';
 import { createTestProfileSchema } from '@/server/test-profiles/schemas';
@@ -36,6 +37,15 @@ export const createTestProfile = withValidation(
           },
         },
         select: testProfileViewSelect,
+      });
+      addEventFields({
+        project: { id: projectId },
+        agent: { id: agentId },
+        test_profile: {
+          id: row.id,
+          variable_count:
+            mainAgentVariables.length + testingAgentVariables.length,
+        },
       });
       return toTestProfileView(row);
     });

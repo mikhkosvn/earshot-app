@@ -1,6 +1,7 @@
 import 'server-only';
 
 import { prisma } from '@/lib/prisma';
+import { addEventFields } from '@/server/common/logging/event-fields';
 import { withValidation } from '@/server/common/run-action';
 import { dismissAllJobsSchema } from '@/server/jobs/schemas';
 import { requireProjectAccess } from '@/server/projects/utils/require-project-access';
@@ -18,6 +19,7 @@ export const dismissAllJobs = withValidation(
       },
       data: { dismissedAt: new Date() },
     });
+    addEventFields({ jobs: { kinds, dismissed: count } });
     return { count };
   },
 );

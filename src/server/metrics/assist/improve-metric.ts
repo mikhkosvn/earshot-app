@@ -3,6 +3,7 @@ import 'server-only';
 import { MetricEvalType } from '@/generated/prisma/enums';
 import { prisma } from '@/lib/prisma';
 import { generateObject } from '@/server/ai/generate-object';
+import { addEventFields } from '@/server/common/logging/event-fields';
 import { withValidation } from '@/server/common/run-action';
 import { MetricFormType } from '@/server/metrics/constants/definition/metric-form-type';
 import {
@@ -59,6 +60,11 @@ export const improveMetric = withValidation(
     const agent = await prisma.agent.findUniqueOrThrow({
       where: { id: agentId, projectId },
       select: { name: true, description: true },
+    });
+    addEventFields({
+      project: { id: projectId },
+      agent: { id: agentId },
+      metric: { kind: type, eval_type: evalType },
     });
     return generateObject({
       system: SYSTEM_PROMPT,
