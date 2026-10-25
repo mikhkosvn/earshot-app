@@ -2,6 +2,7 @@ import 'server-only';
 
 import { registerWorkerTask } from '@/server/worker/registry';
 import { alertEvaluationTask } from '@/server/worker/tasks/alert-evaluation-task';
+import { dailyReportTask } from '@/server/worker/tasks/daily-report-task';
 import { deepResearchTask } from '@/server/worker/tasks/deep-research-task';
 import { dispatchRunsTask } from '@/server/worker/tasks/dispatch-runs-task';
 import { failStaleJobsTask } from '@/server/worker/tasks/fail-stale-jobs-task';
@@ -21,4 +22,5 @@ export const registerWorkerTasks = () => {
   registerWorkerTask(insightTriageTask);
   registerWorkerTask(deepResearchTask);
   registerWorkerTask(observabilityNotificationsTask);
+  registerWorkerTask(dailyReportTask);
 };
