@@ -5,6 +5,7 @@ import type {
   MetricEvaluationStatus,
   TranscriptRole,
 } from '@/generated/prisma/enums';
+import type { ConversationSource } from '@/server/conversations/constants/conversation-source';
 import type { MetricValue } from '@/server/metrics/types';
 import type { getConversationSchema } from '@/server/conversations/schemas';
 
@@ -50,6 +51,7 @@ export type ConversationMetadataTile = {
 export type ConversationDetail = {
   id: number;
   projectId: number;
+  source: ConversationSource;
   recordingUrl: string | null;
   recordingDownloadUrl: string | null;
   waveform: ConversationWaveformView | null;

@@ -14,6 +14,7 @@ export function ConversationMetadataCard({
   shareToken = null,
 }: ConversationMetadataCardProps) {
   const { metadata } = useConversation({ conversationId, shareToken });
+  if (metadata.length === 0) return null;
 
   return (
     <ViewerCollapsibleCard

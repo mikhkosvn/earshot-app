@@ -6,6 +6,7 @@ import { CopyButton } from '@/components/common/clipboard/copy-button';
 import { TranscriptRole } from '@/generated/prisma/enums';
 import { cn } from '@/lib/utils';
 import { TranscriptRoleLabel } from '@/server/conversations/constants/transcript-role-labels';
+import type { ConversationSource } from '@/server/conversations/constants/conversation-source';
 import type { ConversationTurnItem } from '@/server/conversations/types';
 
 import { formatTurnTime } from '../_utils/format-time';
@@ -28,27 +29,27 @@ const BUBBLE_CLASS: Record<TranscriptRole, string> = {
 
 type TranscriptMessageProps = {
   turn: ConversationTurnItem;
+  source: ConversationSource;
   active: boolean;
   audioRef: RefObject<HTMLAudioElement | null>;
 };
 
 export function TranscriptMessage({
   turn,
+  source,
   active,
   audioRef,
 }: TranscriptMessageProps) {
   return (
     <li className={cn('group flex flex-col gap-1', ITEM_CLASS[turn.role])}>
-      <div
-        className={cn('flex items-center gap-2', HEADER_CLASS[turn.role])}
-      >
+      <div className={cn('flex items-center gap-2', HEADER_CLASS[turn.role])}>
         <span className="text-sm font-medium">
           {TranscriptRoleLabel[turn.role]}
         </span>
         <span className="font-mono text-[11px] text-muted-foreground">
-          {formatTurnTime(turn.startTime)}
+          {formatTurnTime(turn.startTime, source)}
         </span>
-        <div className="flex items-center opacity-0 transition-opacity group-hover:opacity-100 group-focus-within:opacity-100">
+        <div className="flex items-center opacity-0 transition-opacity group-focus-within:opacity-100 group-hover:opacity-100">
           <TurnPlayButton turn={turn} audioRef={audioRef} />
           <CopyButton value={turn.content} label="Copy message" />
         </div>

@@ -19,7 +19,7 @@ export function TranscriptMessages({
   audioRef,
   currentTime,
 }: TranscriptMessagesProps) {
-  const { turns } = useConversation(query);
+  const { turns, source } = useConversation(query);
   if (turns.length === 0) return <TranscriptEmpty />;
 
   return (
@@ -28,6 +28,7 @@ export function TranscriptMessages({
         <TranscriptMessage
           key={turn.id}
           turn={turn}
+          source={source}
           active={isActiveTurn(turn, currentTime)}
           audioRef={audioRef}
         />

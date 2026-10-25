@@ -11,7 +11,7 @@ type TranscriptHeaderProps = {
 };
 
 export function TranscriptHeader({ query }: TranscriptHeaderProps) {
-  const { turns } = useConversation(query);
+  const { turns, source } = useConversation(query);
 
   return (
     <div className="flex items-center justify-between border-b px-3">
@@ -19,7 +19,7 @@ export function TranscriptHeader({ query }: TranscriptHeaderProps) {
         Transcript
       </span>
       <CopyButton
-        value={transcriptText(turns)}
+        value={transcriptText(turns, source)}
         label="Copy transcript"
         className="size-7"
       />
