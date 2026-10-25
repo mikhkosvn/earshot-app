@@ -1,0 +1,5 @@
+export const MONITOR_SCHEDULER_INTERVAL_MS = 30_000;
+
+export const MONITOR_CLAIM_LIMIT = 20;
+
+export const MONITOR_RUN_START_TIMEOUT_MS = 10 * 60 * 1000;

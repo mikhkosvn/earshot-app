@@ -1,5 +1,7 @@
 'use client';
 
+import { Suspense } from 'react';
+
 import {
   Dialog,
   DialogContent,
@@ -9,31 +11,34 @@ import {
 } from '@/components/ui/dialog';
 
 import { EDIT_MONITOR_SUBTITLE } from './_constants/monitor-dialog-text';
-import { EditMonitorDialogBody } from './edit-monitor-dialog-body';
+import { EditMonitorForm } from './edit-monitor-form';
+import { MonitorFormSkeleton } from './monitor-form-skeleton';
 
 type EditMonitorDialogProps = {
-  monitorId: number | null;
-  onClose: () => void;
+  monitorId: number;
+  open: boolean;
+  onOpenChange: (open: boolean) => void;
 };
 
 export function EditMonitorDialog({
   monitorId,
-  onClose,
+  open,
+  onOpenChange,
 }: EditMonitorDialogProps) {
   return (
-    <Dialog
-      open={monitorId !== null}
-      onOpenChange={(open) => {
-        if (open) return;
-        onClose();
-      }}
-    >
+    <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="flex max-h-[min(90vh,56rem)] flex-col gap-0 overflow-hidden p-0 sm:max-w-4xl">
         <DialogHeader className="gap-1 border-b px-4 py-3">
           <DialogTitle>Edit monitor</DialogTitle>
           <DialogDescription>{EDIT_MONITOR_SUBTITLE}</DialogDescription>
         </DialogHeader>
-        <EditMonitorDialogBody monitorId={monitorId} onSaved={onClose} />
+        <Suspense fallback={<MonitorFormSkeleton />}>
+          <EditMonitorForm
+            key={String(open)}
+            monitorId={monitorId}
+            onSaved={() => onOpenChange(false)}
+          />
+        </Suspense>
       </DialogContent>
     </Dialog>
   );

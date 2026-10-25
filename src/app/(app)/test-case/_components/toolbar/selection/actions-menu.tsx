@@ -1,6 +1,7 @@
 'use client';
 
 import {
+  ActivityIcon,
   CopyIcon,
   FolderInputIcon,
   PlusIcon,
@@ -9,6 +10,7 @@ import {
 } from 'lucide-react';
 import { useState } from 'react';
 
+import { CreateMonitorDialog } from '@/components/common/monitor-dialog/create-monitor-dialog';
 import { Button } from '@/components/ui/button';
 import {
   DropdownMenu,
@@ -33,6 +35,7 @@ export function ActionsMenu({
   onSelectionChange,
 }: ActionsMenuProps) {
   const [dialog, setDialog] = useState<EvaluatorActionDialog | null>(null);
+  const [monitorOpen, setMonitorOpen] = useState(false);
   const closeDialog = (open: boolean) => {
     if (!open) setDialog(null);
   };
@@ -77,6 +80,10 @@ export function ActionsMenu({
             <FolderInputIcon />
             Move to Folder
           </DropdownMenuItem>
+          <DropdownMenuItem onClick={() => setMonitorOpen(true)}>
+            <ActivityIcon />
+            Create monitor
+          </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
       <AddTagsDialog
@@ -99,6 +106,11 @@ export function ActionsMenu({
         onOpenChange={closeDialog}
         evaluatorIds={selectedIds}
         onMoved={() => onSelectionChange([])}
+      />
+      <CreateMonitorDialog
+        open={monitorOpen}
+        onOpenChange={setMonitorOpen}
+        evaluatorIds={selectedIds}
       />
     </>
   );
