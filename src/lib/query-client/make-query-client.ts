@@ -4,12 +4,21 @@ import {
   type MutationCache,
 } from '@tanstack/react-query';
 
-export const makeQueryClient = (mutationCache?: MutationCache) =>
+type MakeQueryClientArgs = {
+  mutationCache?: MutationCache;
+  queryRetry?: number;
+};
+
+export const makeQueryClient = ({
+  mutationCache,
+  queryRetry,
+}: MakeQueryClientArgs = {}) =>
   new QueryClient({
     mutationCache,
     defaultOptions: {
       queries: {
         staleTime: 60 * 1000,
+        retry: queryRetry,
       },
       dehydrate: {
         shouldDehydrateQuery: (query) =>
