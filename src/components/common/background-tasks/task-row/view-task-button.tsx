@@ -4,12 +4,16 @@ import type { Route } from 'next';
 import Link from 'next/link';
 
 import { Button } from '@/components/ui/button';
+import type { JobKind } from '@/generated/prisma/enums';
+
+import { viewTaskLabel } from '../_utils/panel-labels';
 
 type ViewTaskButtonProps = {
   deepLink: string | undefined;
+  kind: JobKind;
 };
 
-export function ViewTaskButton({ deepLink }: ViewTaskButtonProps) {
+export function ViewTaskButton({ deepLink, kind }: ViewTaskButtonProps) {
   if (!deepLink) return null;
 
   return (
@@ -20,7 +24,7 @@ export function ViewTaskButton({ deepLink }: ViewTaskButtonProps) {
       nativeButton={false}
       render={<Link href={deepLink as Route} />}
     >
-      View
+      {viewTaskLabel(kind)}
     </Button>
   );
 }

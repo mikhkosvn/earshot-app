@@ -1,6 +1,6 @@
 import { JobKind, JobStatus } from '@/generated/prisma/enums';
 
-export const JOB_KIND_TITLE: Record<JobKind, string> = {
+export const JOB_KIND_NAME: Record<JobKind, string> = {
   [JobKind.metric_generation]: 'Metric Generation',
   [JobKind.metric_pattern_review]: 'Metric Review',
   [JobKind.evaluator_generation]: 'Evaluator Generation',
@@ -11,6 +11,13 @@ export const JOB_KIND_TITLE: Record<JobKind, string> = {
   [JobKind.metric_optimization]: 'Metric Optimization',
   [JobKind.insight_generation]: 'Insight Generation',
   [JobKind.call_import]: 'Call Import',
+};
+
+export const JOB_KIND_TITLE: Record<JobKind, string> = {
+  ...JOB_KIND_NAME,
+  [JobKind.evaluator_generation]: 'Simulation Progress',
+  [JobKind.export]: 'CSV Exports',
+  [JobKind.metric_optimization]: 'Auto Improve',
 };
 
 export const JOB_STALE_ERROR = 'The task ran longer than 15 minutes.';
