@@ -1,9 +1,16 @@
-import { PageHeader } from '@/components/common/page-header/page-header';
+import { Suspense } from 'react';
 
-export default function AgentSettingsPage() {
+import { AgentSettingsData } from './_components/agent-settings-data';
+import { AgentSettingsSkeleton } from './_components/agent-settings-skeleton';
+
+export default function AgentSettingsPage({
+  params,
+}: PageProps<'/agents/[agentId]'>) {
   return (
-    <div className="flex flex-col gap-2 p-3">
-      <PageHeader title="Agent Settings" />
+    <div className="p-3">
+      <Suspense fallback={<AgentSettingsSkeleton />}>
+        <AgentSettingsData params={params} />
+      </Suspense>
     </div>
   );
 }
