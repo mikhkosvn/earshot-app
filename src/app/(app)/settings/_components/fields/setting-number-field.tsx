@@ -1,6 +1,6 @@
 'use client';
 
-import type { ReactNode } from 'react';
+import { type ReactNode, useId } from 'react';
 import {
   Controller,
   useFormContext,
@@ -31,7 +31,7 @@ export function SettingNumberField<Values extends FieldValues>({
   step = 1,
 }: SettingNumberFieldProps<Values>) {
   const { control } = useFormContext<Values>();
-  const id = `setting-${name}`;
+  const id = useId();
 
   return (
     <Controller

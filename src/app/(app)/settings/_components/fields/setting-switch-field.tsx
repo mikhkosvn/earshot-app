@@ -1,6 +1,6 @@
 'use client';
 
-import type { ReactNode } from 'react';
+import { type ReactNode, useId } from 'react';
 import {
   Controller,
   useFormContext,
@@ -25,7 +25,7 @@ export function SettingSwitchField<Values extends FieldValues>({
   description,
 }: SettingSwitchFieldProps<Values>) {
   const { control } = useFormContext<Values>();
-  const id = `setting-${name}`;
+  const id = useId();
 
   return (
     <Controller
