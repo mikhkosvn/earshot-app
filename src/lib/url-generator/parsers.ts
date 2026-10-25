@@ -73,6 +73,11 @@ export const monitorsParser = {
 export const callsParser = {
   ...paginationParser,
   callId: parseAsInteger,
+  search: parseAsString,
+  view: parseAsInteger,
+  from: parseAsString,
+  to: parseAsString,
+  filters: parseAsString,
 };
 
 export const alertsParser = {
