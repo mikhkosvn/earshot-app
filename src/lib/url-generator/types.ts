@@ -11,11 +11,13 @@ import type {
   callsParser,
   evaluatorCreateParser,
   evaluatorsParser,
+  fileParser,
   metricsParser,
   monitorsParser,
   personalityParser,
   projectParser,
   resultParser,
+  resultReportParser,
   resultsParser,
   runsOverviewParser,
 } from './parsers';
@@ -87,7 +89,16 @@ export type DashboardType = ProjectScopedType & {
 
 export type FileType = {
   fileId: string;
-};
+} & TypedLinkProps<typeof fileParser>;
+
+export type ShareFileType = {
+  token: string;
+  fileId: string;
+} & TypedLinkProps<typeof fileParser>;
+
+export type ResultReportType = ProjectScopedType & {
+  resultId: number;
+} & TypedLinkProps<typeof resultReportParser>;
 
 export type ShareType = {
   token: string;

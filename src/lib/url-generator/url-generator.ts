@@ -6,11 +6,13 @@ import {
   callsParser,
   evaluatorCreateParser,
   evaluatorsParser,
+  fileParser,
   metricsParser,
   monitorsParser,
   personalityParser,
   projectParser,
   resultParser,
+  resultReportParser,
   resultsParser,
   runsOverviewParser,
 } from './parsers';
@@ -34,9 +36,11 @@ import type {
   PersonalityType,
   ProjectQueryType,
   ProjectScopedType,
+  ResultReportType,
   ResultsType,
   ResultType,
   RunsOverviewType,
+  ShareFileType,
   ShareType,
 } from './types';
 
@@ -277,8 +281,33 @@ export class UrlGenerator {
     return '/settings/about/third-party-notices' as Route;
   }
 
-  static file({ fileId }: FileType) {
-    return `/api/files/${fileId}` as Route;
+  static file({ fileId, options, values }: FileType) {
+    return createTypedLink(
+      `/api/files/${fileId}` as Route,
+      fileParser,
+      options,
+    )(values);
+  }
+
+  static shareFile({ token, fileId, options, values }: ShareFileType) {
+    return createTypedLink(
+      `/api/share/${token}/files/${fileId}` as Route,
+      fileParser,
+      options,
+    )(values);
+  }
+
+  static resultReport({
+    projectId,
+    resultId,
+    options,
+    values,
+  }: ResultReportType) {
+    return createTypedLink(
+      `/${projectId}/results/${resultId}/report` as Route,
+      resultReportParser,
+      options,
+    )(values);
   }
 
   static share({ token }: ShareType) {
