@@ -1,13 +1,15 @@
 'use client';
 
-import { Suspense } from 'react';
+import dynamic from 'next/dynamic';
 
-import { BackgroundTaskPanelStack } from './background-task-panel-stack';
+const BackgroundTaskPanelStack = dynamic(
+  () =>
+    import('./background-task-panel-stack').then(
+      (module) => module.BackgroundTaskPanelStack,
+    ),
+  { ssr: false },
+);
 
 export function BackgroundTaskPanels() {
-  return (
-    <Suspense fallback={null}>
-      <BackgroundTaskPanelStack />
-    </Suspense>
-  );
+  return <BackgroundTaskPanelStack />;
 }

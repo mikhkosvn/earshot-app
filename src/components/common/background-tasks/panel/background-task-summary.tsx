@@ -1,6 +1,5 @@
 'use client';
 
-import { useCurrentProjectId } from '@/app/(app)/_hooks/use-current-project-id';
 import { Button } from '@/components/ui/button';
 import type { JobKind } from '@/generated/prisma/enums';
 import { useDismissAllJobsMutation } from '@/hooks/jobs/use-dismiss-all-jobs-mutation';
@@ -19,15 +18,14 @@ export function BackgroundTaskSummary({
   hiddenBefore,
   onDismiss,
 }: BackgroundTaskSummaryProps) {
-  const projectId = useCurrentProjectId();
-  const count = panelJobs(useRecentJobs(), kind, hiddenBefore).length;
+  const jobs = panelJobs(useRecentJobs(), kind, hiddenBefore);
   const dismissAll = useDismissAllJobsMutation();
 
-  if (count === 0) return null;
+  if (jobs.length === 0) return null;
 
   const clearAll = () =>
     dismissAll.mutate(
-      { projectId, kinds: [kind] },
+      { projectId: jobs[0].projectId, kinds: [kind] },
       {
         onSuccess: (result) => {
           if (!result.ok) return;
@@ -39,7 +37,7 @@ export function BackgroundTaskSummary({
   return (
     <div className="flex items-center justify-between border-b bg-muted/50 px-3 py-1.5">
       <span className="text-xs font-medium text-muted-foreground uppercase">
-        Recent ({count})
+        Recent ({jobs.length})
       </span>
       <Button
         variant="link"
