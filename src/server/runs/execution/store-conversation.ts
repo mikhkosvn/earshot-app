@@ -1,9 +1,16 @@
 import 'server-only';
 
 import { Prisma } from '@/generated/prisma/client';
+import { RunStatus } from '@/generated/prisma/enums';
 import { prisma } from '@/lib/prisma';
 import type { CallRecording, PlacedCall } from '@/server/call-engine/types';
+import {
+  CALL_UPLOAD_CONTENT_TYPE,
+  CallUploadFormat,
+} from '@/server/call-logs/constants/call-upload-format';
+import { deleteFile } from '@/server/files/delete-file';
 import { saveFile } from '@/server/files/save-file';
+import { WAV_CONTENT_TYPES } from '@/server/transcription/constants';
 
 interface StoreConversationArgs {
   projectId: number;
@@ -14,7 +21,17 @@ interface StoreConversationArgs {
 }
 
 const RECORDING_FILE_PREFIX = 'run-';
-const RECORDING_FILE_EXTENSION = '.wav';
+
+const recordingExtensionOf = (contentType: string) => {
+  if (WAV_CONTENT_TYPES.includes(contentType)) {
+    return `.${CallUploadFormat.wav}`;
+  }
+  const format = Object.values(CallUploadFormat).find(
+    (value) => CALL_UPLOAD_CONTENT_TYPE[value] === contentType,
+  );
+  if (!format) return '';
+  return `.${format}`;
+};
 
 const saveRecording = async (
   projectId: number,
@@ -24,7 +41,7 @@ const saveRecording = async (
   if (!recording) return null;
   const file = await saveFile({
     projectId,
-    fileName: `${RECORDING_FILE_PREFIX}${runId}${RECORDING_FILE_EXTENSION}`,
+    fileName: `${RECORDING_FILE_PREFIX}${runId}${recordingExtensionOf(recording.contentType)}`,
     contentType: recording.contentType,
     data: recording.data,
   });
@@ -50,9 +67,14 @@ export const storeConversation = async ({
   dynamicVariables,
 }: StoreConversationArgs) => {
   const recordingFileId = await saveRecording(projectId, runId, call.recording);
-  await prisma.$transaction([
-    prisma.transcriptTurn.deleteMany({ where: { conversationId } }),
-    prisma.transcriptTurn.createMany({
+  const stored = await prisma.$transaction(async (tx) => {
+    const { count } = await tx.run.updateMany({
+      where: { id: runId, status: RunStatus.in_progress },
+      data: { status: RunStatus.evaluating },
+    });
+    if (count === 0) return false;
+    await tx.transcriptTurn.deleteMany({ where: { conversationId } });
+    await tx.transcriptTurn.createMany({
       data: call.turns.map((turn, position) => ({
         conversationId,
         position,
@@ -61,8 +83,8 @@ export const storeConversation = async ({
         startTime: turn.startTime,
         endTime: turn.endTime,
       })),
-    }),
-    prisma.conversation.update({
+    });
+    await tx.conversation.update({
       where: { id: conversationId },
       data: {
         recordingFileId,
@@ -77,6 +99,9 @@ export const storeConversation = async ({
         metadata: call.metadata as Prisma.InputJsonObject,
         dynamicVariables,
       },
-    }),
-  ]);
+    });
+    return true;
+  });
+  if (!stored && recordingFileId) await deleteFile(recordingFileId);
+  return stored;
 };

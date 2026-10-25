@@ -6,28 +6,39 @@ import {
   conversationScriptSchema,
 } from '@/server/call-engine/mock/conversation-script';
 import { buildTemplateScript } from '@/server/call-engine/mock/template-script';
-import type { CallVariable, PlaceCallInput } from '@/server/call-engine/types';
+import type { CallerSetup, StartCallRequest } from '@/server/call-engine/types';
 
 const SECONDS_PER_TURN = 7;
 const MIN_TURNS = 4;
 const MAX_TURNS = 16;
+const NORMAL_SPEED = 1;
 
 const SYSTEM_PROMPT = [
   'You write realistic phone call transcripts for voice agent tests.',
   'The Main Agent is the voice AI agent under test. The Testing Agent is a simulated caller.',
-  'The Testing Agent obeys the evaluator instructions and the personality.',
-  'The Main Agent behaves as its description says.',
+  'The Testing Agent obeys its instructions and its personality.',
+  'The Main Agent is a helpful business agent. Its replies fit the request of the caller.',
   'Write spoken sentences only, with no stage directions and no speaker names in the text.',
   'Use role "main_agent" for the Main Agent and "testing_agent" for the Testing Agent.',
   'Set "endedBy" to the role that ends the call.',
 ].join('\n');
 
-const formatVariables = (variables: CallVariable[]) => {
-  if (variables.length === 0) return 'none';
-  return variables
-    .map((variable) => `${variable.key}=${variable.value}`)
-    .join(', ');
+const formatVariables = (variables: Record<string, string>) => {
+  const entries = Object.entries(variables);
+  if (entries.length === 0) return 'none';
+  return entries.map(([key, value]) => `${key}=${value}`).join(', ');
 };
+
+const formatPersonality = (caller: CallerSetup) =>
+  [
+    caller.prompt.trim(),
+    `accent ${caller.accent ?? 'none'}`,
+    `speed ${caller.speed ?? NORMAL_SPEED}`,
+    `interruption level ${caller.interruption_level}`,
+    `background noise ${caller.background_noise}`,
+  ]
+    .filter((part) => part.length > 0)
+    .join(', ');
 
 const formatOpening = (firstMessage: string | null) => {
   if (firstMessage?.trim()) {
@@ -42,29 +53,24 @@ const turnLimit = (maxDurationSeconds: number) =>
     Math.min(MAX_TURNS, Math.floor(maxDurationSeconds / SECONDS_PER_TURN)),
   );
 
-const buildPrompt = (input: PlaceCallInput) =>
+const buildPrompt = (request: StartCallRequest) =>
   [
-    `Call direction: ${input.direction}`,
-    `Main Agent name: ${input.agent.name}`,
-    `Main Agent language: ${input.agent.language}`,
-    `Main Agent description: ${input.agent.description}`,
-    `Main Agent variables: ${formatVariables(input.mainAgentVariables)}`,
-    `Evaluator name: ${input.evaluator.name}`,
-    `Evaluator instructions for the Testing Agent: ${input.evaluator.instructions}`,
-    `Expected outcome: ${input.evaluator.expectedOutcome}`,
-    `Testing Agent variables: ${formatVariables(input.testingAgentVariables)}`,
-    `Testing Agent personality: ${input.personality.name}, gender ${input.personality.gender}, language ${input.personality.language}, speed ${input.personality.speed}, interruption level ${input.personality.interruptionLevel}, background noise ${input.personality.backgroundNoise}`,
-    formatOpening(input.evaluator.firstMessage),
-    `Write at most ${turnLimit(input.maxDurationSeconds)} turns. The roles alternate.`,
+    `Call direction: ${request.direction}`,
+    `Call language: ${request.caller.language}`,
+    `Instructions for the Testing Agent: ${request.caller.instructions}`,
+    `Testing Agent variables: ${formatVariables(request.caller.variables)}`,
+    `Testing Agent personality: ${formatPersonality(request.caller)}`,
+    formatOpening(request.caller.first_message),
+    `Write at most ${turnLimit(request.max_duration_seconds)} turns. The roles alternate.`,
   ].join('\n');
 
 export const buildConversationScript = (
-  input: PlaceCallInput,
+  request: StartCallRequest,
 ): Promise<ConversationScript> =>
   generateObject({
     system: SYSTEM_PROMPT,
-    prompt: buildPrompt(input),
+    prompt: buildPrompt(request),
     schema: conversationScriptSchema,
     maxTokens: 4000,
-    mock: () => buildTemplateScript(input),
+    mock: () => buildTemplateScript(request),
   });

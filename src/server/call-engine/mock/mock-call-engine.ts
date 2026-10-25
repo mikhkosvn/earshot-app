@@ -2,15 +2,16 @@ import 'server-only';
 
 import { randomUUID } from 'node:crypto';
 
-import { createRandom } from '@/server/call-engine/audio/random';
+import { createRandom, type Random } from '@/server/call-engine/audio/random';
 import { synthesizeCallAudio } from '@/server/call-engine/audio/synthesize-call-audio';
 import {
-  CALL_ENDED_REASON_LABEL,
   CallEndedReason,
   CallEngineKind,
+  CallEventType,
   TranscriptRole,
 } from '@/server/call-engine/constants';
 import { buildConversationScript } from '@/server/call-engine/mock/build-conversation-script';
+import { deliverMockEvent } from '@/server/call-engine/mock/deliver-mock-event';
 import {
   backgroundNoiseLevel,
   isFastCaller,
@@ -21,12 +22,25 @@ import { scheduleTurns } from '@/server/call-engine/mock/schedule-turns';
 import { waitFor } from '@/server/call-engine/mock/wait-for';
 import type {
   CallEngine,
-  PlaceCallInput,
-  PlacedCall,
+  CallEventPayload,
+  StartCallRequest,
+  StartedCall,
+  TranscriptTurn,
 } from '@/server/call-engine/types';
+
+interface EndOfCallArgs {
+  request: StartCallRequest;
+  providerCallId: string;
+  endedReason: CallEndedReason;
+  durationSeconds: number;
+  ringingSeconds: number | null;
+  turns: TranscriptTurn[];
+  recordingUrl: string | null;
+}
 
 const DEFAULT_SPEEDUP = 10;
 const NO_ANSWER_RING_SECONDS = 30;
+const MOCK_RECORDING_BASE_URL = 'https://mock.invalid/recordings/';
 
 const readNumber = (value: string | undefined, fallback: number) => {
   const parsed = Number(value);
@@ -43,114 +57,145 @@ const speedup = () => {
 const failureRate = () =>
   Math.min(1, Math.max(0, readNumber(process.env.MOCK_CALL_FAILURE_RATE, 0)));
 
-const waitForCall = async (
-  callSeconds: number,
-  startedMs: number,
-  signal?: AbortSignal,
-) => {
+const waitForCall = async (callSeconds: number, startedMs: number) => {
   const targetMs = (callSeconds * 1000) / speedup();
-  await waitFor(targetMs - (Date.now() - startedMs), signal);
+  await waitFor(targetMs - (Date.now() - startedMs));
 };
 
-const buildMetadata = (args: {
-  endedReason: CallEndedReason;
-  startedAt: Date;
-  endedAt: Date;
-  ringingSeconds: number;
-}) => ({
-  ended_reason: CALL_ENDED_REASON_LABEL[args.endedReason],
-  call_ended_at: args.endedAt.toISOString(),
-  call_created_at: args.startedAt.toISOString(),
-  call_started_at: args.startedAt.toISOString(),
-  ringing_duration: args.ringingSeconds,
-  provider_call_data: {},
-});
+const mockRecordingUrl = (providerCallId: string) =>
+  `${MOCK_RECORDING_BASE_URL}${providerCallId}.wav`;
 
-const placeUnansweredCall = async (
-  providerCallId: string,
-  startedMs: number,
-  signal?: AbortSignal,
-): Promise<PlacedCall> => {
-  await waitForCall(NO_ANSWER_RING_SECONDS, startedMs, signal);
+const endOfCallPayload = (args: EndOfCallArgs): CallEventPayload => {
   const endedAt = new Date();
-  const startedAt = new Date(endedAt.getTime() - NO_ANSWER_RING_SECONDS * 1000);
+  const startedAt = new Date(endedAt.getTime() - args.durationSeconds * 1000);
   return {
-    turns: [],
-    recording: null,
-    waveform: null,
-    durationSeconds: 0,
-    endedReason: CallEndedReason.no_answer,
-    startedAt,
-    endedAt,
-    providerCallId,
-    providerCallData: {},
-    metadata: buildMetadata({
-      endedReason: CallEndedReason.no_answer,
-      startedAt,
-      endedAt,
-      ringingSeconds: NO_ANSWER_RING_SECONDS,
-    }),
+    type: CallEventType.end_of_call,
+    call_ref: args.request.call_ref,
+    provider_call_id: args.providerCallId,
+    ended_reason: args.endedReason,
+    started_at: startedAt.toISOString(),
+    ended_at: endedAt.toISOString(),
+    ringing_seconds: args.ringingSeconds,
+    transcript: args.turns.map((turn) => ({
+      role: turn.role,
+      content: turn.content,
+      start_time: turn.startTime,
+      end_time: turn.endTime,
+    })),
+    recording_url: args.recordingUrl,
+    provider_call_data: {},
   };
 };
 
-const placeMockCall = async (
-  input: PlaceCallInput,
-  signal?: AbortSignal,
-): Promise<PlacedCall> => {
-  const startedMs = Date.now();
-  const providerCallId = `${CallEngineKind.mock}_${randomUUID()}`;
-  const random = createRandom(providerCallId);
-  if (random.next() < failureRate()) {
-    return placeUnansweredCall(providerCallId, startedMs, signal);
-  }
-  const script = await buildConversationScript(input);
-  signal?.throwIfAborted();
-  const testingVoice = testingAgentVoice(input.personality);
+const runUnansweredCall = async (
+  request: StartCallRequest,
+  providerCallId: string,
+  startedMs: number,
+) => {
+  await waitForCall(NO_ANSWER_RING_SECONDS, startedMs);
+  await deliverMockEvent(
+    endOfCallPayload({
+      request,
+      providerCallId,
+      endedReason: CallEndedReason.no_answer,
+      durationSeconds: 0,
+      ringingSeconds: NO_ANSWER_RING_SECONDS,
+      turns: [],
+      recordingUrl: null,
+    }),
+    null,
+  );
+};
+
+const runAnsweredCall = async (
+  request: StartCallRequest,
+  providerCallId: string,
+  startedMs: number,
+  random: Random,
+) => {
+  const script = await buildConversationScript(request);
+  const testingVoice = testingAgentVoice(request.caller);
   const schedule = scheduleTurns({
     script,
     rates: {
       [TranscriptRole.main_agent]: MAIN_AGENT_VOICE.wordsPerSecond,
       [TranscriptRole.testing_agent]: testingVoice.wordsPerSecond,
     },
-    maxDurationSeconds: input.maxDurationSeconds,
-    fastCaller: isFastCaller(input.personality),
+    maxDurationSeconds: request.max_duration_seconds,
+    fastCaller: isFastCaller(request.caller),
     random,
   });
-  const { recording, waveform } = synthesizeCallAudio({
+  const recording = synthesizeCallAudio({
     turns: schedule.turns,
     durationSeconds: schedule.durationSeconds,
     voices: {
       [TranscriptRole.main_agent]: MAIN_AGENT_VOICE,
       [TranscriptRole.testing_agent]: testingVoice,
     },
-    backgroundNoise: backgroundNoiseLevel(input.personality),
+    backgroundNoise: backgroundNoiseLevel(request.caller),
     random,
   });
-  await waitForCall(recording.durationSeconds, startedMs, signal);
-  const endedAt = new Date();
-  const startedAt = new Date(
-    endedAt.getTime() - recording.durationSeconds * 1000,
-  );
-  const ringingSeconds = Math.round(random.between(0, 0.5) * 100) / 100;
-  return {
-    turns: schedule.turns,
-    recording,
-    waveform,
-    durationSeconds: recording.durationSeconds,
-    endedReason: schedule.endedReason,
-    startedAt,
-    endedAt,
-    providerCallId,
-    providerCallData: {},
-    metadata: buildMetadata({
+  await waitForCall(schedule.durationSeconds, startedMs);
+  await deliverMockEvent(
+    endOfCallPayload({
+      request,
+      providerCallId,
       endedReason: schedule.endedReason,
-      startedAt,
-      endedAt,
-      ringingSeconds,
+      durationSeconds: schedule.durationSeconds,
+      ringingSeconds: Math.round(random.between(0, 0.5) * 100) / 100,
+      turns: schedule.turns,
+      recordingUrl: mockRecordingUrl(providerCallId),
     }),
-  };
+    recording,
+  );
+};
+
+const runMockCall = async (
+  request: StartCallRequest,
+  providerCallId: string,
+) => {
+  const startedMs = Date.now();
+  const random = createRandom(providerCallId);
+  if (random.next() < failureRate()) {
+    await runUnansweredCall(request, providerCallId, startedMs);
+    return;
+  }
+  await runAnsweredCall(request, providerCallId, startedMs, random);
+};
+
+const reportFailedCall = async (
+  request: StartCallRequest,
+  providerCallId: string,
+  error: unknown,
+) => {
+  console.error(`[call-engine] The mock call ${providerCallId} failed.`, error);
+  await deliverMockEvent(
+    endOfCallPayload({
+      request,
+      providerCallId,
+      endedReason: CallEndedReason.error,
+      durationSeconds: 0,
+      ringingSeconds: null,
+      turns: [],
+      recordingUrl: null,
+    }),
+    null,
+  );
+};
+
+const startMockCall = (request: StartCallRequest): Promise<StartedCall> => {
+  const providerCallId = `${CallEngineKind.mock}_${randomUUID()}`;
+  void runMockCall(request, providerCallId)
+    .catch((error: unknown) => reportFailedCall(request, providerCallId, error))
+    .catch((error: unknown) =>
+      console.error(
+        `[call-engine] The mock call ${providerCallId} did not report its end.`,
+        error,
+      ),
+    );
+  return Promise.resolve({ providerCallId });
 };
 
 export const mockCallEngine: CallEngine = {
-  placeCall: placeMockCall,
+  startCall: startMockCall,
 };

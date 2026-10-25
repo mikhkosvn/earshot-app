@@ -13,8 +13,5 @@ export const STALE_RUN_MARGIN_SECONDS = 300;
 export const RESULT_START_BATCH_SIZE = 10;
 export const RUN_STATUS_POLL_INTERVAL_MS = 2000;
 
-export const SLOW_SPEED_BELOW = 0.9;
-export const FAST_SPEED_ABOVE = 1.1;
-
 export const TESTING_NUMBER_PREFIX = '+1555';
 export const TESTING_NUMBER_DIGITS = 7;

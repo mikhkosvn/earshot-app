@@ -1,7 +1,5 @@
 import 'server-only';
 
-import { after } from 'next/server';
-
 import type { Prisma } from '@/generated/prisma/client';
 import {
   type JobKind,
@@ -10,20 +8,13 @@ import {
   NotificationSeverity,
 } from '@/generated/prisma/enums';
 import { prisma } from '@/lib/prisma';
-import { JOB_KIND_NAME } from '@/server/jobs/constants';
+import { scheduleAfterResponse } from '@/server/common/schedule-after-response';
+import { JOB_KIND_NAME, JobCompletion } from '@/server/jobs/constants';
 import type { JobContext, StartedJob, StartJobArgs } from '@/server/jobs/types';
 
 const errorText = (error: unknown) => {
   if (error instanceof Error && error.message) return error.message;
   return 'The task failed.';
-};
-
-const scheduleAfterResponse = (task: () => Promise<void>) => {
-  try {
-    after(task);
-  } catch {
-    void task();
-  }
 };
 
 const notifyFailure = async (
@@ -85,6 +76,7 @@ export const startJob = async <TInput extends Prisma.InputJsonValue>(
         data: { status: JobStatus.running, startedAt: new Date() },
       });
       await args.run(context);
+      if (args.completion === JobCompletion.external) return;
       await prisma.backgroundJob.update({
         where: { id: job.id },
         data: { status: JobStatus.completed, finishedAt: new Date() },

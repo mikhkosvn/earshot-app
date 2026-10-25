@@ -14,7 +14,6 @@ import {
   ACTIVE_RUN_STATUSES,
   OPEN_RUN_STATUSES,
 } from '@/server/runs/constants/run-status-groups';
-import { listRunsInFlight } from '@/server/runs/execution/dispatch-runs';
 import { failRun } from '@/server/runs/execution/fail-run';
 
 interface StaleCandidate {
@@ -24,8 +23,7 @@ interface StaleCandidate {
   result: { project: { maxCallDuration: number } };
 }
 
-const isStale = (run: StaleCandidate, inFlight: Set<number>, now: Date) => {
-  if (!inFlight.has(run.id)) return true;
+const isStale = (run: StaleCandidate, now: Date) => {
   const startedAt = run.executedAt ?? run.updatedAt;
   const limitSeconds =
     run.result.project.maxCallDuration + STALE_RUN_MARGIN_SECONDS;
@@ -47,8 +45,7 @@ const timeoutRuns = async (now: Date) => {
       result: { select: { project: { select: { maxCallDuration: true } } } },
     },
   });
-  const inFlight = new Set(listRunsInFlight());
-  const stale = candidates.filter((run) => isStale(run, inFlight, now));
+  const stale = candidates.filter((run) => isStale(run, now));
   for (const run of stale) {
     await failRun({
       runId: run.id,

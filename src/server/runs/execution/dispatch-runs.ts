@@ -8,15 +8,6 @@ import { ACTIVE_RUN_STATUSES } from '@/server/runs/constants/run-status-groups';
 import { executeRun } from '@/server/runs/execution/execute-run';
 import { claimRows } from '@/server/worker/claim-rows';
 
-const globalForRuns = globalThis as unknown as {
-  earshotRunsInFlight: Set<number> | undefined;
-};
-
-const runsInFlight = () => {
-  globalForRuns.earshotRunsInFlight ??= new Set();
-  return globalForRuns.earshotRunsInFlight;
-};
-
 interface QueuedResult {
   id: number;
   concurrencyLimit: number | null;
@@ -115,13 +106,9 @@ const claimQueuedRuns = (resultId: number, limit: number) =>
   });
 
 const launchRun = (runId: number) => {
-  const inFlight = runsInFlight();
-  inFlight.add(runId);
-  void executeRun(runId)
-    .catch((error: unknown) =>
-      console.error(`[runs] The run ${runId} stopped with an error.`, error),
-    )
-    .finally(() => inFlight.delete(runId));
+  void executeRun(runId).catch((error: unknown) =>
+    console.error(`[runs] The run ${runId} stopped with an error.`, error),
+  );
 };
 
 export const dispatchRuns = async () => {
@@ -145,5 +132,3 @@ export const dispatchRuns = async () => {
   }
   return launched;
 };
-
-export const listRunsInFlight = () => [...runsInFlight()];

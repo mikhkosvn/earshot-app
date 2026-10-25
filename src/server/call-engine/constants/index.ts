@@ -39,10 +39,31 @@ export const CALL_ENDED_REASON_LABEL: Record<CallEndedReason, string> = {
 
 export const CallEngineKind = {
   mock: 'mock',
+  http: 'http',
 } as const;
 
 export type CallEngineKind =
   (typeof CallEngineKind)[keyof typeof CallEngineKind];
+
+export const CallEventType = {
+  end_of_call: 'end_of_call',
+} as const;
+
+export type CallEventType = (typeof CallEventType)[keyof typeof CallEventType];
+
+export const CallRefKind = {
+  run: 'run',
+  test_call: 'test_call',
+} as const;
+
+export type CallRefKind = (typeof CallRefKind)[keyof typeof CallRefKind];
+
+export const CALL_REF_SEPARATOR = ':';
+
+export const CALL_SERVICE_CALLS_PATH = '/calls';
+export const CALL_SERVICE_TIMEOUT_MS = 10_000;
+export const RECORDING_DOWNLOAD_TIMEOUT_MS = 45_000;
+export const RECORDING_URL_PROTOCOL = /^https?$/;
 
 export const RECORDING_CONTENT_TYPE = 'audio/wav';
 export const RECORDING_SAMPLE_RATE = 8000;

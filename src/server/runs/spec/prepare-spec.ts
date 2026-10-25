@@ -3,7 +3,6 @@ import 'server-only';
 import { RunChannel } from '@/server/runs/constants/run-channel';
 import { RUN_BATCH_MAX_RUNS } from '@/server/runs/constants/run-limits';
 import { RunMessage } from '@/server/runs/constants/run-messages';
-import { DEFAULT_PERSONALITY_NAME } from '@/server/runs/execution/build-call-input';
 import type { TestSuiteSpec } from '@/server/runs/schemas/test-suite-spec';
 import { parseSpec, SPEC_ROOT_PATH } from '@/server/runs/spec/parse-spec';
 import {
@@ -15,6 +14,8 @@ import {
   loadRunAgent,
   type RunAgent,
 } from '@/server/runs/utils/run-references';
+
+const DEFAULT_PERSONALITY_NAME = 'Default caller';
 
 export type PreparedSpec =
   | {
