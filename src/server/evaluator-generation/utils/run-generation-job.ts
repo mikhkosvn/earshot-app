@@ -130,6 +130,8 @@ const testProfileFor = async (
       projectId: session.projectId,
       agentId: agent.id,
       name: generatedTestProfileName(agent.id),
+      createdById: session.createdById,
+      updatedById: session.createdById,
       variables: {
         create: toVariableRows(
           draft.mainAgentVariables,
