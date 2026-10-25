@@ -6,27 +6,29 @@ import type { JobKind } from '@/generated/prisma/enums';
 import { useRecentJobs } from '@/hooks/jobs/use-recent-jobs';
 
 import {
-  type HiddenBefore,
+  type ClosedPanels,
   latestJobTime,
-  visiblePanelKinds,
+  panelScope,
+  stackPanels,
   withKind,
 } from './_utils/panel-jobs';
-import { BackgroundTaskPanel } from './panel/background-task-panel';
+import { BackgroundTaskStackItem } from './background-task-stack-item';
 
 export function BackgroundTaskPanelStack() {
   const jobs = useRecentJobs();
-  const [hiddenBefore, setHiddenBefore] = useState<HiddenBefore>({});
+  const [sessionStart] = useState(() => Date.now());
+  const [closedPanels, setClosedPanels] = useState<ClosedPanels>({});
   const [pinnedKinds, setPinnedKinds] = useState<JobKind[]>([]);
-  const kinds = visiblePanelKinds(jobs, hiddenBefore, pinnedKinds);
+  const panels = stackPanels(jobs, sessionStart, closedPanels, pinnedKinds);
 
-  if (kinds.length === 0) return null;
+  if (panels.length === 0) return null;
 
-  const closePanel = (kind: JobKind) => {
-    setHiddenBefore((current) => ({
+  const closePanel = (key: string) => {
+    setClosedPanels((current) => ({
       ...current,
-      [kind]: latestJobTime(jobs, kind),
+      [key]: Math.max(sessionStart, latestJobTime(jobs, key)),
     }));
-    setPinnedKinds((current) => current.filter((item) => item !== kind));
+    setPinnedKinds((current) => current.filter((item) => item !== key));
   };
 
   const pinPanel = (kind: JobKind) => {
@@ -35,11 +37,11 @@ export function BackgroundTaskPanelStack() {
 
   return (
     <div className="fixed right-4 bottom-4 z-40 flex w-80 flex-col gap-3">
-      {kinds.map((kind) => (
-        <BackgroundTaskPanel
-          key={kind}
-          kind={kind}
-          hiddenBefore={hiddenBefore[kind]}
+      {panels.map((panel) => (
+        <BackgroundTaskStackItem
+          key={panel.key}
+          panel={panel}
+          scope={panelScope(panel.key, sessionStart, closedPanels)}
           onClose={closePanel}
           onDismiss={pinPanel}
         />

@@ -42,7 +42,6 @@ export const projectSettingsSchema = z.object({
   useProviderTranscript: z.boolean(),
   reconcileProviderTranscripts: z.boolean(),
   deepResearchEnabled: z.boolean(),
-  notifyDailyReport: z.boolean(),
 });
 
 export const updateProjectSchema = projectSettingsSchema

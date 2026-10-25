@@ -1,6 +1,7 @@
 import { queryOptions } from '@tanstack/react-query';
 
 import { JobKind, JobStatus } from '@/generated/prisma/enums';
+import { deferAction } from '@/lib/query-client/defer-action';
 import {
   getGenerationSessionAction,
   listGenerationSessionsAction,
@@ -24,8 +25,6 @@ import { listRecentJobsAction } from '@/server/jobs/actions';
 import type { JobView } from '@/server/jobs/types';
 import { listTagsAction } from '@/server/tags/actions';
 import { listTestProfilesAction } from '@/server/test-profiles/actions';
-
-import { outsideRender } from '../_utils/outside-render';
 
 export const EvaluatorKey = {
   list: 'evaluator-list',
@@ -138,35 +137,35 @@ export class EvaluatorService {
   static getListQuery(input: ListEvaluatorsInput) {
     return queryOptions({
       queryKey: [EvaluatorKey.list, input],
-      queryFn: () => outsideRender(() => listEvaluatorsAction(input)),
+      queryFn: () => deferAction(() => listEvaluatorsAction(input)),
     });
   }
 
   static getEvaluatorQuery(args: { evaluatorId: number }) {
     return queryOptions({
       queryKey: [EvaluatorKey.detail, args],
-      queryFn: () => outsideRender(() => getEvaluatorAction(args)),
+      queryFn: () => deferAction(() => getEvaluatorAction(args)),
     });
   }
 
   static getVersionsQuery(args: { evaluatorId: number }) {
     return queryOptions({
       queryKey: [EvaluatorKey.versions, args],
-      queryFn: () => outsideRender(() => listEvaluatorVersionsAction(args)),
+      queryFn: () => deferAction(() => listEvaluatorVersionsAction(args)),
     });
   }
 
   static getFoldersQuery(args: ProjectArgs) {
     return queryOptions({
       queryKey: [EvaluatorKey.folders, args],
-      queryFn: () => outsideRender(() => listFoldersAction(args)),
+      queryFn: () => deferAction(() => listFoldersAction(args)),
     });
   }
 
   static getTagsQuery(args: ProjectArgs) {
     return queryOptions({
       queryKey: [EvaluatorKey.tags, args],
-      queryFn: () => outsideRender(() => listTagsAction(args)),
+      queryFn: () => deferAction(() => listTagsAction(args)),
     });
   }
 
@@ -176,56 +175,56 @@ export class EvaluatorService {
   }) {
     return queryOptions({
       queryKey: [EvaluatorKey.testProfiles, args],
-      queryFn: () => outsideRender(() => listTestProfilesAction(args)),
+      queryFn: () => deferAction(() => listTestProfilesAction(args)),
     });
   }
 
   static getAgentsQuery(args: ProjectArgs) {
     return queryOptions({
       queryKey: [EvaluatorKey.agents, args],
-      queryFn: () => outsideRender(() => listAgentOptionsAction(args)),
+      queryFn: () => deferAction(() => listAgentOptionsAction(args)),
     });
   }
 
   static getPersonalitiesQuery(args: ProjectArgs) {
     return queryOptions({
       queryKey: [EvaluatorKey.personalities, args],
-      queryFn: () => outsideRender(() => listPersonalityOptionsAction(args)),
+      queryFn: () => deferAction(() => listPersonalityOptionsAction(args)),
     });
   }
 
   static getMetricsQuery(args: ProjectArgs) {
     return queryOptions({
       queryKey: [EvaluatorKey.metrics, args],
-      queryFn: () => outsideRender(() => listMetricOptionsAction(args)),
+      queryFn: () => deferAction(() => listMetricOptionsAction(args)),
     });
   }
 
   static getPhoneNumbersQuery(args: ProjectArgs) {
     return queryOptions({
       queryKey: [EvaluatorKey.phoneNumbers, args],
-      queryFn: () => outsideRender(() => listPhoneNumberOptionsAction(args)),
+      queryFn: () => deferAction(() => listPhoneNumberOptionsAction(args)),
     });
   }
 
   static getProjectsQuery(args: ProjectArgs) {
     return queryOptions({
       queryKey: [EvaluatorKey.projects, args],
-      queryFn: () => outsideRender(() => listProjectOptionsAction(args)),
+      queryFn: () => deferAction(() => listProjectOptionsAction(args)),
     });
   }
 
   static getAgentDefaultsQuery(args: { projectId: number; agentId: number }) {
     return queryOptions({
       queryKey: [EvaluatorKey.agentDefaults, args],
-      queryFn: () => outsideRender(() => getAgentEvaluatorDefaultsAction(args)),
+      queryFn: () => deferAction(() => getAgentEvaluatorDefaultsAction(args)),
     });
   }
 
   static getGenerationSessionQuery(args: { sessionId: number }) {
     return queryOptions({
       queryKey: [EvaluatorKey.generationSession, args],
-      queryFn: () => outsideRender(() => getGenerationSessionAction(args)),
+      queryFn: () => deferAction(() => getGenerationSessionAction(args)),
       staleTime: 0,
       refetchInterval: (query) => sessionInterval(query.state.data),
     });
@@ -234,7 +233,7 @@ export class EvaluatorService {
   static getGenerationSessionsQuery(args: ProjectArgs) {
     return queryOptions({
       queryKey: [EvaluatorKey.generationSessions, args],
-      queryFn: () => outsideRender(() => listGenerationSessionsAction(args)),
+      queryFn: () => deferAction(() => listGenerationSessionsAction(args)),
       staleTime: 0,
     });
   }
@@ -243,7 +242,7 @@ export class EvaluatorService {
     return queryOptions({
       queryKey: [EvaluatorKey.generationJobs, args],
       queryFn: () =>
-        outsideRender(() =>
+        deferAction(() =>
           listRecentJobsAction({ ...args, kinds: GENERATION_JOB_KINDS }),
         ),
       staleTime: 0,

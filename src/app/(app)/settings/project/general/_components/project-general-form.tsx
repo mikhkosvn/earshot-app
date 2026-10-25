@@ -93,13 +93,6 @@ export function ProjectGeneralForm() {
               description="Audit recent calls for failure modes beyond your metrics. Adds a Deep Research section on Insights with a weekly report and on-demand runs."
             />
           </SettingsGroup>
-          <SettingsGroup title="Notifications">
-            <SettingSwitchField<ProjectSettingsValues>
-              name="notifyDailyReport"
-              label="Daily Report"
-              description="Receive daily summary reports of system activity"
-            />
-          </SettingsGroup>
         </div>
       </form>
     </FormProvider>

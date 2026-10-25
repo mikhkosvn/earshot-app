@@ -5,19 +5,20 @@ import { useState } from 'react';
 import type { JobKind } from '@/generated/prisma/enums';
 import { JOB_KIND_TITLE } from '@/server/jobs/constants';
 
+import type { PanelScope } from '../_utils/panel-jobs';
 import { BackgroundTaskPanelBody } from './background-task-panel-body';
 import { BackgroundTaskPanelHeader } from './background-task-panel-header';
 
 type BackgroundTaskPanelProps = {
   kind: JobKind;
-  hiddenBefore: number | undefined;
+  scope: PanelScope;
   onClose: (kind: JobKind) => void;
   onDismiss: (kind: JobKind) => void;
 };
 
 export function BackgroundTaskPanel({
   kind,
-  hiddenBefore,
+  scope,
   onClose,
   onDismiss,
 }: BackgroundTaskPanelProps) {
@@ -36,7 +37,7 @@ export function BackgroundTaskPanel({
       />
       <BackgroundTaskPanelBody
         kind={kind}
-        hiddenBefore={hiddenBefore}
+        scope={scope}
         minimized={minimized}
         onDismiss={() => onDismiss(kind)}
       />

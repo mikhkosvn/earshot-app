@@ -1,5 +1,6 @@
 import { queryOptions } from '@tanstack/react-query';
 
+import { deferAction } from '@/lib/query-client/defer-action';
 import { listMembersAction } from '@/server/members/actions';
 
 export const MembersKey = {
@@ -17,7 +18,7 @@ export class MembersService {
   static getMembersQuery(args: { organizationId: number }) {
     return queryOptions({
       queryKey: [MembersKey.list, args],
-      queryFn: () => listMembersAction(args),
+      queryFn: () => deferAction(() => listMembersAction(args)),
     });
   }
 }

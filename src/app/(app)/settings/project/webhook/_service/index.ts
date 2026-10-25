@@ -1,5 +1,6 @@
 import { queryOptions } from '@tanstack/react-query';
 
+import { deferAction } from '@/lib/query-client/defer-action';
 import { getProjectWebhookAction } from '@/server/project-webhooks/actions';
 
 export const WebhookKey = {
@@ -17,7 +18,7 @@ export class WebhookService {
   static getWebhookQuery(args: { projectId: number }) {
     return queryOptions({
       queryKey: [WebhookKey.settings, args],
-      queryFn: () => getProjectWebhookAction(args),
+      queryFn: () => deferAction(() => getProjectWebhookAction(args)),
     });
   }
 }

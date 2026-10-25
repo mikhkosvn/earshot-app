@@ -1,6 +1,6 @@
 'use client';
 
-import type { HTMLInputTypeAttribute, ReactNode } from 'react';
+import { type HTMLInputTypeAttribute, type ReactNode, useId } from 'react';
 import {
   Controller,
   useFormContext,
@@ -29,7 +29,7 @@ export function SettingTextField<Values extends FieldValues>({
   autoComplete,
 }: SettingTextFieldProps<Values>) {
   const { control } = useFormContext<Values>();
-  const id = `setting-${name}`;
+  const id = useId();
 
   return (
     <Controller

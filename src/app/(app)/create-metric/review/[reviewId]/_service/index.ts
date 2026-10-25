@@ -1,5 +1,6 @@
 import { queryOptions } from '@tanstack/react-query';
 
+import { deferAction } from '@/lib/query-client/defer-action';
 import { getPatternReviewAction } from '@/server/metrics/actions';
 
 import { reviewPollInterval } from '../_utils/review-poll-interval';
@@ -20,7 +21,7 @@ export class MetricReviewService {
   static getReviewQuery({ reviewId }: { reviewId: number }) {
     return queryOptions({
       queryKey: [MetricReviewKey.detail, reviewId],
-      queryFn: () => getPatternReviewAction({ reviewId }),
+      queryFn: () => deferAction(() => getPatternReviewAction({ reviewId })),
       refetchInterval: (query) => reviewPollInterval(query.state.data),
     });
   }

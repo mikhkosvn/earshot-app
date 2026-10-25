@@ -1,9 +1,19 @@
-import { PageHeader } from '@/components/common/page-header/page-header';
+import { Suspense } from 'react';
 
-export default function SharePage() {
+import { ShareData } from './_components/share-data';
+import { SharePageSkeleton } from './_components/share-page-skeleton';
+import { ShareTopBar } from './_components/share-top-bar';
+
+export default function SharePage({
+  params,
+  searchParams,
+}: PageProps<'/share/[token]'>) {
   return (
-    <main className="flex min-h-dvh flex-1 flex-col gap-2 bg-gray-50 p-6 dark:bg-neutral-900">
-      <PageHeader title="Shared result" />
+    <main className="flex min-h-dvh flex-1 flex-col bg-gray-50 dark:bg-neutral-900">
+      <ShareTopBar />
+      <Suspense fallback={<SharePageSkeleton />}>
+        <ShareData params={params} searchParams={searchParams} />
+      </Suspense>
     </main>
   );
 }

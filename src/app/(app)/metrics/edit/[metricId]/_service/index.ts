@@ -1,5 +1,6 @@
 import { queryOptions } from '@tanstack/react-query';
 
+import { deferAction } from '@/lib/query-client/defer-action';
 import {
   getMetricAction,
   listMetricVersionsAction,
@@ -19,14 +20,14 @@ export class EditMetricService {
   static getMetricQuery({ metricId }: { metricId: number }) {
     return queryOptions({
       queryKey: [EditMetricKey.detail, metricId],
-      queryFn: () => getMetricAction({ metricId }),
+      queryFn: () => deferAction(() => getMetricAction({ metricId })),
     });
   }
 
   static getVersionsQuery({ metricId }: { metricId: number }) {
     return queryOptions({
       queryKey: [EditMetricKey.versions, metricId],
-      queryFn: () => listMetricVersionsAction({ metricId }),
+      queryFn: () => deferAction(() => listMetricVersionsAction({ metricId })),
     });
   }
 }

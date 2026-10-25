@@ -1,5 +1,6 @@
 import { queryOptions } from '@tanstack/react-query';
 
+import { deferAction } from '@/lib/query-client/defer-action';
 import { listApiKeysAction } from '@/server/api-keys/actions';
 
 export const ApiKeyKey = {
@@ -17,7 +18,7 @@ export class ApiKeyService {
   static getApiKeysQuery(args: { organizationId: number }) {
     return queryOptions({
       queryKey: [ApiKeyKey.list, args],
-      queryFn: () => listApiKeysAction(args),
+      queryFn: () => deferAction(() => listApiKeysAction(args)),
     });
   }
 }

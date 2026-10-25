@@ -16,9 +16,14 @@ export const makeBrowserMutationCache = () =>
     },
   });
 
+const BROWSER_QUERY_RETRY = 1;
+
 let browserQueryClient: QueryClient | undefined;
 
 export const getBrowserQueryClient = () => {
-  browserQueryClient ??= makeQueryClient(makeBrowserMutationCache());
+  browserQueryClient ??= makeQueryClient({
+    mutationCache: makeBrowserMutationCache(),
+    queryRetry: BROWSER_QUERY_RETRY,
+  });
   return browserQueryClient;
 };

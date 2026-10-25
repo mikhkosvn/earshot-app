@@ -38,7 +38,7 @@ export const startPatternReview = async ({
     projectId,
     userId,
     kind: JobKind.metric_pattern_review,
-    input: { reviewId: review.id, metricId },
+    input: { reviewId: review.id, metricId, metricName: metric.name },
     initialStep: 'Sampling recent calls and runs...',
     run: async (context) => {
       await context.setResult({

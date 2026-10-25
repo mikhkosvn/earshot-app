@@ -1,4 +1,5 @@
 import {
+  parseAsArrayOf,
   parseAsBoolean,
   parseAsInteger,
   parseAsString,
@@ -72,8 +73,21 @@ export const monitorsParser = {
 export const callsParser = {
   ...paginationParser,
   callId: parseAsInteger,
+  search: parseAsString,
+  view: parseAsInteger,
+  from: parseAsString,
+  to: parseAsString,
+  filters: parseAsString,
 };
 
 export const alertsParser = {
   hours: parseAsInteger,
+};
+
+export const fileParser = {
+  download: parseAsInteger,
+};
+
+export const resultReportParser = {
+  metrics: parseAsArrayOf(parseAsInteger),
 };

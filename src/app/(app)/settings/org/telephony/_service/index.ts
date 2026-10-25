@@ -1,5 +1,6 @@
 import { queryOptions } from '@tanstack/react-query';
 
+import { deferAction } from '@/lib/query-client/defer-action';
 import { listPhoneNumbersAction } from '@/server/telephony-phone-numbers/actions';
 
 export const TelephonyKey = {
@@ -19,7 +20,7 @@ export class TelephonyService {
   static getPhoneNumbersQuery(args: { organizationId: number }) {
     return queryOptions({
       queryKey: [TelephonyKey.phoneNumbers, args],
-      queryFn: () => listPhoneNumbersAction(args),
+      queryFn: () => deferAction(() => listPhoneNumbersAction(args)),
     });
   }
 }

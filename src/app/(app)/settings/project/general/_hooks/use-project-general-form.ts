@@ -24,7 +24,6 @@ export const useProjectGeneralForm = () => {
       useProviderTranscript: project.useProviderTranscript,
       reconcileProviderTranscripts: project.reconcileProviderTranscripts,
       deepResearchEnabled: project.deepResearchEnabled,
-      notifyDailyReport: project.notifyDailyReport,
     },
   });
   const updateProject = useUpdateProjectMutation();

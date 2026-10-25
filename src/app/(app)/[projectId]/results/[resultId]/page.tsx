@@ -1,9 +1,17 @@
-import { PageHeader } from '@/components/common/page-header/page-header';
+import { Suspense } from 'react';
 
-export default function ResultPage() {
+import { ResultDetailData } from './_components/result-detail-data';
+import { ResultDetailSkeleton } from './_components/result-detail-skeleton';
+
+export default function ResultPage({
+  params,
+  searchParams,
+}: PageProps<'/[projectId]/results/[resultId]'>) {
   return (
-    <div className="flex flex-col gap-2 p-3">
-      <PageHeader title="Result" />
+    <div className="flex flex-col gap-3 p-3">
+      <Suspense fallback={<ResultDetailSkeleton />}>
+        <ResultDetailData params={params} searchParams={searchParams} />
+      </Suspense>
     </div>
   );
 }

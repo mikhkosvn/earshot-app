@@ -1,6 +1,7 @@
 import { queryOptions } from '@tanstack/react-query';
 
 import type { VoiceModel } from '@/generated/prisma/enums';
+import { deferAction } from '@/lib/query-client/defer-action';
 import {
   getPersonalityAction,
   listPersonalitiesAction,
@@ -41,21 +42,21 @@ export class PersonalityService {
   }) {
     return queryOptions({
       queryKey: [PersonalityKey.list, args],
-      queryFn: () => listPersonalitiesAction(args),
+      queryFn: () => deferAction(() => listPersonalitiesAction(args)),
     });
   }
 
   static getPersonalityQuery(args: { personalityId: number }) {
     return queryOptions({
       queryKey: [PersonalityKey.detail, args],
-      queryFn: () => getPersonalityAction(args),
+      queryFn: () => deferAction(() => getPersonalityAction(args)),
     });
   }
 
   static getVoicesQuery(args: { projectId: number; voiceModel: VoiceModel }) {
     return queryOptions({
       queryKey: [PersonalityKey.voices, args],
-      queryFn: () => listVoicesAction(args),
+      queryFn: () => deferAction(() => listVoicesAction(args)),
     });
   }
 }

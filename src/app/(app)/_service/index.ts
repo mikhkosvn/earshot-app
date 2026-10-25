@@ -1,5 +1,6 @@
 import { queryOptions } from '@tanstack/react-query';
 
+import { deferAction } from '@/lib/query-client/defer-action';
 import {
   countUnreadNotificationsAction,
   listNotificationsAction,
@@ -53,42 +54,42 @@ export class ShellService {
   static getCurrentUserQuery() {
     return queryOptions({
       queryKey: [ShellKey.currentUser],
-      queryFn: () => getCurrentUserAction(),
+      queryFn: () => deferAction(() => getCurrentUserAction()),
     });
   }
 
   static getCurrentProjectIdQuery() {
     return queryOptions({
       queryKey: [ShellKey.currentProjectId],
-      queryFn: () => getCurrentProjectIdAction(),
+      queryFn: () => deferAction(() => getCurrentProjectIdAction()),
     });
   }
 
   static getProjectQuery(args: { projectId: number }) {
     return queryOptions({
       queryKey: [ShellKey.project, args],
-      queryFn: () => getProjectAction(args),
+      queryFn: () => deferAction(() => getProjectAction(args)),
     });
   }
 
   static getProjectsQuery(args: { organizationId: number }) {
     return queryOptions({
       queryKey: [ShellKey.projects, args],
-      queryFn: () => listProjectsAction(args),
+      queryFn: () => deferAction(() => listProjectsAction(args)),
     });
   }
 
   static getOrganizationsQuery() {
     return queryOptions({
       queryKey: [ShellKey.organizations],
-      queryFn: () => listOrganizationsAction(),
+      queryFn: () => deferAction(() => listOrganizationsAction()),
     });
   }
 
   static getNotificationsQuery() {
     return queryOptions({
       queryKey: [ShellKey.notifications],
-      queryFn: () => listNotificationsAction(),
+      queryFn: () => deferAction(() => listNotificationsAction()),
       staleTime: 0,
     });
   }
@@ -96,7 +97,7 @@ export class ShellService {
   static getUnreadNotificationCountQuery() {
     return queryOptions({
       queryKey: [ShellKey.unreadNotificationCount],
-      queryFn: () => countUnreadNotificationsAction(),
+      queryFn: () => deferAction(() => countUnreadNotificationsAction()),
       refetchInterval: UNREAD_NOTIFICATION_POLL_MS,
     });
   }

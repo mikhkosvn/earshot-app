@@ -1,5 +1,6 @@
 import { queryOptions } from '@tanstack/react-query';
 
+import { deferAction } from '@/lib/query-client/defer-action';
 import { listScenarioOptionsAction } from '@/server/metrics/actions';
 
 export const CreateMetricKey = {
@@ -18,7 +19,8 @@ export class CreateMetricService {
   static getScenarioOptionsQuery({ projectId }: { projectId: number }) {
     return queryOptions({
       queryKey: [CreateMetricKey.scenarioOptions, projectId],
-      queryFn: () => listScenarioOptionsAction({ projectId }),
+      queryFn: () =>
+        deferAction(() => listScenarioOptionsAction({ projectId })),
     });
   }
 }
