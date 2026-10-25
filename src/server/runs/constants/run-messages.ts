@@ -14,7 +14,7 @@ export const RunMessage = {
   callNotAnswered: 'The call was not answered.',
   callFailed: 'The call could not be placed.',
   runTimedOut:
-    'The run did not finish in time. The server may have restarted during the call.',
+    'The run did not finish in time. The end of the call may not have arrived from the call service.',
   resultNotCancellable: 'The result has no queued runs to cancel.',
   specInvalidJson: 'The spec is not valid JSON.',
   specInvalid: 'The spec has errors. Fix them and check the spec again.',

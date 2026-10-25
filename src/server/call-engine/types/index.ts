@@ -1,47 +1,51 @@
+import type { z } from 'zod';
+
+import type {
+  BackgroundNoise,
+  InterruptionLevel,
+  Language,
+  VoiceModel,
+} from '@/generated/prisma/enums';
 import type {
   CallDirection,
   CallEndedReason,
   TranscriptRole,
 } from '@/server/call-engine/constants';
+import type {
+  callEventSchema,
+  endOfCallEventSchema,
+} from '@/server/call-engine/schemas';
 
-export interface CallVariable {
-  key: string;
-  value: string;
-}
-
-export interface CallAgent {
-  id: number;
-  name: string;
-  description: string;
-  language: string;
-  phoneNumber: string | null;
-}
-
-export interface CallEvaluator {
-  name: string;
+export interface CallerSetup {
   instructions: string;
-  expectedOutcome: string;
-  firstMessage: string | null;
+  first_message: string | null;
+  variables: Record<string, string>;
+  prompt: string;
+  language: Language;
+  accent: string | null;
+  voice_model: VoiceModel | null;
+  voice_id: string | null;
+  speed: number | null;
+  interruption_level: InterruptionLevel;
+  background_noise: BackgroundNoise;
 }
 
-export interface CallPersonality {
-  name: string;
-  gender: string;
-  language: string;
-  speed: string;
-  interruptionLevel: string;
-  backgroundNoise: string;
-}
-
-export interface PlaceCallInput {
+export interface StartCallRequest {
+  call_ref: string;
   direction: CallDirection;
-  agent: CallAgent;
-  evaluator: CallEvaluator;
-  personality: CallPersonality;
-  mainAgentVariables: CallVariable[];
-  testingAgentVariables: CallVariable[];
-  maxDurationSeconds: number;
+  to_number: string;
+  from_number: string | null;
+  max_duration_seconds: number;
+  caller: CallerSetup;
 }
+
+export interface StartedCall {
+  providerCallId: string;
+}
+
+export type CallEvent = z.output<typeof callEventSchema>;
+export type CallEventPayload = z.input<typeof callEventSchema>;
+export type EndOfCallEvent = z.output<typeof endOfCallEventSchema>;
 
 export interface TranscriptTurn {
   role: TranscriptRole;
@@ -50,13 +54,15 @@ export interface TranscriptTurn {
   endTime: number;
 }
 
-export interface CallRecording {
+export interface RecordingFile {
   data: Uint8Array;
   contentType: string;
-  durationSeconds: number;
-  sampleRate: number;
-  channels: number;
-  testingChannelIndex: number;
+}
+
+export type RecordingLoader = (url: string) => Promise<RecordingFile>;
+
+export interface CallRecording extends RecordingFile {
+  testingChannelIndex: number | null;
 }
 
 export type CallWaveform = {
@@ -83,8 +89,5 @@ export interface PlacedCall {
 }
 
 export interface CallEngine {
-  placeCall: (
-    input: PlaceCallInput,
-    signal?: AbortSignal,
-  ) => Promise<PlacedCall>;
+  startCall: (request: StartCallRequest) => Promise<StartedCall>;
 }

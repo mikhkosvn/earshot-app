@@ -20,6 +20,13 @@ export const JOB_KIND_TITLE: Record<JobKind, string> = {
   [JobKind.metric_optimization]: 'Auto Improve',
 };
 
+export const JobCompletion = {
+  on_return: 'on_return',
+  external: 'external',
+} as const;
+
+export type JobCompletion = (typeof JobCompletion)[keyof typeof JobCompletion];
+
 export const JOB_STALE_ERROR = 'The task ran longer than 15 minutes.';
 
 export const JOB_MAX_RUNTIME_MINUTES = 15;

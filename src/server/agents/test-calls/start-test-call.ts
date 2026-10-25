@@ -2,44 +2,72 @@ import 'server-only';
 
 import {
   BackgroundNoise,
-  Gender,
   InterruptionLevel,
   JobKind,
+  type Language,
 } from '@/generated/prisma/enums';
 import { prisma } from '@/lib/prisma';
-import { UrlGenerator } from '@/lib/url-generator/url-generator';
 import {
   TEST_CALL_FIRST_MESSAGE,
   TEST_CALL_IN_PROGRESS_HEADLINE,
   TEST_CALL_MAX_DURATION_SECONDS,
-  TestConnectionStatus,
 } from '@/server/agents/constants/test-call';
 import { agentIdSchema } from '@/server/agents/schemas';
 import {
-  finishedProgress,
   inCallProgress,
   queuedProgress,
 } from '@/server/agents/test-calls/test-call-progress';
 import type { StartedTestCall } from '@/server/agents/types';
 import { checkConnections } from '@/server/agents/utils/check-connections';
 import { requireAgentAccess } from '@/server/agents/utils/require-agent-access';
-import { CallDirection } from '@/server/call-engine/constants';
+import { CallDirection, CallRefKind } from '@/server/call-engine/constants';
 import { getCallEngine } from '@/server/call-engine/get-call-engine';
+import type { StartCallRequest } from '@/server/call-engine/types';
+import { formatCallRef } from '@/server/call-engine/utils/call-ref';
 import { ActionError, withValidation } from '@/server/common/run-action';
+import { JobCompletion } from '@/server/jobs/constants';
 import { startJob } from '@/server/jobs/start-job';
 
 const TEST_CALL_INSTRUCTIONS =
   'You call to check that the line works. Ask if the agent can hear you. When the agent replies, say okay and end the call.';
+
+interface TestCallRequestArgs {
+  jobId: string;
+  toNumber: string;
+  inbound: boolean;
+  language: Language;
+}
 
 const directionOf = (inbound: boolean) => {
   if (inbound) return CallDirection.outbound;
   return CallDirection.inbound;
 };
 
-const summaryOf = (status: TestConnectionStatus) => {
-  if (status === TestConnectionStatus.passed) return 'The test call passed.';
-  return 'The test call did not pass.';
-};
+const buildTestCallRequest = ({
+  jobId,
+  toNumber,
+  inbound,
+  language,
+}: TestCallRequestArgs): StartCallRequest => ({
+  call_ref: formatCallRef(CallRefKind.test_call, jobId),
+  direction: directionOf(inbound),
+  to_number: toNumber,
+  from_number: null,
+  max_duration_seconds: TEST_CALL_MAX_DURATION_SECONDS,
+  caller: {
+    instructions: TEST_CALL_INSTRUCTIONS,
+    first_message: TEST_CALL_FIRST_MESSAGE,
+    variables: {},
+    prompt: '',
+    language,
+    accent: null,
+    voice_model: null,
+    voice_id: null,
+    speed: null,
+    interruption_level: InterruptionLevel.off,
+    background_noise: BackgroundNoise.off,
+  },
+});
 
 export const startTestCall = withValidation(
   agentIdSchema,
@@ -50,8 +78,6 @@ export const startTestCall = withValidation(
       select: {
         id: true,
         projectId: true,
-        name: true,
-        description: true,
         language: true,
         phoneNumber: true,
         inbound: true,
@@ -67,7 +93,8 @@ export const startTestCall = withValidation(
       apiKeyConfigured: Boolean(agent.providerApiKeyEncrypted),
     });
     const connection = check.connections.find((item) => item.testable);
-    if (!connection) {
+    const target = connection?.target;
+    if (!connection || !target) {
       throw new ActionError(
         'None of the connections can be verified by a test call.',
         400,
@@ -80,53 +107,23 @@ export const startTestCall = withValidation(
       kind: JobKind.test_call,
       input: { agentId, connectionTypes: [connection.type] },
       initialStep: TEST_CALL_IN_PROGRESS_HEADLINE,
+      completion: JobCompletion.external,
       run: async (context) => {
         await context.setResult(
-          queuedProgress(agentId, connection.type, connection.target),
+          queuedProgress(agentId, connection.type, target),
         );
-        await context.setStep(`Calling ${connection.target}`);
+        await context.setStep(`Calling ${target}`);
         await context.setResult(
-          inCallProgress(agentId, connection.type, connection.target),
+          inCallProgress(agentId, connection.type, target),
         );
-        const call = await getCallEngine().placeCall({
-          direction: directionOf(agent.inbound),
-          agent: {
-            id: agent.id,
-            name: agent.name,
-            description: agent.description,
+        await getCallEngine().startCall(
+          buildTestCallRequest({
+            jobId: context.jobId,
+            toNumber: target,
+            inbound: agent.inbound,
             language: agent.language,
-            phoneNumber: agent.phoneNumber,
-          },
-          evaluator: {
-            name: 'Connection test',
-            instructions: TEST_CALL_INSTRUCTIONS,
-            expectedOutcome: 'The agent answers and speaks.',
-            firstMessage: TEST_CALL_FIRST_MESSAGE,
-          },
-          personality: {
-            name: 'Connection test caller',
-            gender: Gender.neutral,
-            language: agent.language,
-            speed: 'normal',
-            interruptionLevel: InterruptionLevel.off,
-            backgroundNoise: BackgroundNoise.off,
-          },
-          mainAgentVariables: [],
-          testingAgentVariables: [],
-          maxDurationSeconds: TEST_CALL_MAX_DURATION_SECONDS,
-        });
-        const progress = finishedProgress(
-          agentId,
-          connection.type,
-          connection.target,
-          call,
+          }),
         );
-        await context.setStep(progress.headline);
-        await context.setResult({
-          ...progress,
-          summary: summaryOf(progress.connections[0].status),
-          deepLink: UrlGenerator.agent({ agentId }),
-        });
       },
     });
   },

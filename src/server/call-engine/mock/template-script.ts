@@ -2,7 +2,7 @@ import 'server-only';
 
 import { TranscriptRole } from '@/server/call-engine/constants';
 import type { ConversationScript } from '@/server/call-engine/mock/conversation-script';
-import type { CallVariable, PlaceCallInput } from '@/server/call-engine/types';
+import type { StartCallRequest } from '@/server/call-engine/types';
 
 const FIRST_PERSON_REPLACEMENTS: [RegExp, string][] = [
   [/\byou are\b/gi, 'I am'],
@@ -68,19 +68,15 @@ const VALUE_END = '\u0002';
 const MARKED_VALUE_PATTERN = /\u0001([^\u0002]*)\u0002/g;
 const MARKER_PATTERN = /[\u0001\u0002]/g;
 
-const variableValue = (input: PlaceCallInput, path: string) => {
+const variableValue = (input: StartCallRequest, path: string) => {
   const key = path.split('.').at(-1) ?? path;
-  const variables = [
-    ...input.testingAgentVariables,
-    ...input.mainAgentVariables,
-  ];
-  const value = variables.find((variable) => variable.key === key)?.value;
+  const value = input.caller.variables[key];
   if (!value) return '';
   return `${VALUE_START}${value}${VALUE_END}`;
 };
 
-const instructionLines = (input: PlaceCallInput) =>
-  input.evaluator.instructions
+const instructionLines = (input: StartCallRequest) =>
+  input.caller.instructions
     .replace(TAG_PATTERN, '\n')
     .replace(VARIABLE_PATTERN, (_, path: string) => variableValue(input, path))
     .split(LINE_SPLIT_PATTERN)
@@ -208,11 +204,11 @@ const sharedValueOf = (line: string) =>
 const firstCallerTurn = (greeting: string, purpose: string) =>
   `${greeting} ${purpose}`.trim();
 
-const callerSteps = (input: PlaceCallInput) => {
+const callerSteps = (input: StartCallRequest) => {
   const lines = instructionLines(input);
   const greeting = callerGreeting(
     identityLine(lines),
-    Boolean(input.evaluator.firstMessage?.trim()),
+    Boolean(input.caller.first_message?.trim()),
   );
   const steps = lines
     .map(toCallerLine)
@@ -235,9 +231,13 @@ const callerSteps = (input: PlaceCallInput) => {
   return [firstCallerTurn(greeting, first), ...rest].slice(0, MAX_CALLER_STEPS);
 };
 
-const findCallerName = (variables: CallVariable[]) =>
-  variables.find((variable) => NAME_KEYS.includes(variable.key.toLowerCase()))
-    ?.value;
+const findCallerName = (variables: Record<string, string>) =>
+  Object.entries(variables).find(([key]) =>
+    NAME_KEYS.includes(key.toLowerCase()),
+  )?.[1];
+
+const AGENT_GREETING =
+  'Hello, thank you for calling. How can I help you today?';
 
 const AGENT_FOLLOW_UPS = [
   'Sure, I can help with that. Can you give me a few more details?',
@@ -246,29 +246,23 @@ const AGENT_FOLLOW_UPS = [
   'Thank you for the details.',
 ];
 
-const agentGreeting = (input: PlaceCallInput) =>
-  `Hello, thank you for calling ${input.agent.name}. How can I help you today?`;
-
 const thanksTo = (name: string | undefined) => {
   if (name) return `Thank you, ${name}.`;
   return 'Thank you.';
 };
 
-const agentAnswer = (input: PlaceCallInput) =>
-  `${thanksTo(findCallerName(input.testingAgentVariables))} I have noted your request, and I will share the next steps with you now.`;
+const agentAnswer = (input: StartCallRequest) =>
+  `${thanksTo(findCallerName(input.caller.variables))} I have noted your request, and I will share the next steps with you now.`;
 
 export const buildTemplateScript = (
-  input: PlaceCallInput,
+  input: StartCallRequest,
 ): ConversationScript => {
-  const opening = input.evaluator.firstMessage?.trim();
+  const opening = input.caller.first_message?.trim();
   const turns: ConversationScript['turns'] = [];
   if (opening) {
     turns.push({ role: TranscriptRole.testing_agent, content: opening });
   }
-  turns.push({
-    role: TranscriptRole.main_agent,
-    content: agentGreeting(input),
-  });
+  turns.push({ role: TranscriptRole.main_agent, content: AGENT_GREETING });
   callerSteps(input).forEach((step, index) => {
     if (index > 0) {
       turns.push({
@@ -286,7 +280,7 @@ export const buildTemplateScript = (
     },
     {
       role: TranscriptRole.main_agent,
-      content: `You're welcome. Thank you for calling ${input.agent.name}. Have a nice day.`,
+      content: "You're welcome. Thank you for calling. Have a nice day.",
     },
   );
   return { turns, endedBy: TranscriptRole.main_agent };

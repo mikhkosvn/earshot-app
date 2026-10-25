@@ -2,6 +2,7 @@ import type { z } from 'zod';
 
 import type { Prisma } from '@/generated/prisma/client';
 import type { JobKind, JobStatus } from '@/generated/prisma/enums';
+import type { JobCompletion } from '@/server/jobs/constants';
 import type {
   dismissAllJobsSchema,
   dismissJobSchema,
@@ -53,6 +54,7 @@ export interface StartJobArgs<TInput extends Prisma.InputJsonValue> {
   kind: JobKind;
   input: TInput;
   initialStep?: string;
+  completion?: JobCompletion;
   run: (context: JobContext<TInput>) => Promise<void>;
 }
 

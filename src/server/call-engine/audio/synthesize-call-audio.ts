@@ -1,6 +1,5 @@
 import 'server-only';
 
-import { computeWaveform } from '@/server/call-engine/audio/compute-waveform';
 import { encodeWav } from '@/server/call-engine/audio/encode-wav';
 import type { Random } from '@/server/call-engine/audio/random';
 import {
@@ -17,11 +16,7 @@ import {
   TESTING_CHANNEL_INDEX,
   TranscriptRole,
 } from '@/server/call-engine/constants';
-import type {
-  CallRecording,
-  CallWaveform,
-  TranscriptTurn,
-} from '@/server/call-engine/types';
+import type { RecordingFile, TranscriptTurn } from '@/server/call-engine/types';
 
 const channelOf = (role: TranscriptRole) => {
   if (role === TranscriptRole.main_agent) return MAIN_CHANNEL_INDEX;
@@ -40,7 +35,7 @@ export const synthesizeCallAudio = ({
   voices: Record<TranscriptRole, Voice>;
   backgroundNoise: number;
   random: Random;
-}): { recording: CallRecording; waveform: CallWaveform } => {
+}): RecordingFile => {
   const sampleRate = RECORDING_SAMPLE_RATE;
   const frameCount = Math.ceil(durationSeconds * sampleRate);
   const floats = Array.from(
@@ -62,20 +57,8 @@ export const synthesizeCallAudio = ({
       random,
     });
   }
-  const channels = floats.map(toInt16);
   return {
-    recording: {
-      data: encodeWav({ channels, sampleRate }),
-      contentType: RECORDING_CONTENT_TYPE,
-      durationSeconds: Math.round((frameCount / sampleRate) * 100) / 100,
-      sampleRate,
-      channels: RECORDING_CHANNELS,
-      testingChannelIndex: TESTING_CHANNEL_INDEX,
-    },
-    waveform: computeWaveform({
-      channels,
-      sampleRate,
-      testingChannelIndex: TESTING_CHANNEL_INDEX,
-    }),
+    data: encodeWav({ channels: floats.map(toInt16), sampleRate }),
+    contentType: RECORDING_CONTENT_TYPE,
   };
 };
