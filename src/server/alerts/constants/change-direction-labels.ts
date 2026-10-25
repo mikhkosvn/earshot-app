@@ -5,3 +5,9 @@ export const ChangeDirectionLabel: Record<ChangeDirection, string> = {
   [ChangeDirection.increase]: 'Increase Only',
   [ChangeDirection.decrease]: 'Decrease Only',
 };
+
+export const ChangeDirectionShortLabel: Record<ChangeDirection, string> = {
+  [ChangeDirection.both]: 'Both',
+  [ChangeDirection.increase]: 'Increase',
+  [ChangeDirection.decrease]: 'Decrease',
+};

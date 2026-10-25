@@ -78,3 +78,49 @@ model FailureModeInsightCategory {
   @@id([insightId, categoryId])
   @@unique([insightId, rank])
 }
+
+enum DeepResearchStatus {
+  pending
+  running
+  succeeded
+  failed
+  skipped_not_enough_data
+}
+
+enum DeepResearchTrigger {
+  weekly
+  on_demand
+}
+
+model DeepResearchInsight {
+  id               Int                       @id @default(autoincrement())
+  projectId        Int
+  trigger          DeepResearchTrigger
+  windowStart      DateTime
+  windowEnd        DateTime
+  numCallsAnalyzed Int                       @default(0)
+  status           DeepResearchStatus        @default(pending)
+  headline         String?
+  errorMessage     String?
+  durationSeconds  Float?
+  createdAt        DateTime                  @default(now())
+  updatedAt        DateTime                  @updatedAt
+  project          Project                   @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  failureModes     DeepResearchFailureMode[]
+
+  @@index([projectId, createdAt])
+}
+
+model DeepResearchFailureMode {
+  id                Int                 @id @default(autoincrement())
+  insightId         Int
+  rank              Int
+  title             String
+  description       String
+  callCount         Int                 @default(0)
+  exampleCallLogIds Int[]
+  dismissedAt       DateTime?
+  insight           DeepResearchInsight @relation(fields: [insightId], references: [id], onDelete: Cascade)
+
+  @@unique([insightId, rank])
+}
