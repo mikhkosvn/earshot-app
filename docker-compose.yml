@@ -1,0 +1,21 @@
+services:
+  postgres:
+    image: postgres:17-alpine
+    container_name: earshot-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: earshot
+      POSTGRES_PASSWORD: earshot
+      POSTGRES_DB: earshot
+    ports:
+      - '5432:5432'
+    volumes:
+      - earshot-postgres-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U earshot -d earshot']
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+volumes:
+  earshot-postgres-data:

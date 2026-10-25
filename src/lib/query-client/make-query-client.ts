@@ -1,10 +1,12 @@
 import {
   defaultShouldDehydrateQuery,
   QueryClient,
+  type MutationCache,
 } from '@tanstack/react-query';
 
-export const makeQueryClient = () =>
+export const makeQueryClient = (mutationCache?: MutationCache) =>
   new QueryClient({
+    mutationCache,
     defaultOptions: {
       queries: {
         staleTime: 60 * 1000,

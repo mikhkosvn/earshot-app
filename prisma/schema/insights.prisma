@@ -1,0 +1,80 @@
+enum InsightStatus {
+  pending
+  running
+  succeeded
+  failed
+  skipped_no_failures
+}
+
+model MetricInsightConfig {
+  metricId             Int                @id
+  enabled              Boolean            @default(false)
+  passOperator         ComparisonOperator
+  passNumberValue      Float?
+  passBooleanValue     Boolean?
+  passTextValues       String[]
+  triageFailureLimit   Int?
+  alertOnNewCategories Boolean            @default(false)
+  position             Int                @default(0)
+  createdAt            DateTime           @default(now())
+  updatedAt            DateTime           @updatedAt
+  metric               Metric             @relation(fields: [metricId], references: [id], onDelete: Cascade)
+}
+
+model FailureModeInsight {
+  id                    Int                          @id @default(autoincrement())
+  metricId              Int
+  windowStart           DateTime
+  windowEnd             DateTime
+  numCallsAnalyzed      Int                          @default(0)
+  totalFailuresInWindow Int                          @default(0)
+  status                InsightStatus                @default(pending)
+  headline              String?
+  errorMessage          String?
+  durationSeconds       Float?
+  createdAt             DateTime                     @default(now())
+  metric                Metric                       @relation(fields: [metricId], references: [id], onDelete: Cascade)
+  categories            FailureModeInsightCategory[]
+
+  @@index([metricId, createdAt])
+}
+
+model FailureCategory {
+  id            Int                          @id @default(autoincrement())
+  metricId      Int
+  slug          String
+  name          String
+  description   String
+  dismissedAt   DateTime?
+  createdAt     DateTime                     @default(now())
+  updatedAt     DateTime                     @updatedAt
+  metric        Metric                       @relation(fields: [metricId], references: [id], onDelete: Cascade)
+  assignments   FailureCategoryAssignment[]
+  insights      FailureModeInsightCategory[]
+  alertTriggers AlertTrigger[]
+
+  @@unique([metricId, slug])
+}
+
+model FailureCategoryAssignment {
+  metricEvaluationId Int              @id
+  categoryId         Int
+  explanation        String?
+  assignedAt         DateTime         @default(now())
+  metricEvaluation   MetricEvaluation @relation(fields: [metricEvaluationId], references: [id], onDelete: Cascade)
+  category           FailureCategory  @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+
+  @@index([categoryId, assignedAt])
+}
+
+model FailureModeInsightCategory {
+  insightId  Int
+  categoryId Int
+  rank       Int
+  summary    String?
+  insight    FailureModeInsight @relation(fields: [insightId], references: [id], onDelete: Cascade)
+  category   FailureCategory    @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+
+  @@id([insightId, categoryId])
+  @@unique([insightId, rank])
+}

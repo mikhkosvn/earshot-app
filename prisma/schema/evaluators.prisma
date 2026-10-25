@@ -1,0 +1,232 @@
+enum FolderSystemRole {
+  regression_suite
+  default
+}
+
+enum ScenarioType {
+  instruction
+  conditional_actions
+}
+
+enum ScenarioTool {
+  dtmf                      @map("VAPI_TOOL_DTMF")
+  receive_dtmf              @map("RECEIVE_DTMF")
+  end_call                  @map("VAPI_TOOL_END_CALL")
+  end_call_only_on_transfer @map("VAPI_TOOL_END_CALL_ONLY_ON_TRANSFER")
+  send_sms_tool_call        @map("SEND_SMS_TOOL_CALL")
+  call_hold                 @map("CALL_HOLD")
+}
+
+enum CreationMethod {
+  manual
+  manual_with_generate
+  auto_generated
+  json_spec
+}
+
+enum TestProfileVariableSide {
+  main_agent
+  testing_agent
+}
+
+enum GenerationSessionStatus {
+  in_progress
+  completed
+}
+
+enum ChatRole {
+  user
+  assistant
+}
+
+model Folder {
+  id         Int               @id @default(autoincrement())
+  projectId  Int
+  path       String
+  systemRole FolderSystemRole?
+  createdAt  DateTime          @default(now())
+  updatedAt  DateTime          @updatedAt
+  project    Project           @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  evaluators Evaluator[]
+
+  @@unique([projectId, path])
+  @@unique([projectId, systemRole])
+}
+
+model Tag {
+  id         Int            @id @default(autoincrement())
+  projectId  Int
+  name       String
+  createdAt  DateTime       @default(now())
+  project    Project        @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  evaluators EvaluatorTag[]
+
+  @@unique([projectId, name])
+}
+
+model TestProfile {
+  id              Int                   @id @default(autoincrement())
+  projectId       Int
+  agentId         Int
+  name            String
+  createdById     Int?
+  updatedById     Int?
+  createdAt       DateTime              @default(now())
+  updatedAt       DateTime              @updatedAt
+  project         Project               @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  agent           Agent                 @relation("TestProfileAgent", fields: [agentId], references: [id], onDelete: Cascade)
+  createdBy       User?                 @relation("TestProfileCreatedBy", fields: [createdById], references: [id], onDelete: SetNull)
+  updatedBy       User?                 @relation("TestProfileUpdatedBy", fields: [updatedById], references: [id], onDelete: SetNull)
+  defaultForAgent Agent?                @relation("AgentDefaultTestProfile")
+  variables       TestProfileVariable[]
+  evaluators      Evaluator[]
+  runs            Run[]
+
+  @@index([projectId])
+  @@index([agentId])
+}
+
+model TestProfileVariable {
+  id            Int                     @id @default(autoincrement())
+  testProfileId Int
+  side          TestProfileVariableSide
+  key           String
+  value         String
+  position      Int
+  testProfile   TestProfile             @relation(fields: [testProfileId], references: [id], onDelete: Cascade)
+
+  @@unique([testProfileId, side, key])
+}
+
+model Evaluator {
+  id                    Int                         @id @default(autoincrement())
+  projectId             Int
+  folderId              Int?
+  agentId               Int?
+  personalityId         Int?
+  testProfileId         Int?
+  phoneNumberId         Int?
+  generationSessionId   Int?
+  name                  String
+  scenarioType          ScenarioType                @default(instruction)
+  instructions          String
+  expectedOutcomePrompt String?
+  firstMessage          String?
+  simulationDescription String?
+  language              Language                    @default(en)
+  maxDurationSeconds    Int?
+  creationMethod        CreationMethod              @default(manual)
+  createdById           Int?
+  updatedById           Int?
+  createdAt             DateTime                    @default(now())
+  updatedAt             DateTime                    @updatedAt
+  project               Project                     @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  folder                Folder?                     @relation(fields: [folderId], references: [id], onDelete: Cascade)
+  agent                 Agent?                      @relation(fields: [agentId], references: [id], onDelete: SetNull)
+  personality           Personality?                @relation(fields: [personalityId], references: [id], onDelete: SetNull)
+  testProfile           TestProfile?                @relation(fields: [testProfileId], references: [id], onDelete: SetNull)
+  phoneNumber           TelephonyPhoneNumber?       @relation(fields: [phoneNumberId], references: [id], onDelete: SetNull)
+  generationSession     EvaluatorGenerationSession? @relation(fields: [generationSessionId], references: [id], onDelete: SetNull)
+  createdBy             User?                       @relation("EvaluatorCreatedBy", fields: [createdById], references: [id], onDelete: SetNull)
+  updatedBy             User?                       @relation("EvaluatorUpdatedBy", fields: [updatedById], references: [id], onDelete: SetNull)
+  tags                  EvaluatorTag[]
+  tools                 EvaluatorTool[]
+  metrics               EvaluatorMetric[]
+  expectedToolCalls     EvaluatorExpectedToolCall[]
+  versions              EvaluatorVersion[]
+  runs                  Run[]
+  monitors              MonitorEvaluator[]
+
+  @@index([projectId, folderId])
+  @@index([agentId])
+  @@index([personalityId])
+  @@index([testProfileId])
+}
+
+model EvaluatorTag {
+  evaluatorId Int
+  tagId       Int
+  evaluator   Evaluator @relation(fields: [evaluatorId], references: [id], onDelete: Cascade)
+  tag         Tag       @relation(fields: [tagId], references: [id], onDelete: Cascade)
+
+  @@id([evaluatorId, tagId])
+  @@index([tagId])
+}
+
+model EvaluatorTool {
+  evaluatorId Int
+  tool        ScenarioTool
+  evaluator   Evaluator    @relation(fields: [evaluatorId], references: [id], onDelete: Cascade)
+
+  @@id([evaluatorId, tool])
+}
+
+model EvaluatorMetric {
+  evaluatorId Int
+  metricId    Int
+  evaluator   Evaluator @relation(fields: [evaluatorId], references: [id], onDelete: Cascade)
+  metric      Metric    @relation(fields: [metricId], references: [id], onDelete: Cascade)
+
+  @@id([evaluatorId, metricId])
+  @@index([metricId])
+}
+
+model EvaluatorExpectedToolCall {
+  id          Int       @id @default(autoincrement())
+  evaluatorId Int
+  mockToolId  Int
+  position    Int
+  input       Json
+  output      Json
+  evaluator   Evaluator @relation(fields: [evaluatorId], references: [id], onDelete: Cascade)
+  mockTool    MockTool  @relation(fields: [mockToolId], references: [id], onDelete: Cascade)
+
+  @@unique([evaluatorId, position])
+  @@index([mockToolId])
+}
+
+model EvaluatorVersion {
+  id           Int               @id @default(autoincrement())
+  evaluatorId  Int
+  version      Int
+  name         String?
+  changeType   HistoryChangeType
+  changeReason String?
+  snapshot     Json
+  createdById  Int?
+  createdAt    DateTime          @default(now())
+  evaluator    Evaluator         @relation(fields: [evaluatorId], references: [id], onDelete: Cascade)
+  createdBy    User?             @relation("EvaluatorVersionCreatedBy", fields: [createdById], references: [id], onDelete: SetNull)
+
+  @@unique([evaluatorId, version])
+}
+
+model EvaluatorGenerationSession {
+  id          Int                          @id @default(autoincrement())
+  projectId   Int
+  agentId     Int?
+  title       String
+  status      GenerationSessionStatus      @default(in_progress)
+  createdById Int?
+  createdAt   DateTime                     @default(now())
+  updatedAt   DateTime                     @updatedAt
+  project     Project                      @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  agent       Agent?                       @relation(fields: [agentId], references: [id], onDelete: SetNull)
+  createdBy   User?                        @relation("GenerationSessionCreatedBy", fields: [createdById], references: [id], onDelete: SetNull)
+  messages    EvaluatorGenerationMessage[]
+  evaluators  Evaluator[]
+
+  @@index([projectId, createdAt])
+}
+
+model EvaluatorGenerationMessage {
+  id        Int                        @id @default(autoincrement())
+  sessionId Int
+  position  Int
+  role      ChatRole
+  content   String
+  createdAt DateTime                   @default(now())
+  session   EvaluatorGenerationSession @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+
+  @@unique([sessionId, position])
+}

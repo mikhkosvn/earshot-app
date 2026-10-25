@@ -1,5 +1,7 @@
 import type { NextConfig } from 'next';
 
+import { UrlGenerator } from './src/lib/url-generator/url-generator';
+
 const nextConfig: NextConfig = {
   cacheComponents: true,
   partialPrefetching: true,
@@ -11,6 +13,25 @@ const nextConfig: NextConfig = {
         as: '*.css',
       },
     },
+  },
+  async redirects() {
+    return [
+      {
+        source: UrlGenerator.settingsOrg(),
+        destination: UrlGenerator.settingsOrgGeneral(),
+        permanent: false,
+      },
+      {
+        source: UrlGenerator.settingsProject(),
+        destination: UrlGenerator.settingsProjectGeneral(),
+        permanent: false,
+      },
+      {
+        source: UrlGenerator.settingsAbout(),
+        destination: UrlGenerator.settingsAboutThirdPartyNotices(),
+        permanent: false,
+      },
+    ];
   },
 };
 
