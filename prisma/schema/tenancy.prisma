@@ -142,6 +142,8 @@ model Project {
   webhook                      ProjectWebhook?
   knowledgeVersions            ProjectKnowledgeVersion[]
   shareLinks                   ShareLink[]
+  observabilityNotificationLogs ObservabilityNotificationLog[]
+  deepResearchInsights         DeepResearchInsight[]
 
   @@index([organizationId])
 }
