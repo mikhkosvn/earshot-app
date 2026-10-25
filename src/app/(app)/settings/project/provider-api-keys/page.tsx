@@ -1,13 +1,16 @@
-import { SettingsHeaderCard } from '@/app/(app)/settings/_components/settings-header-card';
+import { Suspense } from 'react';
+
 import { SettingsPageContainer } from '@/app/(app)/settings/_components/settings-page-container';
+
+import { ProviderKeysData } from './_components/provider-keys-data';
+import { ProviderKeysSkeleton } from './_components/provider-keys-skeleton';
 
 export default function ProviderApiKeysPage() {
   return (
     <SettingsPageContainer>
-      <SettingsHeaderCard
-        title="API Settings"
-        description={'Configure API keys for your project'}
-      />
+      <Suspense fallback={<ProviderKeysSkeleton />}>
+        <ProviderKeysData />
+      </Suspense>
     </SettingsPageContainer>
   );
 }
