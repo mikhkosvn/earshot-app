@@ -1,9 +1,17 @@
-import { PageHeader } from '@/components/common/page-header/page-header';
+import { Suspense } from 'react';
 
-export default function CallsPage() {
+import { CallsData } from './_components/calls-data';
+import { CallsPageSkeleton } from './_components/calls-page-skeleton';
+
+export default function CallsPage({
+  params,
+  searchParams,
+}: PageProps<'/[projectId]/calls'>) {
   return (
-    <div className="flex flex-col gap-2 p-3">
-      <PageHeader title="Calls" />
+    <div className="flex flex-col gap-3 p-3">
+      <Suspense fallback={<CallsPageSkeleton />}>
+        <CallsData params={params} searchParams={searchParams} />
+      </Suspense>
     </div>
   );
 }
