@@ -28,7 +28,7 @@ export function PresetCard({ preset, onSelect }: PresetCardProps) {
       size="unstyled"
       onClick={() => onSelect(preset)}
       className={cn(
-        'flex h-auto flex-col items-stretch gap-0 rounded-lg border bg-background p-3 text-left whitespace-normal hover:bg-muted/40',
+        'flex h-auto flex-col items-stretch gap-0 rounded-lg border border-border bg-background p-3 text-left whitespace-normal hover:bg-muted/40',
         preset === MonitorPreset.qualityCheck && 'border-foreground',
       )}
     >

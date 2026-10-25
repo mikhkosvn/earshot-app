@@ -51,7 +51,7 @@ export function ScheduleField() {
               <ToggleGroupItem
                 key={mode}
                 value={mode}
-                className="bg-background px-2.5 font-normal data-pressed:bg-muted data-pressed:font-medium"
+                className="bg-background px-2 font-normal data-pressed:bg-muted data-pressed:font-medium"
               >
                 {ScheduleModeLabel[mode]}
               </ToggleGroupItem>
