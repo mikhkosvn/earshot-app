@@ -38,7 +38,6 @@ export function DeleteEvaluatorsButton({
         open={isOpen}
         onOpenChange={setOpen}
         isPending={deleteEvaluators.isPending}
-        description={`This action cannot be undone. ${selectedIds.length} evaluator(s) will be deleted.`}
         onConfirm={() =>
           deleteEvaluators.mutate(
             { projectId, evaluatorIds: selectedIds },
