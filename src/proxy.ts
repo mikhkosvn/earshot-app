@@ -13,6 +13,8 @@ const SHARE_PATH_PREFIX = UrlGenerator.share({ token: '' });
 
 const PROJECT_PATH_PATTERN = /^\/(\d+)(?:\/|$)/;
 const PROJECT_QUERY_PATTERN = /^\d+$/;
+const TRAILING_SLASH_PATTERN = /\/+$/;
+const PERMANENT_REDIRECT_STATUS = 308;
 
 const isPublicPath = (pathname: string) =>
   PUBLIC_PATHS.includes(pathname) || pathname.startsWith(SHARE_PATH_PREFIX);
@@ -25,7 +27,20 @@ const readUrlProjectId = (request: NextRequest) => {
   return null;
 };
 
+const withoutTrailingSlash = (request: NextRequest) => {
+  const { pathname } = request.nextUrl;
+  if (pathname === '/' || !pathname.endsWith('/')) return null;
+  const url = request.nextUrl.clone();
+  url.pathname = pathname.replace(TRAILING_SLASH_PATTERN, '') || '/';
+  return url;
+};
+
 export function proxy(request: NextRequest) {
+  const canonicalUrl = withoutTrailingSlash(request);
+  if (canonicalUrl) {
+    return NextResponse.redirect(canonicalUrl, PERMANENT_REDIRECT_STATUS);
+  }
+
   if (isPublicPath(request.nextUrl.pathname)) return NextResponse.next();
 
   if (!request.cookies.has(SESSION_COOKIE_NAME)) {
