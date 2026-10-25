@@ -1,7 +1,7 @@
 import type { NextRequest } from 'next/server';
 import { z } from 'zod';
 
-import { requireUser } from '@/server/auth';
+import { getSessionUser } from '@/server/auth';
 import { findFileForUser } from '@/server/files/find-file-for-user';
 import { readFileStream } from '@/server/files/read-file-stream';
 import {
@@ -13,6 +13,8 @@ import {
   RangeResult,
 } from '@/server/files/utils/parse-range-header';
 import type { ByteRange } from '@/server/files/types';
+import { AUTHENTICATION_REQUIRED_DETAIL } from '@/server/public-api/constants';
+import { detailErrorResponse } from '@/server/public-api/error-response';
 
 const fileIdSchema = z.uuid();
 
@@ -67,7 +69,10 @@ export async function GET(
   request: NextRequest,
   context: RouteContext<'/api/files/[fileId]'>,
 ) {
-  const { user } = await requireUser();
+  const user = await getSessionUser();
+  if (!user) {
+    return detailErrorResponse(401, AUTHENTICATION_REQUIRED_DETAIL);
+  }
   const parsedId = fileIdSchema.safeParse((await context.params).fileId);
   if (!parsedId.success) return new Response(null, { status: 404 });
   const file = await findFileForUser(parsedId.data, user.id);
