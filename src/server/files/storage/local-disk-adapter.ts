@@ -8,11 +8,14 @@ import { Readable } from 'node:stream';
 import type { StorageAdapter } from '@/server/files/storage/storage-adapter';
 
 const storageRoot = () =>
-  path.resolve(process.env.STORAGE_DIR || path.join(process.cwd(), 'storage'));
+  path.resolve(
+    /* turbopackIgnore: true */ process.env.STORAGE_DIR ||
+      path.join(/* turbopackIgnore: true */ process.cwd(), 'storage'),
+  );
 
 const resolveKey = (key: string) => {
   const root = storageRoot();
-  const filePath = path.resolve(root, key);
+  const filePath = path.resolve(/* turbopackIgnore: true */ root, key);
   if (!filePath.startsWith(root + path.sep)) {
     throw new Error('The storage key is not valid.');
   }
