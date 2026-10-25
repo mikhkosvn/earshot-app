@@ -45,10 +45,23 @@ const THIRD_PERSON_PURPOSE_PATTERN =
   /^(?:a|an|the) (?:[\w-]+ )?(?:caller|customer|user|patient|person) (?:calls|is calling|wants|needs) to\s+(.+)$/i;
 const GENERIC_STATEMENT_PATTERN =
   /^(?:my|the) (?:request|issue|problem|question|details|information|reason)\b/i;
+const TRAILING_DIRECTIVE_PATTERN =
+  /,?\s+(?:and|then)\s+(?:then\s+)?(?:end|hang up|wait|stop|leave)\b.*$/i;
 const LEADING_ADVERB_PATTERN =
   /^(?:at first|first|then|next|finally|also)\b,?\s*/i;
 const QUESTION_WORD_PATTERN =
   /^(?:whether|if|what|when|where|which|who|how|why)\b/i;
+const YES_NO_QUESTION_PATTERN =
+  /^(?:ask|inquire)\s+(?:the agent\s+)?(?:if|whether)\b/i;
+const YES_NO_TOPIC_PATTERN = /^(?:if|whether)\s+/i;
+const DIRECT_CLAUSE_PATTERN =
+  /^(you|it|they|we) (can|could|will|would|is|are|does|do|has|have|should)\b\s*(.*)$/i;
+const CALLER_OBJECT_REPLACEMENTS: [RegExp, string][] = [
+  [/\byourself\b/gi, 'myself'],
+  [/\byour\b/gi, 'my'],
+  [/\byou\b/gi, 'me'],
+  [/\bthe agent\b/gi, 'you'],
+];
 
 const VALUE_START = '\u0001';
 const VALUE_END = '\u0002';
@@ -91,15 +104,39 @@ const capitalize = (text: string) =>
 const lowerFirst = (text: string) =>
   text.charAt(0).toLowerCase() + text.slice(1);
 
+const withoutTrailingCondition = (line: string) => {
+  if (YES_NO_QUESTION_PATTERN.test(line)) return line;
+  return line.replace(TRAILING_CONDITION_PATTERN, '');
+};
+
 const withoutConditions = (line: string) =>
-  line
-    .replace(/[.!?]+$/, '')
-    .replace(LEADING_CONDITION_PATTERN, '')
-    .replace(TRAILING_CONDITION_PATTERN, '')
+  withoutTrailingCondition(
+    line.replace(/[.!?]+$/, '').replace(LEADING_CONDITION_PATTERN, ''),
+  )
+    .replace(TRAILING_DIRECTIVE_PATTERN, '')
     .replace(LEADING_ADVERB_PATTERN, '')
     .trim();
 
+const toCallerQuestion = (clause: string) =>
+  CALLER_OBJECT_REPLACEMENTS.reduce(
+    (text, [pattern, replacement]) => text.replace(pattern, replacement),
+    clause,
+  );
+
+const yesNoQuestionLine = (core: string) => {
+  const topic = core.replace(QUESTION_VERB_PATTERN, '');
+  const direct = DIRECT_CLAUSE_PATTERN.exec(
+    toCallerQuestion(topic.replace(YES_NO_TOPIC_PATTERN, '')),
+  );
+  if (!direct) return `Can you tell me ${lowerFirst(toFirstPerson(topic))}?`;
+  const [, subject, auxiliary, rest] = direct;
+  return `${capitalize(auxiliary.toLowerCase())} ${subject.toLowerCase()} ${rest}`
+    .trim()
+    .concat('?');
+};
+
 const questionLine = (core: string) => {
+  if (YES_NO_QUESTION_PATTERN.test(core)) return yesNoQuestionLine(core);
   const topic = toFirstPerson(core.replace(QUESTION_VERB_PATTERN, ''));
   if (QUESTION_WORD_PATTERN.test(topic)) {
     return `Can you tell me ${lowerFirst(topic)}?`;
