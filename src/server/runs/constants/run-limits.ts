@@ -1,0 +1,20 @@
+export const RUN_FREQUENCY_MIN = 1;
+export const RUN_FREQUENCY_MAX = 100;
+export const CALLS_PER_SECOND_MIN = 0.1;
+export const CALLS_PER_SECOND_MAX = 4;
+export const CONCURRENCY_LIMIT_MIN = 1;
+export const RESULT_NAME_MAX_LENGTH = 200;
+export const RUN_BATCH_MAX_RUNS = 500;
+export const TEST_SUITE_SPEC_MAX_BYTES = 1024 * 1024;
+
+export const RUN_DISPATCH_INTERVAL_MS = 1000;
+export const STALE_RUN_SWEEP_INTERVAL_MS = 30_000;
+export const STALE_RUN_MARGIN_SECONDS = 300;
+export const RESULT_START_BATCH_SIZE = 10;
+export const RUN_STATUS_POLL_INTERVAL_MS = 2000;
+
+export const SLOW_SPEED_BELOW = 0.9;
+export const FAST_SPEED_ABOVE = 1.1;
+
+export const TESTING_NUMBER_PREFIX = '+1555';
+export const TESTING_NUMBER_DIGITS = 7;
