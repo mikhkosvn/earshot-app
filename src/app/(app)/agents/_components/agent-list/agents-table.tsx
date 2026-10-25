@@ -12,11 +12,9 @@ import {
 import { useAgentListQuery } from '../../_hooks/agent-list/use-agent-list-query';
 import { AgentRow } from './agent-row';
 import { AgentsEmptyRow } from './agents-empty-row';
-import { AgentsTableSkeleton } from './agents-table-skeleton';
 
 export function AgentsTable() {
   const { data } = useAgentListQuery();
-  if (!data) return <AgentsTableSkeleton />;
 
   return (
     <div className="flex flex-col gap-2">
