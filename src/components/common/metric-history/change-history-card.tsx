@@ -1,7 +1,7 @@
 'use client';
 
-import { useMetricVersions } from '../../_hooks/use-metric-versions';
-import { recordCountText } from '../../_utils/version-text';
+import { useMetricVersions } from './_hooks/use-metric-versions';
+import { recordCountText } from './_utils/version-text';
 import { HistoryEntry } from './history-entry';
 
 export function ChangeHistoryCard() {

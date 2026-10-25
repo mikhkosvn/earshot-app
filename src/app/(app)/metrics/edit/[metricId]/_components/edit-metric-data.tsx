@@ -7,7 +7,7 @@ import { MetricService } from '@/app/(app)/metrics/_service';
 import { QueryErrorBoundary } from '@/components/common/query-error-boundary';
 import getQueryClient from '@/lib/query-client/get-query-client';
 
-import { EditMetricService } from '../_service';
+import { EditMetricService } from '@/components/common/metric-history/_service';
 import { EditMetricSkeleton } from './edit-metric-skeleton';
 import { EditMetricView } from './edit-metric-view';
 

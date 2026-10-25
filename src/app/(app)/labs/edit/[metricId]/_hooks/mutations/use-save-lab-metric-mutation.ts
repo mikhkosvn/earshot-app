@@ -5,7 +5,7 @@ import { toast } from 'sonner';
 
 import { LabService } from '@/app/(app)/labs/_service';
 import { MetricService } from '@/app/(app)/metrics/_service';
-import { EditMetricService } from '@/app/(app)/metrics/edit/[metricId]/_service';
+import { EditMetricService } from '@/components/common/metric-history/_service';
 import { updateMetricAction } from '@/server/metrics/actions';
 import type { UpdateMetricInput } from '@/server/metrics/types';
 

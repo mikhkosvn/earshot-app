@@ -1,6 +1,6 @@
 import type { MetricVersionView } from '@/server/metrics/types';
 
-import { formatVersionDate, versionLabel } from '../../_utils/version-text';
+import { formatVersionDate, versionLabel } from './_utils/version-text';
 import { CurrentVersionTag } from './current-version-tag';
 import { InitialVersionNote } from './initial-version-note';
 

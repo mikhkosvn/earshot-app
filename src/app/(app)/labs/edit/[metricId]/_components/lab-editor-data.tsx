@@ -4,7 +4,7 @@ import { Suspense } from 'react';
 
 import { prefetchCurrentProject } from '@/app/(app)/_utils/prefetch-current-project';
 import { LabService } from '@/app/(app)/labs/_service';
-import { EditMetricService } from '@/app/(app)/metrics/edit/[metricId]/_service';
+import { EditMetricService } from '@/components/common/metric-history/_service';
 import { QueryErrorBoundary } from '@/components/common/query-error-boundary';
 import getQueryClient from '@/lib/query-client/get-query-client';
 

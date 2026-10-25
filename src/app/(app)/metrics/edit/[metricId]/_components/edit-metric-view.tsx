@@ -10,8 +10,8 @@ import { CompareVersionsCard } from './compare/compare-versions-card';
 import { EditMetricBreadcrumb } from './edit-metric-breadcrumb';
 import { EditFormSkeleton } from './form/edit-form-skeleton';
 import { EditMetricForm } from './form/edit-metric-form';
-import { ChangeHistoryCard } from './history/change-history-card';
-import { HistorySkeleton } from './history/history-skeleton';
+import { ChangeHistoryCard } from '@/components/common/metric-history/change-history-card';
+import { HistorySkeleton } from '@/components/common/metric-history/history-skeleton';
 
 export function EditMetricView() {
   return (

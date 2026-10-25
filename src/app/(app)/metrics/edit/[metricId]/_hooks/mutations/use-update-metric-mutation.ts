@@ -7,7 +7,7 @@ import { MetricKey, MetricService } from '@/app/(app)/metrics/_service';
 import { updateMetricAction } from '@/server/metrics/actions';
 import type { UpdateMetricInput } from '@/server/metrics/types';
 
-import { EditMetricService } from '../../_service';
+import { EditMetricService } from '@/components/common/metric-history/_service';
 
 export const useUpdateMetricMutation = () => {
   const queryClient = useQueryClient();

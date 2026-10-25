@@ -1,6 +1,6 @@
 'use client';
 
-import { useMetricVersions } from '../../_hooks/use-metric-versions';
+import { useMetricVersions } from '@/components/common/metric-history/_hooks/use-metric-versions';
 import { diffSnapshots } from '../../_utils/snapshot-diff';
 import { CompareChangeList } from './compare-change-list';
 

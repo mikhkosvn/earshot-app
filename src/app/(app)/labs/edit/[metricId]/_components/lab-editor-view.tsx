@@ -2,8 +2,8 @@
 
 import { Suspense } from 'react';
 
-import { ChangeHistoryCard } from '@/app/(app)/metrics/edit/[metricId]/_components/history/change-history-card';
-import { HistorySkeleton } from '@/app/(app)/metrics/edit/[metricId]/_components/history/history-skeleton';
+import { ChangeHistoryCard } from '@/components/common/metric-history/change-history-card';
+import { HistorySkeleton } from '@/components/common/metric-history/history-skeleton';
 import { QueryErrorBoundary } from '@/components/common/query-error-boundary';
 
 import { LabEditorForm } from './lab-editor-form';
