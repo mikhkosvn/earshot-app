@@ -139,3 +139,13 @@ model RunsOverviewHiddenMetric {
 
   @@id([configurationId, metricId])
 }
+
+model DailyReportDelivery {
+  id         Int      @id @default(autoincrement())
+  projectId  Int
+  reportDate DateTime @db.Date
+  createdAt  DateTime @default(now())
+  project    Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+
+  @@unique([projectId, reportDate])
+}
