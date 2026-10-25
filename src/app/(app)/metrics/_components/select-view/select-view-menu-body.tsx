@@ -16,9 +16,9 @@ import { useViewParam } from '../../_hooks/use-view-param';
 import { MetricService } from '../../_service';
 import { SavedViewMenuItem } from './saved-view-menu-item';
 
-type SelectViewMenuBodyProps = {
+interface SelectViewMenuBodyProps {
   onCreateView: () => void;
-};
+}
 
 export function SelectViewMenuBody({ onCreateView }: SelectViewMenuBodyProps) {
   const [query, setQuery] = useState('');

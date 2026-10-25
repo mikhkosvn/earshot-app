@@ -6,14 +6,14 @@ import { cn } from '@/lib/utils';
 
 import { ExpandToggleButton } from './expand-toggle-button';
 
-type ExplanationCellProps = {
-  explanation: string[];
-};
+interface ExplanationCellProps {
+  explanation: readonly string[];
+}
 
 const PREVIEW_ITEMS = 2;
 const PREVIEW_CHARACTERS = 160;
 
-const isLong = (explanation: string[]) =>
+const isLong = (explanation: readonly string[]) =>
   explanation.length > PREVIEW_ITEMS ||
   explanation.join(' ').length > PREVIEW_CHARACTERS;
 
@@ -27,10 +27,7 @@ export function ExplanationCell({ explanation }: ExplanationCellProps) {
   return (
     <div className="flex w-56 flex-col items-start gap-1">
       <ul
-        className={cn(
-          'ml-4 list-disc text-sm',
-          !isExpanded && 'line-clamp-6',
-        )}
+        className={cn('ml-4 list-disc text-sm', !isExpanded && 'line-clamp-6')}
       >
         {explanation.map((line, index) => (
           <li key={`${index}-${line}`}>{line}</li>

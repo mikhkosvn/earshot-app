@@ -2,9 +2,9 @@ import { RubricItemIcon } from './rubric-item-icon';
 
 import type { RubricBreakdownItem } from '@/server/metric-scoring/types';
 
-type RubricItemRowProps = {
+interface RubricItemRowProps {
   item: RubricBreakdownItem;
-};
+}
 
 export function RubricItemRow({ item }: RubricItemRowProps) {
   return (

@@ -34,16 +34,16 @@ export type DeleteResultsInput = z.input<typeof deleteResultsSchema>;
 export type DeleteRunsInput = z.input<typeof deleteRunsSchema>;
 export type RenameResultInput = z.input<typeof renameResultSchema>;
 
-export type NamedRef = {
+export interface NamedRef {
   id: number;
   name: string;
-};
+}
 
-export type AgentRef = NamedRef & {
+export interface AgentRef extends NamedRef {
   versionLabel: string | null;
-};
+}
 
-export type ResultListRow = {
+export interface ResultListRow {
   id: number;
   name: string;
   evaluatorCount: number;
@@ -54,34 +54,34 @@ export type ResultListRow = {
   status: RunStatus;
   successRate: number | null;
   createdAt: Date;
-};
+}
 
-export type ResultListPage = {
+export interface ResultListPage {
   count: number;
   rows: ResultListRow[];
-};
+}
 
-export type ResultFilterOptions = {
+export interface ResultFilterOptions {
   agents: NamedRef[];
   evaluators: NamedRef[];
   tags: string[];
-};
+}
 
-export type MetricColumn = {
+export interface MetricColumn {
   id: number;
   name: string;
   evalType: MetricEvalType;
   functionName: string | null;
-};
+}
 
-export type RunMetricCell = {
+export interface RunMetricCell {
   value: MetricValue;
   firstTurn: number | null;
   p50: number | null;
   p99: number | null;
-};
+}
 
-export type RunRow = {
+export interface RunRow {
   id: number;
   resultId: number;
   conversationId: number;
@@ -98,15 +98,15 @@ export type RunRow = {
   ringingDuration: number | null;
   feedback: string | null;
   metrics: Record<number, RunMetricCell>;
-};
+}
 
-export type RunListPage = {
+export interface RunListPage {
   count: number;
   rows: RunRow[];
   metricColumns: MetricColumn[];
-};
+}
 
-export type ResultStatusView = {
+export interface ResultStatusView {
   id: number;
   status: RunStatus;
   total: number;
@@ -114,15 +114,15 @@ export type ResultStatusView = {
   success: number;
   failed: number;
   aiSummaryStatus: AiSummaryStatus | null;
-};
+}
 
-export type TileRun = {
+export interface TileRun {
   runId: number;
   value: MetricValue;
   passed: boolean | null;
-};
+}
 
-export type ResultMetricTile = {
+export interface ResultMetricTile {
   metricId: number;
   name: string;
   description: string;
@@ -135,41 +135,41 @@ export type ResultMetricTile = {
   thresholdText: string | null;
   inRubric: boolean;
   runs: TileRun[];
-};
+}
 
-export type ResultTagTile = {
+export interface ResultTagTile {
   tag: string;
   successRate: number;
   runIds: number[];
-};
+}
 
-export type ResultRunRef = {
+export interface ResultRunRef {
   runId: number;
   startedAt: Date;
   personalityName: string | null;
   evaluatorName: string;
-};
+}
 
-export type ResultLatencyStats = {
+export interface ResultLatencyStats {
   p50: number;
   p95: number;
   p99: number;
   mean: number;
-};
+}
 
-export type ResultRingingStats = {
+export interface ResultRingingStats {
   p50: number;
   mean: number;
-};
+}
 
-export type ResultReportMetric = {
+export interface ResultReportMetric {
   metricId: number;
   name: string;
   score: number;
   explanation: string[];
-};
+}
 
-export type ResultDetail = {
+export interface ResultDetail {
   id: number;
   projectId: number;
   name: string;
@@ -206,9 +206,9 @@ export type ResultDetail = {
   };
   runIndex: ResultRunRef[];
   reportMetrics: ResultReportMetric[];
-};
+}
 
-export type RunDetail = {
+export interface RunDetail {
   id: number;
   resultId: number;
   conversationId: number;
@@ -216,7 +216,7 @@ export type RunDetail = {
   evaluationStatus: CallEvaluationStatus | null;
   feedback: string | null;
   errorMessage: string | null;
-  evaluator: { id: number | null; name: string };
+  evaluator: RunRow['evaluator'];
   agent: AgentRef | null;
   personality: NamedRef | null;
   testProfile: NamedRef | null;
@@ -224,4 +224,4 @@ export type RunDetail = {
   inbound: boolean;
   testingNumber: string | null;
   rubric: RubricVerdict;
-};
+}

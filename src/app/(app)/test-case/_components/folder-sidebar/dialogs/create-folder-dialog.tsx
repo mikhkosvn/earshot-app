@@ -9,11 +9,11 @@ import {
 
 import { CreateFolderForm } from './create-folder-form';
 
-type CreateFolderDialogProps = {
+interface CreateFolderDialogProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   parentPath: string | null;
-};
+}
 
 export function CreateFolderDialog({
   open,

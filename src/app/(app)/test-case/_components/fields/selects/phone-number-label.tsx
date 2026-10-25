@@ -1,8 +1,8 @@
 import type { PhoneNumberOption } from '@/server/evaluators/types';
 
-type PhoneNumberLabelProps = {
+interface PhoneNumberLabelProps {
   phoneNumber: PhoneNumberOption;
-};
+}
 
 export function PhoneNumberLabel({ phoneNumber }: PhoneNumberLabelProps) {
   if (!phoneNumber.name) return phoneNumber.phoneNumber;

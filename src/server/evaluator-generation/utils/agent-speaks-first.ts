@@ -3,7 +3,10 @@ import 'server-only';
 import { ChatRole } from '@/generated/prisma/enums';
 import { AGENT_SPEAKS_FIRST_QUESTION } from '@/server/evaluator-generation/constants';
 
-type MessageRow = { role: ChatRole; content: string };
+interface MessageRow {
+  role: ChatRole;
+  content: string;
+}
 
 const answerAfterQuestion = (messages: MessageRow[]) => {
   const questionIndex = messages.findIndex(

@@ -8,10 +8,10 @@ import {
   InputGroupInput,
 } from '@/components/ui/input-group';
 
-type ReevaluateMetricSearchProps = {
+interface ReevaluateMetricSearchProps {
   value: string;
   onChange: (value: string) => void;
-};
+}
 
 export function ReevaluateMetricSearch({
   value,

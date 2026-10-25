@@ -37,10 +37,10 @@ const callLogSelect = {
 
 type CallLogRecord = Prisma.CallLogGetPayload<{ select: typeof callLogSelect }>;
 
-type RecordingResult = {
+interface RecordingResult {
   file: TranscriptionFile | null;
   durationSeconds: number | null;
-};
+}
 
 const NO_RECORDING: RecordingResult = { file: null, durationSeconds: null };
 

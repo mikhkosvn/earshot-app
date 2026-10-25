@@ -90,7 +90,9 @@ const generationJobsInterval = (jobs: JobView[] | undefined) => {
   return false;
 };
 
-type ProjectArgs = { projectId: number };
+interface ProjectArgs {
+  projectId: number;
+}
 
 export class EvaluatorService {
   static readonly listKey = [EvaluatorKey.list];

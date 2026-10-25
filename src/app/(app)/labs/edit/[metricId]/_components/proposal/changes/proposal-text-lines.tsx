@@ -2,10 +2,10 @@ import { cn } from '@/lib/utils';
 
 import { DiffLineKind, lineDiff } from '../../../_utils/line-diff';
 
-type ProposalTextLinesProps = {
+interface ProposalTextLinesProps {
   before: string;
   after: string;
-};
+}
 
 const LINE_CLASS: Record<DiffLineKind, string> = {
   [DiffLineKind.same]: 'text-muted-foreground',

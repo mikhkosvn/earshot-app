@@ -7,9 +7,9 @@ import { Button } from '@/components/ui/button';
 import { DashboardSource } from '@/generated/prisma/enums';
 import { runsOverviewParser } from '@/lib/url-generator/parsers';
 
-type ClassicViewButtonProps = {
+interface ClassicViewButtonProps {
   source: DashboardSource;
-};
+}
 
 const viewParsers = {
   view: runsOverviewParser.view,

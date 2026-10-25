@@ -20,9 +20,9 @@ import type { DynamicVariableItem } from '@/server/agents/types';
 import { useDeleteDynamicVariableMutation } from '../../_hooks/mutations/dynamic-variables/use-delete-dynamic-variable-mutation';
 import { EditVariableDialog } from './edit-variable/edit-variable-dialog';
 
-type VariableRowProps = {
+interface VariableRowProps {
   variable: DynamicVariableItem;
-};
+}
 
 export function VariableRow({ variable }: VariableRowProps) {
   const [editOpen, setEditOpen] = useState(false);

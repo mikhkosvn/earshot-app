@@ -4,9 +4,9 @@ import { METRIC_TILE_CLASS } from '../../../_constants/result-detail';
 import { formatPercent } from '../../../_utils/number-format';
 import { PercentBar } from '../../percent-bar';
 
-type TagTileProps = {
+interface TagTileProps {
   tile: ResultTagTile;
-};
+}
 
 export function TagTile({ tile }: TagTileProps) {
   return (

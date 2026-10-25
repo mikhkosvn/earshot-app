@@ -8,12 +8,12 @@ import { CallRow } from './call-row';
 import { CallTableEmptyRow } from './call-table-empty-row';
 import { CallTableHeader } from './call-table-header';
 
-type CallTableProps = {
-  selectedIds: number[];
+interface CallTableProps {
+  selectedIds: readonly number[];
   onSelectedIdsChange: (ids: number[]) => void;
-};
+}
 
-const toggled = (ids: number[], id: number, checked: boolean) => {
+const toggled = (ids: readonly number[], id: number, checked: boolean) => {
   if (checked) return [...ids, id];
   return ids.filter((item) => item !== id);
 };

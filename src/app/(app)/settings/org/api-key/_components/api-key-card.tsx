@@ -13,9 +13,9 @@ import { apiKeyLabel } from '../_utils/api-key-values';
 import { ApiKeyProjectBadge } from './api-key-project-badge';
 import { DeleteApiKeyButton } from './delete-api-key-button';
 
-type ApiKeyCardProps = {
+interface ApiKeyCardProps {
   apiKey: ApiKeyRow;
-};
+}
 
 export function ApiKeyCard({ apiKey }: ApiKeyCardProps) {
   const label = apiKeyLabel(apiKey.name);

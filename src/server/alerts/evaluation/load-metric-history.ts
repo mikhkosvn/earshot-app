@@ -12,12 +12,15 @@ import { numericValueOf } from '@/server/alerts/utils/evaluation-value';
 
 const METADATA_OVERFETCH = 5;
 
-export type HistoryPoint = { id: number; value: number };
+export interface HistoryPoint {
+  id: number;
+  value: number;
+}
 
-type HistoryRule = {
+interface HistoryRule {
   filters: Prisma.JsonValue | null;
   metric: { id: number };
-};
+}
 
 const callLogWhere = (
   agentIds: number[],

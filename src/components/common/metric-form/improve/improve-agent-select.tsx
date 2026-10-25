@@ -13,10 +13,10 @@ import { useAgentOptions } from '../_hooks/use-agent-options';
 
 const FIELD_ID = 'improve-agent';
 
-type ImproveAgentSelectProps = {
+interface ImproveAgentSelectProps {
   value: number | null;
   onValueChange: (agentId: number) => void;
-};
+}
 
 export function ImproveAgentSelect({
   value,

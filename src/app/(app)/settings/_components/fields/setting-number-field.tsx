@@ -15,13 +15,13 @@ import { toNumberInputValue } from '@/app/(app)/settings/_utils/number-input-val
 
 import { SettingFieldDescription } from './setting-field-description';
 
-type SettingNumberFieldProps<Values extends FieldValues> = {
+interface SettingNumberFieldProps<Values extends FieldValues> {
   name: Path<Values>;
   label: string;
   description?: ReactNode;
   scale?: number;
   step?: number | 'any';
-};
+}
 
 export function SettingNumberField<Values extends FieldValues>({
   name,

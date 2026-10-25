@@ -4,10 +4,10 @@ import { useConversation } from '../_hooks/use-conversation';
 import { ViewerCollapsibleCard } from '../viewer-collapsible-card';
 import { MetadataTile } from './metadata-tile';
 
-type ConversationMetadataCardProps = {
+interface ConversationMetadataCardProps {
   conversationId: number;
   shareToken?: string | null;
-};
+}
 
 export function ConversationMetadataCard({
   conversationId,

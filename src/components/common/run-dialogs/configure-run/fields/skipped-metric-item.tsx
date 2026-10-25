@@ -7,9 +7,9 @@ import { Button } from '@/components/ui/button';
 import { UrlGenerator } from '@/lib/url-generator/url-generator';
 import type { SkippedMetric } from '@/server/runs/types';
 
-type SkippedMetricItemProps = {
+interface SkippedMetricItemProps {
   metric: SkippedMetric;
-};
+}
 
 export function SkippedMetricItem({ metric }: SkippedMetricItemProps) {
   const projectId = useCurrentProjectId();

@@ -10,9 +10,9 @@ import { useAddConnectorForm } from '../../../_hooks/use-add-connector-form';
 import { ConnectorBasicsFields } from './connector-basics-fields';
 import { ConnectorSourceFields } from './connector-source-fields';
 
-type AddConnectorFormProps = {
+interface AddConnectorFormProps {
   onCreated: () => void;
-};
+}
 
 export function AddConnectorForm({ onCreated }: AddConnectorFormProps) {
   const { form, onSubmit, isPending } = useAddConnectorForm(onCreated);

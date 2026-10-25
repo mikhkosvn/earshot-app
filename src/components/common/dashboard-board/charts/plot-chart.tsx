@@ -11,10 +11,10 @@ import { SlicePieChart } from './kinds/slice-pie-chart';
 import { StatCells } from './kinds/stat-cells';
 import { PlotEmpty } from './plot-empty';
 
-type PlotChartProps = {
+interface PlotChartProps {
   data: PlotData;
   config: PlotConfig;
-};
+}
 
 export function PlotChart({ data, config }: PlotChartProps) {
   switch (data.kind) {
@@ -26,11 +26,15 @@ export function PlotChart({ data, config }: PlotChartProps) {
     case PlotDataKind.points:
       if (data.points.length === 0) return <PlotEmpty />;
       return <PointChart data={data} config={config} />;
-    default:
+    case PlotDataKind.slices:
       if (data.slices.length === 0) return <PlotEmpty />;
       if (config.displayType === PlotDisplayType.list) {
         return <SliceList data={data} config={config} />;
       }
       return <SlicePieChart data={data} config={config} />;
+    default: {
+      const unhandled: never = data;
+      return unhandled;
+    }
   }
 }

@@ -9,9 +9,9 @@ import {
   RunsTable,
 } from '../../../_components/runs-table/runs-table';
 
-type ResultRunsTableProps = {
+interface ResultRunsTableProps {
   selection: RunSelection;
-};
+}
 
 export function ResultRunsTable({ selection }: ResultRunsTableProps) {
   const { data } = useResultRunsQuery();

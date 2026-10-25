@@ -7,11 +7,11 @@ import { panelJobs, type PanelScope } from '../_utils/panel-jobs';
 import { BackgroundTaskRow } from '../task-row/background-task-row';
 import { BackgroundTaskEmpty } from './background-task-empty';
 
-type BackgroundTaskListProps = {
+interface BackgroundTaskListProps {
   kind: JobKind;
   scope: PanelScope;
   onDismiss: () => void;
-};
+}
 
 export function BackgroundTaskList({
   kind,

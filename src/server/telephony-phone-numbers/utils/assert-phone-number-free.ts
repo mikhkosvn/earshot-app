@@ -3,11 +3,11 @@ import 'server-only';
 import { prisma } from '@/lib/prisma';
 import { ActionError } from '@/server/common/run-action';
 
-type PhoneNumberOwner = {
+interface PhoneNumberOwner {
   organizationId: number;
   phoneNumber: string;
   exceptId?: number;
-};
+}
 
 export const assertPhoneNumberFree = async ({
   organizationId,

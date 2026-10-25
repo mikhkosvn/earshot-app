@@ -16,9 +16,9 @@ import { useCreateApiKeyForm } from '../../_hooks/use-create-api-key-form';
 import { ApiKeyLevelField } from './api-key-level-field';
 import { CreateApiKeySubmitButton } from './create-api-key-submit-button';
 
-type CreateApiKeyFormProps = {
+interface CreateApiKeyFormProps {
   createApiKey: ReturnType<typeof useCreateApiKeyMutation>;
-};
+}
 
 const NAME_FIELD_ID = 'create-api-key-name';
 

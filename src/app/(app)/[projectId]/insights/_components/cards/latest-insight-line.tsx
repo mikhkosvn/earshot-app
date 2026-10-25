@@ -3,9 +3,9 @@ import { Badge } from '@/components/ui/badge';
 import { InsightStatusLabel } from '@/server/insights/constants/insight-status-labels';
 import type { LatestInsightView } from '@/server/insights/types';
 
-type LatestInsightLineProps = {
+interface LatestInsightLineProps {
   insight: LatestInsightView | null;
-};
+}
 
 const detailOf = (insight: LatestInsightView) => {
   if (insight.errorMessage) return insight.errorMessage;

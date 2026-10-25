@@ -24,11 +24,11 @@ export const REVIEW_EVALUATION_OPTIONS: CallEvaluationStatus[] = [
   CallEvaluationStatus.reviewed_failure,
 ];
 
-type EvaluationStatusMenuProps = {
+interface EvaluationStatusMenuProps {
   runId: number;
   evaluationStatus: CallEvaluationStatus;
-  options: CallEvaluationStatus[];
-};
+  options: readonly CallEvaluationStatus[];
+}
 
 export function EvaluationStatusMenu({
   runId,

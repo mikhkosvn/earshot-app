@@ -2,10 +2,10 @@ import { ArrowDownIcon, ArrowUpDownIcon, ArrowUpIcon } from 'lucide-react';
 
 import { SortDirection } from '@/server/results/constants/result-list';
 
-type RunSortIconProps = {
+interface RunSortIconProps {
   isActive: boolean;
   direction: SortDirection;
-};
+}
 
 export function RunSortIcon({ isActive, direction }: RunSortIconProps) {
   if (!isActive) {

@@ -11,14 +11,14 @@ import {
 } from '@/components/ui/select';
 import { cn } from '@/lib/utils';
 
-export type SelectOption<TValue extends string | number> = {
+export interface SelectOption<TValue extends string | number> {
   value: TValue | null;
   label: ReactNode;
-};
+}
 
-type OptionSelectProps<TValue extends string | number> = {
+interface OptionSelectProps<TValue extends string | number> {
   id?: string;
-  items: SelectOption<TValue>[];
+  items: readonly SelectOption<TValue>[];
   value: TValue | null;
   onValueChange: (value: TValue | null) => void;
   placeholder: string;
@@ -26,7 +26,7 @@ type OptionSelectProps<TValue extends string | number> = {
   disabled?: boolean;
   invalid?: boolean;
   className?: string;
-};
+}
 
 export function OptionSelect<TValue extends string | number>({
   id,

@@ -3,9 +3,9 @@ import type { AgentProvider } from '@/generated/prisma/enums';
 import { PROVIDER_LIST_LABEL } from '../../_constants/provider-display';
 import { ProviderMonogram } from './provider-monogram';
 
-type ProviderBadgeProps = {
+interface ProviderBadgeProps {
   provider: AgentProvider;
-};
+}
 
 export function ProviderBadge({ provider }: ProviderBadgeProps) {
   return (

@@ -2,10 +2,10 @@
 
 import { formatAuthorDate } from '../../../_utils/format-author-date';
 
-type AuthorDateProps = {
+interface AuthorDateProps {
   date: Date;
   author: string | null;
-};
+}
 
 export function AuthorDate({ date, author }: AuthorDateProps) {
   return (

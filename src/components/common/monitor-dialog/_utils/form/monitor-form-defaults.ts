@@ -21,11 +21,11 @@ import { browserTimezone } from '../schedule/browser-timezone';
 import { scheduleModeForCron } from '../schedule/schedule-mode-for-cron';
 import { findAgent } from './monitor-name';
 
-export type CreateMonitorPrefill = {
+export interface CreateMonitorPrefill {
   agentId?: number | null;
   evaluatorIds?: number[];
   preset?: MonitorPreset | null;
-};
+}
 
 const allScenarioIds = (tree: MonitorScenarioTree) =>
   tree.folders.flatMap((folder) =>

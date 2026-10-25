@@ -6,11 +6,11 @@ import { prisma } from '@/lib/prisma';
 import { labMetricWhere } from '@/server/labs/utils/lab-metric-where';
 import { ACTIVE_OPTIMIZATION_STATUSES } from '@/server/metric-optimizer/constants/optimization-statuses';
 
-type MetricRow = {
+interface MetricRow {
   id: number;
   labReviews: { createdAt: Date }[];
   optimizationSessions: { createdAt: Date; status: OptimizationStatus }[];
-};
+}
 
 const hasNewRows = ({ labReviews, optimizationSessions }: MetricRow) => {
   const [latestReview] = labReviews;

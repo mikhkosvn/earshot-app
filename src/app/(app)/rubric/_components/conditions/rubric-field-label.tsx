@@ -2,10 +2,10 @@ import type { ReactNode } from 'react';
 
 import { FieldLabel } from '@/components/ui/field';
 
-type RubricFieldLabelProps = {
+interface RubricFieldLabelProps {
   htmlFor?: string;
   children: ReactNode;
-};
+}
 
 export function RubricFieldLabel({ htmlFor, children }: RubricFieldLabelProps) {
   return (

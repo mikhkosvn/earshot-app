@@ -17,12 +17,12 @@ import {
 import { listRunsInFlight } from '@/server/runs/execution/dispatch-runs';
 import { failRun } from '@/server/runs/execution/fail-run';
 
-type StaleCandidate = {
+interface StaleCandidate {
   id: number;
   executedAt: Date | null;
   updatedAt: Date;
   result: { project: { maxCallDuration: number } };
-};
+}
 
 const isStale = (run: StaleCandidate, inFlight: Set<number>, now: Date) => {
   if (!inFlight.has(run.id)) return true;

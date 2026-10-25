@@ -8,9 +8,9 @@ import type { OptimizerScheduleView } from '@/server/metric-optimizer/types';
 
 import { EditScheduleDialog } from './form/edit-schedule-dialog';
 
-type EditScheduleButtonProps = {
+interface EditScheduleButtonProps {
   schedule: OptimizerScheduleView;
-};
+}
 
 export function EditScheduleButton({ schedule }: EditScheduleButtonProps) {
   const [isOpen, setIsOpen] = useState(false);

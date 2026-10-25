@@ -11,10 +11,10 @@ import { WhatToTestSection } from './what-to-test/what-to-test-section';
 import { NextTriggerDatesSection } from './when-it-runs/next-trigger-dates-section';
 import { WhenItRunsSection } from './when-it-runs/when-it-runs-section';
 
-type EditMonitorFormProps = {
+interface EditMonitorFormProps {
   monitorId: number;
   onSaved: () => void;
-};
+}
 
 export function EditMonitorForm({ monitorId, onSaved }: EditMonitorFormProps) {
   const { form, onSubmit } = useEditMonitorForm(monitorId, onSaved);

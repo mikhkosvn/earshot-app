@@ -3,11 +3,11 @@ import type { FormEventHandler, ReactNode } from 'react';
 import { MonitorSummaryPanel } from '../summary/monitor-summary-panel';
 import { MonitorSubmitButton } from './monitor-submit-button';
 
-type MonitorFormLayoutProps = {
+interface MonitorFormLayoutProps {
   onSubmit: FormEventHandler<HTMLFormElement>;
   submitLabel: ReactNode;
   children: ReactNode;
-};
+}
 
 export function MonitorFormLayout({
   onSubmit,

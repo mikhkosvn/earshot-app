@@ -1,6 +1,6 @@
-type SpecFileNameProps = {
+interface SpecFileNameProps {
   fileName: string | null;
-};
+}
 
 export function SpecFileName({ fileName }: SpecFileNameProps) {
   if (!fileName) return null;

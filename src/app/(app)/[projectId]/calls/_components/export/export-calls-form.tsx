@@ -9,9 +9,9 @@ import { Input } from '@/components/ui/input';
 
 import { useExportCallsForm } from '../../_hooks/forms/use-export-calls-form';
 
-type ExportCallsFormProps = {
+interface ExportCallsFormProps {
   onStarted: () => void;
-};
+}
 
 const FIELD_ID = 'export-row-count';
 

@@ -6,11 +6,11 @@ import type { RunSortField } from '@/server/results/constants/result-list';
 import { useRunSort } from '../../../_hooks/runs/use-run-sort';
 import { RunSortIcon } from './run-sort-icon';
 
-type SortableRunHeadProps = {
+interface SortableRunHeadProps {
   field: RunSortField;
   label: string;
   pageParamKey: string;
-};
+}
 
 export function SortableRunHead({
   field,

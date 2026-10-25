@@ -13,11 +13,11 @@ const changeTypeOf = (hasPrevious: boolean) => {
   return HistoryChangeType.created;
 };
 
-type RecordVersionArgs = {
+interface RecordVersionArgs {
   evaluatorId: number;
   userId: number | null;
   changeReason?: string | null;
-};
+}
 
 export const recordEvaluatorVersion = async (
   tx: Prisma.TransactionClient,

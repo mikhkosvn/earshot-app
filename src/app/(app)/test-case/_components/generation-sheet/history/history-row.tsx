@@ -5,10 +5,10 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import type { GenerationSessionSummary } from '@/server/evaluator-generation/types';
 
-type HistoryRowProps = {
+interface HistoryRowProps {
   session: GenerationSessionSummary;
   onOpen: () => void;
-};
+}
 
 export function HistoryRow({ session, onOpen }: HistoryRowProps) {
   return (

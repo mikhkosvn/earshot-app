@@ -22,9 +22,9 @@ import type { RubricFormValues } from '../../../_schemas/rubric-form-schema';
 import { enumRuleValue, enumSelection } from '../../../_utils/enum-rule-value';
 import { RubricFieldLabel } from '../rubric-field-label';
 
-type RubricEnumValueFieldProps = {
+interface RubricEnumValueFieldProps {
   index: number;
-};
+}
 
 export function RubricEnumValueField({ index }: RubricEnumValueFieldProps) {
   const { control } = useFormContext<RubricFormValues>();

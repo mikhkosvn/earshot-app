@@ -1,8 +1,8 @@
 import { CircleDashedIcon, Loader2Icon } from 'lucide-react';
 
-type WebhookTestIconProps = {
+interface WebhookTestIconProps {
   isPending: boolean;
-};
+}
 
 export function WebhookTestIcon({ isPending }: WebhookTestIconProps) {
   if (isPending) return <Loader2Icon className="animate-spin" />;

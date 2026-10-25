@@ -6,9 +6,9 @@ import { ErrorBoundary } from 'react-error-boundary';
 
 import { QueryErrorFallback } from './query-error-fallback';
 
-type QueryErrorBoundaryProps = {
+interface QueryErrorBoundaryProps {
   children: ReactNode;
-};
+}
 
 export function QueryErrorBoundary({ children }: QueryErrorBoundaryProps) {
   return (

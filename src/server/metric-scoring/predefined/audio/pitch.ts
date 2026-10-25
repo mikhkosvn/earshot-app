@@ -51,7 +51,10 @@ const framePitch = (
   return rate / (minLag + firstStrong);
 };
 
-type TurnPitch = { startTime: number; pitches: number[] };
+interface TurnPitch {
+  startTime: number;
+  pitches: number[];
+}
 
 const turnPitches = (conversation: ScoringConversation): TurnPitch[] => {
   const recording = conversation.recording;

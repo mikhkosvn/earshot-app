@@ -5,9 +5,9 @@ import { Button } from '@/components/ui/button';
 import { useIsReevaluating } from '../../_hooks/mutations/runs/use-is-reevaluating';
 import { ReevaluateSubmitLabel } from './reevaluate-submit-label';
 
-type ReevaluateSubmitButtonProps = {
+interface ReevaluateSubmitButtonProps {
   count: number;
-};
+}
 
 export function ReevaluateSubmitButton({ count }: ReevaluateSubmitButtonProps) {
   const isReevaluating = useIsReevaluating();

@@ -21,14 +21,14 @@ import {
 } from '../_utils/scenario-selection';
 import { ScenarioRow } from './scenario-row';
 
-type ScenarioFolderRowProps = {
+interface ScenarioFolderRowProps {
   folder: MonitorScenarioFolder;
   isOpen: boolean;
   onOpenChange: (isOpen: boolean) => void;
   search: string;
-  value: number[];
+  value: readonly number[];
   onValueChange: (evaluatorIds: number[]) => void;
-};
+}
 
 export function ScenarioFolderRow({
   folder,

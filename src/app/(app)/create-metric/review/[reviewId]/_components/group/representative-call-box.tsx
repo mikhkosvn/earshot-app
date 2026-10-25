@@ -5,9 +5,9 @@ import { EvidenceLine } from './evidence-line';
 import { RepresentativeSampleHeader } from './representative-sample-header';
 import { WhyThisScore } from './why-this-score';
 
-type RepresentativeCallBoxProps = {
+interface RepresentativeCallBoxProps {
   groupKey: string;
-};
+}
 
 export function RepresentativeCallBox({
   groupKey,

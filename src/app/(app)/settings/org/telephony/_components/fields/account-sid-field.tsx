@@ -7,9 +7,9 @@ import type { ImportPhoneNumberFormValues } from '@/server/telephony-phone-numbe
 
 import { PhoneNumberTextField } from './phone-number-text-field';
 
-type AccountSidFieldProps = {
+interface AccountSidFieldProps {
   idPrefix: string;
-};
+}
 
 export function AccountSidField({ idPrefix }: AccountSidFieldProps) {
   const provider = useWatch<ImportPhoneNumberFormValues, 'provider'>({

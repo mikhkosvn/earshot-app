@@ -10,9 +10,9 @@ import { useDashboardDetailQuery } from './_hooks/queries/use-dashboard-detail-q
 import type { DashboardBoardState } from './_utils/board-types';
 import { hasPendingChanges, pendingLabel } from './_utils/pending-summary';
 
-type UnsavedChangesBarProps = {
+interface UnsavedChangesBarProps {
   board: DashboardBoardState;
-};
+}
 
 export function UnsavedChangesBar({ board }: UnsavedChangesBarProps) {
   const { data: saved } = useDashboardDetailQuery(board.dashboardId);

@@ -9,10 +9,10 @@ import {
 
 import { ReportMetricsDialogBody } from './report-metrics-dialog-body';
 
-type ReportMetricsDialogProps = {
+interface ReportMetricsDialogProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
-};
+}
 
 export function ReportMetricsDialog({
   open,

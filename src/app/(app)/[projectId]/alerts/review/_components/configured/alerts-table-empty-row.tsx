@@ -2,9 +2,9 @@ import { TableCell, TableRow } from '@/components/ui/table';
 
 const COLUMN_COUNT = 9;
 
-type AlertsTableEmptyRowProps = {
+interface AlertsTableEmptyRowProps {
   count: number;
-};
+}
 
 export function AlertsTableEmptyRow({ count }: AlertsTableEmptyRowProps) {
   if (count > 0) return null;

@@ -20,26 +20,26 @@ import {
 
 import { MultiSelectChips } from './multi-select-chips';
 
-export type MultiSelectOption<TValue extends string | number> = {
+export interface MultiSelectOption<TValue extends string | number> {
   value: TValue;
   label: string;
-};
+}
 
-type OptionMultiSelectProps<TValue extends string | number> = {
+interface OptionMultiSelectProps<TValue extends string | number> {
   id?: string;
-  options: MultiSelectOption<TValue>[];
-  value: TValue[];
+  options: readonly MultiSelectOption<TValue>[];
+  value: readonly TValue[];
   onValueChange: (value: TValue[]) => void;
   placeholder: string;
-};
+}
 
-const toggle = <TValue,>(values: TValue[], value: TValue) => {
+const toggle = <TValue,>(values: readonly TValue[], value: TValue) => {
   if (values.includes(value)) return values.filter((item) => item !== value);
   return [...values, value];
 };
 
 const toggleAll = <TValue extends string | number>(
-  options: MultiSelectOption<TValue>[],
+  options: readonly MultiSelectOption<TValue>[],
   allSelected: boolean,
 ) => {
   if (allSelected) return [];

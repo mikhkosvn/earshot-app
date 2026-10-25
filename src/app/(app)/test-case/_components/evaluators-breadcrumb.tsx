@@ -13,9 +13,9 @@ import {
 } from '@/components/ui/breadcrumb';
 import { UrlGenerator } from '@/lib/url-generator/url-generator';
 
-type EvaluatorsBreadcrumbProps = {
+interface EvaluatorsBreadcrumbProps {
   current: string;
-};
+}
 
 export function EvaluatorsBreadcrumb({ current }: EvaluatorsBreadcrumbProps) {
   const projectId = useCurrentProjectId();

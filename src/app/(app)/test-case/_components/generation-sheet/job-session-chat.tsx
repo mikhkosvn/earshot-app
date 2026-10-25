@@ -7,15 +7,15 @@ import { JobService } from '@/components/common/background-tasks/_service';
 import { SessionChat } from './chat/session-chat';
 import { NoSessionNotice } from './no-session-notice';
 
-type JobSessionChatProps = {
+interface JobSessionChatProps {
   jobId: string;
-};
+}
 
 const sessionIdOf = (input: unknown) => {
   if (typeof input !== 'object' || input === null) return null;
-  const value = (input as { sessionId?: unknown }).sessionId;
-  if (typeof value !== 'number') return null;
-  return value;
+  if (!('sessionId' in input)) return null;
+  if (typeof input.sessionId !== 'number') return null;
+  return input.sessionId;
 };
 
 export function JobSessionChat({ jobId }: JobSessionChatProps) {

@@ -56,7 +56,9 @@ export const runRowSelect = {
   },
 } satisfies Prisma.RunSelect;
 
-export type RunRowRecord = Prisma.RunGetPayload<{ select: typeof runRowSelect }>;
+export type RunRowRecord = Prisma.RunGetPayload<{
+  select: typeof runRowSelect;
+}>;
 
 const numberField = (record: Record<string, unknown> | null, key: string) => {
   const value = record?.[key];
@@ -66,14 +68,14 @@ const numberField = (record: Record<string, unknown> | null, key: string) => {
 
 const recordOf = (value: Prisma.JsonValue | null) => {
   if (!value || typeof value !== 'object' || Array.isArray(value)) return null;
-  return value as Record<string, unknown>;
+  return value;
 };
 
 const toCell = (
   evaluation: RunRowRecord['conversation']['metricEvaluations'][number],
 ): RunMetricCell => {
   const extra = recordOf(evaluation.extra);
-  const percentiles = recordOf((extra?.percentiles ?? null) as Prisma.JsonValue);
+  const percentiles = recordOf(extra?.percentiles ?? null);
   return {
     value: valueFromParts({
       number: evaluation.valueNumber,

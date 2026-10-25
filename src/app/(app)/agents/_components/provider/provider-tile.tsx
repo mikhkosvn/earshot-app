@@ -9,11 +9,11 @@ import { PROVIDER_TILE_LABEL } from '../../_constants/provider-display';
 import { ProviderMonogram } from './provider-monogram';
 import { SelectedTileBadge } from './selected-tile-badge';
 
-type ProviderTileProps = {
+interface ProviderTileProps {
   provider: AgentProvider;
   selected: boolean;
   onSelect: (provider: AgentProvider) => void;
-};
+}
 
 export function ProviderTile({
   provider,

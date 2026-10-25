@@ -1,8 +1,8 @@
 import { ChevronDownIcon, ChevronUpIcon } from 'lucide-react';
 
-type MoreMetricsToggleIconProps = {
+interface MoreMetricsToggleIconProps {
   open: boolean;
-};
+}
 
 export function MoreMetricsToggleIcon({ open }: MoreMetricsToggleIconProps) {
   if (open) return <ChevronUpIcon />;

@@ -10,9 +10,9 @@ import { TRANSCRIPT_SOURCE_INFO } from '../_constants/metric-form-text';
 import { transcriptSourceLabel } from '../_utils/transcript-source';
 import { InfoTooltip } from '../info-tooltip';
 
-type TranscriptSourceNoteProps = {
+interface TranscriptSourceNoteProps {
   transcriptCode: string;
-};
+}
 
 export function TranscriptSourceNote({
   transcriptCode,

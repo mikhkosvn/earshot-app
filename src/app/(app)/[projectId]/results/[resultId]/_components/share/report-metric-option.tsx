@@ -4,11 +4,11 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { Label } from '@/components/ui/label';
 import type { ResultReportMetric } from '@/server/results/types';
 
-type ReportMetricOptionProps = {
+interface ReportMetricOptionProps {
   metric: ResultReportMetric;
   checked: boolean;
   onCheckedChange: (checked: boolean) => void;
-};
+}
 
 export function ReportMetricOption({
   metric,

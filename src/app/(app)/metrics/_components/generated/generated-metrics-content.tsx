@@ -12,10 +12,10 @@ import { toggleItem } from '../../_utils/toggle-item';
 import { GeneratedMetricCard } from './generated-metric-card';
 import { SaveGeneratedMetricsButton } from './save-generated-metrics-button';
 
-type GeneratedMetricsContentProps = {
+interface GeneratedMetricsContentProps {
   jobId: string;
   onSaved: () => void;
-};
+}
 
 export function GeneratedMetricsContent({
   jobId,

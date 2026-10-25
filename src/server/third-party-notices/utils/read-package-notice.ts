@@ -3,15 +3,17 @@ import 'server-only';
 import { readdir, readFile } from 'node:fs/promises';
 import path from 'node:path';
 
+import { z } from 'zod';
+
 import type { ThirdPartyNotice } from '@/server/third-party-notices/types';
 
 import { normalizeRepositoryUrl } from './normalize-repository-url';
 
-type PackageManifest = {
-  version?: string;
-  license?: unknown;
-  repository?: unknown;
-};
+const packageManifestSchema = z.object({
+  version: z.string().optional(),
+  license: z.unknown(),
+  repository: z.unknown(),
+});
 
 const COPYRIGHT_LINE_PATTERN =
   /^(copyright\s*(\(c\)|©|\d{4})|\(c\)\s*\d{4}|©)/i;
@@ -37,7 +39,7 @@ const findCopyright = (licenseText: string | null) => {
 const readLicenseName = (license: unknown) => {
   if (typeof license === 'string') return license;
   if (license && typeof license === 'object' && 'type' in license) {
-    return String((license as { type: unknown }).type);
+    return String(license.type);
   }
   return 'Unknown';
 };
@@ -48,9 +50,11 @@ export const readPackageNotice = async (
 ): Promise<ThirdPartyNotice | null> => {
   const packageDirectory = path.join(nodeModulesDirectory, ...name.split('/'));
   try {
-    const manifest = JSON.parse(
-      await readFile(path.join(packageDirectory, 'package.json'), 'utf8'),
-    ) as PackageManifest;
+    const manifest = packageManifestSchema.parse(
+      JSON.parse(
+        await readFile(path.join(packageDirectory, 'package.json'), 'utf8'),
+      ),
+    );
     const licenseText = await readLicenseText(packageDirectory);
     return {
       name,

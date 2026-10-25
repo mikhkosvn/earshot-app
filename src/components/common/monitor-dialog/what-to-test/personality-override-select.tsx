@@ -24,11 +24,11 @@ import { MonitorService } from '../_service';
 import { toggleId } from '../_utils/scenario-selection';
 import { SelectionChips } from '../form/selection-chips';
 
-type PersonalityOverrideSelectProps = {
+interface PersonalityOverrideSelectProps {
   id: string;
-  value: number[];
+  value: readonly number[];
   onValueChange: (personalityIds: number[]) => void;
-};
+}
 
 export function PersonalityOverrideSelect({
   id,

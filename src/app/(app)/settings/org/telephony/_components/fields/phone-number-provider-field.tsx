@@ -19,9 +19,9 @@ const PROVIDER_ITEMS = Object.values(PhoneNumberProvider).map((value) => ({
   label: PhoneNumberProviderLabel[value],
 }));
 
-type PhoneNumberProviderFieldProps = {
+interface PhoneNumberProviderFieldProps {
   idPrefix: string;
-};
+}
 
 export function PhoneNumberProviderField({
   idPrefix,

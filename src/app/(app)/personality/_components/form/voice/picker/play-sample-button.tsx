@@ -5,10 +5,10 @@ import { PlayIcon } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { UrlGenerator } from '@/lib/url-generator/url-generator';
 
-type PlaySampleButtonProps = {
+interface PlaySampleButtonProps {
   fileId: string | null;
   label: string;
-};
+}
 
 export function PlaySampleButton({ fileId, label }: PlaySampleButtonProps) {
   if (!fileId) return null;

@@ -1,8 +1,8 @@
 import type { MockToolItem } from '@/server/agents/types';
 
-type MockToolDialogTitleProps = {
+interface MockToolDialogTitleProps {
   tool: MockToolItem | null;
-};
+}
 
 export function MockToolDialogTitle({ tool }: MockToolDialogTitleProps) {
   if (tool) return 'Edit Mock Tool';

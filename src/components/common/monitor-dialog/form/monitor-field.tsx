@@ -6,7 +6,7 @@ import { cn } from '@/lib/utils';
 
 import { MonitorFieldText } from './monitor-field-text';
 
-type MonitorFieldProps = {
+interface MonitorFieldProps {
   id?: string;
   label: ReactNode;
   description?: ReactNode;
@@ -14,7 +14,7 @@ type MonitorFieldProps = {
   error?: FormFieldError;
   className?: string;
   children: ReactNode;
-};
+}
 
 export function MonitorField({
   id,

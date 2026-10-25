@@ -7,10 +7,10 @@ import { Button } from '@/components/ui/button';
 import { useRecomputeMetricsMutation } from '../../_hooks/mutations/call-actions/use-recompute-metrics-mutation';
 import { UseAsEvaluatorDialog } from '../use-as-evaluator/use-as-evaluator-dialog';
 
-type SelectedCallsBarProps = {
+interface SelectedCallsBarProps {
   selectedIds: number[];
   onClear: () => void;
-};
+}
 
 export function SelectedCallsBar({
   selectedIds,

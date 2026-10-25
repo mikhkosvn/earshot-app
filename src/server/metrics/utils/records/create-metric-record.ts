@@ -14,7 +14,7 @@ import { writeMetricVersion } from '@/server/metrics/utils/records/metric-versio
 import { nextDisplayOrder } from '@/server/metrics/utils/records/next-display-order';
 import { uniqueSlug } from '@/server/metrics/utils/records/unique-slug';
 
-export type NewMetricData = {
+export interface NewMetricData {
   projectId: number;
   userId: number | null;
   type: MetricType;
@@ -33,7 +33,7 @@ export type NewMetricData = {
   evaluationTriggerCustomCode?: string;
   addToNewAgents?: boolean;
   agentIds: number[];
-};
+}
 
 const textOrNull = (value: string | undefined) => {
   if (!value?.trim()) return null;

@@ -16,10 +16,10 @@ import { completed, skipped } from '@/server/metric-scoring/utils/outcome';
 import { stableRandom } from '@/server/metric-scoring/utils/stable-random';
 import { transcriptTime } from '@/server/metric-scoring/utils/transcript-time';
 
-type ModelMetric = {
+interface ModelMetric {
   instruction: string;
   mock: (conversation: ScoringConversation, random: number) => JudgeResult;
-};
+}
 
 const RATING_BASE = 3.5;
 const RATING_SPREAD = 1.5;

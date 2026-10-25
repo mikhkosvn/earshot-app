@@ -26,11 +26,11 @@ import {
 } from '@/server/metrics/pattern-reviews/utils/group-samples';
 import type { MetricValue } from '@/server/metrics/types';
 
-type RunPatternReviewArgs = {
+interface RunPatternReviewArgs {
   reviewId: number;
   projectId: number;
   setStep: (text: string) => Promise<void>;
-};
+}
 
 const errorText = (error: unknown) => {
   if (error instanceof Error && error.message) return error.message;

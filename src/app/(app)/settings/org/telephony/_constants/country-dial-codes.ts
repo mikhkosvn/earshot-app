@@ -1,8 +1,8 @@
-export type CountryDialCode = {
+export interface CountryDialCode {
   iso: string;
   name: string;
   dialCode: string;
-};
+}
 
 export const COUNTRY_DIAL_CODES: CountryDialCode[] = [
   { iso: 'US', name: 'United States', dialCode: '1' },

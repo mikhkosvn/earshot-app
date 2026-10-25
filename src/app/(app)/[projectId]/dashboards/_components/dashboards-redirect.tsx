@@ -6,9 +6,9 @@ import { DashboardSource } from '@/generated/prisma/enums';
 import { UrlGenerator } from '@/lib/url-generator/url-generator';
 import { getFirstDashboardIdAction } from '@/server/dashboards/actions';
 
-type DashboardsRedirectProps = {
+interface DashboardsRedirectProps {
   params: Promise<{ projectId: string }>;
-};
+}
 
 export async function DashboardsRedirect({ params }: DashboardsRedirectProps) {
   await io();

@@ -10,9 +10,9 @@ import { DialogClose, DialogFooter } from '@/components/ui/dialog';
 import { ProjectNameField } from '../project-name-field';
 import { CreateProjectSubmitLabel } from './create-project-submit-label';
 
-type CreateProjectFormProps = {
+interface CreateProjectFormProps {
   onCreated: () => void;
-};
+}
 
 export function CreateProjectForm({ onCreated }: CreateProjectFormProps) {
   const { form, onSubmit } = useCreateProjectForm(onCreated);

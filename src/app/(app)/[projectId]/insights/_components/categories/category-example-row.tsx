@@ -7,9 +7,9 @@ import { RelativeTime } from '@/components/common/relative-time';
 import { UrlGenerator } from '@/lib/url-generator/url-generator';
 import type { CategoryExample } from '@/server/insights/types';
 
-type CategoryExampleRowProps = {
+interface CategoryExampleRowProps {
   example: CategoryExample;
-};
+}
 
 export function CategoryExampleRow({ example }: CategoryExampleRowProps) {
   const projectId = useCurrentProjectId();

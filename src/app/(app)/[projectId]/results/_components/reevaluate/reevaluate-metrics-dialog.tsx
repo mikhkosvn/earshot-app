@@ -17,11 +17,11 @@ import { ReevaluateMetricsForm } from './reevaluate-metrics-form';
 
 export type { ReevaluateTarget };
 
-type ReevaluateMetricsDialogProps = {
+interface ReevaluateMetricsDialogProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   targets: ReevaluateTarget[];
-};
+}
 
 export function ReevaluateMetricsDialog({
   open,

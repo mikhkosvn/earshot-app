@@ -14,10 +14,10 @@ import { Skeleton } from '@/components/ui/skeleton';
 
 import { PredefinedMetricsContent } from './predefined-metrics-content';
 
-type PredefinedMetricsDialogProps = {
+interface PredefinedMetricsDialogProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
-};
+}
 
 export function PredefinedMetricsDialog({
   open,

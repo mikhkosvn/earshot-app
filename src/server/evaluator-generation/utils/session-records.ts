@@ -48,12 +48,12 @@ export const latestSessionJob = (
     },
   });
 
-type SessionLinkArgs = {
+interface SessionLinkArgs {
   projectId: number;
   folderPath: string;
   sessionId?: number;
   jobId?: string;
-};
+}
 
 export const sessionDeepLink = ({
   projectId,

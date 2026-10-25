@@ -10,9 +10,9 @@ import type { DeepResearchModeView } from '@/server/insights/types';
 
 import { useDismissModeMutation } from '../../_hooks/mutations/use-dismiss-mode-mutation';
 
-type ResearchModeItemProps = {
+interface ResearchModeItemProps {
   mode: DeepResearchModeView;
-};
+}
 
 export function ResearchModeItem({ mode }: ResearchModeItemProps) {
   const projectId = useCurrentProjectId();

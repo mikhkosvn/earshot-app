@@ -4,11 +4,11 @@ import { DeleteConfirmDialog } from '@/components/common/delete-confirm-dialog/d
 
 import { useDeletePhoneNumberMutation } from '../../_hooks/mutations/use-delete-phone-number-mutation';
 
-type DeletePhoneNumberDialogProps = {
+interface DeletePhoneNumberDialogProps {
   phoneNumberId: number;
   open: boolean;
   onOpenChange: (open: boolean) => void;
-};
+}
 
 export function DeletePhoneNumberDialog({
   phoneNumberId,

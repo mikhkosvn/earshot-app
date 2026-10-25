@@ -12,9 +12,9 @@ import { FiltersIncluded } from './filters-included';
 import { MetricVisibilityField } from './metric-visibility-field';
 import { SaveDashboardSubmit } from './save-dashboard-submit';
 
-type SaveDashboardFormProps = {
+interface SaveDashboardFormProps {
   onDone: () => void;
-};
+}
 
 export function SaveDashboardForm({ onDone }: SaveDashboardFormProps) {
   const { form, onSubmit, isPending } = useSaveConfigurationForm(onDone);

@@ -6,14 +6,14 @@ import { cn } from '@/lib/utils';
 
 import { FieldHelp } from './field-help';
 
-type LabeledFieldProps = {
+interface LabeledFieldProps {
   id: string;
   label: ReactNode;
   description?: ReactNode;
   error?: FormFieldError;
   className?: string;
   children: ReactNode;
-};
+}
 
 export function LabeledField({
   id,

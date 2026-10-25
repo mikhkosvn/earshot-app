@@ -8,11 +8,11 @@ import { useIsSavingCorrection } from '../../../_hooks/use-is-saving-correction'
 import { usePatternGroup } from '../../../_hooks/use-pattern-group';
 import { isCorrectionValue } from '../../../_utils/metric-value-text';
 
-type ScoreToggleProps = {
+interface ScoreToggleProps {
   groupKey: string;
   value: MetricValue;
   label: string;
-};
+}
 
 export function ScoreToggle({ groupKey, value, label }: ScoreToggleProps) {
   const { correction } = usePatternGroup(groupKey);

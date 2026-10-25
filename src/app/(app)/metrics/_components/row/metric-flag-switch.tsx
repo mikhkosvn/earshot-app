@@ -6,11 +6,11 @@ import type { MetricListItem } from '@/server/metrics/types';
 import { type MetricFlag, MetricFlagLabel } from '../../_constants/metric-flag';
 import { useUpdateMetricFlagsMutation } from '../../_hooks/mutations/row/use-update-metric-flags-mutation';
 
-type MetricFlagSwitchProps = {
+interface MetricFlagSwitchProps {
   metric: MetricListItem;
   flag: MetricFlag;
   locked: boolean;
-};
+}
 
 export function MetricFlagSwitch({
   metric,

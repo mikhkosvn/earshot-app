@@ -4,7 +4,7 @@ import type { organizationIdSchema } from '@/server/organizations/schemas';
 
 export type OrganizationIdInput = z.input<typeof organizationIdSchema>;
 
-export type OrganizationSummary = {
+export interface OrganizationSummary {
   id: number;
   name: string;
-};
+}

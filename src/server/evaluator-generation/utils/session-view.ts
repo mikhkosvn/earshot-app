@@ -14,10 +14,10 @@ import { latestSessionJob } from '@/server/evaluator-generation/utils/session-re
 
 type JobRow = Awaited<ReturnType<typeof latestSessionJob>>;
 
-type SessionOptionsShape = {
+interface SessionOptionsShape {
   folderPath?: string;
   numScenarios?: number;
-};
+}
 
 const toJobView = <TResult>(row: JobRow): GenerationJobView<TResult> | null => {
   if (!row) return null;

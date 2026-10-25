@@ -13,11 +13,11 @@ import {
 import { PLAYBACK_SPEEDS } from '../../_constants/playback';
 import { setAudioSpeed } from '../../_utils/playback';
 
-type SpeedSelectProps = {
+interface SpeedSelectProps {
   audioRef: RefObject<HTMLAudioElement | null>;
   speed: number;
   onSpeedChange: (speed: number) => void;
-};
+}
 
 const speedItems = PLAYBACK_SPEEDS.map((value) => ({
   value,

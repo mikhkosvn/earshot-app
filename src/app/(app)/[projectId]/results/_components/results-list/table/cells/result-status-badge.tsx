@@ -2,9 +2,9 @@ import { Badge } from '@/components/ui/badge';
 import type { RunStatus } from '@/generated/prisma/enums';
 import { RunStatusLabel } from '@/server/results/constants/run-status-labels';
 
-type ResultStatusBadgeProps = {
+interface ResultStatusBadgeProps {
   status: RunStatus;
-};
+}
 
 export function ResultStatusBadge({ status }: ResultStatusBadgeProps) {
   return (

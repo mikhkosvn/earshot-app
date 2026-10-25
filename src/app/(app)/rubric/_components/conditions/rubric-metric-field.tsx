@@ -22,9 +22,9 @@ import type { RubricFormValues } from '../../_schemas/rubric-form-schema';
 import { changeRuleMetric } from '../../_utils/rule-transitions';
 import { RubricFieldLabel } from './rubric-field-label';
 
-type RubricMetricFieldProps = {
+interface RubricMetricFieldProps {
   index: number;
-};
+}
 
 export function RubricMetricField({ index }: RubricMetricFieldProps) {
   const form = useFormContext<RubricFormValues>();

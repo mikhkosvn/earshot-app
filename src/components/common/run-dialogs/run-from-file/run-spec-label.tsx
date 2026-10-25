@@ -5,9 +5,9 @@ import { useIsRunningSpec } from '../_hooks/use-is-running-spec';
 import type { RunFromFileForm } from '../_hooks/use-run-from-file-form';
 import { runCountText } from '../_utils/run-dialog-text';
 
-type RunSpecLabelProps = {
+interface RunSpecLabelProps {
   control: RunFromFileForm['control'];
-};
+}
 
 export function RunSpecLabel({ control }: RunSpecLabelProps) {
   const check = useCurrentSpecCheck(control);

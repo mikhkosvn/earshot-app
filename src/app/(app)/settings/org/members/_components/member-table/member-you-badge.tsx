@@ -1,8 +1,8 @@
 import { Badge } from '@/components/ui/badge';
 
-type MemberYouBadgeProps = {
+interface MemberYouBadgeProps {
   isCurrentUser: boolean;
-};
+}
 
 export function MemberYouBadge({ isCurrentUser }: MemberYouBadgeProps) {
   if (!isCurrentUser) return null;

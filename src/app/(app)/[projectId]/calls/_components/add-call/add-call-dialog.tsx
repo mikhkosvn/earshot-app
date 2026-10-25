@@ -13,10 +13,10 @@ import { Skeleton } from '@/components/ui/skeleton';
 
 import { AddCallForm } from './add-call-form';
 
-type AddCallDialogProps = {
+interface AddCallDialogProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
-};
+}
 
 export function AddCallDialog({ open, onOpenChange }: AddCallDialogProps) {
   return (

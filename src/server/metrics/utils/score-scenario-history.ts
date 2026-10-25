@@ -8,12 +8,12 @@ import { scoreConversation } from '@/server/metric-scoring/score-conversation';
 
 const MAX_HISTORY_RUNS = 200;
 
-type ScoreScenarioHistoryArgs = {
+interface ScoreScenarioHistoryArgs {
   projectId: number;
   userId: number;
   metricId: number;
   evaluatorIds: number[];
-};
+}
 
 export const scoreScenarioHistory = async ({
   projectId,

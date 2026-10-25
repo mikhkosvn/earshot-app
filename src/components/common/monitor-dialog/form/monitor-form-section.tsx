@@ -1,9 +1,9 @@
 import type { ReactNode } from 'react';
 
-type MonitorFormSectionProps = {
+interface MonitorFormSectionProps {
   title: string;
   children: ReactNode;
-};
+}
 
 export function MonitorFormSection({
   title,

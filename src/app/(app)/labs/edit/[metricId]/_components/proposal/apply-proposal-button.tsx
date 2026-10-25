@@ -9,9 +9,9 @@ import type { LabMetricFormInput } from '../../_schemas/lab-metric-form-schema';
 import { toLabFormValues } from '../../_utils/lab-form-values';
 import { ApplyProposalLabel } from './apply-proposal-label';
 
-type ApplyProposalButtonProps = {
+interface ApplyProposalButtonProps {
   sessionId: number;
-};
+}
 
 export function ApplyProposalButton({ sessionId }: ApplyProposalButtonProps) {
   const { reset } = useFormContext<LabMetricFormInput>();

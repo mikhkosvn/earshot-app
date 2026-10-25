@@ -8,9 +8,9 @@ import { MemberProjectsCell } from './member-projects-cell';
 import { MemberRoleCell } from './member-role-cell';
 import { RemoveMemberButton } from './remove-member-button';
 
-type MemberRowItemProps = {
+interface MemberRowItemProps {
   member: MemberRow;
-};
+}
 
 export function MemberRowItem({ member }: MemberRowItemProps) {
   return (

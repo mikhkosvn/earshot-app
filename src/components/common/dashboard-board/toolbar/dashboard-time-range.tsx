@@ -5,9 +5,9 @@ import { TimeRangePicker } from '@/components/common/time-range-picker/time-rang
 import { DraftActionType } from '../_constants/draft-action-type';
 import type { DashboardBoardState } from '../_utils/board-types';
 
-type DashboardTimeRangeProps = {
+interface DashboardTimeRangeProps {
   board: DashboardBoardState;
-};
+}
 
 export function DashboardTimeRange({ board }: DashboardTimeRangeProps) {
   const { filters } = board.draft;

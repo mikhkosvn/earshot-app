@@ -1,45 +1,45 @@
 import type { TranscriptRole } from '@/server/call-engine/constants';
 
-export type TranscriptionFile = {
+export interface TranscriptionFile {
   data: Uint8Array;
   contentType: string;
   fileName: string;
-};
+}
 
-export type TranscriptionContext = {
+export interface TranscriptionContext {
   agentName: string;
   agentDescription: string;
-};
+}
 
-export type TranscribeRecordingInput = {
+export interface TranscribeRecordingInput {
   file: TranscriptionFile;
   context?: TranscriptionContext;
-};
+}
 
-export type TranscribedTurn = {
+export interface TranscribedTurn {
   role: TranscriptRole;
   content: string;
   startTime: number;
   endTime: number;
-};
+}
 
-export type Transcription = {
+export interface Transcription {
   turns: TranscribedTurn[];
   durationSeconds: number | null;
   testingChannelIndex: number | null;
-};
+}
 
-export type TranscriptionEngine = {
+export interface TranscriptionEngine {
   transcribe: (input: TranscribeRecordingInput) => Promise<Transcription>;
-};
+}
 
-export type SpeechSegment = {
+export interface SpeechSegment {
   start: number;
   end: number;
-};
+}
 
-export type TurnSlot = {
+export interface TurnSlot {
   role: TranscriptRole;
   startTime: number;
   endTime: number;
-};
+}

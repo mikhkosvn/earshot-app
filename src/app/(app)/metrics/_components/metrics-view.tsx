@@ -6,10 +6,10 @@ import { GeneratedMetricsDialog } from './generated/generated-metrics-dialog';
 import { MetricsTable } from './table/metrics-table';
 import { MetricsToolbar } from './toolbar/metrics-toolbar';
 
-export type MetricSelection = {
+export interface MetricSelection {
   selectedIds: number[];
   onSelectedIdsChange: (ids: number[]) => void;
-};
+}
 
 export function MetricsView() {
   const [selectedIds, setSelectedIds] = useState<number[]>([]);

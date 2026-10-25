@@ -77,7 +77,7 @@ export type SetPatternCorrectionInput = z.input<
 
 export type MetricValue = boolean | number | string | null;
 
-export type MetricListItem = {
+export interface MetricListItem {
   id: number;
   name: string;
   description: string;
@@ -97,14 +97,14 @@ export type MetricListItem = {
   addToNewAgents: boolean;
   agentIds: number[];
   dependencies: MetricReference[];
-};
+}
 
-export type MetricReference = {
+export interface MetricReference {
   id: number;
   name: string;
-};
+}
 
-export type MetricDetail = MetricDefinitionValues & {
+export interface MetricDetail extends MetricDefinitionValues {
   id: number;
   projectId: number;
   userDefined: boolean;
@@ -114,30 +114,30 @@ export type MetricDetail = MetricDefinitionValues & {
   agentIds: number[];
   createdAt: Date;
   updatedAt: Date;
-};
+}
 
-export type MetricOption = {
+export interface MetricOption {
   id: number;
   name: string;
   slug: string | null;
   type: MetricType;
   evalType: MetricEvalType;
   userDefined: boolean;
-};
+}
 
-export type AgentOption = {
+export interface AgentOption {
   id: number;
   name: string;
   language: string;
   description: string;
-};
+}
 
-export type ScenarioOption = {
+export interface ScenarioOption {
   id: number;
   name: string;
-};
+}
 
-export type PredefinedMetricCard = {
+export interface PredefinedMetricCard {
   id: number;
   code: string;
   name: string;
@@ -147,11 +147,11 @@ export type PredefinedMetricCard = {
   subCategory: MetricSubCategory | null;
   badge: PredefinedMetricBadge | null;
   added: boolean;
-};
+}
 
 export type MetricSnapshot = MetricDefinitionValues;
 
-export type MetricVersionView = {
+export interface MetricVersionView {
   id: number;
   version: number;
   changeType: HistoryChangeType;
@@ -159,40 +159,40 @@ export type MetricVersionView = {
   createdAt: Date;
   createdBy: { id: number; name: string } | null;
   snapshot: MetricSnapshot;
-};
+}
 
-export type CreatedMetric = {
+export interface CreatedMetric {
   id: number;
   name: string;
   reviewId: number | null;
-};
+}
 
-export type MetricGenerationJobResult = {
+export interface MetricGenerationJobResult {
   summary: string;
   deepLink: string;
   agentId: number;
   metrics: GeneratedMetricDraft[];
-};
+}
 
-export type ImprovedMetric = {
+export interface ImprovedMetric {
   refinedText: string;
   evalType: MetricEvalType;
   summary: string;
   resolvedEdgeCases: string[];
-};
+}
 
-export type GeneratedTrigger = {
+export interface GeneratedTrigger {
   prompt: string;
-};
+}
 
-export type PatternEvidenceView = {
+export interface PatternEvidenceView {
   speaker: TranscriptRole;
   time: string;
   text: string;
   isKey: boolean;
-};
+}
 
-export type PatternSampleView = {
+export interface PatternSampleView {
   conversationId: number;
   source: SampleSource;
   sourceId: number;
@@ -203,14 +203,14 @@ export type PatternSampleView = {
   explanation: string[];
   callEndReason: string | null;
   href: string | null;
-};
+}
 
-export type PatternCorrectionView = {
+export interface PatternCorrectionView {
   value: MetricValue;
   note: string;
-};
+}
 
-export type PatternGroupView = {
+export interface PatternGroupView {
   key: string;
   label: string;
   summary: string;
@@ -221,18 +221,18 @@ export type PatternGroupView = {
   representative: PatternSampleView | null;
   others: PatternSampleView[];
   correction: PatternCorrectionView | null;
-};
+}
 
-export type PatternReviewCounts = {
+export interface PatternReviewCounts {
   total: number;
   evaluated: number;
   pass: number;
   fail: number;
   skipped: number;
   error: number;
-};
+}
 
-export type PatternReviewView = {
+export interface PatternReviewView {
   id: number;
   status: PatternReviewStatus;
   stage: PatternReviewStage | null;
@@ -252,9 +252,9 @@ export type PatternReviewView = {
   rebuiltAt: Date | null;
   createdAt: Date;
   updatedAt: Date;
-};
+}
 
-export type StartedPatternReview = {
+export interface StartedPatternReview {
   reviewId: number;
   jobId: string;
-};
+}

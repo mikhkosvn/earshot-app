@@ -14,9 +14,9 @@ const NoticeSection = {
   source: 'source',
 } as const;
 
-type NoticeCardProps = {
+interface NoticeCardProps {
   notice: ThirdPartyNotice;
-};
+}
 
 export function NoticeCard({ notice }: NoticeCardProps) {
   return (

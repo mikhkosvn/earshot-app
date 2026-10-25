@@ -6,11 +6,11 @@ import type { GeneratedMetricDraft } from '@/server/metrics/types';
 
 import { useBulkCreateMetricsMutation } from '../../_hooks/mutations/create/use-bulk-create-metrics-mutation';
 
-type SaveGeneratedMetricsButtonProps = {
+interface SaveGeneratedMetricsButtonProps {
   jobId: string;
   drafts: GeneratedMetricDraft[];
   onSaved: () => void;
-};
+}
 
 export function SaveGeneratedMetricsButton({
   jobId,

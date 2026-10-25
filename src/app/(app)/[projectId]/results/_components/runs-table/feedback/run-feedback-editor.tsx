@@ -10,12 +10,12 @@ import { cn } from '@/lib/utils';
 import { useIsSavingRunFeedback } from '../../../_hooks/mutations/runs/use-is-saving-run-feedback';
 import { useRunFeedbackForm } from '../../../_hooks/runs/use-run-feedback-form';
 
-type RunFeedbackEditorProps = {
+interface RunFeedbackEditorProps {
   runId: number;
   feedback: string | null;
   onClose: () => void;
   className?: string;
-};
+}
 
 export function RunFeedbackEditor({
   runId,

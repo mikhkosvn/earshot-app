@@ -4,10 +4,10 @@ import { formatVersionDate, versionLabel } from './_utils/version-text';
 import { CurrentVersionTag } from './current-version-tag';
 import { InitialVersionNote } from './initial-version-note';
 
-type HistoryEntryProps = {
+interface HistoryEntryProps {
   version: MetricVersionView;
   isCurrent: boolean;
-};
+}
 
 export function HistoryEntry({ version, isCurrent }: HistoryEntryProps) {
   return (

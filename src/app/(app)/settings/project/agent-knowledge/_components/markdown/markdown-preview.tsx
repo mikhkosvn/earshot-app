@@ -1,9 +1,9 @@
 import { parseMarkdown } from '../../_utils/parse-markdown';
 import { MarkdownBlockView } from './markdown-block-view';
 
-type MarkdownPreviewProps = {
+interface MarkdownPreviewProps {
   text: string;
-};
+}
 
 export function MarkdownPreview({ text }: MarkdownPreviewProps) {
   const blocks = parseMarkdown(text);

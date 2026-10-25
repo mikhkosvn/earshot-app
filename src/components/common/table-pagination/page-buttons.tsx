@@ -13,10 +13,10 @@ import { PaginationIconButton } from './pagination-icon-button';
 import { getPageCount, getVisiblePages } from './pagination-config';
 import { usePaginationParams } from './use-pagination-params';
 
-type PageButtonsProps = {
+interface PageButtonsProps {
   totalCount: number;
   pageParamKey: string;
-};
+}
 
 export function PageButtons({ totalCount, pageParamKey }: PageButtonsProps) {
   const { page, pageSize, setPage } = usePaginationParams(pageParamKey);

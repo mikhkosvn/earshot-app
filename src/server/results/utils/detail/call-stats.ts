@@ -14,7 +14,10 @@ import type {
 import { PredefinedFunction } from '@/server/metrics/constants/scoring/predefined-function';
 import { isTerminalRunStatus } from '@/server/runs/constants/run-status-groups';
 
-const NOT_CONNECTED_STATUSES: RunStatus[] = [RunStatus.failed, RunStatus.timeout];
+const NOT_CONNECTED_STATUSES: RunStatus[] = [
+  RunStatus.failed,
+  RunStatus.timeout,
+];
 
 const isNotConnected = (run: ResultRunRecord) => {
   if (NOT_CONNECTED_STATUSES.includes(run.status)) return true;
@@ -22,11 +25,16 @@ const isNotConnected = (run: ResultRunRecord) => {
 };
 
 const graphLatencies = (extra: unknown) => {
-  if (!extra || typeof extra !== 'object') return [];
-  const graph = (extra as Record<string, unknown>).graph_data;
+  if (!extra || typeof extra !== 'object' || !('graph_data' in extra)) {
+    return [];
+  }
+  const graph = extra.graph_data;
   if (!Array.isArray(graph)) return [];
-  return graph.flatMap((point) => {
-    const latency = (point as Record<string, unknown> | null)?.latency;
+  return graph.flatMap((point: unknown) => {
+    if (!point || typeof point !== 'object' || !('latency' in point)) {
+      return [];
+    }
+    const latency = point.latency;
     if (typeof latency === 'number') return [latency];
     return [];
   });

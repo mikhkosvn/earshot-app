@@ -8,9 +8,9 @@ import type { MetricDefinitionValues } from '@/server/metrics/types';
 
 const FIELD_ID = 'metric-slug';
 
-type MetricSlugFieldProps = {
+interface MetricSlugFieldProps {
   onSlugEdit: () => void;
-};
+}
 
 export function MetricSlugField({ onSlugEdit }: MetricSlugFieldProps) {
   const { control } = useFormContext<MetricDefinitionValues>();

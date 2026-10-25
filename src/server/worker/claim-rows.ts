@@ -3,13 +3,13 @@ import 'server-only';
 import { Prisma } from '@/generated/prisma/client';
 import { prisma } from '@/lib/prisma';
 
-type ClaimRowsArgs<TId extends number | string> = {
+interface ClaimRowsArgs<TId extends number | string> {
   table: string;
   where: Prisma.Sql;
   orderBy?: Prisma.Sql;
   limit: number;
   claim: (tx: Prisma.TransactionClient, ids: TId[]) => Promise<void>;
-};
+}
 
 const TABLE_NAME_PATTERN = /^[A-Za-z_][A-Za-z0-9_]*$/;
 

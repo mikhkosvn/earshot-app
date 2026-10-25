@@ -2,9 +2,9 @@ import { CopyButton } from '@/components/common/clipboard/copy-button';
 import { ChatRole } from '@/generated/prisma/enums';
 import type { GenerationMessageView } from '@/server/evaluator-generation/types';
 
-type ChatMessageProps = {
+interface ChatMessageProps {
   message: GenerationMessageView;
-};
+}
 
 export function ChatMessage({ message }: ChatMessageProps) {
   if (message.role === ChatRole.user) {

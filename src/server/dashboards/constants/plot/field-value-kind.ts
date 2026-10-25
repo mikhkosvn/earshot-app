@@ -17,11 +17,11 @@ export const FieldValueKind = {
 export type FieldValueKind =
   (typeof FieldValueKind)[keyof typeof FieldValueKind];
 
-type FieldKindInput = {
+interface FieldKindInput {
   field: WidgetField;
   metricEvalType: MetricEvalType | null;
   metadataFieldType: MetadataFieldType | null;
-};
+}
 
 const metricKind = (evalType: MetricEvalType | null): FieldValueKind => {
   if (evalType === MetricEvalType.binary) return FieldValueKind.boolean;

@@ -2,10 +2,10 @@
 
 import { GeneratedMetricsContent } from './generated-metrics-content';
 
-type GeneratedMetricsBodyProps = {
+interface GeneratedMetricsBodyProps {
   jobId: string | null;
   onSaved: () => void;
-};
+}
 
 export function GeneratedMetricsBody({
   jobId,

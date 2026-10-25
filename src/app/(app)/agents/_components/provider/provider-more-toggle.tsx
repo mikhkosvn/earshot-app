@@ -4,10 +4,10 @@ import { Button } from '@/components/ui/button';
 
 import { ProviderMoreToggleLabel } from './provider-more-toggle-label';
 
-type ProviderMoreToggleProps = {
+interface ProviderMoreToggleProps {
   expanded: boolean;
   onToggle: () => void;
-};
+}
 
 export function ProviderMoreToggle({
   expanded,

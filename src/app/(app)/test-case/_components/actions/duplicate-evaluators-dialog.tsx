@@ -13,11 +13,11 @@ import { Skeleton } from '@/components/ui/skeleton';
 
 import { DuplicateEvaluatorsForm } from './duplicate-evaluators-form';
 
-type DuplicateEvaluatorsDialogProps = {
+interface DuplicateEvaluatorsDialogProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   evaluatorIds: number[];
-};
+}
 
 export function DuplicateEvaluatorsDialog({
   open,

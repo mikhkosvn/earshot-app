@@ -2,9 +2,9 @@
 
 import { RunDetailBody } from './run-detail-body';
 
-type RunDetailContentProps = {
+interface RunDetailContentProps {
   runId: number | null;
-};
+}
 
 export function RunDetailContent({ runId }: RunDetailContentProps) {
   if (runId === null) return null;

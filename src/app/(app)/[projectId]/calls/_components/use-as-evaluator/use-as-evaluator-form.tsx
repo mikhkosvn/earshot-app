@@ -10,10 +10,10 @@ import { EvaluatorConsentField } from './evaluator-consent-field';
 import { EvaluatorFolderField } from './evaluator-folder-field';
 import { UseAsEvaluatorSubmitButton } from './use-as-evaluator-submit-button';
 
-type UseAsEvaluatorFormProps = {
+interface UseAsEvaluatorFormProps {
   callLogIds: number[];
   onStarted: () => void;
-};
+}
 
 export function UseAsEvaluatorForm({
   callLogIds,

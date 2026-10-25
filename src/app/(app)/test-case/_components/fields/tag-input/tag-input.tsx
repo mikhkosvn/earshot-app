@@ -7,11 +7,11 @@ import { Input } from '@/components/ui/input';
 import { TagChip } from './tag-chip';
 import { TagSuggestions } from './tag-suggestions';
 
-type TagInputProps = {
+interface TagInputProps {
   id?: string;
   value: string[];
   onValueChange: (tags: string[]) => void;
-};
+}
 
 const addTag = (tags: string[], tag: string) => {
   const trimmed = tag.trim();

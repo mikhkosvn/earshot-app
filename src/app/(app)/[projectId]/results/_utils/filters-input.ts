@@ -1,13 +1,13 @@
 import type { CallEvaluationStatus, RunStatus } from '@/generated/prisma/enums';
 import type { ResultFilters } from '@/server/results/types';
 
-export type ResultFilterParams = {
+export interface ResultFilterParams {
   agent: number[];
   evaluator: number[];
   tag: string[];
   status: RunStatus[];
   evaluation: CallEvaluationStatus[];
-};
+}
 
 export const toResultFilters = (params: ResultFilterParams): ResultFilters => ({
   agentIds: params.agent,

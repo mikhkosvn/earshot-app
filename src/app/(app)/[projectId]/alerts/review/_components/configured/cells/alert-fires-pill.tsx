@@ -16,9 +16,9 @@ const pillClassOf = (count: number) => {
   return FIRED_CLASS;
 };
 
-type AlertFiresPillProps = {
+interface AlertFiresPillProps {
   alertId: number;
-};
+}
 
 export function AlertFiresPill({ alertId }: AlertFiresPillProps) {
   const count = useAlertFireCount(alertId);

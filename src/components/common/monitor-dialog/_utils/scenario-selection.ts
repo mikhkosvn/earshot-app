@@ -9,21 +9,21 @@ export const FolderSelection = {
 export type FolderSelection =
   (typeof FolderSelection)[keyof typeof FolderSelection];
 
-export const toggleId = (ids: number[], id: number) => {
+export const toggleId = (ids: readonly number[], id: number) => {
   if (ids.includes(id)) return ids.filter((item) => item !== id);
   return [...ids, id];
 };
 
 export const countSelectedInFolder = (
   folder: MonitorScenarioFolder,
-  selectedIds: number[],
+  selectedIds: readonly number[],
 ) =>
   folder.scenarios.filter((scenario) => selectedIds.includes(scenario.id))
     .length;
 
 export const folderSelection = (
   folder: MonitorScenarioFolder,
-  selectedIds: number[],
+  selectedIds: readonly number[],
 ): FolderSelection => {
   const count = countSelectedInFolder(folder, selectedIds);
   if (count === 0) return FolderSelection.none;
@@ -33,7 +33,7 @@ export const folderSelection = (
 
 export const toggleFolder = (
   folder: MonitorScenarioFolder,
-  selectedIds: number[],
+  selectedIds: readonly number[],
 ) => {
   const folderIds = folder.scenarios.map((scenario) => scenario.id);
   if (folderSelection(folder, selectedIds) === FolderSelection.all) {

@@ -2,9 +2,9 @@ import { formatCronDate } from '@/components/common/monitor-dialog/_utils/schedu
 import type { OptimizerScheduleView } from '@/server/metric-optimizer/types';
 import { TimezoneLabel } from '@/server/monitors/constants/timezone-labels';
 
-type ScheduleRunTextProps = {
+interface ScheduleRunTextProps {
   schedule: OptimizerScheduleView;
-};
+}
 
 const lastRunText = (schedule: OptimizerScheduleView) => {
   if (!schedule.lastRunAt) return 'Not run yet.';

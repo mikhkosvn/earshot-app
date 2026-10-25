@@ -7,11 +7,11 @@ import type { ImprovedMetric } from '@/server/metrics/types';
 import { ImproveEdgeCases } from './improve-edge-cases';
 import { ImproveTextPanel } from './improve-text-panel';
 
-type ImproveResultProps = {
+interface ImproveResultProps {
   result: ActionResult<ImprovedMetric> | undefined;
   currentText: string;
   onUse: (refinedText: string) => void;
-};
+}
 
 export function ImproveResult({
   result,

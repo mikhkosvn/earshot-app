@@ -1,8 +1,8 @@
 import type { SnapshotChange } from '../../_utils/snapshot-diff';
 
-type CompareChangeListProps = {
-  changes: SnapshotChange[];
-};
+interface CompareChangeListProps {
+  changes: readonly SnapshotChange[];
+}
 
 export function CompareChangeList({ changes }: CompareChangeListProps) {
   if (changes.length === 0) {

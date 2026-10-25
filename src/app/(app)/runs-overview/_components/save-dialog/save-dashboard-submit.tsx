@@ -6,9 +6,9 @@ import { Button } from '@/components/ui/button';
 
 import type { SaveConfigurationFormValues } from '../../_schemas/save-configuration-form-schema';
 
-type SaveDashboardSubmitProps = {
+interface SaveDashboardSubmitProps {
   isPending: boolean;
-};
+}
 
 export function SaveDashboardSubmit({ isPending }: SaveDashboardSubmitProps) {
   const name = useWatch<SaveConfigurationFormValues, 'name'>({ name: 'name' });

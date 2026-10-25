@@ -14,6 +14,6 @@ export const turnLine = (
 };
 
 export const transcriptText = (
-  turns: ConversationTurnItem[],
+  turns: readonly ConversationTurnItem[],
   source: ConversationSource,
 ) => turns.map((turn) => turnLine(turn, source)).join('\n');

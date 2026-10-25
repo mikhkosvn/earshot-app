@@ -6,10 +6,10 @@ import { useConversation } from '../_hooks/use-conversation';
 import type { ConversationQueryArgs } from '../_service';
 import { isExpectedOutcomeMetric } from '../_utils/metric-display';
 
-type ExpectedOutcomePromptProps = {
+interface ExpectedOutcomePromptProps {
   metric: ConversationMetricItem;
   query: ConversationQueryArgs;
-};
+}
 
 export function ExpectedOutcomePrompt({
   metric,

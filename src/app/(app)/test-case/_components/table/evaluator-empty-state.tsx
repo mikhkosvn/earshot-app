@@ -13,9 +13,9 @@ import { useEvaluatorListParams } from '../../_hooks/use-evaluator-list-params';
 import { createFolderParam } from '../../_utils/list/create-folder-param';
 import { GenerateEvaluatorsDialog } from '../generate/generate-evaluators-dialog';
 
-type EvaluatorEmptyStateProps = {
+interface EvaluatorEmptyStateProps {
   count: number;
-};
+}
 
 export function EvaluatorEmptyState({ count }: EvaluatorEmptyStateProps) {
   const projectId = useCurrentProjectId();

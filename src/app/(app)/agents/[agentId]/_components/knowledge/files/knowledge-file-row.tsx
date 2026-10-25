@@ -11,9 +11,9 @@ import type { KnowledgeFileItem } from '@/server/agents/types';
 import { useDeleteKnowledgeFileMutation } from '../../../_hooks/mutations/knowledge/use-delete-knowledge-file-mutation';
 import { formatBytes } from '../../../_utils/format-bytes';
 
-type KnowledgeFileRowProps = {
+interface KnowledgeFileRowProps {
   file: KnowledgeFileItem;
-};
+}
 
 export function KnowledgeFileRow({ file }: KnowledgeFileRowProps) {
   const [confirmOpen, setConfirmOpen] = useState(false);

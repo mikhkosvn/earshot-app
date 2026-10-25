@@ -4,9 +4,9 @@ import type { AgentRef } from '@/server/results/types';
 
 import { ShareChip } from './share-chip';
 
-type ShareAgentChipProps = {
+interface ShareAgentChipProps {
   agent: AgentRef | null;
-};
+}
 
 export function ShareAgentChip({ agent }: ShareAgentChipProps) {
   if (!agent) return null;

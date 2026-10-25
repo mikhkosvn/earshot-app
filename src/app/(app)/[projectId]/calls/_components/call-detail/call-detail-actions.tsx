@@ -18,9 +18,9 @@ import { useAddCallToLabMutation } from '../../_hooks/mutations/call-actions/use
 import { useRecomputeMetricsMutation } from '../../_hooks/mutations/call-actions/use-recompute-metrics-mutation';
 import { UseAsEvaluatorDialog } from '../use-as-evaluator/use-as-evaluator-dialog';
 
-type CallDetailActionsProps = {
+interface CallDetailActionsProps {
   callLogId: number;
-};
+}
 
 export function CallDetailActions({ callLogId }: CallDetailActionsProps) {
   const [evaluatorOpen, setEvaluatorOpen] = useState(false);

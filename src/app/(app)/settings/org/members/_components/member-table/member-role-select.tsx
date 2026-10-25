@@ -18,9 +18,9 @@ const ROLE_ITEMS = Object.values(MemberRole).map((value) => ({
   label: MemberRoleLabel[value],
 }));
 
-type MemberRoleSelectProps = {
+interface MemberRoleSelectProps {
   member: MemberRow;
-};
+}
 
 export function MemberRoleSelect({ member }: MemberRoleSelectProps) {
   const updateRole = useUpdateMemberRoleMutation();

@@ -13,9 +13,9 @@ import { UrlGenerator } from '@/lib/url-generator/url-generator';
 import { CancelQueuedRunsButton } from './cancel-queued-runs-button';
 import { RunStatusProgress } from './run-status-progress';
 
-type RunStatusBodyProps = {
+interface RunStatusBodyProps {
   resultId: number | null;
-};
+}
 
 export function RunStatusBody({ resultId }: RunStatusBodyProps) {
   const projectId = useCurrentProjectId();

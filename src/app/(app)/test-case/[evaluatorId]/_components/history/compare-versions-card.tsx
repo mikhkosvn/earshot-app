@@ -11,7 +11,10 @@ import { Button } from '@/components/ui/button';
 import { useEvaluatorId } from '../../_hooks/use-evaluator-id';
 import { VersionDiff } from './version-diff';
 
-type ComparedPair = { fromId: number; toId: number };
+interface ComparedPair {
+  fromId: number;
+  toId: number;
+}
 
 export function CompareVersionsCard() {
   const evaluatorId = useEvaluatorId();

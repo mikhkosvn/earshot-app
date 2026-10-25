@@ -4,11 +4,11 @@ import {
 } from '@/server/personalities/constants/personality-filters';
 import type { PersonalityListItem } from '@/server/personalities/types';
 
-type PersonalityFilters = {
+interface PersonalityFilters {
   search: string;
   gender: string;
   type: PersonalityTypeFilter;
-};
+}
 
 const matchesType = (
   item: PersonalityListItem,
@@ -20,7 +20,7 @@ const matchesType = (
 };
 
 export const filterPersonalities = (
-  items: PersonalityListItem[],
+  items: readonly PersonalityListItem[],
   { search, gender, type }: PersonalityFilters,
 ) => {
   const query = search.trim().toLowerCase();

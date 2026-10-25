@@ -4,9 +4,9 @@ import {
 } from '../../_constants/call-providers';
 import { SnippetCodePanel } from './snippet-code-panel';
 
-type SendCallDataSectionProps = {
+interface SendCallDataSectionProps {
   provider: CallProvider;
-};
+}
 
 export function SendCallDataSection({ provider }: SendCallDataSectionProps) {
   return (

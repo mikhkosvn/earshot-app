@@ -10,12 +10,14 @@ import { DraftActionType } from '../../_constants/draft-action-type';
 import type { DashboardBoardState } from '../../_utils/board-types';
 import { MetadataFilterRow } from './metadata-filter-row';
 
-type MetadataFilterFormProps = {
+interface MetadataFilterFormProps {
   board: DashboardBoardState;
   onApplied: () => void;
-};
+}
 
-type MetadataRow = MetadataCondition & { id: string };
+interface MetadataRow extends MetadataCondition {
+  id: string;
+}
 
 const toRows = (conditions: MetadataCondition[]): MetadataRow[] => {
   if (conditions.length === 0) {

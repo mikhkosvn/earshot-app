@@ -10,9 +10,9 @@ import { GenerateMetricButton } from './generate-metric-button';
 import { QuickAgentsField } from './quick-agents-field';
 import { QuickDescriptionField } from './quick-description-field';
 
-type QuickModeCardProps = {
+interface QuickModeCardProps {
   onSkip: () => void;
-};
+}
 
 export function QuickModeCard({ onSkip }: QuickModeCardProps) {
   const { form, onSubmit } = useQuickMetricForm();

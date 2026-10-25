@@ -4,19 +4,19 @@ import type { JobView } from '@/server/jobs/types';
 
 import { reviewJobInput } from './review-job-input';
 
-export type PanelScope = {
+export interface PanelScope {
   since: number;
   closed: boolean;
-};
+}
 
 export type ClosedPanels = Partial<Record<string, number>>;
 
-export type StackPanel = {
+export interface StackPanel {
   key: string;
   kind: JobKind;
   latestJob: JobView | undefined;
   latestTime: number;
-};
+}
 
 export const panelKey = (job: JobView): string => {
   if (job.kind !== JobKind.metric_pattern_review) return job.kind;
@@ -41,19 +41,22 @@ const isScopedJob = (job: JobView, scope: PanelScope) => {
   return ACTIVE_JOB_STATUSES.includes(job.status);
 };
 
-export const panelJobs = (jobs: JobView[], key: string, scope: PanelScope) =>
-  jobs.filter((job) => panelKey(job) === key && isScopedJob(job, scope));
+export const panelJobs = (
+  jobs: readonly JobView[],
+  key: string,
+  scope: PanelScope,
+) => jobs.filter((job) => panelKey(job) === key && isScopedJob(job, scope));
 
-export const latestJobTime = (jobs: JobView[], key: string) =>
+export const latestJobTime = (jobs: readonly JobView[], key: string) =>
   jobs
     .filter((job) => panelKey(job) === key)
     .reduce((latest, job) => Math.max(latest, job.createdAt.getTime()), 0);
 
 export const stackPanels = (
-  jobs: JobView[],
+  jobs: readonly JobView[],
   sessionStart: number,
   closedPanels: ClosedPanels,
-  pinnedKinds: JobKind[],
+  pinnedKinds: readonly JobKind[],
 ) => {
   const panels = new Map<string, StackPanel>();
   for (const kind of pinnedKinds) {

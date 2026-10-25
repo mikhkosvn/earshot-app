@@ -12,10 +12,10 @@ import type { DynamicVariableItem } from '@/server/agents/types';
 import { PendingLabel } from '../../../../_components/pending-label';
 import { useEditVariableForm } from '../../../_hooks/use-edit-variable-form';
 
-type EditVariableFormProps = {
+interface EditVariableFormProps {
   variable: DynamicVariableItem;
   onSaved: () => void;
-};
+}
 
 export function EditVariableForm({ variable, onSaved }: EditVariableFormProps) {
   const { form, onSubmit, isPending } = useEditVariableForm(variable, onSaved);

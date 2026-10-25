@@ -5,13 +5,13 @@ import type { DashboardItem } from '@/server/dashboards/types';
 
 import { DashboardActionsMenu } from './dashboard-actions-menu';
 
-type DashboardSelectItemProps = {
+interface DashboardSelectItemProps {
   dashboard: DashboardItem;
   isCurrent: boolean;
   onSelect: (dashboardId: number) => void;
   onRename: (dashboard: DashboardItem) => void;
   onDelete: (dashboard: DashboardItem) => void;
-};
+}
 
 export function DashboardSelectItem({
   dashboard,

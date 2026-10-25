@@ -11,9 +11,9 @@ import { IntegrationSettings } from '../../../_components/integration/integratio
 import { ProviderGrid } from '../../../_components/provider/provider-grid';
 import { CONNECTION_STEP_FIELDS } from '../../_constants/wizard-step';
 
-type ConnectionStepProps = {
+interface ConnectionStepProps {
   onNext: () => void;
-};
+}
 
 export function ConnectionStep({ onNext }: ConnectionStepProps) {
   const { trigger } = useFormContext<AgentConfigValues>();

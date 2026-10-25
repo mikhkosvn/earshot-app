@@ -3,11 +3,11 @@ import type { MetricValue } from '@/server/metrics/types';
 
 import { NOT_APPLICABLE_TEXT } from './value-text';
 
-export type ExpectedOption = {
+export interface ExpectedOption {
   key: string;
   label: string;
   value: MetricValue;
-};
+}
 
 const NOT_APPLICABLE_KEY = 'na';
 
@@ -19,7 +19,7 @@ const notApplicable: ExpectedOption = {
 
 export const expectedOptions = (
   evalType: MetricEvalType,
-  enumValues: string[],
+  enumValues: readonly string[],
 ): ExpectedOption[] | null => {
   if (evalType === MetricEvalType.binary) {
     return [
@@ -42,7 +42,7 @@ export const expectedOptions = (
 };
 
 export const expectedKeyOf = (
-  options: ExpectedOption[],
+  options: readonly ExpectedOption[],
   value: MetricValue | undefined,
 ) =>
   options.find((option) => option.value === value)?.key ?? NOT_APPLICABLE_KEY;

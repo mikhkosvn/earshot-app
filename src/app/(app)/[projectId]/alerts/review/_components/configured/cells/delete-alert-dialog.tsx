@@ -4,11 +4,11 @@ import { DeleteConfirmDialog } from '@/components/common/delete-confirm-dialog/d
 
 import { useDeleteAlertMutation } from '../../../_hooks/mutations/use-delete-alert-mutation';
 
-type DeleteAlertDialogProps = {
+interface DeleteAlertDialogProps {
   alertId: number;
   open: boolean;
   onOpenChange: (open: boolean) => void;
-};
+}
 
 export function DeleteAlertDialog({
   alertId,

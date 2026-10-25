@@ -11,9 +11,9 @@ import { VariableChip } from './variable-chip';
 import { VariableHint } from './variable-hint';
 import { VariablesDialog } from './variables-dialog';
 
-type VariableBarProps = {
+interface VariableBarProps {
   set: VariableSet;
-};
+}
 
 export function VariableBar({ set }: VariableBarProps) {
   const [isDialogOpen, setIsDialogOpen] = useState(false);

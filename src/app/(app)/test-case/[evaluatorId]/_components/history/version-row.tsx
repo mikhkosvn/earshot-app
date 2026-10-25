@@ -19,9 +19,9 @@ import { useEvaluatorId } from '../../_hooks/use-evaluator-id';
 import { CurrentVersionBadge } from './current-version-badge';
 import { VersionNote } from './version-note';
 
-type VersionRowProps = {
+interface VersionRowProps {
   version: EvaluatorVersionView;
-};
+}
 
 export function VersionRow({ version }: VersionRowProps) {
   const evaluatorId = useEvaluatorId();

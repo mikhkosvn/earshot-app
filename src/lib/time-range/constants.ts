@@ -12,11 +12,11 @@ export type TimeUnit = (typeof TimeUnit)[keyof typeof TimeUnit];
 
 export const NOW_EXPRESSION = 'now';
 
-export type QuickRange = {
+export interface QuickRange {
   label: string;
   from: string;
   to: string;
-};
+}
 
 export const LAST_QUICK_RANGES: QuickRange[] = [
   { label: 'Last 5 minutes', from: 'now-5m', to: 'now' },

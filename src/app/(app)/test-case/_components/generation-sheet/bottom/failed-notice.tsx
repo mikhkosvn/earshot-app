@@ -1,9 +1,9 @@
 import { getSessionError } from '@/app/(app)/test-case/_utils/generation-stage';
 import type { GenerationSessionView } from '@/server/evaluator-generation/types';
 
-type FailedNoticeProps = {
+interface FailedNoticeProps {
   session: GenerationSessionView;
-};
+}
 
 export function FailedNotice({ session }: FailedNoticeProps) {
   return (

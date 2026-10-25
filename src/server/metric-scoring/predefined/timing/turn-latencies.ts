@@ -6,10 +6,10 @@ import { speechOnset } from '@/server/metric-scoring/predefined/audio/frames';
 import type { ScoringConversation } from '@/server/metric-scoring/types';
 import { round2 } from '@/server/metric-scoring/utils/statistics';
 
-export type TurnLatency = {
+export interface TurnLatency {
   latencyMs: number;
   startTime: number;
-};
+}
 
 const MS_PER_SECOND = 1000;
 

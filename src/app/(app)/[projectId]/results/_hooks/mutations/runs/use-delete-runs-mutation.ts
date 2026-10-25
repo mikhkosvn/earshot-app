@@ -9,10 +9,10 @@ import { deleteRunsAction } from '@/server/results/actions';
 import { ResultService } from '../../../_service';
 import { invalidateRunAndListQueries } from '../../../_utils/runs/invalidate-run-queries';
 
-type DeleteRunsVariables = {
+interface DeleteRunsVariables {
   resultId: number;
   runIds: number[];
-};
+}
 
 export const useDeleteRunsMutation = () => {
   const projectId = useCurrentProjectId();

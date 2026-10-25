@@ -3,11 +3,11 @@
 import { Checkbox } from '@/components/ui/checkbox';
 import type { PredefinedMetricCard } from '@/server/metrics/types';
 
-type PredefinedSelectAllProps = {
+interface PredefinedSelectAllProps {
   cards: PredefinedMetricCard[];
   selectedCodes: string[];
   onSelectedCodesChange: (codes: string[]) => void;
-};
+}
 
 export function PredefinedSelectAll({
   cards,

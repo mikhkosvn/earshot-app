@@ -2,13 +2,13 @@ import 'server-only';
 
 import { MetricEvalType } from '@/generated/prisma/enums';
 
-export type QuickMetricDraft = {
+export interface QuickMetricDraft {
   name: string;
   refinedDescription: string;
   evalType: MetricEvalType;
   summary: string;
   resolvedEdgeCases: string[];
-};
+}
 
 const NAME_REQUEST_PATTERN =
   /name (?:this|the) metric\s+["'“]?([^."'”\n]+?)["'”]?(?:\.|\n|$)/i;

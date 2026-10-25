@@ -11,9 +11,9 @@ import { GeneratedScenariosAccordion } from './generated-scenarios-accordion';
 import { GenerationProgressCard } from './generation-progress-card';
 import { ScenarioCountChip } from './scenario-count-chip';
 
-type SessionChatProps = {
+interface SessionChatProps {
   sessionId: number;
-};
+}
 
 export function SessionChat({ sessionId }: SessionChatProps) {
   const { data: session } = useSuspenseQuery(

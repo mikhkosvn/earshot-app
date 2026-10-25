@@ -13,11 +13,11 @@ import { CallIdCell } from './cells/call-id-cell';
 import { CallMetricCells } from './cells/call-metric-cells';
 import { CallRowMenu } from './cells/call-row-menu';
 
-type CallRowProps = {
+interface CallRowProps {
   call: CallLogRow;
   selected: boolean;
   onSelectedChange: (checked: boolean) => void;
-};
+}
 
 export function CallRow({ call, selected, onSelectedChange }: CallRowProps) {
   const { openCall } = useCallIdParam();

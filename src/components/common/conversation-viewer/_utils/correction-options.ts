@@ -7,11 +7,11 @@ import {
   NOT_APPLICABLE_LABEL,
 } from '../_constants/correction';
 
-export type CorrectionOption = {
+export interface CorrectionOption {
   key: string;
   label: string;
   value: MetricValue;
-};
+}
 
 const notApplicable: CorrectionOption = {
   key: NOT_APPLICABLE_KEY,
@@ -43,7 +43,7 @@ export const correctionOptions = (
 };
 
 export const optionKeyOf = (
-  options: CorrectionOption[],
+  options: readonly CorrectionOption[],
   value: MetricValue | undefined,
 ) =>
   options.find((option) => option.value === value)?.key ?? NOT_APPLICABLE_KEY;

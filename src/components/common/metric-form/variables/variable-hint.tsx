@@ -1,6 +1,6 @@
-type VariableHintProps = {
+interface VariableHintProps {
   codes: [string, string, string];
-};
+}
 
 export function VariableHint({ codes }: VariableHintProps) {
   const [field, firstExample, secondExample] = codes;

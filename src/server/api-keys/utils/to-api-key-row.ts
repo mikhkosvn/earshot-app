@@ -17,14 +17,14 @@ export const apiKeyRowSelect = {
   project: { select: { name: true } },
 } as const;
 
-type ApiKeyRecord = {
+interface ApiKeyRecord {
   id: number;
   name: string;
   keyPrefix: string;
   projectId: number | null;
   createdAt: Date;
   project: { name: string } | null;
-};
+}
 
 export const toApiKeyRow = (record: ApiKeyRecord): ApiKeyRow => ({
   id: record.id,

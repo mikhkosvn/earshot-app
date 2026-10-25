@@ -7,9 +7,9 @@ import { DeleteScheduleButton } from './delete-schedule-button';
 import { EditScheduleButton } from './edit-schedule-button';
 import { ScheduleRunText } from './schedule-run-text';
 
-type ScheduleRowProps = {
+interface ScheduleRowProps {
   schedule: OptimizerScheduleView;
-};
+}
 
 export function ScheduleRow({ schedule }: ScheduleRowProps) {
   return (

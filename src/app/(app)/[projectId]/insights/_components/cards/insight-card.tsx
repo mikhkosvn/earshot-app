@@ -8,9 +8,9 @@ import { InsightCardStats } from './insight-card-stats';
 import { LatestInsightLine } from './latest-insight-line';
 import { RunInsightButton } from './run-insight-button';
 
-type InsightCardProps = {
+interface InsightCardProps {
   card: InsightCardView;
-};
+}
 
 export function InsightCard({ card }: InsightCardProps) {
   return (

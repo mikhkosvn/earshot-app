@@ -10,12 +10,12 @@ import type { DashboardItem } from '@/server/dashboards/types';
 import { useDeleteDashboardMutation } from '../../_hooks/mutations/use-delete-dashboard-mutation';
 import { dashboardRootHref } from '../../_utils/dashboard-href';
 
-type DeleteDashboardDialogProps = {
+interface DeleteDashboardDialogProps {
   dashboard: DashboardItem | null;
   currentDashboardId: number;
   source: DashboardSource;
   onClose: () => void;
-};
+}
 
 const descriptionOf = (dashboard: DashboardItem | null) => {
   if (!dashboard) return undefined;

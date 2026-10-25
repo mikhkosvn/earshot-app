@@ -12,9 +12,9 @@ import {
 } from '@/components/ui/dialog';
 import type { LabRowVariables } from '@/server/labs/types';
 
-type RowVariablesDialogProps = {
+interface RowVariablesDialogProps {
   variables: LabRowVariables;
-};
+}
 
 const SECTIONS: { key: keyof LabRowVariables; label: string }[] = [
   { key: 'callEndReason', label: 'call_end_reason' },

@@ -1,6 +1,6 @@
 'use client';
 
-import { useMutationState } from '@tanstack/react-query';
+import { type Mutation, useMutationState } from '@tanstack/react-query';
 import { useWatch } from 'react-hook-form';
 
 import type { ActionResult } from '@/lib/action-result';
@@ -9,10 +9,16 @@ import type { SpecCheck, TestSuiteRequestInput } from '@/server/runs/types';
 import { RunDialogService } from '../_service';
 import type { RunFromFileForm } from './use-run-from-file-form';
 
-type CheckState = {
+interface CheckState {
   data: ActionResult<SpecCheck> | undefined;
   variables: TestSuiteRequestInput | undefined;
-};
+}
+
+type CheckMutation = Mutation<
+  ActionResult<SpecCheck>,
+  Error,
+  TestSuiteRequestInput
+>;
 
 const matches = (
   state: CheckState | undefined,
@@ -27,11 +33,11 @@ export const useCurrentSpecCheck = (
 ): SpecCheck | null => {
   const agentId = useWatch({ control, name: 'agentId' });
   const specText = useWatch({ control, name: 'specText' });
-  const states = useMutationState({
+  const states = useMutationState<CheckState, CheckMutation>({
     filters: { mutationKey: RunDialogService.checkTestSuiteMutationKey },
     select: (mutation): CheckState => ({
-      data: mutation.state.data as ActionResult<SpecCheck> | undefined,
-      variables: mutation.state.variables as TestSuiteRequestInput | undefined,
+      data: mutation.state.data,
+      variables: mutation.state.variables,
     }),
   });
   const latest = states.at(-1);

@@ -7,9 +7,9 @@ import type { RunFromFileForm } from '../../_hooks/use-run-from-file-form';
 import { SpecErrorList } from './spec-error-list';
 import { SpecPlan } from './spec-plan';
 
-type SpecCheckStatusProps = {
+interface SpecCheckStatusProps {
   control: RunFromFileForm['control'];
-};
+}
 
 export function SpecCheckStatus({ control }: SpecCheckStatusProps) {
   const specText = useWatch({ control, name: 'specText' });

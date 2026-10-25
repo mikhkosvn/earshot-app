@@ -2,10 +2,10 @@
 
 import { CommandGroup, CommandItem } from '@/components/ui/command';
 
-type CustomVoiceItemProps = {
+interface CustomVoiceItemProps {
   search: string;
   onSelect: (voiceId: string) => void;
-};
+}
 
 export function CustomVoiceItem({ search, onSelect }: CustomVoiceItemProps) {
   const voiceId = search.trim();

@@ -4,10 +4,10 @@ import { Button } from '@/components/ui/button';
 
 import { useDismissProposalMutation } from '../../_hooks/mutations/use-dismiss-proposal-mutation';
 
-type DismissProposalConfirmProps = {
+interface DismissProposalConfirmProps {
   sessionId: number;
   onKeep: () => void;
-};
+}
 
 export function DismissProposalConfirm({
   sessionId,

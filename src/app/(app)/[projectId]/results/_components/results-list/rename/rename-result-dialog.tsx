@@ -10,11 +10,11 @@ import type { ResultListRow } from '@/server/results/types';
 
 import { RenameResultForm } from './rename-result-form';
 
-type RenameResultDialogProps = {
+interface RenameResultDialogProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   result: ResultListRow;
-};
+}
 
 export function RenameResultDialog({
   open,

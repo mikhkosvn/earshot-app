@@ -11,10 +11,10 @@ import { useAlertFilterForm } from '../../_hooks/forms/use-alert-filter-form';
 import { FilterAgentList } from './filter-agent-list';
 import { FilterMetadataRows } from './filter-metadata-rows';
 
-type AlertFilterFormProps = {
+interface AlertFilterFormProps {
   alert: AlertRow;
   onSaved: () => void;
-};
+}
 
 export function AlertFilterForm({ alert, onSaved }: AlertFilterFormProps) {
   const { form, onSubmit, isSaving } = useAlertFilterForm(alert, onSaved);

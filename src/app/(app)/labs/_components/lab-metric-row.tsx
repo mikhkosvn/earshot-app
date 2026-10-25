@@ -8,11 +8,12 @@ import { MetricEvalTypeLabel } from '@/server/metrics/constants/metric-eval-type
 import { LAB_GRID_CLASS } from '../_constants/labs-text';
 import { descriptionPreview, scoreText } from '../_utils/lab-text';
 
-type LabMetricRowProps = {
+interface LabMetricRowProps {
   metric: LabMetricListItem;
-};
+}
 
-const CELL_CLASS = 'flex h-full items-center border-r px-3 py-3 last:border-r-0';
+const CELL_CLASS =
+  'flex h-full items-center border-r px-3 py-3 last:border-r-0';
 
 export function LabMetricRow({ metric }: LabMetricRowProps) {
   return (

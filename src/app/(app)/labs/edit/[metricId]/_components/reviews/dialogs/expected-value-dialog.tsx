@@ -11,11 +11,11 @@ import type { LabRowView } from '@/server/labs/types';
 
 import { ExpectedValueForm } from './expected-value-form';
 
-type ExpectedValueDialogProps = {
+interface ExpectedValueDialogProps {
   row: LabRowView;
   open: boolean;
   onOpenChange: (open: boolean) => void;
-};
+}
 
 export function ExpectedValueDialog({
   row,

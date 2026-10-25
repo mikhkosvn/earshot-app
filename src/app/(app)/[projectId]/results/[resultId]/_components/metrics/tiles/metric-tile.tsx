@@ -12,9 +12,9 @@ import { tileValueText } from '../../../_utils/tile-format';
 import { MetricPopupDialog } from '../popup/metric-popup-dialog';
 import { MetricTileBar } from './metric-tile-bar';
 
-type MetricTileProps = {
+interface MetricTileProps {
   tile: ResultMetricTile;
-};
+}
 
 export function MetricTile({ tile }: MetricTileProps) {
   const [open, setOpen] = useState(false);

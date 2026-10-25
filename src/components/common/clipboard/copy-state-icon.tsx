@@ -2,10 +2,10 @@ import { CheckIcon, CopyIcon } from 'lucide-react';
 
 import { cn } from '@/lib/utils';
 
-type CopyStateIconProps = {
+interface CopyStateIconProps {
   isCopied: boolean;
   className?: string;
-};
+}
 
 export function CopyStateIcon({ isCopied, className }: CopyStateIconProps) {
   if (isCopied) {

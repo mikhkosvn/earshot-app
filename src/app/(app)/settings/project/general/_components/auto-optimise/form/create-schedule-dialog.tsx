@@ -10,10 +10,10 @@ import {
 
 import { CreateScheduleForm } from './create-schedule-form';
 
-type CreateScheduleDialogProps = {
+interface CreateScheduleDialogProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
-};
+}
 
 export function CreateScheduleDialog({
   open,

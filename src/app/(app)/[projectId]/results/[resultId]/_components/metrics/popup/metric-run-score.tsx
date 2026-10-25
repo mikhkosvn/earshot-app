@@ -10,9 +10,9 @@ const toneClass = (run: TileRun) => {
   return 'border-border';
 };
 
-type MetricRunScoreProps = {
+interface MetricRunScoreProps {
   run: TileRun;
-};
+}
 
 export function MetricRunScore({ run }: MetricRunScoreProps) {
   return (

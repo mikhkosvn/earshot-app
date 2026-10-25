@@ -5,14 +5,14 @@ import { Suspense } from 'react';
 import { OptionSelect } from '../option-select';
 import { AgentTestProfileSelect } from './agent-test-profile-select';
 
-type TestProfileSelectProps = {
+interface TestProfileSelectProps {
   id?: string;
   agentId: number | null;
   value: number | null;
   onValueChange: (testProfileId: number | null) => void;
   placeholder?: string;
   invalid?: boolean;
-};
+}
 
 export function TestProfileSelect({
   agentId,

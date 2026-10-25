@@ -7,10 +7,10 @@ import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
 import { CreateMode } from '../_constants/create-mode';
 import { isCreateMode } from '../_utils/create-mode';
 
-type ModeSwitchProps = {
+interface ModeSwitchProps {
   mode: CreateMode;
   onModeChange: (mode: CreateMode) => void;
-};
+}
 
 const ITEM_CLASS =
   'aria-pressed:bg-primary aria-pressed:text-primary-foreground aria-pressed:hover:bg-primary/90';

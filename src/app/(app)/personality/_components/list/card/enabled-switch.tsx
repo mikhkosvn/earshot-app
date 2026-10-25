@@ -6,9 +6,9 @@ import type { PersonalityListItem } from '@/server/personalities/types';
 
 import { useSetPersonalityEnabledMutation } from '../../../_hooks/mutations/list/use-set-personality-enabled-mutation';
 
-type EnabledSwitchProps = {
+interface EnabledSwitchProps {
   item: PersonalityListItem;
-};
+}
 
 export function EnabledSwitch({ item }: EnabledSwitchProps) {
   const projectId = useCurrentProjectId();

@@ -12,12 +12,12 @@ import type { DraftPlot } from '../../_utils/dashboard-draft';
 import { PlotBody } from '../../charts/plot-body';
 import { PlotIcon } from './plot-icon';
 
-type PlotExpandDialogProps = {
+interface PlotExpandDialogProps {
   board: DashboardBoardState;
   plot: DraftPlot;
   open: boolean;
   onOpenChange: (open: boolean) => void;
-};
+}
 
 export function PlotExpandDialog({
   board,

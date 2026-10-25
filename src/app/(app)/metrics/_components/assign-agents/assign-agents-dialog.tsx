@@ -10,11 +10,11 @@ import {
 
 import { AssignAgentsForm } from './assign-agents-form';
 
-type AssignAgentsDialogProps = {
+interface AssignAgentsDialogProps {
   metricIds: number[];
   open: boolean;
   onOpenChange: (open: boolean) => void;
-};
+}
 
 export function AssignAgentsDialog({
   metricIds,

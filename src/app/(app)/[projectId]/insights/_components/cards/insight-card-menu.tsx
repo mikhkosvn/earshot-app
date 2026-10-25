@@ -18,9 +18,9 @@ import { useNewCategoryAlertMutation } from '../../_hooks/mutations/use-new-cate
 import { useTurnOffInsightsMutation } from '../../_hooks/mutations/use-turn-off-insights-mutation';
 import { EnableInsightsDialog } from '../enable/enable-insights-dialog';
 
-type InsightCardMenuProps = {
+interface InsightCardMenuProps {
   card: InsightCardView;
-};
+}
 
 export function InsightCardMenu({ card }: InsightCardMenuProps) {
   const projectId = useCurrentProjectId();

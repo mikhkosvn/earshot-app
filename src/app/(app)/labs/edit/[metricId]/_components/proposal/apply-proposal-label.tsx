@@ -1,6 +1,6 @@
-type ApplyProposalLabelProps = {
+interface ApplyProposalLabelProps {
   isPending: boolean;
-};
+}
 
 export function ApplyProposalLabel({ isPending }: ApplyProposalLabelProps) {
   if (isPending) return 'Applying...';

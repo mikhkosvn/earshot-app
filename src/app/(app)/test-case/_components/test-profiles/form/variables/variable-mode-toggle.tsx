@@ -6,14 +6,14 @@ import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
 
 import { VariableEditorMode } from '../../../../_constants/variable-editor-mode';
 
-type VariableModeToggleProps = {
+interface VariableModeToggleProps {
   label: string;
   mode: VariableEditorMode;
   onModeChange: (mode: VariableEditorMode) => void;
-};
+}
 
 const isMode = (value: unknown): value is VariableEditorMode =>
-  Object.values(VariableEditorMode).includes(value as VariableEditorMode);
+  Object.values(VariableEditorMode).some((item) => item === value);
 
 export function VariableModeToggle({
   label,

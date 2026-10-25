@@ -1,8 +1,8 @@
 import { Badge } from '@/components/ui/badge';
 
-type FilterCountBadgeProps = {
+interface FilterCountBadgeProps {
   count: number;
-};
+}
 
 export function FilterCountBadge({ count }: FilterCountBadgeProps) {
   if (count === 0) return null;

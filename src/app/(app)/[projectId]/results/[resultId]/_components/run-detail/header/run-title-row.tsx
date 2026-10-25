@@ -8,9 +8,9 @@ import type { RunDetail } from '@/server/results/types';
 import { useShareRunMutation } from '../../../../_hooks/mutations/run-detail/use-share-run-mutation';
 import { EvaluatorLinks } from './evaluator-links';
 
-type RunTitleRowProps = {
+interface RunTitleRowProps {
   run: RunDetail;
-};
+}
 
 export function RunTitleRow({ run }: RunTitleRowProps) {
   const share = useShareRunMutation();

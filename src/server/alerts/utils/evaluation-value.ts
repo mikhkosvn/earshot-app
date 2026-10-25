@@ -11,13 +11,13 @@ import type { MetricValue } from '@/server/metrics/types';
 import { rubricValueKind } from '@/server/rubric/utils/rubric-kind';
 import { ruleValueOf } from '@/server/rubric/utils/rule-value';
 
-export type EvaluationValueParts = {
+export interface EvaluationValueParts {
   valueNumber: number | null;
   valueBoolean: boolean | null;
   valueText: string | null;
-};
+}
 
-export type FailureCheckMetric = {
+export interface FailureCheckMetric {
   evalType: MetricEvalType;
   predefinedMetric: { functionName: string | null } | null;
   rubricRule: {
@@ -26,7 +26,7 @@ export type FailureCheckMetric = {
     booleanValue: boolean | null;
     textValues: string[];
   } | null;
-};
+}
 
 export const evaluationValueOf = (parts: EvaluationValueParts): MetricValue =>
   valueFromParts({

@@ -6,9 +6,9 @@ import { Field, FieldError } from '@/components/ui/field';
 import { Input } from '@/components/ui/input';
 import type { SaveInsightConfigInput } from '@/server/insights/types';
 
-type PassValueInputProps = {
+interface PassValueInputProps {
   disabled: boolean;
-};
+}
 
 export function PassValueInput({ disabled }: PassValueInputProps) {
   const { control } = useFormContext<SaveInsightConfigInput>();

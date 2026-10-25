@@ -21,12 +21,12 @@ import { RunPersonalityCell } from './run-personality-cell';
 import { RunResultCell } from './run-result-cell';
 import { RunRowMenu } from './run-row-menu';
 
-type RunColumnCellProps = {
+interface RunColumnCellProps {
   column: RunColumn;
   run: RunRow;
   selection?: RunSelection;
   onOpenRun: (run: RunRow) => void;
-};
+}
 
 const stop = (event: MouseEvent) => event.stopPropagation();
 

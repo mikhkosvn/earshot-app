@@ -1,6 +1,6 @@
-type JsonErrorTextProps = {
+interface JsonErrorTextProps {
   error: string | null;
-};
+}
 
 export function JsonErrorText({ error }: JsonErrorTextProps) {
   if (!error) return null;

@@ -6,12 +6,12 @@ import { Button } from '@/components/ui/button';
 
 import type { MultiPickItem } from './multi-pick-types';
 
-type MultiPickChipsProps = {
-  items: MultiPickItem[];
-  value: number[];
+interface MultiPickChipsProps {
+  items: readonly MultiPickItem[];
+  value: readonly number[];
   disabled?: boolean;
   onValueChange: (value: number[]) => void;
-};
+}
 
 export function MultiPickChips({
   items,

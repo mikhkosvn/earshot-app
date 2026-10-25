@@ -7,10 +7,10 @@ import type {
 
 import { metricCellText } from '../../../_utils/call-format';
 
-type CallMetricValueProps = {
+interface CallMetricValueProps {
   column: CallMetricColumn;
   cell: CallMetricCell | undefined;
-};
+}
 
 export function CallMetricValue({ column, cell }: CallMetricValueProps) {
   if (!cell) return null;

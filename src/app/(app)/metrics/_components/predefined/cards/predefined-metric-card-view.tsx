@@ -6,11 +6,11 @@ import type { PredefinedMetricCard } from '@/server/metrics/types';
 import { PredefinedBadge } from './predefined-badge';
 import { PredefinedCardCheckbox } from './predefined-card-checkbox';
 
-type PredefinedMetricCardViewProps = {
+interface PredefinedMetricCardViewProps {
   card: PredefinedMetricCard;
   checked: boolean;
   onCheckedChange: (checked: boolean) => void;
-};
+}
 
 export function PredefinedMetricCardView({
   card,

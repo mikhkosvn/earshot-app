@@ -26,18 +26,18 @@ const runnerResponseSchema = z.object({
 
 export type JudgeRequest = z.output<typeof judgeRequestSchema>;
 
-export type PythonRun = {
+export interface PythonRun {
   ok: boolean;
   result: boolean | number | string | null;
   explanation: unknown;
   error: string | null;
-};
+}
 
-type RunPythonArgs = {
+interface RunPythonArgs {
   code: string;
   data: Record<string, unknown>;
   onJudgeRequest: (request: JudgeRequest) => Promise<JudgeResult>;
-};
+}
 
 const runnerUrl = () => process.env.CODE_RUNNER_URL || DEFAULT_CODE_RUNNER_URL;
 

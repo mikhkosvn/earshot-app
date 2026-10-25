@@ -2,14 +2,14 @@ import 'server-only';
 
 import { WidgetTimePeriod } from '@/generated/prisma/enums';
 
-export type ZonedParts = {
+export interface ZonedParts {
   year: number;
   month: number;
   day: number;
   hour: number;
   minute: number;
   second: number;
-};
+}
 
 const formatters = new Map<string, Intl.DateTimeFormat>();
 

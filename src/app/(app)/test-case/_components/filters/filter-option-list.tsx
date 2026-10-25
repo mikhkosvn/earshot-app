@@ -9,20 +9,20 @@ import { Label } from '@/components/ui/label';
 
 import { FilterEmptyHint } from './filter-empty-hint';
 
-type FilterOption<TValue extends string | number> = {
+interface FilterOption<TValue extends string | number> {
   value: TValue;
   label: string;
-};
+}
 
-type FilterOptionListProps<TValue extends string | number> = {
+interface FilterOptionListProps<TValue extends string | number> {
   name: string;
-  options: FilterOption<TValue>[];
-  value: TValue[];
+  options: readonly FilterOption<TValue>[];
+  value: readonly TValue[];
   onValueChange: (value: TValue[]) => void;
   logicSelect?: ReactNode;
-};
+}
 
-const toggle = <TValue,>(values: TValue[], value: TValue) => {
+const toggle = <TValue,>(values: readonly TValue[], value: TValue) => {
   if (values.includes(value)) return values.filter((item) => item !== value);
   return [...values, value];
 };

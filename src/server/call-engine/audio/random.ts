@@ -1,10 +1,10 @@
 import 'server-only';
 
-export type Random = {
+export interface Random {
   next: () => number;
   between: (min: number, max: number) => number;
   int: (min: number, max: number) => number;
-};
+}
 
 const hashSeed = (seed: string) => {
   let hash = 2166136261;

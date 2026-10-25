@@ -8,11 +8,11 @@ import { useCurrentProjectId } from '@/app/(app)/_hooks/use-current-project-id';
 import { EvaluatorService } from '../../../_service';
 import { OptionSelect } from '../option-select';
 
-type ProjectSelectProps = {
+interface ProjectSelectProps {
   id?: string;
   value: number;
   onValueChange: (projectId: number) => void;
-};
+}
 
 export function ProjectSelect({
   id,

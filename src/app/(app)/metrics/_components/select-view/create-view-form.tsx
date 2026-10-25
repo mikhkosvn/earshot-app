@@ -10,9 +10,9 @@ import { CreateViewSubmitButton } from './create-view-submit-button';
 import { ViewAgentsField } from './view-agents-field';
 import { ViewNameField } from './view-name-field';
 
-type CreateViewFormProps = {
+interface CreateViewFormProps {
   onCreated: () => void;
-};
+}
 
 export function CreateViewForm({ onCreated }: CreateViewFormProps) {
   const { form, onSubmit } = useCreateViewForm(onCreated);

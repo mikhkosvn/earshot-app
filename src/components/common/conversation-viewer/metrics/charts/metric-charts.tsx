@@ -16,9 +16,9 @@ import {
 } from '../../_utils/metric-graph';
 import { MetricLineChart } from './metric-line-chart';
 
-type MetricChartsProps = {
+interface MetricChartsProps {
   query: ConversationQueryArgs;
-};
+}
 
 const averageLines = (points: GraphPoint[]): GraphLine[] => {
   const average = averageOf(points);

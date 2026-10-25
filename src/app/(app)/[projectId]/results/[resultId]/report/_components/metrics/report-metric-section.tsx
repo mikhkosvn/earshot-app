@@ -2,9 +2,9 @@ import type { ResultReportMetric } from '@/server/results/types';
 
 import { ReportMetricExplanation } from './report-metric-explanation';
 
-type ReportMetricSectionProps = {
+interface ReportMetricSectionProps {
   metric: ResultReportMetric;
-};
+}
 
 export function ReportMetricSection({ metric }: ReportMetricSectionProps) {
   return (

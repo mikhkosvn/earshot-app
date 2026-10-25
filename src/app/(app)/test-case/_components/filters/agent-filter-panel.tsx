@@ -7,10 +7,10 @@ import { useCurrentProjectId } from '@/app/(app)/_hooks/use-current-project-id';
 import { EvaluatorService } from '../../_service';
 import { FilterOptionList } from './filter-option-list';
 
-type AgentFilterPanelProps = {
-  value: number[];
+interface AgentFilterPanelProps {
+  value: readonly number[];
   onValueChange: (agentIds: number[]) => void;
-};
+}
 
 export function AgentFilterPanel({
   value,

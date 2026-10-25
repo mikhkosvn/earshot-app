@@ -11,9 +11,9 @@ import {
 import { Language } from '@/generated/prisma/enums';
 import { UrlGenerator } from '@/lib/url-generator/url-generator';
 
-type PersonalityBreadcrumbProps = {
+interface PersonalityBreadcrumbProps {
   current: string;
-};
+}
 
 export function PersonalityBreadcrumb({ current }: PersonalityBreadcrumbProps) {
   return (

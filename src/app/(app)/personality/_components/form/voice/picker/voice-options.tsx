@@ -10,11 +10,11 @@ import { PersonalityService } from '../../../../_service';
 import { CustomVoiceItem } from './custom-voice-item';
 import { VoiceOptionItem } from './voice-option-item';
 
-type VoiceOptionsProps = {
+interface VoiceOptionsProps {
   voiceModel: VoiceModel;
   search: string;
   onSelect: (voiceId: string) => void;
-};
+}
 
 export function VoiceOptions({
   voiceModel,

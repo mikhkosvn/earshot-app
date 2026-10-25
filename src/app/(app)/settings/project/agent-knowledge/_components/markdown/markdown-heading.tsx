@@ -7,10 +7,10 @@ const HEADING_CLASS: Record<MarkdownHeadingLevel, string> = {
   3: 'text-sm font-semibold',
 };
 
-type MarkdownHeadingProps = {
+interface MarkdownHeadingProps {
   level: MarkdownHeadingLevel;
   text: string;
-};
+}
 
 export function MarkdownHeading({ level, text }: MarkdownHeadingProps) {
   return (

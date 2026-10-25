@@ -13,9 +13,9 @@ import { PersonalityGrid } from './personality-grid';
 import { PersonalityGridSkeleton } from './personality-grid-skeleton';
 import { PersonalityToolbar } from './toolbar/personality-toolbar';
 
-type PersonalityListDataProps = {
+interface PersonalityListDataProps {
   searchParams: Promise<Record<string, string | string[] | undefined>>;
-};
+}
 
 export async function PersonalityListData({
   searchParams,

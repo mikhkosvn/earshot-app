@@ -4,10 +4,10 @@ import { useDeleteProjectMutation } from '@/app/(app)/_hooks/mutations/project-s
 import { useCurrentProjectId } from '@/app/(app)/_hooks/use-current-project-id';
 import { DeleteConfirmDialog } from '@/components/common/delete-confirm-dialog/delete-confirm-dialog';
 
-type DeleteProjectDialogProps = {
+interface DeleteProjectDialogProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
-};
+}
 
 export function DeleteProjectDialog({
   open,

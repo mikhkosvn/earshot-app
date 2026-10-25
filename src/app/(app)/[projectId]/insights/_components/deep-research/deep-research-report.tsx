@@ -14,9 +14,9 @@ import { ResearchModeItem } from './research-mode-item';
 
 const WINDOW_FORMAT = 'MMM d';
 
-type DeepResearchReportProps = {
+interface DeepResearchReportProps {
   report: DeepResearchView;
-};
+}
 
 export function DeepResearchReport({ report }: DeepResearchReportProps) {
   return (

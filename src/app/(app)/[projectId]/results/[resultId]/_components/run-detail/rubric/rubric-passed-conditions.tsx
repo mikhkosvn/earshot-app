@@ -12,9 +12,9 @@ import type { RubricBreakdownItem } from '@/server/metric-scoring/types';
 
 import { RubricItemRow } from './rubric-item-row';
 
-type RubricPassedConditionsProps = {
-  items: RubricBreakdownItem[];
-};
+interface RubricPassedConditionsProps {
+  items: readonly RubricBreakdownItem[];
+}
 
 export function RubricPassedConditions({ items }: RubricPassedConditionsProps) {
   if (items.length === 0) return null;

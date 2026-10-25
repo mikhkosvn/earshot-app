@@ -12,11 +12,11 @@ import type { MockToolItem } from '@/server/agents/types';
 import { MockToolDialogTitle } from './mock-tool-dialog-title';
 import { MockToolForm } from './mock-tool-form';
 
-type MockToolDialogProps = {
+interface MockToolDialogProps {
   tool: MockToolItem | null;
   open: boolean;
   onOpenChange: (open: boolean) => void;
-};
+}
 
 export function MockToolDialog({
   tool,

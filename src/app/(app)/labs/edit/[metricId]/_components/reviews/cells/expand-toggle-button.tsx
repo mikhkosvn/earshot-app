@@ -2,12 +2,12 @@ import { Button } from '@/components/ui/button';
 
 import { ExpandLabel } from './expand-label';
 
-type ExpandToggleButtonProps = {
+interface ExpandToggleButtonProps {
   canExpand: boolean;
   isExpanded: boolean;
   collapsedLabel: string;
   onToggle: () => void;
-};
+}
 
 export function ExpandToggleButton({
   canExpand,

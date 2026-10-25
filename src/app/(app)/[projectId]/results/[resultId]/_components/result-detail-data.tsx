@@ -21,10 +21,10 @@ import { ResultDetailView } from './result-detail-view';
 import { RunDetailDialog } from './run-detail/run-detail-dialog';
 import { ResultRunsCard } from './runs-card/result-runs-card';
 
-type ResultDetailDataProps = {
+interface ResultDetailDataProps {
   params: Promise<{ projectId: string; resultId: string }>;
   searchParams: Promise<Record<string, string | string[] | undefined>>;
-};
+}
 
 const prefetchRunDetail = async (
   queryClient: ReturnType<typeof getQueryClient>,

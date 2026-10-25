@@ -11,9 +11,9 @@ import type { ProposalChange as ProposalChangeData } from '@/server/metric-optim
 
 import { ProposalChange } from './proposal-change';
 
-type ProposalChangesProps = {
-  changes: ProposalChangeData[];
-};
+interface ProposalChangesProps {
+  changes: readonly ProposalChangeData[];
+}
 
 export function ProposalChanges({ changes }: ProposalChangesProps) {
   if (changes.length === 0) {

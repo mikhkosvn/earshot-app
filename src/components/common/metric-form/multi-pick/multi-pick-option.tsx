@@ -3,12 +3,12 @@
 import { Checkbox } from '@/components/ui/checkbox';
 import { CommandItem } from '@/components/ui/command';
 
-type MultiPickOptionProps = {
+interface MultiPickOptionProps {
   value: string;
   label: string;
   checked: boolean;
   onToggle: () => void;
-};
+}
 
 export function MultiPickOption({
   value,

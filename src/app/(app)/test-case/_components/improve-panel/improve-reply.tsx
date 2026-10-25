@@ -7,9 +7,9 @@ import type { EvaluatorImprovementReply } from '@/server/evaluators/types';
 
 import { ProposalList } from './proposals/proposal-list';
 
-type ImproveReplyProps = {
+interface ImproveReplyProps {
   result?: ActionResult<EvaluatorImprovementReply>;
-};
+}
 
 export function ImproveReply({ result }: ImproveReplyProps) {
   if (!result) {

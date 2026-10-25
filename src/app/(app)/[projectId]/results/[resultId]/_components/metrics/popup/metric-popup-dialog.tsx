@@ -6,11 +6,11 @@ import type { ResultMetricTile } from '@/server/results/types';
 import { useRunDetailParam } from '../../../../_hooks/use-run-detail-param';
 import { MetricPopupContent } from './metric-popup-content';
 
-type MetricPopupDialogProps = {
+interface MetricPopupDialogProps {
   tile: ResultMetricTile;
   open: boolean;
   onOpenChange: (open: boolean) => void;
-};
+}
 
 export function MetricPopupDialog({
   tile,

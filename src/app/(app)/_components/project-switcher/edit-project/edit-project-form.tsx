@@ -10,9 +10,9 @@ import { DialogClose, DialogFooter } from '@/components/ui/dialog';
 import { ProjectNameField } from '../project-name-field';
 import { EditProjectSubmitLabel } from './edit-project-submit-label';
 
-type EditProjectFormProps = {
+interface EditProjectFormProps {
   onSaved: () => void;
-};
+}
 
 export function EditProjectForm({ onSaved }: EditProjectFormProps) {
   const { form, onSubmit } = useEditProjectForm(onSaved);

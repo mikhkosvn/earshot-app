@@ -11,10 +11,10 @@ import { useToggleSettingsForm } from '../../_hooks/forms/use-toggle-settings-fo
 import { MetricService } from '../../_service';
 import { FlagChangeField } from './flag-change-field';
 
-type ToggleSettingsFormProps = {
+interface ToggleSettingsFormProps {
   metricIds: number[];
   onSaved: () => void;
-};
+}
 
 export function ToggleSettingsForm({
   metricIds,

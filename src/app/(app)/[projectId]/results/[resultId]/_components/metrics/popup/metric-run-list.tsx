@@ -4,10 +4,10 @@ import type { TileRun } from '@/server/results/types';
 
 import { MetricRunItem } from './metric-run-item';
 
-type MetricRunListProps = {
-  runs: TileRun[];
+interface MetricRunListProps {
+  runs: readonly TileRun[];
   onOpenRun: (runId: number) => void;
-};
+}
 
 export function MetricRunList({ runs, onOpenRun }: MetricRunListProps) {
   if (runs.length === 0) {

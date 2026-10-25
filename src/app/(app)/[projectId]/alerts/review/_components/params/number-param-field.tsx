@@ -12,11 +12,11 @@ const inputValueOf = (value: unknown) => {
   return '';
 };
 
-type NumberParamFieldProps = {
+interface NumberParamFieldProps {
   name: FieldPath<EditAlertFormValues>;
   label: string;
   step?: number;
-};
+}
 
 export function NumberParamField({
   name,

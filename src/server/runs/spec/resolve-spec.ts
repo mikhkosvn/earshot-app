@@ -12,7 +12,7 @@ import type {
 import type { SpecIssue } from '@/server/runs/types';
 import type { RunAgent } from '@/server/runs/utils/run-references';
 
-export type ResolvedScenario = {
+export interface ResolvedScenario {
   index: number;
   key: string;
   scenario: SpecScenario;
@@ -20,21 +20,21 @@ export type ResolvedScenario = {
   metricIds: number[];
   personality: { id: number; name: string } | null;
   testProfileId: number | null;
-};
+}
 
-export type ResolvedSpec = {
+export interface ResolvedSpec {
   errors: SpecIssue[];
   scenarios: ResolvedScenario[];
   folderPath: string;
-};
+}
 
-type ProjectMetric = {
+interface ProjectMetric {
   id: number;
   name: string;
   slug: string | null;
   simulationEnabled: boolean;
   agents: { agentId: number }[];
-};
+}
 
 const scenarioPath = (index: number, field?: string) => {
   if (!field) return `scenarios[${index}]`;

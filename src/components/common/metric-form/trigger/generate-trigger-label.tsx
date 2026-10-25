@@ -1,6 +1,6 @@
-type GenerateTriggerLabelProps = {
+interface GenerateTriggerLabelProps {
   isGenerating: boolean;
-};
+}
 
 export function GenerateTriggerLabel({
   isGenerating,

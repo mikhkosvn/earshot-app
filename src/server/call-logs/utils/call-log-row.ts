@@ -44,9 +44,12 @@ export type CallLogRowRecord = Prisma.CallLogGetPayload<{
 type EvaluationRecord =
   CallLogRowRecord['conversation']['metricEvaluations'][number];
 
+const isRecord = (value: unknown): value is Record<string, unknown> =>
+  typeof value === 'object' && value !== null && !Array.isArray(value);
+
 const asRecord = (value: unknown): Record<string, unknown> => {
-  if (!value || typeof value !== 'object' || Array.isArray(value)) return {};
-  return value as Record<string, unknown>;
+  if (!isRecord(value)) return {};
+  return value;
 };
 
 const numberOrNull = (value: unknown) => {

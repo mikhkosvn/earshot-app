@@ -12,11 +12,11 @@ import { CallService } from '../../_service';
 import type { FilterDraft } from '../../_utils/filter-draft';
 import { FilterSelect } from './filter-select';
 
-type FilterValueControlProps = {
+interface FilterValueControlProps {
   kind: FilterFieldKind;
   draft: FilterDraft;
   onChange: (value: string) => void;
-};
+}
 
 const STATUS_ITEMS = Object.entries(CallEvaluationStatusLabel).map(
   ([value, label]) => ({ value, label }),

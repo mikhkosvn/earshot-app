@@ -49,7 +49,10 @@ const STOP_WORDS = new Set([
   'passes',
 ]);
 
-export type JudgeResult = { result: MetricValue; explanation: string[] };
+export interface JudgeResult {
+  result: MetricValue;
+  explanation: string[];
+}
 
 const keywords = (text: string) =>
   new Set(tokens(text).filter((token) => !STOP_WORDS.has(token)));

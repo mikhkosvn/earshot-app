@@ -7,9 +7,9 @@ import { EvaluatorService } from '@/app/(app)/test-case/_service';
 import { useEvaluatorId } from '../../_hooks/use-evaluator-id';
 import { diffSnapshots } from '../../_utils/diff-snapshots';
 
-type VersionDiffProps = {
+interface VersionDiffProps {
   compared: { fromId: number; toId: number } | null;
-};
+}
 
 export function VersionDiff({ compared }: VersionDiffProps) {
   const evaluatorId = useEvaluatorId();

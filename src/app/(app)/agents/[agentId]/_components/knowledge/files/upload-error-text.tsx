@@ -1,6 +1,6 @@
-type UploadErrorTextProps = {
+interface UploadErrorTextProps {
   error: string | null;
-};
+}
 
 export function UploadErrorText({ error }: UploadErrorTextProps) {
   if (!error) return null;

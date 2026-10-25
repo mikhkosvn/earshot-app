@@ -10,9 +10,9 @@ import { FolderRowIcon } from './folder-row-icon';
 
 const DEPTH_INDENT_PX = 12;
 
-type FolderRowProps = {
+interface FolderRowProps {
   folder: FolderView;
-};
+}
 
 export function FolderRow({ folder }: FolderRowProps) {
   const [params, setParams] = useEvaluatorListParams();

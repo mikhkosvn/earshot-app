@@ -12,10 +12,10 @@ export const ConversationKey = {
 export type ConversationKey =
   (typeof ConversationKey)[keyof typeof ConversationKey];
 
-export type ConversationQueryArgs = {
+export interface ConversationQueryArgs {
   conversationId: number;
   shareToken?: string | null;
-};
+}
 
 const loadConversation = ({
   conversationId,

@@ -7,11 +7,11 @@ import { DEFAULT_PAGE_PARAM_KEY } from './pagination-config';
 import { RowRangeLabel } from './row-range-label';
 import { RowsPerPageSelect } from './rows-per-page-select';
 
-type TablePaginationProps = {
+interface TablePaginationProps {
   totalCount: number;
   pageParamKey?: string;
   className?: string;
-};
+}
 
 export function TablePagination({
   totalCount,

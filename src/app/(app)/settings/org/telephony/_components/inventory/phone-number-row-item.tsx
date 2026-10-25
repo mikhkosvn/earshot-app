@@ -7,9 +7,9 @@ import type { PhoneNumberRow } from '@/server/telephony-phone-numbers/types';
 
 import { PhoneNumberRowActions } from './phone-number-row-actions';
 
-type PhoneNumberRowItemProps = {
+interface PhoneNumberRowItemProps {
   phoneNumber: PhoneNumberRow;
-};
+}
 
 export function PhoneNumberRowItem({ phoneNumber }: PhoneNumberRowItemProps) {
   return (

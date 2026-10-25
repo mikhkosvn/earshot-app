@@ -8,10 +8,10 @@ import { MetricOutcomeTabs } from './metric-outcome-tabs';
 import { MetricPopupInfo } from './metric-popup-info';
 import { MetricRunList } from './metric-run-list';
 
-type MetricPopupContentProps = {
+interface MetricPopupContentProps {
   tile: ResultMetricTile;
   onOpenRun: (runId: number) => void;
-};
+}
 
 export function MetricPopupContent({
   tile,

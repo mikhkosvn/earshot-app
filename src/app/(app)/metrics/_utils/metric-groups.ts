@@ -7,10 +7,12 @@ export const metricGroupOf = (metric: MetricListItem): MetricGroup => {
   return MetricGroup.predefined;
 };
 
-export const metricsOfGroup = (metrics: MetricListItem[], group: MetricGroup) =>
-  metrics.filter((metric) => metricGroupOf(metric) === group);
+export const metricsOfGroup = (
+  metrics: readonly MetricListItem[],
+  group: MetricGroup,
+) => metrics.filter((metric) => metricGroupOf(metric) === group);
 
-export const orderByGroup = (metrics: MetricListItem[]) => [
+export const orderByGroup = (metrics: readonly MetricListItem[]) => [
   ...metricsOfGroup(metrics, MetricGroup.custom),
   ...metricsOfGroup(metrics, MetricGroup.predefined),
 ];

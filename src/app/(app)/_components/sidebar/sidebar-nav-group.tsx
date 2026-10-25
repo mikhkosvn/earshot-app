@@ -5,9 +5,9 @@ import type { NavGroup } from '@/app/(app)/_constants/nav-types';
 import { SidebarGroupLabel } from './sidebar-group-label';
 import { SidebarNavLink } from './sidebar-nav-link';
 
-type SidebarNavGroupProps = {
+interface SidebarNavGroupProps {
   group: NavGroup;
-};
+}
 
 export function SidebarNavGroup({ group }: SidebarNavGroupProps) {
   return (

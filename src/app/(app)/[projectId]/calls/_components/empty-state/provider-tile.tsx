@@ -8,9 +8,9 @@ import {
   type CallProvider,
 } from '../../_constants/call-providers';
 
-type ProviderTileProps = {
+interface ProviderTileProps {
   provider: CallProvider;
-};
+}
 
 export function ProviderTile({ provider }: ProviderTileProps) {
   const Icon = CALL_PROVIDER_ICON[provider];

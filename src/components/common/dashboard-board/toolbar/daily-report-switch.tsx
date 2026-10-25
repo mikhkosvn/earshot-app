@@ -13,10 +13,10 @@ import { DashboardSource } from '@/generated/prisma/enums';
 import { useSetDailyReportMutation } from '../_hooks/mutations/use-set-daily-report-mutation';
 import { useDashboardDetailQuery } from '../_hooks/queries/use-dashboard-detail-query';
 
-type DailyReportSwitchProps = {
+interface DailyReportSwitchProps {
   dashboardId: number;
   source: DashboardSource;
-};
+}
 
 const SWITCH_ID = 'dashboard-daily-report';
 

@@ -3,10 +3,10 @@ import type { MetricColumn, RunRow } from '@/server/results/types';
 
 import { RunMetricValue } from './run-metric-value';
 
-type RunMetricCellsProps = {
+interface RunMetricCellsProps {
   run: RunRow;
-  metricColumns: MetricColumn[];
-};
+  metricColumns: readonly MetricColumn[];
+}
 
 export function RunMetricCells({ run, metricColumns }: RunMetricCellsProps) {
   return metricColumns.map((column) => (

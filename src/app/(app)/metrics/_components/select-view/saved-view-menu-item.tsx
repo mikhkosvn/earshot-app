@@ -5,9 +5,9 @@ import type { SavedViewItem } from '@/server/saved-views/types';
 
 import { useViewParam } from '../../_hooks/use-view-param';
 
-type SavedViewMenuItemProps = {
+interface SavedViewMenuItemProps {
   view: SavedViewItem;
-};
+}
 
 export function SavedViewMenuItem({ view }: SavedViewMenuItemProps) {
   const { viewId, setView } = useViewParam();

@@ -7,10 +7,10 @@ import { Button } from '@/components/ui/button';
 
 import { useShareCallMutation } from '../../../_hooks/mutations/call-actions/use-share-call-mutation';
 
-type CallTitleRowProps = {
+interface CallTitleRowProps {
   callLogId: number;
   callId: string;
-};
+}
 
 export function CallTitleRow({ callLogId, callId }: CallTitleRowProps) {
   const share = useShareCallMutation();

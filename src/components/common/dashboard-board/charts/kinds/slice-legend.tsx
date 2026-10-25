@@ -6,10 +6,10 @@ import type {
 
 import { sliceColor } from '../../_utils/chart-format';
 
-type SliceLegendProps = {
+interface SliceLegendProps {
   data: SlicePlotData;
   config: PlotConfig;
-};
+}
 
 const MAX_LEGEND_ITEMS = 6;
 

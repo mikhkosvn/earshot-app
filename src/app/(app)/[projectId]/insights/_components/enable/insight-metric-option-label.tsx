@@ -1,7 +1,7 @@
-type InsightMetricOptionLabelProps = {
+interface InsightMetricOptionLabelProps {
   id: number;
   name: string;
-};
+}
 
 export function InsightMetricOptionLabel({
   id,

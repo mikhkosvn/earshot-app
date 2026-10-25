@@ -5,10 +5,10 @@ import { useFormContext, useWatch } from 'react-hook-form';
 import { Button } from '@/components/ui/button';
 import type { FolderNameFormValues } from '@/server/folders/types';
 
-type FolderNameSubmitButtonProps = {
+interface FolderNameSubmitButtonProps {
   label: string;
   isPending: boolean;
-};
+}
 
 export function FolderNameSubmitButton({
   label,

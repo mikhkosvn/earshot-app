@@ -8,9 +8,9 @@ import { EmptyState } from '@/components/common/empty-state';
 
 import { NotificationRow } from './notification-row';
 
-type NotificationListProps = {
+interface NotificationListProps {
   onNavigate: () => void;
-};
+}
 
 export function NotificationList({ onNavigate }: NotificationListProps) {
   const { data: notifications } = useSuspenseQuery(

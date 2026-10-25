@@ -10,10 +10,10 @@ import type { TestProfileView } from '@/server/test-profiles/types';
 import { useDeleteTestProfileMutation } from '@/app/(app)/test-case/_hooks/mutations/test-profiles/use-delete-test-profile-mutation';
 import { useDuplicateTestProfileMutation } from '@/app/(app)/test-case/_hooks/mutations/test-profiles/use-duplicate-test-profile-mutation';
 
-type TestProfileRowActionsProps = {
+interface TestProfileRowActionsProps {
   profile: TestProfileView;
   onEdit: (profile: TestProfileView) => void;
-};
+}
 
 export function TestProfileRowActions({
   profile,

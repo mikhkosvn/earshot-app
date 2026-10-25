@@ -8,14 +8,14 @@ import { EvaluatorService } from '../../../_service';
 import { OptionIdLabel } from '../option-id-label';
 import { OptionSelect } from '../option-select';
 
-type AgentTestProfileSelectProps = {
+interface AgentTestProfileSelectProps {
   id?: string;
   agentId: number;
   value: number | null;
   onValueChange: (testProfileId: number | null) => void;
   placeholder?: string;
   invalid?: boolean;
-};
+}
 
 export function AgentTestProfileSelect({
   id,

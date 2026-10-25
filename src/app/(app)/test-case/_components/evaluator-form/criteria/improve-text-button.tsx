@@ -13,9 +13,9 @@ import {
   type EvaluatorTextKind as TextKind,
 } from '@/server/evaluators/constants/evaluator-text-kind';
 
-type ImproveTextButtonProps = {
+interface ImproveTextButtonProps {
   kind: TextKind;
-};
+}
 
 const fieldOf = (kind: TextKind) => {
   if (kind === EvaluatorTextKind.expectedOutcome) {

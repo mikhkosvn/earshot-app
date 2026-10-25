@@ -3,16 +3,16 @@ import 'server-only';
 import { MOCK_FAILURE_MODES } from '@/server/insights/generation/failure-mock';
 import { DEEP_RESEARCH_MODES_MAX } from '@/server/insights/constants/insight-limits';
 
-export type ResearchCall = {
+export interface ResearchCall {
   callLogId: number;
   failed: boolean;
   text: string;
-};
+}
 
-export type ResearchResult = {
+export interface ResearchResult {
   headline: string;
   failureModes: { title: string; description: string; callLogIds: number[] }[];
-};
+}
 
 const FALLBACK = MOCK_FAILURE_MODES[MOCK_FAILURE_MODES.length - 1];
 

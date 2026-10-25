@@ -13,13 +13,13 @@ import { PhoneNumberCell } from './phone-number-cell';
 import { RowExpandButton } from './row-expand-button';
 import { TagList } from './tag-list';
 
-type EvaluatorRowProps = {
+interface EvaluatorRowProps {
   row: EvaluatorListRow;
   isSelected: boolean;
   onSelectToggle: () => void;
   isExpanded: boolean;
   onExpandToggle: () => void;
-};
+}
 
 const rowState = (isSelected: boolean) => {
   if (isSelected) return 'selected';

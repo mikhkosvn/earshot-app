@@ -8,11 +8,11 @@ import { useRecentJobs } from '@/hooks/jobs/use-recent-jobs';
 import { panelJobs, type PanelScope } from '../_utils/panel-jobs';
 import { recentJobsLabel } from '../_utils/panel-labels';
 
-type BackgroundTaskSummaryProps = {
+interface BackgroundTaskSummaryProps {
   kind: JobKind;
   scope: PanelScope;
   onDismiss: () => void;
-};
+}
 
 export function BackgroundTaskSummary({
   kind,

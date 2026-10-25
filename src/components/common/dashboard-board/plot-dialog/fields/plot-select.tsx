@@ -9,21 +9,21 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 
-export type PlotSelectItem = {
+export interface PlotSelectItem {
   value: string;
   label: string;
   disabled?: boolean;
-};
+}
 
-type PlotSelectProps = {
+interface PlotSelectProps {
   id: string;
   label: string;
-  items: PlotSelectItem[];
+  items: readonly PlotSelectItem[];
   value: string | null;
   placeholder?: string;
   error?: { message?: string };
   onValueChange: (value: string) => void;
-};
+}
 
 export function PlotSelect({
   id,

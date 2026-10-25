@@ -14,10 +14,10 @@ import { useEditAlertForm } from '../../_hooks/forms/use-edit-alert-form';
 import { AlertNameField } from '../params/alert-name-field';
 import { AlertParamsFields } from '../params/alert-params-fields';
 
-type EditAlertFormProps = {
+interface EditAlertFormProps {
   alert: AlertRow;
   onSaved: () => void;
-};
+}
 
 export function EditAlertForm({ alert, onSaved }: EditAlertFormProps) {
   const { form, onSubmit, isSaving } = useEditAlertForm(alert, onSaved);

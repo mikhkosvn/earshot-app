@@ -1,9 +1,9 @@
 import type { ReactNode } from 'react';
 
-type SettingsGroupProps = {
+interface SettingsGroupProps {
   title: string;
   children: ReactNode;
-};
+}
 
 export function SettingsGroup({ title, children }: SettingsGroupProps) {
   return (

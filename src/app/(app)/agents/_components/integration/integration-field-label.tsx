@@ -4,10 +4,10 @@ import type { IntegrationField } from '@/server/agents/constants/provider-integr
 import { RequiredMark } from '../basics/required-mark';
 import { IntegrationFieldDescription } from './integration-field-description';
 
-type IntegrationFieldLabelProps = {
+interface IntegrationFieldLabelProps {
   field: IntegrationField;
   htmlFor: string;
-};
+}
 
 export function IntegrationFieldLabel({
   field,

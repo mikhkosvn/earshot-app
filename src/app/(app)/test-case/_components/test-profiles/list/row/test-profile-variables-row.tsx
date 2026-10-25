@@ -3,10 +3,10 @@ import type { TestProfileView } from '@/server/test-profiles/types';
 
 import { VariableList } from './variable-list';
 
-type TestProfileVariablesRowProps = {
+interface TestProfileVariablesRowProps {
   profile: TestProfileView;
   isExpanded: boolean;
-};
+}
 
 export function TestProfileVariablesRow({
   profile,

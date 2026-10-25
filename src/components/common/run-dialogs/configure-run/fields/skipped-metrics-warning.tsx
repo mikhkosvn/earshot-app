@@ -14,10 +14,10 @@ import { useSelectedRunAgent } from '../../_hooks/use-selected-run-agent';
 import { skippedMetricsText } from '../../_utils/run-dialog-text';
 import { SkippedMetricItem } from './skipped-metric-item';
 
-type SkippedMetricsWarningProps = {
+interface SkippedMetricsWarningProps {
   control: RunSettingsForm['control'];
   evaluatorIds: number[];
-};
+}
 
 export function SkippedMetricsWarning({
   control,

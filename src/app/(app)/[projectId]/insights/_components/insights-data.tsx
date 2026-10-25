@@ -11,10 +11,10 @@ import { InsightService } from '../_service';
 import { InsightsContent } from './insights-content';
 import { InsightsSkeleton } from './insights-skeleton';
 
-type InsightsDataProps = {
+interface InsightsDataProps {
   params: Promise<{ projectId: string }>;
   searchParams: Promise<Record<string, string | string[] | undefined>>;
-};
+}
 
 export async function InsightsData({
   params,

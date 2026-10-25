@@ -2,9 +2,9 @@ import { CircleCheckIcon, CircleXIcon, LoaderCircleIcon } from 'lucide-react';
 
 import { TestConnectionStatus } from '@/server/agents/constants/test-call';
 
-type ConnectionStatusIconProps = {
+interface ConnectionStatusIconProps {
   status: TestConnectionStatus;
-};
+}
 
 export function ConnectionStatusIcon({ status }: ConnectionStatusIconProps) {
   if (status === TestConnectionStatus.passed) {

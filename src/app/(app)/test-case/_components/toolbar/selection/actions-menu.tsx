@@ -25,10 +25,10 @@ import { DuplicateEvaluatorsDialog } from '../../actions/duplicate-evaluators-di
 import { ModifyScenariosDialog } from '../../actions/modify/modify-scenarios-dialog';
 import { MoveToFolderDialog } from '../../actions/move-to-folder-dialog';
 
-type ActionsMenuProps = {
+interface ActionsMenuProps {
   selectedIds: number[];
   onSelectionChange: (ids: number[]) => void;
-};
+}
 
 export function ActionsMenu({
   selectedIds,

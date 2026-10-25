@@ -7,9 +7,9 @@ import {
   tilePercent,
 } from '../../../_utils/tile-display';
 
-type SharedTileBarProps = {
+interface SharedTileBarProps {
   tile: ResultMetricTile;
-};
+}
 
 export function SharedTileBar({ tile }: SharedTileBarProps) {
   if (!tileHasBar(tile)) return null;

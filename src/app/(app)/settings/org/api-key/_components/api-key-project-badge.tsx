@@ -1,8 +1,8 @@
 import { Badge } from '@/components/ui/badge';
 
-type ApiKeyProjectBadgeProps = {
+interface ApiKeyProjectBadgeProps {
   projectName: string | null;
-};
+}
 
 export function ApiKeyProjectBadge({ projectName }: ApiKeyProjectBadgeProps) {
   if (!projectName) return null;

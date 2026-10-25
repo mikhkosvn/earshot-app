@@ -10,10 +10,10 @@ import { useAssignAgentsForm } from '../../_hooks/forms/use-assign-agents-form';
 import { MetricService } from '../../_service';
 import { AgentCheckboxList } from '../agents/agent-checkbox-list';
 
-type AssignAgentsFormProps = {
+interface AssignAgentsFormProps {
   metricIds: number[];
   onSaved: () => void;
-};
+}
 
 export function AssignAgentsForm({
   metricIds,

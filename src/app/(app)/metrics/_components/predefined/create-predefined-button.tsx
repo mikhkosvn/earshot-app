@@ -5,10 +5,10 @@ import { Button } from '@/components/ui/button';
 
 import { useCopyPredefinedMetricsMutation } from '../../_hooks/mutations/create/use-copy-predefined-metrics-mutation';
 
-type CreatePredefinedButtonProps = {
+interface CreatePredefinedButtonProps {
   codes: string[];
   onCreated: () => void;
-};
+}
 
 export function CreatePredefinedButton({
   codes,

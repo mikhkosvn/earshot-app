@@ -2,9 +2,9 @@ import type { SpecIssue } from '@/server/runs/types';
 
 import { problemCountText } from '../../_utils/run-dialog-text';
 
-type SpecErrorListProps = {
-  errors: SpecIssue[];
-};
+interface SpecErrorListProps {
+  errors: readonly SpecIssue[];
+}
 
 export function SpecErrorList({ errors }: SpecErrorListProps) {
   return (

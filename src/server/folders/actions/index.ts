@@ -15,7 +15,10 @@ import type {
   RenameFolderInput,
 } from '@/server/folders/types';
 
-type FolderPathResult = { id: number; path: string };
+interface FolderPathResult {
+  id: number;
+  path: string;
+}
 
 export async function listFoldersAction(
   args: ListFoldersInput,

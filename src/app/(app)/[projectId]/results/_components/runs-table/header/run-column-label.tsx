@@ -4,11 +4,11 @@ import type { RunSortField } from '@/server/results/constants/result-list';
 
 import { SortableRunHead } from './sortable-run-head';
 
-type RunColumnLabelProps = {
+interface RunColumnLabelProps {
   label: string;
   sortField: RunSortField | null;
   pageParamKey: string;
-};
+}
 
 export function RunColumnLabel({
   label,

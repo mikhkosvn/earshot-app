@@ -17,9 +17,9 @@ import {
 import { FilterRow } from './filter-row';
 import { FilterRowsEmpty } from './filter-rows-empty';
 
-type CallFiltersPanelProps = {
+interface CallFiltersPanelProps {
   onClose: () => void;
-};
+}
 
 export function CallFiltersPanel({ onClose }: CallFiltersPanelProps) {
   const { conditions, setConditions } = useCallFiltersParam();

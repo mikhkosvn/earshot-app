@@ -11,7 +11,9 @@ import {
 } from '@/server/public-api/error-response';
 import type { PublicApiContext } from '@/server/public-api/types';
 
-type RouteContext<TParams> = { params: Promise<TParams> };
+interface RouteContext<TParams> {
+  params: Promise<TParams>;
+}
 
 export const withApiKey =
   <TParams = Record<string, never>>(

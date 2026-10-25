@@ -1,8 +1,8 @@
 import type { ReactNode } from 'react';
 
-type SharedMetricGroupLabelProps = {
+interface SharedMetricGroupLabelProps {
   children: ReactNode;
-};
+}
 
 export function SharedMetricGroupLabel({
   children,

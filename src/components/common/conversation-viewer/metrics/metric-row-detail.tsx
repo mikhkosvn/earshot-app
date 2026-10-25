@@ -6,10 +6,10 @@ import type { ConversationQueryArgs } from '../_service';
 import { ExpectedOutcomePrompt } from './expected-outcome-prompt';
 import { MetricExplanation } from './metric-explanation';
 
-type MetricRowDetailProps = {
+interface MetricRowDetailProps {
   metric: ConversationMetricItem;
   query: ConversationQueryArgs;
-};
+}
 
 export function MetricRowDetail({ metric, query }: MetricRowDetailProps) {
   return (

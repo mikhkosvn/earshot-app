@@ -16,9 +16,9 @@ import { AlertNameButton } from './cells/alert-name-button';
 import { AlertRowActions } from './cells/alert-row-actions';
 import { AlertTypeSelect } from './cells/alert-type-select';
 
-type AlertRowViewProps = {
+interface AlertRowViewProps {
   alert: AlertRow;
-};
+}
 
 export function AlertRowView({ alert }: AlertRowViewProps) {
   return (

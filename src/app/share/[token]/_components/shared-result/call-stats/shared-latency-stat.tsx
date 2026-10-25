@@ -3,9 +3,9 @@ import type { ResultLatencyStats } from '@/server/results/types';
 import { EMPTY_VALUE, numberText } from '../../../_utils/share-format';
 import { SharedPercentile } from './shared-percentile';
 
-type SharedLatencyStatProps = {
+interface SharedLatencyStatProps {
   latency: ResultLatencyStats | null;
-};
+}
 
 export function SharedLatencyStat({ latency }: SharedLatencyStatProps) {
   if (!latency) return <span className="font-medium">{EMPTY_VALUE}</span>;

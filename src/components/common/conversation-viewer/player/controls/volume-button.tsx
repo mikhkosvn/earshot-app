@@ -6,11 +6,11 @@ import { setAudioMuted } from '../../_utils/playback';
 import { PlayerControlButton } from './player-control-button';
 import { VolumeIcon } from './volume-icon';
 
-type VolumeButtonProps = {
+interface VolumeButtonProps {
   audioRef: RefObject<HTMLAudioElement | null>;
   muted: boolean;
   onMutedChange: (muted: boolean) => void;
-};
+}
 
 const volumeLabel = (muted: boolean) => {
   if (muted) return 'Unmute';

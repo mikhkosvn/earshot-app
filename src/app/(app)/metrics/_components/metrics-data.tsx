@@ -15,9 +15,9 @@ import { MetricsView } from './metrics-view';
 
 const loadMetricsParams = createLoader(metricsParser);
 
-type MetricsDataProps = {
+interface MetricsDataProps {
   searchParams: Promise<Record<string, string | string[] | undefined>>;
-};
+}
 
 export async function MetricsData({ searchParams }: MetricsDataProps) {
   await io();

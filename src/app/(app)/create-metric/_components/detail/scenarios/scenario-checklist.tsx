@@ -3,11 +3,11 @@
 import { Checkbox } from '@/components/ui/checkbox';
 import type { ScenarioOption } from '@/server/metrics/types';
 
-type ScenarioChecklistProps = {
-  scenarios: ScenarioOption[];
-  value: number[];
+interface ScenarioChecklistProps {
+  scenarios: readonly ScenarioOption[];
+  value: readonly number[];
   onValueChange: (value: number[]) => void;
-};
+}
 
 export function ScenarioChecklist({
   scenarios,

@@ -4,10 +4,10 @@ import { useConversation } from '../../_hooks/use-conversation';
 import type { ConversationQueryArgs } from '../../_service';
 import { formatClock } from '../../_utils/format-time';
 
-type PlayerTimeProps = {
+interface PlayerTimeProps {
   query: ConversationQueryArgs;
   currentTime: number;
-};
+}
 
 export function PlayerTime({ query, currentTime }: PlayerTimeProps) {
   const { durationSeconds } = useConversation(query);

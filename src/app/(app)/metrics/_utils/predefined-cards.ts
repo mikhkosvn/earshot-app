@@ -3,10 +3,10 @@ import type { PredefinedMetricCard } from '@/server/metrics/types';
 
 import { PredefinedTab } from '../_constants/predefined-tab';
 
-export type PredefinedCardSection = {
+export interface PredefinedCardSection {
   subCategory: MetricSubCategory | null;
   cards: PredefinedMetricCard[];
-};
+}
 
 const matchesSearch = (card: PredefinedMetricCard, search: string) => {
   const term = search.trim().toLowerCase();
@@ -22,14 +22,14 @@ const matchesTab = (card: PredefinedMetricCard, tab: PredefinedTab) => {
 };
 
 export const filterPredefinedCards = (
-  cards: PredefinedMetricCard[],
+  cards: readonly PredefinedMetricCard[],
   search: string,
   tab: PredefinedTab,
 ) =>
   cards.filter((card) => matchesTab(card, tab) && matchesSearch(card, search));
 
 export const sectionsBySubCategory = (
-  cards: PredefinedMetricCard[],
+  cards: readonly PredefinedMetricCard[],
 ): PredefinedCardSection[] => {
   const sections: PredefinedCardSection[] = [];
   const plain = cards.filter((card) => card.subCategory === null);

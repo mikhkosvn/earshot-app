@@ -1,8 +1,8 @@
 import { CheckIcon, MinusIcon } from 'lucide-react';
 
-type WorkflowPathIconProps = {
+interface WorkflowPathIconProps {
   covered: boolean;
-};
+}
 
 export function WorkflowPathIcon({ covered }: WorkflowPathIconProps) {
   if (covered) {

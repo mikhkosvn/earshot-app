@@ -12,10 +12,10 @@ import { useDeleteResultsMutation } from '../../../_hooks/mutations/results-list
 const DELETE_DESCRIPTION =
   'This action cannot be undone. This will permanently delete the selected results and their runs.';
 
-type DeleteResultsButtonProps = {
+interface DeleteResultsButtonProps {
   selectedIds: number[];
   onDeleted: () => void;
-};
+}
 
 export function DeleteResultsButton({
   selectedIds,

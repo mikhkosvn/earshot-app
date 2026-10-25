@@ -1,9 +1,9 @@
 import { numberText } from '../../../_utils/share-format';
 
-type SharedPercentileProps = {
+interface SharedPercentileProps {
   label: string;
   value: number;
-};
+}
 
 export function SharedPercentile({ label, value }: SharedPercentileProps) {
   return (

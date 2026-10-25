@@ -10,16 +10,16 @@ export type ListApiKeysInput = z.input<typeof listApiKeysSchema>;
 export type CreateApiKeyInput = z.input<typeof createApiKeySchema>;
 export type DeleteApiKeyInput = z.input<typeof deleteApiKeySchema>;
 
-export type ApiKeyRow = {
+export interface ApiKeyRow {
   id: number;
   name: string;
   maskedKey: string;
   projectId: number | null;
   projectName: string | null;
   createdAt: Date;
-};
+}
 
-export type CreatedApiKey = {
+export interface CreatedApiKey {
   apiKey: ApiKeyRow;
   plainKey: string;
-};
+}

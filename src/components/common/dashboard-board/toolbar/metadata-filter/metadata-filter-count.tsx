@@ -1,8 +1,8 @@
 import { Badge } from '@/components/ui/badge';
 
-type MetadataFilterCountProps = {
+interface MetadataFilterCountProps {
   count: number;
-};
+}
 
 export function MetadataFilterCount({ count }: MetadataFilterCountProps) {
   if (count === 0) return null;

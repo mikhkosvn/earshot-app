@@ -10,10 +10,10 @@ import {
 import { useEvaluatorListParams } from '../../../_hooks/use-evaluator-list-params';
 import { SortIcon } from './sort-icon';
 
-type SortableHeadProps = {
+interface SortableHeadProps {
   field: EvaluatorSortField;
   label: string;
-};
+}
 
 const nextDirection = (isActive: boolean, current: SortDirection) => {
   if (isActive && current === SortDirection.desc) return SortDirection.asc;

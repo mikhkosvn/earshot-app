@@ -6,9 +6,9 @@ import { Button } from '@/components/ui/button';
 
 import { SettingsSaveLabel } from './settings-save-label';
 
-type SettingsSaveButtonProps = {
+interface SettingsSaveButtonProps {
   isSaving: boolean;
-};
+}
 
 export function SettingsSaveButton({ isSaving }: SettingsSaveButtonProps) {
   const { isDirty } = useFormState();

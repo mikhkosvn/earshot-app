@@ -20,13 +20,13 @@ import { usePrefetchQuery } from '../../../../_hooks/use-prefetch-query';
 import { VoiceOptions } from './voice-options';
 import { VoicePickerValue } from './voice-picker-value';
 
-type VoicePickerProps = {
+interface VoicePickerProps {
   id: string;
   voiceModel: VoiceModel;
   value: string;
   invalid: boolean;
   onChange: (value: string) => void;
-};
+}
 
 export function VoicePicker({
   id,

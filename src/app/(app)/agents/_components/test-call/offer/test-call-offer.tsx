@@ -21,13 +21,13 @@ import { PendingLabel } from '../../pending-label';
 import { CheckSummaryBox } from './check-summary-box';
 import { RunTestCallButton } from './run-test-call-button';
 
-type TestCallOfferProps = {
+interface TestCallOfferProps {
   agentId: number;
   kind: TestCallOfferKind;
   check: ConnectionCheck;
   onStarted: (jobId: string) => void;
   onClose: () => void;
-};
+}
 
 export function TestCallOffer({
   agentId,

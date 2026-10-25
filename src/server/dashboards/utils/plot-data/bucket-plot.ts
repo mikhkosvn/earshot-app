@@ -15,20 +15,20 @@ const MAX_GROUPS = 8;
 
 const OTHER_GROUP = 'Other';
 
-export type BucketSample = {
+export interface BucketSample {
   date: Date;
   value: number;
   group: string | null;
-};
+}
 
-type BucketPlotInput = {
+interface BucketPlotInput {
   samples: BucketSample[];
   period: WidgetTimePeriod;
   timeZone: string;
   aggregation: PlotAggregation;
   kind: FieldValueKind;
   displayName: string;
-};
+}
 
 const topGroups = (samples: BucketSample[]) => {
   const counts = new Map<string, number>();

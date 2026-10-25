@@ -2,9 +2,9 @@
 
 import { Button } from '@/components/ui/button';
 
-type DownloadTaskButtonProps = {
+interface DownloadTaskButtonProps {
   href: string;
-};
+}
 
 export function DownloadTaskButton({ href }: DownloadTaskButtonProps) {
   return (

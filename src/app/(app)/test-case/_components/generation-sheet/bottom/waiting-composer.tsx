@@ -3,9 +3,9 @@ import { ArrowUpIcon } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 
-type WaitingComposerProps = {
+interface WaitingComposerProps {
   placeholder: string;
-};
+}
 
 export function WaitingComposer({ placeholder }: WaitingComposerProps) {
   return (

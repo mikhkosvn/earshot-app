@@ -4,9 +4,9 @@ import { Button } from '@/components/ui/button';
 
 import { useCopyVariable } from '../_hooks/use-copy-variable';
 
-type VariableChipProps = {
+interface VariableChipProps {
   code: string;
-};
+}
 
 export function VariableChip({ code }: VariableChipProps) {
   const copyVariable = useCopyVariable();

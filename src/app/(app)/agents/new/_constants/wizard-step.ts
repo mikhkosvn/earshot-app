@@ -7,6 +7,4 @@ export const WizardStep = {
 
 export type WizardStep = (typeof WizardStep)[keyof typeof WizardStep];
 
-export const CONNECTION_STEP_FIELDS = Object.keys(
-  agentConnectionSchema.shape,
-) as (keyof typeof agentConnectionSchema.shape)[];
+export const CONNECTION_STEP_FIELDS = agentConnectionSchema.keyof().options;

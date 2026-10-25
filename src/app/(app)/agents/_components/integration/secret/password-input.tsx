@@ -7,14 +7,14 @@ import { Input } from '@/components/ui/input';
 
 import { PasswordVisibilityIcon } from './password-visibility-icon';
 
-type PasswordInputProps = {
+interface PasswordInputProps {
   id: string;
   name: string;
   value: string;
   placeholder?: string;
   onBlur: () => void;
   onChange: (value: string) => void;
-};
+}
 
 const inputType = (visible: boolean) => {
   if (visible) return 'text';

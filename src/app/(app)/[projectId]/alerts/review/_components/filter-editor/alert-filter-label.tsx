@@ -1,8 +1,8 @@
 import type { AlertFilters } from '@/server/alerts/types';
 
-type AlertFilterLabelProps = {
+interface AlertFilterLabelProps {
   filters: AlertFilters;
-};
+}
 
 export function AlertFilterLabel({ filters }: AlertFilterLabelProps) {
   const count = filters.agentIds.length + filters.metadata.length;

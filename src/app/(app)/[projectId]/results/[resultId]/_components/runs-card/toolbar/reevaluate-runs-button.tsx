@@ -8,9 +8,9 @@ import { Button } from '@/components/ui/button';
 import { ReevaluateMetricsDialog } from '../../../../_components/reevaluate/reevaluate-metrics-dialog';
 import { useResultId } from '../../../../_hooks/use-result-id';
 
-type ReevaluateRunsButtonProps = {
+interface ReevaluateRunsButtonProps {
   selectedIds: number[];
-};
+}
 
 export function ReevaluateRunsButton({
   selectedIds,

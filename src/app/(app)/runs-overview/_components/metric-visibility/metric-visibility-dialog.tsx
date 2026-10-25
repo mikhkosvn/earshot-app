@@ -13,10 +13,10 @@ import { Skeleton } from '@/components/ui/skeleton';
 
 import { MetricVisibilityList } from './metric-visibility-list';
 
-type MetricVisibilityDialogProps = {
+interface MetricVisibilityDialogProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
-};
+}
 
 export function MetricVisibilityDialog({
   open,

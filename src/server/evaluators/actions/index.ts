@@ -55,8 +55,13 @@ import type {
 import { listEvaluatorVersions } from '@/server/evaluators/versions/list-evaluator-versions';
 import { restoreEvaluatorVersion } from '@/server/evaluators/versions/restore-evaluator-version';
 
-type CountResult = { count: number };
-type CreatedEvaluator = { id: number; folderPath: string };
+interface CountResult {
+  count: number;
+}
+interface CreatedEvaluator {
+  id: number;
+  folderPath: string;
+}
 
 export async function listEvaluatorsAction(
   args: ListEvaluatorsInput,

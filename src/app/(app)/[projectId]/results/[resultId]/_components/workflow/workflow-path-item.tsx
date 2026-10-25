@@ -3,9 +3,9 @@ import type { ResultDetail } from '@/server/results/types';
 
 import { WorkflowPathIcon } from './workflow-path-icon';
 
-type WorkflowPathItemProps = {
+interface WorkflowPathItemProps {
   path: ResultDetail['workflow']['paths'][number];
-};
+}
 
 export function WorkflowPathItem({ path }: WorkflowPathItemProps) {
   return (

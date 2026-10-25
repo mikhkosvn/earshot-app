@@ -8,9 +8,9 @@ import {
 } from '../../_constants/create-mode';
 import { WizardStepBadge } from './wizard-step-badge';
 
-type WizardStepperProps = {
+interface WizardStepperProps {
   step: ManualStep;
-};
+}
 
 export function WizardStepper({ step }: WizardStepperProps) {
   return (

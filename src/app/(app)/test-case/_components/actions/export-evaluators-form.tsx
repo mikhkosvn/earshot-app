@@ -21,10 +21,10 @@ const FORMAT_ITEMS = Object.values(EvaluatorExportFormat).map((format) => ({
   label: EvaluatorExportFormatLabel[format],
 }));
 
-type ExportEvaluatorsFormProps = {
+interface ExportEvaluatorsFormProps {
   evaluatorIds: number[];
   onDone: () => void;
-};
+}
 
 export function ExportEvaluatorsForm({
   evaluatorIds,

@@ -1,9 +1,9 @@
 import type { ReactNode } from 'react';
 
-type SharedCallStatTileProps = {
+interface SharedCallStatTileProps {
   label: string;
   children: ReactNode;
-};
+}
 
 export function SharedCallStatTile({
   label,

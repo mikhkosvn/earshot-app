@@ -1,7 +1,7 @@
-export type MetricVariable = {
+export interface MetricVariable {
   code: string;
   description: string;
-};
+}
 
 export const JUDGE_VARIABLE_CHIPS: string[] = [
   '{{transcript}}',

@@ -11,10 +11,10 @@ import { PlotAggregation } from './plot/plot-aggregation';
 import { PlotDisplayType } from './plot/plot-display-type';
 import { PlotOutcome } from './plot/plot-outcome';
 
-export type DefaultWidgetSpec = {
+export interface DefaultWidgetSpec {
   config: PlotConfig;
   metricFunction: MetricFunction | null;
-};
+}
 
 const series = (
   name: string,

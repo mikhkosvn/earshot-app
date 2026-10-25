@@ -7,9 +7,9 @@ import type { MemberRow } from '@/server/members/types';
 import { useIsOrganizationAdmin } from '../../_hooks/use-is-organization-admin';
 import { MemberRoleSelect } from './member-role-select';
 
-type MemberRoleCellProps = {
+interface MemberRoleCellProps {
   member: MemberRow;
-};
+}
 
 export function MemberRoleCell({ member }: MemberRoleCellProps) {
   const isAdmin = useIsOrganizationAdmin();

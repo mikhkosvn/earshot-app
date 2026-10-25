@@ -58,14 +58,14 @@ export const plotConfigBaseSchema = z.object({
   outcome: z.enum(PlotOutcome),
 });
 
-type RefinedPlot = {
+interface RefinedPlot {
   field: WidgetField | null;
   metricId: number | null;
   metadataKey: string | null;
   groupBy: WidgetGroupBy;
   groupByMetadataKey: string | null;
   displayType: PlotDisplayType;
-};
+}
 
 export const refinePlotConfig = (
   plot: RefinedPlot,

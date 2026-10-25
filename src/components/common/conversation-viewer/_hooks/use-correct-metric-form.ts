@@ -13,11 +13,11 @@ import type { ConversationQueryArgs } from '../_service';
 import { useCorrectMetricMutation } from './mutations/use-correct-metric-mutation';
 import { useConversation } from './use-conversation';
 
-type UseCorrectMetricFormArgs = {
+interface UseCorrectMetricFormArgs {
   metric: ConversationMetricItem;
   query: ConversationQueryArgs;
   onDone: () => void;
-};
+}
 
 export const useCorrectMetricForm = ({
   metric,

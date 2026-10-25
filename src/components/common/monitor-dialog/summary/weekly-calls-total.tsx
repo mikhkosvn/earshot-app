@@ -1,7 +1,7 @@
-type WeeklyCallsTotalProps = {
+interface WeeklyCallsTotalProps {
   callsPerWeek: number;
   unit: string;
-};
+}
 
 export function WeeklyCallsTotal({
   callsPerWeek,

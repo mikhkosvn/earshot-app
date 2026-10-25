@@ -15,13 +15,13 @@ export type UpdateOrganizationSettingsInput = z.input<
   typeof updateOrganizationSettingsSchema
 >;
 
-export type OrganizationProjectRow = {
+export interface OrganizationProjectRow {
   id: number;
   name: string;
   createdAt: Date;
-};
+}
 
-export type OrganizationSettings = {
+export interface OrganizationSettings {
   id: number;
   name: string;
   teamSize: TeamSize | null;
@@ -30,4 +30,4 @@ export type OrganizationSettings = {
   restrictNumbersToOwnImports: boolean;
   projects: OrganizationProjectRow[];
   role: MemberRole;
-};
+}

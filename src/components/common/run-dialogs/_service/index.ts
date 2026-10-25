@@ -54,7 +54,9 @@ const agentConfiguration = (args: {
   );
 };
 
-type ProjectArgs = { projectId: number };
+interface ProjectArgs {
+  projectId: number;
+}
 
 export class RunDialogService {
   static readonly startRunMutationKey = [RunDialogKey.startRun];

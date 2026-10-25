@@ -10,7 +10,7 @@ export const toCronParts = (expression: string) => {
   );
 };
 
-export const joinCronParts = (parts: string[]) =>
+export const joinCronParts = (parts: readonly string[]) =>
   parts.map((part) => part.trim() || ANY_VALUE).join(' ');
 
 export const replaceCronPart = (

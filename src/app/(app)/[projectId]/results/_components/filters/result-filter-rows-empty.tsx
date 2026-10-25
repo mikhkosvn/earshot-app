@@ -1,6 +1,6 @@
-type ResultFilterRowsEmptyProps = {
+interface ResultFilterRowsEmptyProps {
   count: number;
-};
+}
 
 export function ResultFilterRowsEmpty({ count }: ResultFilterRowsEmptyProps) {
   if (count > 0) return null;

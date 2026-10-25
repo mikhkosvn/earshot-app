@@ -14,10 +14,10 @@ const PlotBodyContent = dynamic(
   { ssr: false, loading: () => <PlotSkeleton /> },
 );
 
-type PlotBodyProps = {
+interface PlotBodyProps {
   board: DashboardBoardState;
   config: PlotConfig;
-};
+}
 
 export function PlotBody({ board, config }: PlotBodyProps) {
   return (

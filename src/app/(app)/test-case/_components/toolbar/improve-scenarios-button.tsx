@@ -6,9 +6,9 @@ import { Button } from '@/components/ui/button';
 
 import { useActiveGenerationCount } from '../../_hooks/generation/use-active-generation-count';
 
-type ImproveScenariosButtonProps = {
+interface ImproveScenariosButtonProps {
   onImproveOpen: () => void;
-};
+}
 
 export function ImproveScenariosButton({
   onImproveOpen,

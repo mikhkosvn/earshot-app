@@ -1,6 +1,6 @@
-type PhoneNumberCellProps = {
+interface PhoneNumberCellProps {
   phoneNumber: string | null;
-};
+}
 
 export function PhoneNumberCell({ phoneNumber }: PhoneNumberCellProps) {
   if (!phoneNumber) {

@@ -12,9 +12,9 @@ import getQueryClient from '@/lib/query-client/get-query-client';
 import { PersonalityService } from '../../../_service';
 import { EditPersonalityForm } from './edit-personality-form';
 
-type EditPersonalityDataProps = {
+interface EditPersonalityDataProps {
   params: Promise<{ personalityId: string }>;
-};
+}
 
 export async function EditPersonalityData({
   params,

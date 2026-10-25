@@ -1,9 +1,9 @@
 import { CheckIcon } from 'lucide-react';
 
-type WizardStepMarkerProps = {
+interface WizardStepMarkerProps {
   number: number;
   done: boolean;
-};
+}
 
 export function WizardStepMarker({ number, done }: WizardStepMarkerProps) {
   if (done) {

@@ -5,28 +5,30 @@ import type { TranscriptTurnInput } from '@/server/evaluators/types';
 
 const NAME_WORD_LIMIT = 8;
 
-const callerTurns = (turns: TranscriptTurnInput[]) =>
+const callerTurns = (turns: readonly TranscriptTurnInput[]) =>
   turns.filter((turn) => turn.role === TranscriptRole.testing_agent);
 
-const agentTurns = (turns: TranscriptTurnInput[]) =>
+const agentTurns = (turns: readonly TranscriptTurnInput[]) =>
   turns.filter((turn) => turn.role === TranscriptRole.main_agent);
 
 const shorten = (text: string) =>
   text.trim().split(/\s+/).slice(0, NAME_WORD_LIMIT).join(' ');
 
-const firstMessageOf = (turns: TranscriptTurnInput[]) => {
+const firstMessageOf = (turns: readonly TranscriptTurnInput[]) => {
   const [first] = turns;
   if (first?.role !== TranscriptRole.testing_agent) return '';
   return first.content.trim();
 };
 
-const mockName = (turns: TranscriptTurnInput[]) => {
+const mockName = (turns: readonly TranscriptTurnInput[]) => {
   const [firstCaller] = callerTurns(turns);
   if (!firstCaller) return 'Transcript replay';
   return `Replay: ${shorten(firstCaller.content)}`;
 };
 
-export const transcriptEvaluatorMock = (turns: TranscriptTurnInput[]) => {
+export const transcriptEvaluatorMock = (
+  turns: readonly TranscriptTurnInput[],
+) => {
   const steps = callerTurns(turns).map(
     (turn) => `- Say: "${turn.content.trim()}"`,
   );

@@ -6,9 +6,9 @@ import type { SavedViewItem } from '@/server/saved-views/types';
 import { useApplySavedView } from '../../../_hooks/results-list/use-apply-saved-view';
 import { useCurrentSavedView } from '../../../_hooks/results-list/use-current-saved-view';
 
-type SavedViewMenuItemProps = {
+interface SavedViewMenuItemProps {
   view: SavedViewItem;
-};
+}
 
 export function SavedViewMenuItem({ view }: SavedViewMenuItemProps) {
   const current = useCurrentSavedView();

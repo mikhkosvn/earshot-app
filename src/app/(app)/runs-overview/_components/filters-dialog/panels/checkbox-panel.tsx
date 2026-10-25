@@ -12,13 +12,13 @@ import type { IdListKey } from '../../../_utils/toggle-ids';
 import { toggledId } from '../../../_utils/toggle-ids';
 import { FilterEmpty } from './filter-empty';
 
-type CheckboxPanelProps = {
+interface CheckboxPanelProps {
   draft: RunsOverviewFilters;
   search: string;
-  options: FilterOption[];
+  options: readonly FilterOption[];
   listKey: IdListKey;
   onChange: (draft: RunsOverviewFilters) => void;
-};
+}
 
 export function CheckboxPanel({
   draft,

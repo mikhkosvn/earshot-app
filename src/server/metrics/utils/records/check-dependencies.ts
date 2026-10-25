@@ -4,11 +4,11 @@ import type { Prisma } from '@/generated/prisma/client';
 import { MAX_DEPENDENCY_CHAIN_DEPTH } from '@/server/metrics/constants/definition/metric-limits';
 import { ActionError } from '@/server/common/run-action';
 
-type CheckDependenciesArgs = {
+interface CheckDependenciesArgs {
   projectId: number;
   metricId: number | null;
   dependencyIds: number[];
-};
+}
 
 const buildGraph = async (tx: Prisma.TransactionClient, projectId: number) => {
   const edges = await tx.metricDependency.findMany({

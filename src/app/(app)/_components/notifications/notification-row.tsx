@@ -10,10 +10,10 @@ import type { NotificationItem } from '@/server/notifications/types';
 
 import { NotificationUnreadDot } from './notification-unread-dot';
 
-type NotificationRowProps = {
+interface NotificationRowProps {
   notification: NotificationItem;
   onNavigate: () => void;
-};
+}
 
 export function NotificationRow({
   notification,

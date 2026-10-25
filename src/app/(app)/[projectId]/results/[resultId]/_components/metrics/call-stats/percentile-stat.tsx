@@ -1,9 +1,9 @@
 import { formatOptionalNumber } from '../../../_utils/number-format';
 
-type PercentileStatProps = {
+interface PercentileStatProps {
   label: string;
   value: number | undefined;
-};
+}
 
 export function PercentileStat({ label, value }: PercentileStatProps) {
   return (

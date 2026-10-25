@@ -8,10 +8,10 @@ import { Button } from '@/components/ui/button';
 
 import { useDeleteApiKeyMutation } from '../_hooks/mutations/use-delete-api-key-mutation';
 
-type DeleteApiKeyButtonProps = {
+interface DeleteApiKeyButtonProps {
   apiKeyId: number;
   label: string;
-};
+}
 
 export function DeleteApiKeyButton({
   apiKeyId,

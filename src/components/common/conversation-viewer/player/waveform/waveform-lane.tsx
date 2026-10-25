@@ -5,10 +5,10 @@ const BAR_STEP = 3;
 const BAR_WIDTH = 2;
 const MIN_BAR_HEIGHT = 1;
 
-type WaveformLaneProps = {
-  peaks: number[];
+interface WaveformLaneProps {
+  peaks: readonly number[];
   className: string;
-};
+}
 
 export function WaveformLane({ peaks, className }: WaveformLaneProps) {
   const bars = downsamplePeaks(peaks);

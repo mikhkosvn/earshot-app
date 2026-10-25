@@ -1,6 +1,6 @@
-type ReevaluateMetricsEmptyProps = {
+interface ReevaluateMetricsEmptyProps {
   count: number;
-};
+}
 
 export function ReevaluateMetricsEmpty({ count }: ReevaluateMetricsEmptyProps) {
   if (count > 0) return null;

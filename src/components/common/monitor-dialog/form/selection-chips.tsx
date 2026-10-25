@@ -2,10 +2,10 @@ import { HiddenChipCount } from './hidden-chip-count';
 
 const MAX_VISIBLE_CHIPS = 3;
 
-type SelectionChipsProps = {
-  labels: string[];
+interface SelectionChipsProps {
+  labels: readonly string[];
   placeholder: string;
-};
+}
 
 export function SelectionChips({ labels, placeholder }: SelectionChipsProps) {
   if (labels.length === 0) {

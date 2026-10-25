@@ -18,9 +18,9 @@ import { FailureTrendEmpty } from './failure-trend-empty';
 
 const LABEL_FORMAT = 'MMM d, HH:mm';
 
-type FailureTrendChartProps = {
+interface FailureTrendChartProps {
   series: FailureTrendSeries;
-};
+}
 
 export function FailureTrendChart({ series }: FailureTrendChartProps) {
   const config: ChartConfig = Object.fromEntries(

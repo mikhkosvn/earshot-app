@@ -6,9 +6,9 @@ import type { CallLogRow } from '@/server/call-logs/types';
 import { CallReviewSelect } from '../../call-review/call-review-select';
 import { CallStatusBadge } from './call-status-badge';
 
-type CallEvaluationCellProps = {
+interface CallEvaluationCellProps {
   call: CallLogRow;
-};
+}
 
 export function CallEvaluationCell({ call }: CallEvaluationCellProps) {
   if (

@@ -1,10 +1,10 @@
 import type { ReactNode } from 'react';
 
-type PersonalityHeaderCardProps = {
+interface PersonalityHeaderCardProps {
   title: string;
   description: string;
   children?: ReactNode;
-};
+}
 
 export function PersonalityHeaderCard({
   title,

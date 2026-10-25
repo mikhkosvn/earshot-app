@@ -16,10 +16,10 @@ import type { RunRow } from '@/server/results/types';
 import { useAddRunsToLabMutation } from '../../../_hooks/mutations/runs/use-add-runs-to-lab-mutation';
 import { useDeleteRunsMutation } from '../../../_hooks/mutations/runs/use-delete-runs-mutation';
 
-type RunRowMenuProps = {
+interface RunRowMenuProps {
   run: RunRow;
   onOpenRun: (run: RunRow) => void;
-};
+}
 
 export function RunRowMenu({ run, onOpenRun }: RunRowMenuProps) {
   const [deleteOpen, setDeleteOpen] = useState(false);

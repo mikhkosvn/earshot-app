@@ -1,8 +1,8 @@
 import type { TestTranscriptLine } from '@/server/agents/types';
 
-type TranscriptPreviewProps = {
-  lines: TestTranscriptLine[];
-};
+interface TranscriptPreviewProps {
+  lines: readonly TestTranscriptLine[];
+}
 
 export function TranscriptPreview({ lines }: TranscriptPreviewProps) {
   if (lines.length === 0) return null;

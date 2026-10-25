@@ -8,12 +8,12 @@ import {
   toAgentSnapshot,
 } from '@/server/agents/utils/agent-snapshot';
 
-type SaveAgentVersionArgs = {
+interface SaveAgentVersionArgs {
   agentId: number;
   userId: number;
   changeReason?: string;
   extraLabels?: string[];
-};
+}
 
 export const saveAgentVersion = async (
   tx: Prisma.TransactionClient,

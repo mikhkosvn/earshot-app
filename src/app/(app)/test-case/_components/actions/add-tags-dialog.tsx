@@ -13,11 +13,11 @@ import { Skeleton } from '@/components/ui/skeleton';
 
 import { AddTagsForm } from './add-tags-form';
 
-type AddTagsDialogProps = {
+interface AddTagsDialogProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   evaluatorIds: number[];
-};
+}
 
 export function AddTagsDialog({
   open,

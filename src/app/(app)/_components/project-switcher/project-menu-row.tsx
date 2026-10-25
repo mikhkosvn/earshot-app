@@ -7,9 +7,9 @@ import type { ProjectSummary } from '@/server/projects/types';
 
 import { ProjectIdBadge } from './project-id-badge';
 
-type ProjectMenuRowProps = {
+interface ProjectMenuRowProps {
   project: ProjectSummary;
-};
+}
 
 export function ProjectMenuRow({ project }: ProjectMenuRowProps) {
   const currentProjectId = useCurrentProjectId();

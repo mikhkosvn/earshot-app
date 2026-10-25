@@ -10,10 +10,10 @@ import { EvaluatorEmptyState } from './evaluator-empty-state';
 import { EvaluatorRow } from './row/evaluator-row';
 import { EvaluatorTableHeader } from './header/evaluator-table-header';
 
-type EvaluatorTableProps = {
+interface EvaluatorTableProps {
   selectedIds: number[];
   onSelectionChange: (ids: number[]) => void;
-};
+}
 
 const toggleId = (ids: number[], id: number) => {
   if (ids.includes(id)) return ids.filter((item) => item !== id);

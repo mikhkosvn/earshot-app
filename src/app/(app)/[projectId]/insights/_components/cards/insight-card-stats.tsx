@@ -1,8 +1,8 @@
 import type { InsightCardView } from '@/server/insights/types';
 
-type InsightCardStatsProps = {
+interface InsightCardStatsProps {
   card: InsightCardView;
-};
+}
 
 const plural = (count: number, word: string, words: string) => {
   if (count === 1) return `1 ${word}`;

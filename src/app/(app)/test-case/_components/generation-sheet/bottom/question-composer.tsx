@@ -9,9 +9,9 @@ import { Progress } from '@/components/ui/progress';
 import { Textarea } from '@/components/ui/textarea';
 import type { GenerationSessionView } from '@/server/evaluator-generation/types';
 
-type QuestionComposerProps = {
+interface QuestionComposerProps {
   session: GenerationSessionView;
-};
+}
 
 export function QuestionComposer({ session }: QuestionComposerProps) {
   const [answer, setAnswer] = useState('');

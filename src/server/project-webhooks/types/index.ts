@@ -18,7 +18,7 @@ export type SaveProjectWebhookInput = z.input<typeof saveProjectWebhookSchema>;
 export type TestProjectWebhookInput = z.input<typeof testProjectWebhookSchema>;
 export type WebhookSettingsValues = z.input<typeof webhookSettingsSchema>;
 
-export type ProjectWebhookSettings = {
+export interface ProjectWebhookSettings {
   url: string;
   secretConfigured: boolean;
   notifications: WebhookNotification[];
@@ -26,36 +26,36 @@ export type ProjectWebhookSettings = {
   skipCallsWithoutContent: boolean;
   forwardVapiWebhooks: boolean;
   forwardRetellWebhooks: boolean;
-};
+}
 
 export type WebhookPayload = Record<string, unknown>;
 
-export type WebhookBody = {
+export interface WebhookBody {
   event_type: WebhookEvent;
   data: WebhookPayload;
-};
+}
 
-export type SendProjectWebhookInput = {
+export interface SendProjectWebhookInput {
   projectId: number;
   event: WebhookEvent;
   payload: WebhookPayload;
   notification?: WebhookNotification;
   idempotencyKey?: string;
   timeoutMs?: number;
-};
+}
 
-export type WebhookDelivery = {
+export interface WebhookDelivery {
   ok: boolean;
   status: number | null;
   durationMs: number;
   error: string | null;
-};
+}
 
 export type SendProjectWebhookResult =
   | ({ sent: true } & WebhookDelivery)
   | { sent: false; skipReason: WebhookSkipReason };
 
-export type TestProjectWebhookResult = {
+export interface TestProjectWebhookResult {
   status: number;
   durationMs: number;
-};
+}

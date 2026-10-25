@@ -8,7 +8,7 @@ import type { notificationIdSchema } from '@/server/notifications/schemas';
 
 export type NotificationIdInput = z.input<typeof notificationIdSchema>;
 
-export type NotificationItem = {
+export interface NotificationItem {
   id: number;
   eventType: NotificationEventType;
   severity: NotificationSeverity;
@@ -17,4 +17,4 @@ export type NotificationItem = {
   deepLink: string | null;
   readAt: Date | null;
   createdAt: Date;
-};
+}

@@ -4,11 +4,11 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { Label } from '@/components/ui/label';
 import type { MonitorScenarioOption } from '@/server/monitors/types';
 
-type ScenarioRowProps = {
+interface ScenarioRowProps {
   scenario: MonitorScenarioOption;
   checked: boolean;
   onToggle: () => void;
-};
+}
 
 export function ScenarioRow({ scenario, checked, onToggle }: ScenarioRowProps) {
   const id = `monitor-scenario-${scenario.id}`;

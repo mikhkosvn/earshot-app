@@ -1,21 +1,21 @@
 import { ChangeDirection } from '@/generated/prisma/enums';
 
-export type TrendCheckInput = {
+export interface TrendCheckInput {
   history: number[];
   window: number[];
   windowSize: number;
   stdMultiplier: number;
   ewmaAlpha: number;
   direction: ChangeDirection;
-};
+}
 
-export type TrendCheckResult = {
+export interface TrendCheckResult {
   fired: boolean;
   baseline: number | null;
   windowMean: number | null;
   deviation: number | null;
   limit: number | null;
-};
+}
 
 const NOT_READY: TrendCheckResult = {
   fired: false,
@@ -25,15 +25,15 @@ const NOT_READY: TrendCheckResult = {
   limit: null,
 };
 
-const average = (values: number[]) =>
+const average = (values: readonly number[]) =>
   values.reduce((sum, value) => sum + value, 0) / values.length;
 
-export const ewmaOf = (values: number[], alpha: number) =>
+export const ewmaOf = (values: readonly number[], alpha: number) =>
   values
     .slice(1)
     .reduce((level, value) => alpha * value + (1 - alpha) * level, values[0]);
 
-export const standardDeviationOf = (values: number[]) => {
+export const standardDeviationOf = (values: readonly number[]) => {
   const center = average(values);
   return Math.sqrt(average(values.map((value) => (value - center) ** 2)));
 };

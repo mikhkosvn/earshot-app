@@ -2,9 +2,9 @@ import { PlusIcon } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
 
-type RubricAddConditionButtonProps = {
+interface RubricAddConditionButtonProps {
   onAdd: () => void;
-};
+}
 
 export function RubricAddConditionButton({
   onAdd,

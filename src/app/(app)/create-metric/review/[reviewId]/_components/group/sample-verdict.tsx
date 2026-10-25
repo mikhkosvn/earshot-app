@@ -6,9 +6,9 @@ import {
   metricValueText,
 } from '../../_utils/metric-value-text';
 
-type SampleVerdictProps = {
+interface SampleVerdictProps {
   value: MetricValue;
-};
+}
 
 export function SampleVerdict({ value }: SampleVerdictProps) {
   return (

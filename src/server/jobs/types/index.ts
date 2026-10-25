@@ -14,17 +14,17 @@ export type ListRecentJobsInput = z.infer<typeof listRecentJobsSchema>;
 export type DismissJobInput = z.infer<typeof dismissJobSchema>;
 export type DismissAllJobsInput = z.infer<typeof dismissAllJobsSchema>;
 
-export type JobResultPayload = Prisma.InputJsonObject & {
+export interface JobResultPayload extends Prisma.InputJsonObject {
   summary?: string;
   deepLink?: string;
-};
+}
 
-export type JobResult = Prisma.JsonObject & {
+export interface JobResult extends Prisma.JsonObject {
   summary?: string;
   deepLink?: string;
-};
+}
 
-export type JobView = {
+export interface JobView {
   id: string;
   projectId: number;
   kind: JobKind;
@@ -36,26 +36,26 @@ export type JobView = {
   createdAt: Date;
   startedAt: Date | null;
   finishedAt: Date | null;
-};
+}
 
-export type JobContext<TInput> = {
+export interface JobContext<TInput> {
   jobId: string;
   projectId: number;
   userId: number | null;
   input: TInput;
   setStep: (text: string) => Promise<void>;
   setResult: (result: JobResultPayload) => Promise<void>;
-};
+}
 
-export type StartJobArgs<TInput extends Prisma.InputJsonValue> = {
+export interface StartJobArgs<TInput extends Prisma.InputJsonValue> {
   projectId: number;
   userId?: number | null;
   kind: JobKind;
   input: TInput;
   initialStep?: string;
   run: (context: JobContext<TInput>) => Promise<void>;
-};
+}
 
-export type StartedJob = {
+export interface StartedJob {
   jobId: string;
-};
+}

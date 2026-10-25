@@ -4,14 +4,14 @@ import { Prisma } from '@/generated/prisma/client';
 import { CallProcessingStatus } from '@/generated/prisma/enums';
 import type { TranscriptRole } from '@/generated/prisma/enums';
 
-export type NewCallTurn = {
+export interface NewCallTurn {
   role: TranscriptRole;
   content: string;
   startTime: number | null;
   endTime: number | null;
-};
+}
 
-export type NewCallRecord = {
+export interface NewCallRecord {
   projectId: number;
   agentId: number;
   externalCallId: string;
@@ -22,7 +22,7 @@ export type NewCallRecord = {
   metadata: Prisma.InputJsonObject;
   dynamicVariables: Prisma.InputJsonObject;
   turns: NewCallTurn[];
-};
+}
 
 const currentVersionId = async (
   tx: Prisma.TransactionClient,

@@ -10,10 +10,10 @@ import type { DashboardBoardState } from '../../_utils/board-types';
 import type { DraftPlot } from '../../_utils/dashboard-draft';
 import { PlotExpandDialog } from './plot-expand-dialog';
 
-type PlotHeaderActionsProps = {
+interface PlotHeaderActionsProps {
   board: DashboardBoardState;
   plot: DraftPlot;
-};
+}
 
 export function PlotHeaderActions({ board, plot }: PlotHeaderActionsProps) {
   const [expanded, setExpanded] = useState(false);

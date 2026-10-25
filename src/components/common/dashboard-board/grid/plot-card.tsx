@@ -7,11 +7,11 @@ import type { DraftPlot } from '../_utils/dashboard-draft';
 import { PlotBody } from '../charts/plot-body';
 import { PlotCardHeader } from './plot-header/plot-card-header';
 
-type PlotCardProps = {
+interface PlotCardProps {
   board: DashboardBoardState;
   plot: DraftPlot;
   dragHandle: ReactNode;
-};
+}
 
 export function PlotCard({ board, plot, dragHandle }: PlotCardProps) {
   return (

@@ -1,9 +1,9 @@
 import type { ReactNode } from 'react';
 
-type OverviewSectionProps = {
+interface OverviewSectionProps {
   title: string;
   children: ReactNode;
-};
+}
 
 export function OverviewSection({ title, children }: OverviewSectionProps) {
   return (

@@ -14,10 +14,10 @@ import { GENERATED_METRIC_COUNT } from '@/server/metrics/constants/definition/me
 
 import { GenerateMetricsForm } from './generate-metrics-form';
 
-type GenerateMetricsDialogProps = {
+interface GenerateMetricsDialogProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
-};
+}
 
 export function GenerateMetricsDialog({
   open,

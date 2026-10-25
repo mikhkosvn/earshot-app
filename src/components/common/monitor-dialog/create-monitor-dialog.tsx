@@ -15,13 +15,13 @@ import type { MonitorPreset } from './_constants/monitor-preset';
 import { CreateMonitorForm } from './create-monitor-form';
 import { MonitorFormSkeleton } from './monitor-form-skeleton';
 
-type CreateMonitorDialogProps = {
+interface CreateMonitorDialogProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   agentId?: number | null;
   evaluatorIds?: number[];
   preset?: MonitorPreset | null;
-};
+}
 
 export function CreateMonitorDialog({
   open,

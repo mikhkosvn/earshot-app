@@ -12,14 +12,14 @@ import {
 
 import { SectionIcon } from './section-icon';
 
-type SectionCardProps = {
+interface SectionCardProps {
   icon?: LucideIcon;
   title: string;
   subtitle: string;
   defaultOpen?: boolean;
   onOpen?: () => void;
   children: ReactNode;
-};
+}
 
 export function SectionCard({
   icon,

@@ -6,12 +6,12 @@ import type { EvaluatorImprovementProposal } from '@/server/evaluators/types';
 
 import { ProposalAcceptButton } from './proposal-accept-button';
 
-type ProposalCardProps = {
+interface ProposalCardProps {
   proposal: EvaluatorImprovementProposal;
   isApplied: boolean;
   isPending: boolean;
   onAccept: () => void;
-};
+}
 
 export function ProposalCard({
   proposal,

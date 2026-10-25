@@ -16,16 +16,16 @@ import { MultiPickList } from './multi-pick-list';
 import { MultiPickPlaceholder } from './multi-pick-placeholder';
 import type { MultiPickItem } from './multi-pick-types';
 
-type MultiPickProps = {
+interface MultiPickProps {
   id?: string;
   label: string;
   placeholder: string;
-  items: MultiPickItem[];
-  value: number[];
+  items: readonly MultiPickItem[];
+  value: readonly number[];
   onValueChange: (value: number[]) => void;
   invalid?: boolean;
   disabled?: boolean;
-};
+}
 
 export function MultiPick({
   id,

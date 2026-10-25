@@ -1,9 +1,9 @@
 import type { LucideIcon } from 'lucide-react';
 
-type StarMarkProps = {
+interface StarMarkProps {
   starred: boolean;
   icon: LucideIcon;
-};
+}
 
 export function StarMark({ starred, icon: Icon }: StarMarkProps) {
   if (!starred) return null;

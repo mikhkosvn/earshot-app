@@ -1,8 +1,8 @@
 import { FieldDescription } from '@/components/ui/field';
 
-type IntegrationFieldDescriptionProps = {
+interface IntegrationFieldDescriptionProps {
   description?: string;
-};
+}
 
 export function IntegrationFieldDescription({
   description,

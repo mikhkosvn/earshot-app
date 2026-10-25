@@ -9,11 +9,11 @@ import { useSearchParam } from './use-search-param';
 
 const DEFAULT_PARAM_KEY = 'search';
 
-type SearchInputProps = {
+interface SearchInputProps {
   placeholder: string;
   paramKey?: string;
   className?: string;
-};
+}
 
 export function SearchInput({
   placeholder,

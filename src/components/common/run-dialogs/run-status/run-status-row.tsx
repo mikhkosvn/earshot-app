@@ -4,9 +4,9 @@ import type { RunBatchStatusRun } from '@/server/runs/types';
 import { runOutcomeText } from '../_utils/run-status-text';
 import { RunErrorText } from './run-error-text';
 
-type RunStatusRowProps = {
+interface RunStatusRowProps {
   run: RunBatchStatusRun;
-};
+}
 
 export function RunStatusRow({ run }: RunStatusRowProps) {
   return (

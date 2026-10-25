@@ -1,6 +1,6 @@
-type NotificationUnreadDotProps = {
+interface NotificationUnreadDotProps {
   isUnread: boolean;
-};
+}
 
 export function NotificationUnreadDot({
   isUnread,

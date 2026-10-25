@@ -4,11 +4,11 @@ import { Button } from '@/components/ui/button';
 
 import { useFilteredMetricOptions } from '../../_hooks/runs/use-filtered-metric-options';
 
-type ReevaluateSelectAllButtonProps = {
+interface ReevaluateSelectAllButtonProps {
   search: string;
-  metricIds: number[];
+  metricIds: readonly number[];
   onMetricIdsChange: (ids: number[]) => void;
-};
+}
 
 export function ReevaluateSelectAllButton({
   search,

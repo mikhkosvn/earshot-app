@@ -6,9 +6,9 @@ import Link from 'next/link';
 import { useCurrentProjectId } from '@/app/(app)/_hooks/use-current-project-id';
 import { UrlGenerator } from '@/lib/url-generator/url-generator';
 
-type RunResultCellProps = {
+interface RunResultCellProps {
   resultId: number;
-};
+}
 
 export function RunResultCell({ resultId }: RunResultCellProps) {
   const projectId = useCurrentProjectId();

@@ -9,9 +9,9 @@ import { formatMonitorDate } from '../../_utils/format-monitor-date';
 import { MonitorStatusSwitch } from './monitor-status-switch';
 import { MonitorRowActions } from './row-actions/monitor-row-actions';
 
-type MonitorRowProps = {
+interface MonitorRowProps {
   monitor: MonitorListItem;
-};
+}
 
 export function MonitorRow({ monitor }: MonitorRowProps) {
   return (

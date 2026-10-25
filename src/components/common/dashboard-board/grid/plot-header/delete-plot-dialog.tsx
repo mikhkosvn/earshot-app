@@ -11,12 +11,12 @@ import {
   AlertDialogTitle,
 } from '@/components/ui/alert-dialog';
 
-type DeletePlotDialogProps = {
+interface DeletePlotDialogProps {
   open: boolean;
   name: string;
   onOpenChange: (open: boolean) => void;
   onConfirm: () => void;
-};
+}
 
 export function DeletePlotDialog({
   open,

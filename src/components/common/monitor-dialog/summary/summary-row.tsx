@@ -1,7 +1,7 @@
-type SummaryRowProps = {
+interface SummaryRowProps {
   label: string;
   value: number;
-};
+}
 
 export function SummaryRow({ label, value }: SummaryRowProps) {
   return (

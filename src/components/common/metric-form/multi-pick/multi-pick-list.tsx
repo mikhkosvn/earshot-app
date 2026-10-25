@@ -11,12 +11,12 @@ import {
 import { MultiPickOption } from './multi-pick-option';
 import type { MultiPickItem } from './multi-pick-types';
 
-type MultiPickListProps = {
-  items: MultiPickItem[];
-  value: number[];
+interface MultiPickListProps {
+  items: readonly MultiPickItem[];
+  value: readonly number[];
   onValueChange: (value: number[]) => void;
   onClose: () => void;
-};
+}
 
 const SELECT_ALL_VALUE = '(Select All)';
 

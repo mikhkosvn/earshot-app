@@ -2,9 +2,9 @@ import type { TestStep } from '@/server/agents/types';
 
 import { TestStepIcon } from './test-step-icon';
 
-type TestStepRowProps = {
+interface TestStepRowProps {
   step: TestStep;
-};
+}
 
 export function TestStepRow({ step }: TestStepRowProps) {
   return (

@@ -16,11 +16,11 @@ import type { AgentVersionItem } from '@/server/agents/types';
 
 import { useRenameAgentVersionMutation } from '../../_hooks/mutations/versions/use-rename-agent-version-mutation';
 
-type RenameVersionDialogProps = {
+interface RenameVersionDialogProps {
   version: AgentVersionItem;
   open: boolean;
   onOpenChange: (open: boolean) => void;
-};
+}
 
 export function RenameVersionDialog({
   version,

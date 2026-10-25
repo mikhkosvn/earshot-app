@@ -11,11 +11,11 @@ import type { AgentListItem } from '@/server/agents/types';
 
 import { DeleteAgentForm } from './delete-agent-form';
 
-type DeleteAgentDialogProps = {
+interface DeleteAgentDialogProps {
   agent: AgentListItem;
   open: boolean;
   onOpenChange: (open: boolean) => void;
-};
+}
 
 export function DeleteAgentDialog({
   agent,

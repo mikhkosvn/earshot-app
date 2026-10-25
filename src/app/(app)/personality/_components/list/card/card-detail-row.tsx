@@ -1,9 +1,9 @@
 import type { LucideIcon } from 'lucide-react';
 
-type CardDetailRowProps = {
+interface CardDetailRowProps {
   icon: LucideIcon;
   text: string;
-};
+}
 
 export function CardDetailRow({ icon: Icon, text }: CardDetailRowProps) {
   return (

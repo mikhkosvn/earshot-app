@@ -5,13 +5,13 @@ import type { EvaluatorImprovementReply } from '@/server/evaluators/types';
 
 import { ImproveReply } from './improve-reply';
 
-type ImproveTurnProps = {
+interface ImproveTurnProps {
   turn: {
     id: number;
     prompt?: string;
     result?: ActionResult<EvaluatorImprovementReply>;
   };
-};
+}
 
 export function ImproveTurn({ turn }: ImproveTurnProps) {
   return (

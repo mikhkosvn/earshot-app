@@ -2,9 +2,9 @@ import { Badge } from '@/components/ui/badge';
 
 import { failureText } from '../../_utils/failure-text';
 
-type FailureBadgeProps = {
+interface FailureBadgeProps {
   count: number;
-};
+}
 
 export function FailureBadge({ count }: FailureBadgeProps) {
   if (count === 0) return null;

@@ -7,12 +7,12 @@ import { QueryErrorBoundary } from '@/components/common/query-error-boundary';
 import { ConversationViewerColumns } from './conversation-viewer-columns';
 import { ConversationViewerSkeleton } from './conversation-viewer-skeleton';
 
-type ConversationViewerLayoutProps = {
+interface ConversationViewerLayoutProps {
   conversationId: number;
   header?: ReactNode;
   actions?: ReactNode;
   shareToken?: string | null;
-};
+}
 
 export function ConversationViewerLayout(props: ConversationViewerLayoutProps) {
   return (

@@ -21,7 +21,7 @@ type CatalogMetric = Prisma.PredefinedMetricGetPayload<{
 
 const toJsonInput = (value: Prisma.JsonValue | null) => {
   if (value === null) return Prisma.DbNull;
-  return value as Prisma.InputJsonValue;
+  return value;
 };
 
 const freeSlug = async (

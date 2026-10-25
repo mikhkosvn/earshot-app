@@ -11,11 +11,11 @@ const LANGUAGE_ITEMS = Object.values(Language).map((language) => ({
   label: <OptionIdLabel id={language} label={LanguageLabel[language]} />,
 }));
 
-type LanguageSelectProps = {
+interface LanguageSelectProps {
   id?: string;
   value: Language;
   onValueChange: (language: Language) => void;
-};
+}
 
 export function LanguageSelect({
   id,

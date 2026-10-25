@@ -3,10 +3,10 @@ import { ScenarioInputTypeLabel } from '@/server/evaluators/constants/scenario-i
 import { ScenarioToolLabel } from '@/server/evaluators/constants/scenario-tool-labels';
 import type { EvaluatorSnapshot } from '@/server/evaluators/types';
 
-type SnapshotField = {
+interface SnapshotField {
   label: string;
   read: (snapshot: EvaluatorSnapshot) => string;
-};
+}
 
 const orNone = (value: string | number | null | undefined) => {
   if (value === null || value === undefined || value === '') return '(none)';
@@ -57,11 +57,11 @@ const SNAPSHOT_FIELDS: SnapshotField[] = [
   },
 ];
 
-export type SnapshotChange = {
+export interface SnapshotChange {
   label: string;
   from: string;
   to: string;
-};
+}
 
 export const diffSnapshots = (
   from: EvaluatorSnapshot,

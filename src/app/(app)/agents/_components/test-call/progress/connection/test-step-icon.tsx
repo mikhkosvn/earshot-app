@@ -7,9 +7,9 @@ import {
 
 import { TestStepStatus } from '@/server/agents/constants/test-call';
 
-type TestStepIconProps = {
+interface TestStepIconProps {
   status: TestStepStatus;
-};
+}
 
 export function TestStepIcon({ status }: TestStepIconProps) {
   if (status === TestStepStatus.passed) {

@@ -1,9 +1,9 @@
 import { MarkdownInlineText } from './markdown-inline-text';
 
-type MarkdownListProps = {
+interface MarkdownListProps {
   ordered: boolean;
-  items: string[];
-};
+  items: readonly string[];
+}
 
 export function MarkdownList({ ordered, items }: MarkdownListProps) {
   const children = items.map((item, index) => (

@@ -2,9 +2,9 @@
 
 import { SharedRunConversation } from './shared-run-conversation';
 
-type SharedRunDialogContentProps = {
+interface SharedRunDialogContentProps {
   runId: number | null;
-};
+}
 
 export function SharedRunDialogContent({ runId }: SharedRunDialogContentProps) {
   if (runId === null) return null;

@@ -16,9 +16,9 @@ import { Input } from '@/components/ui/input';
 import { useCloneVoiceForm } from '../../../../_hooks/form/use-clone-voice-form';
 import { AudioSampleField } from './audio-sample-field';
 
-type CloneVoiceFormProps = {
+interface CloneVoiceFormProps {
   onCloned: (voiceId: string) => void;
-};
+}
 
 export function CloneVoiceForm({ onCloned }: CloneVoiceFormProps) {
   const { form, onSubmit, isPending } = useCloneVoiceForm(onCloned);

@@ -2,7 +2,7 @@
 
 import { Input } from '@/components/ui/input';
 
-type NullableNumberInputProps = {
+interface NullableNumberInputProps {
   id?: string;
   value: number | null;
   onValueChange: (value: number | null) => void;
@@ -11,7 +11,7 @@ type NullableNumberInputProps = {
   min?: number;
   max?: number;
   step?: number;
-};
+}
 
 const displayValue = (value: number | null) => {
   if (value === null || Number.isNaN(value)) return '';

@@ -12,16 +12,16 @@ import { conversationMetadataWhere } from '@/server/dashboards/utils/records/met
 import { evaluatorRefOf } from '@/server/results/utils/refs';
 import { isPassedEvaluation } from '@/server/results/utils/result-row';
 
-export type RecordScope = {
+export interface RecordScope {
   projectId: number;
   source: DashboardSource;
   from: Date;
   to: Date;
   agentId: number | null;
   metadata: MetadataCondition[];
-};
+}
 
-export type PlotRecord = {
+export interface PlotRecord {
   id: number;
   createdAt: Date;
   conversationId: number;
@@ -33,7 +33,7 @@ export type PlotRecord = {
   endedReason: string | null;
   metadata: Record<string, unknown>;
   scenarioName: string | null;
-};
+}
 
 const FINISHED_RUN_STATUSES: RunStatus[] = [
   RunStatus.completed,
@@ -50,12 +50,12 @@ const conversationSelect = {
   select: { startedAt: true, endedAt: true, endedReason: true, metadata: true },
 } as const;
 
-type ConversationFacts = {
+interface ConversationFacts {
   startedAt: Date | null;
   endedAt: Date | null;
   endedReason: string | null;
   metadata: Prisma.JsonValue;
-};
+}
 
 const durationOf = (conversation: ConversationFacts) => {
   if (!conversation.startedAt || !conversation.endedAt) return null;
@@ -66,7 +66,7 @@ const durationOf = (conversation: ConversationFacts) => {
 
 const metadataOf = (value: Prisma.JsonValue): Record<string, unknown> => {
   if (value && typeof value === 'object' && !Array.isArray(value)) {
-    return value as Record<string, unknown>;
+    return value;
   }
   return {};
 };

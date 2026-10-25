@@ -9,10 +9,10 @@ import { voteMetricAction } from '@/server/run-reviews/actions';
 
 import { ConversationService } from '../../_service';
 
-export type CorrectMetricInput = LabCorrection & {
+export interface CorrectMetricInput extends LabCorrection {
   projectId: number;
   conversationId: number;
-};
+}
 
 const correctMetric = async ({
   projectId,

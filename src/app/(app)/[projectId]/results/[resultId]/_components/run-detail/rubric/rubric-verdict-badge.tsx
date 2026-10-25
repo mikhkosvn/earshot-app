@@ -2,9 +2,9 @@ import { CheckIcon, XIcon } from 'lucide-react';
 
 import type { RubricVerdict } from '@/server/metric-scoring/types';
 
-type RubricVerdictBadgeProps = {
+interface RubricVerdictBadgeProps {
   rubric: RubricVerdict;
-};
+}
 
 export function RubricVerdictBadge({ rubric }: RubricVerdictBadgeProps) {
   if (rubric.passed) {

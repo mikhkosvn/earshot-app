@@ -9,9 +9,9 @@ import type { PhoneNumberRow } from '@/server/telephony-phone-numbers/types';
 import { DeletePhoneNumberDialog } from './delete-phone-number-dialog';
 import { EditPhoneNumberDialog } from './edit-phone-number-dialog';
 
-type PhoneNumberRowActionsProps = {
+interface PhoneNumberRowActionsProps {
   phoneNumber: PhoneNumberRow;
-};
+}
 
 export function PhoneNumberRowActions({
   phoneNumber,

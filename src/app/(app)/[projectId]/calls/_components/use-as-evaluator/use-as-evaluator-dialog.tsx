@@ -13,11 +13,11 @@ import { Skeleton } from '@/components/ui/skeleton';
 
 import { UseAsEvaluatorForm } from './use-as-evaluator-form';
 
-type UseAsEvaluatorDialogProps = {
+interface UseAsEvaluatorDialogProps {
   callLogIds: number[];
   open: boolean;
   onOpenChange: (open: boolean) => void;
-};
+}
 
 export function UseAsEvaluatorDialog({
   callLogIds,

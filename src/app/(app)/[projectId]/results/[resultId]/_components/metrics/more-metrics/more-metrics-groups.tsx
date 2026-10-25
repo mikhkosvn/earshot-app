@@ -3,9 +3,9 @@
 import { NumericTilesGroup } from '../tiles/numeric-tiles-group';
 import { TagTilesGroup } from './tag-tiles-group';
 
-type MoreMetricsGroupsProps = {
+interface MoreMetricsGroupsProps {
   open: boolean;
-};
+}
 
 export function MoreMetricsGroups({ open }: MoreMetricsGroupsProps) {
   if (!open) return null;

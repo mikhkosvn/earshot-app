@@ -15,11 +15,11 @@ import { CorrectMetricButton } from './correction/correct-metric-button';
 import { MetricRowDetail } from './metric-row-detail';
 import { MetricValue } from './value/metric-value';
 
-type MetricRowProps = {
+interface MetricRowProps {
   metric: ConversationMetricItem;
   query: ConversationQueryArgs;
   readOnly: boolean;
-};
+}
 
 export function MetricRow({ metric, query, readOnly }: MetricRowProps) {
   const fullWidth = isExpectedOutcomeMetric(metric);
@@ -35,7 +35,11 @@ export function MetricRow({ metric, query, readOnly }: MetricRowProps) {
           <ArrowRightIcon className="size-3.5 shrink-0 transition-transform group-data-panel-open:rotate-90" />
         </CollapsibleTrigger>
         <MetricValue metric={metric} />
-        <CorrectMetricButton metric={metric} query={query} readOnly={readOnly} />
+        <CorrectMetricButton
+          metric={metric}
+          query={query}
+          readOnly={readOnly}
+        />
       </div>
       <CollapsibleContent>
         <MetricRowDetail metric={metric} query={query} />

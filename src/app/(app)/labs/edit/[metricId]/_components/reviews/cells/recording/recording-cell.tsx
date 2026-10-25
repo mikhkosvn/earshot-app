@@ -5,9 +5,9 @@ import { RecordingPlayer } from './recording-player';
 import { SourceLink } from './source-link';
 import { TranscriptPreview } from './transcript-preview';
 
-type RecordingCellProps = {
+interface RecordingCellProps {
   row: LabRowView;
-};
+}
 
 export function RecordingCell({ row }: RecordingCellProps) {
   return (

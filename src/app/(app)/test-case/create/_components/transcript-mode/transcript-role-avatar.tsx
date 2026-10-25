@@ -2,9 +2,9 @@ import { BotIcon, UserIcon } from 'lucide-react';
 
 import { TranscriptRole } from '@/server/call-engine/constants';
 
-type TranscriptRoleAvatarProps = {
+interface TranscriptRoleAvatarProps {
   role: TranscriptRole;
-};
+}
 
 export function TranscriptRoleAvatar({ role }: TranscriptRoleAvatarProps) {
   if (role === TranscriptRole.main_agent) {

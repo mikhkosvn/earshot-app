@@ -11,10 +11,10 @@ import { CallProcessingStatusLabel } from '@/server/call-logs/constants/call-pro
 
 import { CallStatusIcon } from './call-status-icon';
 
-type CallStatusBadgeProps = {
+interface CallStatusBadgeProps {
   status: CallProcessingStatus;
   errorMessage: string | null;
-};
+}
 
 export function CallStatusBadge({
   status,

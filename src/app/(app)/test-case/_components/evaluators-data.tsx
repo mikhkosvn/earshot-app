@@ -12,9 +12,9 @@ import { loadEvaluatorListParams } from '../_utils/list/load-evaluator-list-para
 import { EvaluatorsLayout } from './evaluators-layout';
 import { EvaluatorsSkeleton } from './evaluators-skeleton';
 
-type EvaluatorsDataProps = {
+interface EvaluatorsDataProps {
   searchParams: Promise<Record<string, string | string[] | undefined>>;
-};
+}
 
 export async function EvaluatorsData({ searchParams }: EvaluatorsDataProps) {
   await io();

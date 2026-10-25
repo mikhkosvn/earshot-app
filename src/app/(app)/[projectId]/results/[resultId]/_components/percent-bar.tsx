@@ -2,10 +2,10 @@ import { cn } from '@/lib/utils';
 
 import { barToneClass } from '../_utils/bar-tone';
 
-type PercentBarProps = {
+interface PercentBarProps {
   percent: number;
   className?: string;
-};
+}
 
 export function PercentBar({ percent, className }: PercentBarProps) {
   const width = Math.min(Math.max(percent, 0), 100);

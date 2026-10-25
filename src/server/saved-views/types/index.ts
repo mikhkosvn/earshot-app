@@ -8,8 +8,8 @@ import type {
 export type ListSavedViewsInput = z.input<typeof listSavedViewsSchema>;
 export type CreateSavedViewInput = z.input<typeof createSavedViewSchema>;
 
-export type SavedViewItem = {
+export interface SavedViewItem {
   id: number;
   name: string;
   agentIds: number[];
-};
+}

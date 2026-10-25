@@ -10,5 +10,5 @@ const parseArray = (item: string): string[] => {
   }
 };
 
-export const explanationBullets = (explanation: string[]) =>
+export const explanationBullets = (explanation: readonly string[]) =>
   explanation.flatMap(parseArray).filter((bullet) => bullet.length > 0);

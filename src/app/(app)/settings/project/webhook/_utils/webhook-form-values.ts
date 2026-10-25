@@ -38,7 +38,11 @@ export const toWebhookSettingsValues = (
   forwardRetellWebhooks: values.forwardRetellWebhooks,
 });
 
-export const toggleListValue = <T>(list: T[], value: T, isOn: boolean) => {
+export const toggleListValue = <T>(
+  list: readonly T[],
+  value: T,
+  isOn: boolean,
+) => {
   const without = list.filter((item) => item !== value);
   if (!isOn) return without;
   return [...without, value];

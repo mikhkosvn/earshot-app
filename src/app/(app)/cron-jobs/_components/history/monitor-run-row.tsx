@@ -7,10 +7,10 @@ import { MonitorRunError } from './monitor-run-error';
 import { MonitorRunResultLink } from './monitor-run-result-link';
 import { MonitorRunStatusBadge } from './monitor-run-status-badge';
 
-type MonitorRunRowProps = {
+interface MonitorRunRowProps {
   run: MonitorRunItem;
   timezone: Timezone;
-};
+}
 
 export function MonitorRunRow({ run, timezone }: MonitorRunRowProps) {
   return (

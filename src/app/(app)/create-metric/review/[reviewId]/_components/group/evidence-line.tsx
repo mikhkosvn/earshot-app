@@ -2,9 +2,9 @@ import type { PatternEvidenceView } from '@/server/metrics/types';
 
 import { SpeakerLabel } from '../../_constants/speaker-label';
 
-type EvidenceLineProps = {
+interface EvidenceLineProps {
   line: PatternEvidenceView;
-};
+}
 
 export function EvidenceLine({ line }: EvidenceLineProps) {
   return (

@@ -3,9 +3,9 @@ import { CircleAlertIcon, CircleCheckIcon } from 'lucide-react';
 import { Spinner } from '@/components/ui/spinner';
 import { CallProcessingStatus } from '@/generated/prisma/enums';
 
-type CallStatusIconProps = {
+interface CallStatusIconProps {
   status: CallProcessingStatus;
-};
+}
 
 export function CallStatusIcon({ status }: CallStatusIconProps) {
   if (status === CallProcessingStatus.failed) {

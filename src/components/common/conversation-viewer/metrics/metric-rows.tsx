@@ -5,10 +5,10 @@ import type { ConversationQueryArgs } from '../_service';
 import { MetricRow } from './metric-row';
 import { MetricsEmpty } from './metrics-empty';
 
-type MetricRowsProps = {
+interface MetricRowsProps {
   query: ConversationQueryArgs;
   readOnly: boolean;
-};
+}
 
 export function MetricRows({ query, readOnly }: MetricRowsProps) {
   const { metrics } = useConversation(query);

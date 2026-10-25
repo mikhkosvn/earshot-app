@@ -15,14 +15,14 @@ export type SharedConversationInput = z.input<typeof sharedConversationSchema>;
 export type SharedRunInput = z.input<typeof sharedRunSchema>;
 export type SharedRunsInput = z.input<typeof sharedRunsSchema>;
 
-export type CreatedShareLink = {
+export interface CreatedShareLink {
   token: string;
-};
+}
 
-export type SharedView = {
+export interface SharedView {
   target: ShareLinkTarget;
   resultId: number | null;
   runId: number | null;
   callLogId: number | null;
   conversationId: number | null;
-};
+}

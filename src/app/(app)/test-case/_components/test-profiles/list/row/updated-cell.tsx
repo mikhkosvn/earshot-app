@@ -2,9 +2,9 @@ import type { TestProfileView } from '@/server/test-profiles/types';
 
 import { formatAuthorDate } from '@/app/(app)/test-case/_utils/format-author-date';
 
-type UpdatedCellProps = {
+interface UpdatedCellProps {
   profile: TestProfileView;
-};
+}
 
 export function UpdatedCell({ profile }: UpdatedCellProps) {
   if (profile.updatedAt.getTime() === profile.createdAt.getTime()) {

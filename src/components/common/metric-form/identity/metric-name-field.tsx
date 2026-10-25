@@ -8,9 +8,9 @@ import type { MetricDefinitionValues } from '@/server/metrics/types';
 
 const FIELD_ID = 'metric-name';
 
-type MetricNameFieldProps = {
+interface MetricNameFieldProps {
   onNameChange: (name: string) => void;
-};
+}
 
 export function MetricNameField({ onNameChange }: MetricNameFieldProps) {
   const { control } = useFormContext<MetricDefinitionValues>();

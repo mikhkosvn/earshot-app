@@ -3,9 +3,9 @@ import { LightbulbIcon } from 'lucide-react';
 import type { GuideTip } from '../../_constants/guide-tips';
 import { GuideExampleLabel } from './guide-example-label';
 
-type GuideExampleBoxProps = {
+interface GuideExampleBoxProps {
   examples: GuideTip['examples'];
-};
+}
 
 export function GuideExampleBox({ examples }: GuideExampleBoxProps) {
   if (examples.length === 0) return null;

@@ -10,11 +10,11 @@ import type { ProviderKeyProvider } from '@/generated/prisma/enums';
 
 import { useDeleteProviderApiKeyMutation } from '../_hooks/mutations/use-delete-provider-api-key-mutation';
 
-type DeleteProviderKeyButtonProps = {
+interface DeleteProviderKeyButtonProps {
   provider: ProviderKeyProvider;
   label: string;
   isConfigured: boolean;
-};
+}
 
 export function DeleteProviderKeyButton({
   provider,

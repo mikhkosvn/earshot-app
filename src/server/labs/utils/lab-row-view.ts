@@ -3,11 +3,7 @@ import 'server-only';
 import { Prisma } from '@/generated/prisma/client';
 import { UrlGenerator } from '@/lib/url-generator/url-generator';
 import { TRANSCRIPT_ROLE_LABEL } from '@/server/call-engine/constants';
-import type {
-  LabRowSource,
-  LabRowView,
-  LabScore,
-} from '@/server/labs/types';
+import type { LabRowSource, LabRowView, LabScore } from '@/server/labs/types';
 import { valuesMatch } from '@/server/labs/utils/values-match';
 import { transcriptTime } from '@/server/metric-scoring/utils/transcript-time';
 import { valueFromParts } from '@/server/metric-scoring/utils/value-parts';
@@ -48,7 +44,12 @@ export const labRowSelect = {
           recordingFileId: true,
           turns: {
             orderBy: { position: Prisma.SortOrder.asc },
-            select: { role: true, content: true, startTime: true, endTime: true },
+            select: {
+              role: true,
+              content: true,
+              startTime: true,
+              endTime: true,
+            },
           },
           copiedFrom: { select: sourceSelect },
         },
@@ -72,7 +73,7 @@ type SourceConversation = Prisma.ConversationGetPayload<{
 
 const asRecord = (value: Prisma.JsonValue | null): Record<string, unknown> => {
   if (!value || typeof value !== 'object' || Array.isArray(value)) return {};
-  return value as Record<string, unknown>;
+  return value;
 };
 
 const sourceOf = (

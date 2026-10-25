@@ -7,9 +7,9 @@ import { SidebarSkeleton } from './_components/sidebar/sidebar-skeleton';
 import { TopBarData } from './_components/top-bar/top-bar-data';
 import { TopBarSkeleton } from './_components/top-bar/top-bar-skeleton';
 
-type AppLayoutProps = {
+interface AppLayoutProps {
   children: ReactNode;
-};
+}
 
 export default function AppLayout({ children }: AppLayoutProps) {
   return (

@@ -7,12 +7,12 @@ import { useCurrentProjectId } from '@/app/(app)/_hooks/use-current-project-id';
 import { EvaluatorService } from '../../../_service';
 import { OptionMultiSelect } from './option-multi-select';
 
-type PersonalityMultiSelectProps = {
+interface PersonalityMultiSelectProps {
   id?: string;
-  value: number[];
+  value: readonly number[];
   onValueChange: (personalityIds: number[]) => void;
   placeholder: string;
-};
+}
 
 export function PersonalityMultiSelect({
   id,

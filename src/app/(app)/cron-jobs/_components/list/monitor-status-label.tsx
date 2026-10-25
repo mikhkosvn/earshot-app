@@ -1,6 +1,6 @@
-type MonitorStatusLabelProps = {
+interface MonitorStatusLabelProps {
   isActive: boolean;
-};
+}
 
 export function MonitorStatusLabel({ isActive }: MonitorStatusLabelProps) {
   if (isActive) {

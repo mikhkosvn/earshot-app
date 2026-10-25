@@ -19,9 +19,9 @@ import {
 } from '../../../_utils/boolean-choice-value';
 import { RubricFieldLabel } from '../rubric-field-label';
 
-type RubricBooleanValueFieldProps = {
+interface RubricBooleanValueFieldProps {
   index: number;
-};
+}
 
 export function RubricBooleanValueField({
   index,

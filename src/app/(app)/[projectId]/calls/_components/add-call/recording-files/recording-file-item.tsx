@@ -4,10 +4,10 @@ import { Button } from '@/components/ui/button';
 
 import { fileSizeText } from '../../../_utils/file-size-text';
 
-type RecordingFileItemProps = {
+interface RecordingFileItemProps {
   file: File;
   onRemove: () => void;
-};
+}
 
 export function RecordingFileItem({ file, onRemove }: RecordingFileItemProps) {
   return (

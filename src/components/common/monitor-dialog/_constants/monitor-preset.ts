@@ -15,13 +15,13 @@ export const ScenarioScope = {
 
 export type ScenarioScope = (typeof ScenarioScope)[keyof typeof ScenarioScope];
 
-export type MonitorPresetConfig = {
+export interface MonitorPresetConfig {
   caption: string;
   title: string;
   description: string;
   scheduleMode: PresetScheduleMode;
   scenarioScope: ScenarioScope;
-};
+}
 
 export const MONITOR_PRESETS: Record<MonitorPreset, MonitorPresetConfig> = {
   [MonitorPreset.heartbeat]: {

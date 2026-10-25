@@ -1,14 +1,19 @@
 import { TranscriptRole } from '@/server/call-engine/constants';
 
-type Turn = {
+interface Turn {
   role: TranscriptRole;
   content: string;
   startTime: number | null;
-};
+}
 
-const ROLES = Object.values(TranscriptRole) as string[];
+const ROLES = Object.values(TranscriptRole);
 
-export const turnsToJson = (turns: Turn[]) =>
+const isTranscriptRole = (value: unknown): value is TranscriptRole =>
+  ROLES.some((role) => role === value);
+
+const isTurn = (turn: Turn | null): turn is Turn => turn !== null;
+
+export const turnsToJson = (turns: readonly Turn[]) =>
   JSON.stringify(
     turns.map((turn) => ({
       role: turn.role,
@@ -32,17 +37,19 @@ const numberOrNull = (value: unknown) => {
   return value;
 };
 
+const startTimeOf = (item: object) => {
+  if (!('start_time' in item)) return null;
+  return numberOrNull(item.start_time);
+};
+
 const toTurn = (item: unknown): Turn | null => {
   if (typeof item !== 'object' || item === null) return null;
-  const record = item as Record<string, unknown>;
-  if (typeof record.role !== 'string' || !ROLES.includes(record.role)) {
-    return null;
-  }
-  if (typeof record.content !== 'string') return null;
+  if (!('role' in item) || !isTranscriptRole(item.role)) return null;
+  if (!('content' in item) || typeof item.content !== 'string') return null;
   return {
-    role: record.role as TranscriptRole,
-    content: record.content,
-    startTime: numberOrNull(record.start_time),
+    role: item.role,
+    content: item.content,
+    startTime: startTimeOf(item),
   };
 };
 
@@ -51,12 +58,13 @@ export const parseTurnsJson = (text: string) => {
   if (!Array.isArray(value)) {
     return { turns: null, error: 'Enter a JSON array of messages.' };
   }
-  const turns = value.map(toTurn);
-  if (turns.some((turn) => turn === null)) {
+  const parsed = value.map(toTurn);
+  const turns = parsed.filter(isTurn);
+  if (turns.length !== parsed.length) {
     return {
       turns: null,
       error: `Each message needs "role" (${ROLES.join(' or ')}) and "content".`,
     };
   }
-  return { turns: turns as Turn[], error: null };
+  return { turns, error: null };
 };

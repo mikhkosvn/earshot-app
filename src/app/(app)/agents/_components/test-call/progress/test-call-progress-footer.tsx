@@ -4,10 +4,10 @@ import { CircleCheckIcon } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
 
-type TestCallProgressFooterProps = {
+interface TestCallProgressFooterProps {
   finished: boolean;
   onClose: () => void;
-};
+}
 
 export function TestCallProgressFooter({
   finished,

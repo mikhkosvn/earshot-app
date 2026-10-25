@@ -1,11 +1,11 @@
 import 'server-only';
 
-export type DecodedWav = {
+export interface DecodedWav {
   sampleRate: number;
   channels: Int16Array[];
   bitsPerSample: number;
   durationSeconds: number;
-};
+}
 
 const readAscii = (view: DataView, offset: number, length: number) =>
   String.fromCharCode(

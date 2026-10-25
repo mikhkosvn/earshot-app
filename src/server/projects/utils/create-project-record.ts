@@ -4,10 +4,10 @@ import type { Prisma } from '@/generated/prisma/client';
 
 import { seedProjectDefaults } from './seed-project-defaults';
 
-type CreateProjectRecordArgs = {
+interface CreateProjectRecordArgs {
   organizationId: number;
   name: string;
-};
+}
 
 export const createProjectRecord = async (
   tx: Prisma.TransactionClient,

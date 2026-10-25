@@ -6,9 +6,9 @@ import type { MonitorListItem } from '@/server/monitors/types';
 import { useSetMonitorActiveMutation } from '../../_hooks/mutations/use-set-monitor-active-mutation';
 import { MonitorStatusLabel } from './monitor-status-label';
 
-type MonitorStatusSwitchProps = {
+interface MonitorStatusSwitchProps {
   monitor: MonitorListItem;
-};
+}
 
 export function MonitorStatusSwitch({ monitor }: MonitorStatusSwitchProps) {
   const setActive = useSetMonitorActiveMutation();

@@ -1,7 +1,7 @@
-type ScenarioTextBlockProps = {
+interface ScenarioTextBlockProps {
   title: string;
   text: string;
-};
+}
 
 export function ScenarioTextBlock({ title, text }: ScenarioTextBlockProps) {
   return (

@@ -9,11 +9,11 @@ import type { DraftPlot } from '../_utils/dashboard-draft';
 import { PlotCard } from './plot-card';
 import { StatCard } from './stat-card';
 
-type PlotFrameProps = {
+interface PlotFrameProps {
   board: DashboardBoardState;
   plot: DraftPlot;
   dragHandle: ReactNode;
-};
+}
 
 export function PlotFrame({ board, plot, dragHandle }: PlotFrameProps) {
   if (plot.config.displayType === PlotDisplayType.stat) {

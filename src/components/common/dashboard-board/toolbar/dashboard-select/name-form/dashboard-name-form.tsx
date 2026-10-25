@@ -9,12 +9,12 @@ import type { DashboardNameFormValues } from '../../../_schemas/dashboard-name-f
 import { DashboardNameField } from './dashboard-name-field';
 import { DashboardNameSubmit } from './dashboard-name-submit';
 
-type DashboardNameFormProps = {
+interface DashboardNameFormProps {
   form: UseFormReturn<DashboardNameFormValues>;
   onSubmit: () => void;
   submitLabel: string;
   isPending: boolean;
-};
+}
 
 export function DashboardNameForm({
   form,

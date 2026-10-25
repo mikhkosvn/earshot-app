@@ -24,11 +24,11 @@ import type {
   PatternSampleView,
 } from '@/server/metrics/types';
 
-type LabEntry = {
+interface LabEntry {
   sample: PatternSampleView;
   expected: MetricValue;
   feedback: string;
-};
+}
 
 const labEntries = (groups: PatternGroupView[]): LabEntry[] =>
   groups.flatMap((group) => {

@@ -1,6 +1,6 @@
-type NoticeSourceBodyProps = {
+interface NoticeSourceBodyProps {
   repositoryUrl: string | null;
-};
+}
 
 export function NoticeSourceBody({ repositoryUrl }: NoticeSourceBodyProps) {
   if (!repositoryUrl) {

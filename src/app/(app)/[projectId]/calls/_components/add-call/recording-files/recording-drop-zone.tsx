@@ -7,9 +7,9 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { CALL_UPLOAD_ACCEPT } from '@/server/call-logs/constants/call-upload-format';
 
-type RecordingDropZoneProps = {
+interface RecordingDropZoneProps {
   onAdd: (files: File[]) => void;
-};
+}
 
 export function RecordingDropZone({ onAdd }: RecordingDropZoneProps) {
   const inputRef = useRef<HTMLInputElement>(null);

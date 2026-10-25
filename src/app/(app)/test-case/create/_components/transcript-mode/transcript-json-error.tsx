@@ -1,6 +1,6 @@
-type TranscriptJsonErrorProps = {
+interface TranscriptJsonErrorProps {
   error: string | null;
-};
+}
 
 export function TranscriptJsonError({ error }: TranscriptJsonErrorProps) {
   if (!error) return null;

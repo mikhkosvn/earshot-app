@@ -1,7 +1,7 @@
-type MultiPickPlaceholderProps = {
+interface MultiPickPlaceholderProps {
   count: number;
   placeholder: string;
-};
+}
 
 export function MultiPickPlaceholder({
   count,

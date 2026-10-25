@@ -8,10 +8,10 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { MetricService } from '../../_service';
 import { toggleItem } from '../../_utils/toggle-item';
 
-type AgentCheckboxListProps = {
+interface AgentCheckboxListProps {
   value: number[];
   onChange: (agentIds: number[]) => void;
-};
+}
 
 export function AgentCheckboxList({ value, onChange }: AgentCheckboxListProps) {
   const projectId = useCurrentProjectId();

@@ -1,8 +1,8 @@
 import { GAUGE_ARC_PATH } from '../../_constants/result-detail';
 
-type ScoreGaugeArcProps = {
+interface ScoreGaugeArcProps {
   percent: number;
-};
+}
 
 export function ScoreGaugeArc({ percent }: ScoreGaugeArcProps) {
   if (percent <= 0) return null;

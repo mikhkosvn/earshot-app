@@ -5,7 +5,7 @@ const isProgress = (value: unknown): value is TestCallProgress =>
   typeof value === 'object' &&
   value !== null &&
   'connections' in value &&
-  Array.isArray((value as { connections: unknown }).connections);
+  Array.isArray(value.connections);
 
 export const testCallProgressOf = (job: JobView | undefined) => {
   if (!job || !isProgress(job.result)) return null;

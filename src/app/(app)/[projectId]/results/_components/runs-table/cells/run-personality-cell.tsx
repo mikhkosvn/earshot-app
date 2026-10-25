@@ -9,9 +9,9 @@ import type { NamedRef } from '@/server/results/types';
 
 import { namedRefText } from '../../../_utils/runs/run-format';
 
-type RunPersonalityCellProps = {
+interface RunPersonalityCellProps {
   personality: NamedRef | null;
-};
+}
 
 export function RunPersonalityCell({ personality }: RunPersonalityCellProps) {
   const projectId = useCurrentProjectId();

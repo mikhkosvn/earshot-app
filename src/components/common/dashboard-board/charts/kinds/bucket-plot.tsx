@@ -5,10 +5,10 @@ import type { BucketPlotData, PlotConfig } from '@/server/dashboards/types';
 import { BucketChart } from './bucket-chart';
 import { SeriesLegend } from './series-legend';
 
-type BucketPlotProps = {
+interface BucketPlotProps {
   data: BucketPlotData;
   config: PlotConfig;
-};
+}
 
 export function BucketPlot({ data, config }: BucketPlotProps) {
   return (

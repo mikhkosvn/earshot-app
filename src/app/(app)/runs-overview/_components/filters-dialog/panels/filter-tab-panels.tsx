@@ -11,11 +11,11 @@ import { IdsPanel } from './ids-panel';
 import { RunSourcePanel } from './run-source-panel';
 import { ScenarioPanel } from './scenario-panel';
 
-type FilterTabPanelsProps = {
+interface FilterTabPanelsProps {
   draft: RunsOverviewFilters;
   search: string;
   onChange: (draft: RunsOverviewFilters) => void;
-};
+}
 
 const PANEL_CLASS = 'min-h-0 overflow-y-auto p-3';
 

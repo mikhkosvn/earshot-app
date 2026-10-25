@@ -1,6 +1,6 @@
-type HiddenChipCountProps = {
+interface HiddenChipCountProps {
   count: number;
-};
+}
 
 export function HiddenChipCount({ count }: HiddenChipCountProps) {
   if (count <= 0) return null;

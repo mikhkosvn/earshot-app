@@ -15,18 +15,18 @@ import type { PersonalityFormValues } from '@/server/personalities/types';
 import { selectValue } from '../../../_utils/select-value';
 import { RequiredStar } from './required-star';
 
-type SelectItemData = {
+interface SelectItemData {
   value: string;
   label: string;
-};
+}
 
-type EnumSelectFieldProps = {
+interface EnumSelectFieldProps {
   name: Path<PersonalityFormValues>;
   label: string;
-  items: SelectItemData[];
+  items: readonly SelectItemData[];
   required: boolean;
   placeholder: string;
-};
+}
 
 export function EnumSelectField({
   name,

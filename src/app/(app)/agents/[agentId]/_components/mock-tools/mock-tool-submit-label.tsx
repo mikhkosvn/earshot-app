@@ -1,9 +1,9 @@
 import type { MockToolItem } from '@/server/agents/types';
 
-type MockToolSubmitLabelProps = {
+interface MockToolSubmitLabelProps {
   tool: MockToolItem | null;
   pending: boolean;
-};
+}
 
 export function MockToolSubmitLabel({
   tool,

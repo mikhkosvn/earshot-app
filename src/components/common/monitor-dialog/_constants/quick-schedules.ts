@@ -1,7 +1,7 @@
-export type QuickSchedule = {
+export interface QuickSchedule {
   cron: string;
   label: string;
-};
+}
 
 export const QUICK_SCHEDULES: QuickSchedule[] = [
   {

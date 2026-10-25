@@ -14,9 +14,9 @@ import { ScenarioChecklist } from './scenario-checklist';
 
 const SELECT_ALL_ID = 'metric-select-all-scenarios';
 
-type ScenarioPickerProps = {
+interface ScenarioPickerProps {
   isOn: boolean;
-};
+}
 
 export function ScenarioPicker({ isOn }: ScenarioPickerProps) {
   const { control } = useFormContext<CreateMetricFormInput>();

@@ -3,10 +3,10 @@
 import type { RunSelection } from '../runs-table';
 import { RunSelectCheckbox } from './run-select-checkbox';
 
-type RunIdCellProps = {
+interface RunIdCellProps {
   runId: number;
   selection?: RunSelection;
-};
+}
 
 export function RunIdCell({ runId, selection }: RunIdCellProps) {
   return (

@@ -19,13 +19,13 @@ import {
   type FilterFieldOption,
 } from '../_constants/call-filter-fields';
 
-export type FilterDraft = {
+export interface FilterDraft {
   id: string;
   field: string;
   op: FilterOperator;
   value: string;
   metadataKey: string;
-};
+}
 
 const NUMERIC_OPERATORS: FilterOperator[] = [
   FilterOperator.gt,

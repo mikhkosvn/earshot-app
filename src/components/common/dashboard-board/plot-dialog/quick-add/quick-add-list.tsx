@@ -6,10 +6,10 @@ import { useQuickAddPlot } from '../../_hooks/use-quick-add-plot';
 import type { DashboardBoardState } from '../../_utils/board-types';
 import { QuickAddItem } from './quick-add-item';
 
-type QuickAddListProps = {
+interface QuickAddListProps {
   board: DashboardBoardState;
   onDone: () => void;
-};
+}
 
 export function QuickAddList({ board, onDone }: QuickAddListProps) {
   const addPlot = useQuickAddPlot(board, onDone);

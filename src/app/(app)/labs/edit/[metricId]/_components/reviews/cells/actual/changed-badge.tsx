@@ -1,6 +1,6 @@
-type ChangedBadgeProps = {
+interface ChangedBadgeProps {
   isChanged: boolean;
-};
+}
 
 export function ChangedBadge({ isChanged }: ChangedBadgeProps) {
   if (!isChanged) return null;

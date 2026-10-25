@@ -18,9 +18,9 @@ import { parseEvaluatorId } from '../_utils/parse-evaluator-id';
 import { EditEvaluatorSkeleton } from './edit-evaluator-skeleton';
 import { EditEvaluatorView } from './edit-evaluator-view';
 
-type EditEvaluatorDataProps = {
+interface EditEvaluatorDataProps {
   params: Promise<{ evaluatorId: string }>;
-};
+}
 
 const prefetchAgentData = async (
   queryClient: QueryClient,

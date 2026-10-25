@@ -16,9 +16,9 @@ import { ExpectedToolCallsField } from '@/app/(app)/test-case/_components/evalua
 
 import { ManualStep } from '../../_constants/create-mode';
 
-type ManualStepContentProps = {
+interface ManualStepContentProps {
   step: ManualStep;
-};
+}
 
 export function ManualStepContent({ step }: ManualStepContentProps) {
   if (step === ManualStep.basics) {

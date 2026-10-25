@@ -11,12 +11,12 @@ export const FailureGroupKind = {
 export type FailureGroupKind =
   (typeof FailureGroupKind)[keyof typeof FailureGroupKind];
 
-export type FailureGroup = {
+export interface FailureGroup {
   kind: FailureGroupKind;
   label: string;
   detail: string;
   runIds: number[];
-};
+}
 
 const UNMET_OUTCOME_LABEL = 'Expected outcome not met';
 

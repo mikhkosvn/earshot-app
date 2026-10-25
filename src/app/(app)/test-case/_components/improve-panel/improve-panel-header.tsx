@@ -7,10 +7,10 @@ import { Button } from '@/components/ui/button';
 
 import { EvaluatorService } from '../../_service';
 
-type ImprovePanelHeaderProps = {
+interface ImprovePanelHeaderProps {
   scope: number;
   onClose: () => void;
-};
+}
 
 export function ImprovePanelHeader({
   scope,

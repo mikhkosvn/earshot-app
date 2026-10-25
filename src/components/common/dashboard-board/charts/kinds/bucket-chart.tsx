@@ -20,10 +20,10 @@ import type { BucketPlotData, PlotConfig } from '@/server/dashboards/types';
 
 import { formatAxisValue, seriesChartConfig } from '../../_utils/chart-format';
 
-type BucketChartProps = {
+interface BucketChartProps {
   data: BucketPlotData;
   config: PlotConfig;
-};
+}
 
 const STACK_ID = 'plot';
 

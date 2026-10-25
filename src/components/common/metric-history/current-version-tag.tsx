@@ -1,6 +1,6 @@
-type CurrentVersionTagProps = {
+interface CurrentVersionTagProps {
   isCurrent: boolean;
-};
+}
 
 export function CurrentVersionTag({ isCurrent }: CurrentVersionTagProps) {
   if (!isCurrent) return null;

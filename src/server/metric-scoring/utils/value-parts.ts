@@ -1,10 +1,10 @@
 import type { MetricValue } from '@/server/metrics/types';
 
-export type ValueParts = {
+export interface ValueParts {
   number: number | null;
   boolean: boolean | null;
   text: string | null;
-};
+}
 
 export const valueParts = (value: MetricValue): ValueParts => {
   if (typeof value === 'boolean') {

@@ -3,9 +3,9 @@ import {
   SummaryLineKind,
 } from '../../../_utils/summary-lines';
 
-type ProposalSummaryLineProps = {
+interface ProposalSummaryLineProps {
   line: SummaryLine;
-};
+}
 
 export function ProposalSummaryLine({ line }: ProposalSummaryLineProps) {
   if (line.kind === SummaryLineKind.bullet) {

@@ -18,14 +18,14 @@ const DEFAULT_TITLE = 'Are you sure you want to delete?';
 const DEFAULT_DESCRIPTION =
   'This action cannot be undone. This will permanently delete the selected item.';
 
-type DeleteConfirmDialogProps = {
+interface DeleteConfirmDialogProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   onConfirm: () => void;
   isPending: boolean;
   title?: string;
   description?: string;
-};
+}
 
 export function DeleteConfirmDialog({
   open,

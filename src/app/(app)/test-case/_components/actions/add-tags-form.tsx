@@ -9,10 +9,10 @@ import { DialogClose, DialogFooter } from '@/components/ui/dialog';
 import { useAddEvaluatorTagsMutation } from '../../_hooks/mutations/evaluator-actions/use-add-evaluator-tags-mutation';
 import { TagInput } from '../fields/tag-input/tag-input';
 
-type AddTagsFormProps = {
+interface AddTagsFormProps {
   evaluatorIds: number[];
   onDone: () => void;
-};
+}
 
 export function AddTagsForm({ evaluatorIds, onDone }: AddTagsFormProps) {
   const projectId = useCurrentProjectId();

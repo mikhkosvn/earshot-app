@@ -6,11 +6,11 @@ import { Input } from '@/components/ui/input';
 
 const MENU_CONTROL_KEYS = ['Escape', 'Tab', 'ArrowDown', 'ArrowUp'];
 
-type MenuSearchInputProps = {
+interface MenuSearchInputProps {
   value: string;
   onValueChange: (value: string) => void;
   placeholder: string;
-};
+}
 
 export function MenuSearchInput({
   value,

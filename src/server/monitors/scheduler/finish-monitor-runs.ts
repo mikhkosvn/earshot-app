@@ -15,17 +15,17 @@ const FINISHED_RESULT_STATUSES: RunStatus[] = [
   RunStatus.cancelled,
 ];
 
-type FinishedRun = {
+interface FinishedRun {
   id: number;
   status: MonitorRunStatus;
   outcome: MonitorRunOutcome | null;
   detail: string;
-};
+}
 
-type ResultSummary = {
+interface ResultSummary {
   status: RunStatus;
   runs: Parameters<typeof countRuns>[0];
-};
+}
 
 const summarize = (result: ResultSummary) => {
   const counts = countRuns(result.runs);

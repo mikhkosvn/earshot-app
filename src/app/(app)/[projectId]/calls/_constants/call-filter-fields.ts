@@ -18,11 +18,11 @@ export const METADATA_FIELD_KEY = 'metadata';
 
 export const METRIC_FIELD_KEY_PREFIX = 'metric:';
 
-export type FilterFieldOption = {
+export interface FilterFieldOption {
   key: string;
   label: string;
   kind: FilterFieldKind;
-};
+}
 
 export const FIXED_FILTER_FIELDS: FilterFieldOption[] = [
   { key: CallFilterField.agent, label: 'Agent', kind: FilterFieldKind.agent },

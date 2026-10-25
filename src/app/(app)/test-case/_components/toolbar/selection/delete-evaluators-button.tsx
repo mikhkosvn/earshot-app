@@ -9,10 +9,10 @@ import { Button } from '@/components/ui/button';
 
 import { useDeleteEvaluatorsMutation } from '../../../_hooks/mutations/evaluators/use-delete-evaluators-mutation';
 
-type DeleteEvaluatorsButtonProps = {
+interface DeleteEvaluatorsButtonProps {
   selectedIds: number[];
   onDeleted: () => void;
-};
+}
 
 export function DeleteEvaluatorsButton({
   selectedIds,

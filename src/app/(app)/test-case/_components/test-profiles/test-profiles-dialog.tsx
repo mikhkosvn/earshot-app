@@ -12,10 +12,10 @@ import { Skeleton } from '@/components/ui/skeleton';
 
 import { TestProfilesBrowser } from './list/test-profiles-browser';
 
-type TestProfilesDialogProps = {
+interface TestProfilesDialogProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
-};
+}
 
 export function TestProfilesDialog({
   open,

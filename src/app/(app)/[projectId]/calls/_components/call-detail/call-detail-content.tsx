@@ -2,9 +2,9 @@
 
 import { CallDetailBody } from './call-detail-body';
 
-type CallDetailContentProps = {
+interface CallDetailContentProps {
   callLogId: number | null;
-};
+}
 
 export function CallDetailContent({ callLogId }: CallDetailContentProps) {
   if (callLogId === null) return null;

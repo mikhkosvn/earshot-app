@@ -11,10 +11,10 @@ import {
 } from '../../../_utils/runs/run-format';
 import { RunMetricPercent } from './run-metric-percent';
 
-type RunMetricValueProps = {
+interface RunMetricValueProps {
   column: MetricColumn;
   cell: RunMetricCell | undefined;
-};
+}
 
 export function RunMetricValue({ column, cell }: RunMetricValueProps) {
   if (!cell) return null;

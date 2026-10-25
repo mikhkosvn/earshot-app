@@ -8,9 +8,9 @@ import type { JobView } from '@/server/jobs/types';
 
 import { reviewPanelLink } from '../_utils/review-panel-text';
 
-type ReviewSampleLabelsButtonProps = {
+interface ReviewSampleLabelsButtonProps {
   job: JobView;
-};
+}
 
 export function ReviewSampleLabelsButton({
   job,

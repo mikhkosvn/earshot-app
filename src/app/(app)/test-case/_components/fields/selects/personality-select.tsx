@@ -9,12 +9,12 @@ import { EvaluatorService } from '../../../_service';
 import { OptionIdLabel } from '../option-id-label';
 import { OptionSelect } from '../option-select';
 
-type PersonalitySelectProps = {
+interface PersonalitySelectProps {
   id?: string;
   value: number | null;
   onValueChange: (personalityId: number | null) => void;
   invalid?: boolean;
-};
+}
 
 export function PersonalitySelect({
   id,

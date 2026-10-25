@@ -4,9 +4,9 @@ import Link from 'next/link';
 import { UrlGenerator } from '@/lib/url-generator/url-generator';
 import type { MonitorRunItem } from '@/server/monitors/types';
 
-type MonitorRunResultLinkProps = {
+interface MonitorRunResultLinkProps {
   run: MonitorRunItem;
-};
+}
 
 export function MonitorRunResultLink({ run }: MonitorRunResultLinkProps) {
   if (run.resultId === null) {

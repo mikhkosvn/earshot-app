@@ -1,12 +1,12 @@
 import { Gender, VoiceModel } from '@/generated/prisma/enums';
 
-export type CatalogVoice = {
+export interface CatalogVoice {
   id: string;
   name: string;
   traits: string;
   gender: Gender;
   accent: string;
-};
+}
 
 export const ELEVENLABS_VOICE_MODELS: VoiceModel[] = [
   VoiceModel.eleven_multilingual_v2,

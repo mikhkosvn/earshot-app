@@ -9,9 +9,9 @@ import {
   REVIEW_EVALUATION_OPTIONS,
 } from '../../../../_components/runs-table/evaluation/evaluation-status-menu';
 
-type RunDetailStatusProps = {
+interface RunDetailStatusProps {
   run: RunDetail;
-};
+}
 
 export function RunDetailStatus({ run }: RunDetailStatusProps) {
   if (!isTerminalRunStatus(run.status)) {

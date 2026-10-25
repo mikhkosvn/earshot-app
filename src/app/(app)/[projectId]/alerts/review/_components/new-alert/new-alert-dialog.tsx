@@ -13,10 +13,10 @@ import { Skeleton } from '@/components/ui/skeleton';
 
 import { NewAlertForm } from './new-alert-form';
 
-type NewAlertDialogProps = {
+interface NewAlertDialogProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
-};
+}
 
 export function NewAlertDialog({ open, onOpenChange }: NewAlertDialogProps) {
   return (

@@ -13,10 +13,10 @@ import { MetricService } from '../../_service';
 import { AgentCheckboxList } from '../agents/agent-checkbox-list';
 import { SelectAllAgentsButtons } from '../agents/select-all-agents-buttons';
 
-type ManageMetricFormProps = {
+interface ManageMetricFormProps {
   metric: MetricListItem;
   onSaved: () => void;
-};
+}
 
 export function ManageMetricForm({ metric, onSaved }: ManageMetricFormProps) {
   const { form, onSubmit } = useManageMetricForm(metric, onSaved);

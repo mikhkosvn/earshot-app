@@ -2,9 +2,9 @@ import { TableCell, TableRow } from '@/components/ui/table';
 
 import { SHARED_RUN_COLUMNS } from '../../_constants/run-columns';
 
-type SharedRunsEmptyRowProps = {
+interface SharedRunsEmptyRowProps {
   count: number;
-};
+}
 
 export function SharedRunsEmptyRow({ count }: SharedRunsEmptyRowProps) {
   if (count > 0) return null;

@@ -1,8 +1,8 @@
 import { ChevronDownIcon, ChevronUpIcon } from 'lucide-react';
 
-type ProviderMoreToggleLabelProps = {
+interface ProviderMoreToggleLabelProps {
   expanded: boolean;
-};
+}
 
 export function ProviderMoreToggleLabel({
   expanded,

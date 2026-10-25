@@ -12,9 +12,9 @@ import { loadMonitorListParams } from '../_constants/monitor-list-params';
 import { MonitorsContent } from './monitors-content';
 import { MonitorsTableSkeleton } from './monitors-table-skeleton';
 
-type MonitorsDataProps = {
+interface MonitorsDataProps {
   searchParams: Promise<Record<string, string | string[] | undefined>>;
-};
+}
 
 export async function MonitorsData({ searchParams }: MonitorsDataProps) {
   await io();

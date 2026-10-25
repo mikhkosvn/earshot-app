@@ -10,11 +10,11 @@ import type { DynamicVariableItem } from '@/server/agents/types';
 
 import { EditVariableForm } from './edit-variable-form';
 
-type EditVariableDialogProps = {
+interface EditVariableDialogProps {
   variable: DynamicVariableItem;
   open: boolean;
   onOpenChange: (open: boolean) => void;
-};
+}
 
 export function EditVariableDialog({
   variable,

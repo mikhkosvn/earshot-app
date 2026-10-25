@@ -1,8 +1,8 @@
 import { Badge } from '@/components/ui/badge';
 
-type TagListProps = {
-  tags: string[];
-};
+interface TagListProps {
+  tags: readonly string[];
+}
 
 export function TagList({ tags }: TagListProps) {
   if (tags.length === 0) return null;

@@ -13,9 +13,9 @@ import {
 } from '../../../../_utils/evaluator-form/variables-json';
 import { JsonErrorText } from './json-error-text';
 
-type VariableJsonEditorProps = {
+interface VariableJsonEditorProps {
   name: VariableListName;
-};
+}
 
 export function VariableJsonEditor({ name }: VariableJsonEditorProps) {
   const { getValues, setValue } = useFormContext<TestProfileFormValues>();

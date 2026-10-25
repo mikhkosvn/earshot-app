@@ -1,6 +1,6 @@
-type NoMockToolsNoticeProps = {
+interface NoMockToolsNoticeProps {
   count: number;
-};
+}
 
 export function NoMockToolsNotice({ count }: NoMockToolsNoticeProps) {
   if (count > 0) return null;

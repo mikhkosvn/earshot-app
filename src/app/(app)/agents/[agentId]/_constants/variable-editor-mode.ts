@@ -12,3 +12,8 @@ export const VARIABLE_EDITOR_MODE_LABEL: Record<VariableEditorMode, string> = {
 };
 
 export const EMPTY_VARIABLE = { name: '', description: '' };
+
+export const isVariableEditorMode = (
+  value: unknown,
+): value is VariableEditorMode =>
+  Object.values<unknown>(VariableEditorMode).includes(value);

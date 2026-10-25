@@ -10,10 +10,10 @@ import { ModifyInstructionFields } from './modify-instruction-fields';
 import { ModifyMessageFields } from './modify-message-fields';
 import { ModifyMetricFields } from './modify-metric-fields';
 
-type ModifyScenariosFormProps = {
+interface ModifyScenariosFormProps {
   evaluatorIds: number[];
   onDone: () => void;
-};
+}
 
 export function ModifyScenariosForm({
   evaluatorIds,

@@ -77,7 +77,7 @@ export type CreateEvaluatorFromTranscriptInput = z.input<
   typeof createEvaluatorFromTranscriptSchema
 >;
 
-export type EvaluatorListRow = {
+export interface EvaluatorListRow {
   id: number;
   name: string;
   folderPath: string | null;
@@ -95,21 +95,21 @@ export type EvaluatorListRow = {
   createdByName: string | null;
   updatedAt: Date;
   updatedByName: string | null;
-};
+}
 
-export type EvaluatorListPage = {
+export interface EvaluatorListPage {
   count: number;
   rows: EvaluatorListRow[];
-};
+}
 
-export type EvaluatorExpectedToolCallView = {
+export interface EvaluatorExpectedToolCallView {
   mockToolId: number;
   mockToolName: string;
   input: string;
   output: string;
-};
+}
 
-export type EvaluatorDetail = {
+export interface EvaluatorDetail {
   id: number;
   projectId: number;
   name: string;
@@ -138,9 +138,9 @@ export type EvaluatorDetail = {
   createdByName: string | null;
   updatedAt: Date;
   updatedByName: string | null;
-};
+}
 
-export type EvaluatorSnapshot = {
+export interface EvaluatorSnapshot {
   name: string;
   agentId: number | null;
   agentName: string | null;
@@ -162,9 +162,9 @@ export type EvaluatorSnapshot = {
   phoneNumber: string | null;
   tools: ScenarioTool[];
   maxDurationSeconds: number | null;
-};
+}
 
-export type EvaluatorVersionView = {
+export interface EvaluatorVersionView {
   id: number;
   version: number;
   changeType: HistoryChangeType;
@@ -173,68 +173,68 @@ export type EvaluatorVersionView = {
   createdByName: string | null;
   isCurrent: boolean;
   snapshot: EvaluatorSnapshot;
-};
+}
 
-export type EvaluatorFile = {
+export interface EvaluatorFile {
   fileName: string;
   mimeType: string;
   content: string;
-};
+}
 
-export type EvaluatorImprovementProposal = {
+export interface EvaluatorImprovementProposal {
   evaluatorId: number;
   evaluatorName: string;
   kind: EvaluatorTextKind;
   before: string;
   after: string;
   reason: string;
-};
+}
 
-export type EvaluatorImprovementReply = {
+export interface EvaluatorImprovementReply {
   message: string;
   evaluatorCount: number;
   proposals: EvaluatorImprovementProposal[];
-};
+}
 
-export type AgentOption = {
+export interface AgentOption {
   id: number;
   name: string;
   language: Language;
   defaultTestProfileId: number | null;
-};
+}
 
-export type PersonalityOption = {
+export interface PersonalityOption {
   id: number;
   name: string;
   language: Language;
-};
+}
 
-export type MetricOption = {
+export interface MetricOption {
   id: number;
   name: string;
-};
+}
 
-export type PhoneNumberOption = {
+export interface PhoneNumberOption {
   id: number;
   phoneNumber: string;
   name: string;
-};
+}
 
-export type ProjectOption = {
+export interface ProjectOption {
   id: number;
   name: string;
-};
+}
 
-export type MockToolOption = {
+export interface MockToolOption {
   id: number;
   name: string;
-};
+}
 
-export type AgentEvaluatorDefaults = {
+export interface AgentEvaluatorDefaults {
   agentId: number;
   defaultTestProfileId: number | null;
   personalityId: number | null;
   language: Language;
   metricIds: number[];
   mockTools: MockToolOption[];
-};
+}

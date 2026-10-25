@@ -9,9 +9,9 @@ import { invalidateEvaluatorData } from '@/app/(app)/test-case/_utils/invalidate
 import { Button } from '@/components/ui/button';
 import type { GenerationSessionView } from '@/server/evaluator-generation/types';
 
-type SaveScenariosFooterProps = {
+interface SaveScenariosFooterProps {
   session: GenerationSessionView;
-};
+}
 
 const scenarioCount = (count: number) => {
   if (count === 1) return '1 scenario';

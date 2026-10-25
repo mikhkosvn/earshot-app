@@ -4,12 +4,12 @@ import type { LucideIcon } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
 
-type PaginationIconButtonProps = {
+interface PaginationIconButtonProps {
   icon: LucideIcon;
   label: string;
   disabled: boolean;
   onClick: () => void;
-};
+}
 
 export function PaginationIconButton({
   icon: Icon,

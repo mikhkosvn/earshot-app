@@ -9,11 +9,11 @@ import {
   TooltipTrigger,
 } from '@/components/ui/tooltip';
 
-type PlayerControlButtonProps = {
+interface PlayerControlButtonProps {
   label: string;
   onClick: () => void;
   children: ReactNode;
-};
+}
 
 export function PlayerControlButton({
   label,

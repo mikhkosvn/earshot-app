@@ -1,8 +1,8 @@
 import type { ThirdPartyNotice } from '@/server/third-party-notices/types';
 
-type NoticeLicenseBodyProps = {
+interface NoticeLicenseBodyProps {
   notice: ThirdPartyNotice;
-};
+}
 
 export function NoticeLicenseBody({ notice }: NoticeLicenseBodyProps) {
   if (!notice.licenseText) {

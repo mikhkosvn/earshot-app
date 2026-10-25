@@ -1,8 +1,8 @@
 import type { ReactNode } from 'react';
 
-type SettingsPageContainerProps = {
+interface SettingsPageContainerProps {
   children: ReactNode;
-};
+}
 
 export function SettingsPageContainer({
   children,

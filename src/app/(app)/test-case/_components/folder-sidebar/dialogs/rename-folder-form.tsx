@@ -10,10 +10,10 @@ import { useRenameFolderForm } from '../../../_hooks/folders/use-rename-folder-f
 import { FolderNameField } from './folder-name-field';
 import { FolderNameSubmitButton } from './folder-name-submit-button';
 
-type RenameFolderFormProps = {
+interface RenameFolderFormProps {
   folder: FolderView;
   onRenamed: () => void;
-};
+}
 
 export function RenameFolderForm({ folder, onRenamed }: RenameFolderFormProps) {
   const { form, onSubmit, isPending } = useRenameFolderForm(folder, onRenamed);

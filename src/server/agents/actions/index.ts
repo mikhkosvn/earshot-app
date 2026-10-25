@@ -65,8 +65,13 @@ import { renameAgentVersion } from '@/server/agents/versions/rename-agent-versio
 import { restoreAgentVersion } from '@/server/agents/versions/restore-agent-version';
 import { runAction } from '@/server/common/run-action';
 
-type AgentRef = { agentId: number };
-type RecordRef = { id: number; agentId: number };
+interface AgentRef {
+  agentId: number;
+}
+interface RecordRef {
+  id: number;
+  agentId: number;
+}
 
 export async function listAgentsAction(
   args: ListAgentsInput,

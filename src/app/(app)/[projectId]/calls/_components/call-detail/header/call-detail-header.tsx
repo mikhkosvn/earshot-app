@@ -7,9 +7,9 @@ import { CallFeedbackCard } from './call-feedback-card';
 import { CallRubricCard } from './call-rubric-card';
 import { CallTitleRow } from './call-title-row';
 
-type CallDetailHeaderProps = {
+interface CallDetailHeaderProps {
   callLogId: number;
-};
+}
 
 export function CallDetailHeader({ callLogId }: CallDetailHeaderProps) {
   const { data: call } = useCallDetailQuery(callLogId);

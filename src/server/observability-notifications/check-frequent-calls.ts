@@ -10,13 +10,13 @@ import {
 } from '@/server/observability-notifications/constants';
 import { notifyProject } from '@/server/observability-notifications/utils/notify-project';
 
-type FrequentCallsProject = {
+interface FrequentCallsProject {
   id: number;
   name: string;
   frequentCallsThreshold: number;
   frequentCallsWindowSeconds: number;
   frequentCallsCooldownSeconds: number;
-};
+}
 
 const secondsAgo = (now: Date, seconds: number) =>
   new Date(now.getTime() - seconds * MILLISECONDS_PER_SECOND);

@@ -10,10 +10,10 @@ import type { DraftPlot } from '../_utils/dashboard-draft';
 import { PlotDragHandle } from './plot-drag-handle';
 import { PlotFrame } from './plot-frame';
 
-type SortablePlotProps = {
+interface SortablePlotProps {
   board: DashboardBoardState;
   plot: DraftPlot;
-};
+}
 
 export function SortablePlot({ board, plot }: SortablePlotProps) {
   const {

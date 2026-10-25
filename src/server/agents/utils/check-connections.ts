@@ -12,12 +12,12 @@ import type {
   ConnectionCheckItem,
 } from '@/server/agents/types';
 
-type ConnectionCheckArgs = {
+interface ConnectionCheckArgs {
   provider: AgentProvider;
   phoneNumber: string | null;
   providerAgentId: string | null;
   apiKeyConfigured: boolean;
-};
+}
 
 const telephonyConnection = (
   phoneNumber: string | null,

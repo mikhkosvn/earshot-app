@@ -1,8 +1,8 @@
 import { Badge } from '@/components/ui/badge';
 
-type DefaultProfileBadgeProps = {
+interface DefaultProfileBadgeProps {
   isDefault: boolean;
-};
+}
 
 export function DefaultProfileBadge({ isDefault }: DefaultProfileBadgeProps) {
   if (!isDefault) return null;

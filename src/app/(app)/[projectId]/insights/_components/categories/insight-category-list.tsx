@@ -2,9 +2,9 @@ import type { InsightCategoryView } from '@/server/insights/types';
 
 import { InsightCategoryItem } from './insight-category-item';
 
-type InsightCategoryListProps = {
-  categories: InsightCategoryView[];
-};
+interface InsightCategoryListProps {
+  categories: readonly InsightCategoryView[];
+}
 
 export function InsightCategoryList({ categories }: InsightCategoryListProps) {
   if (categories.length === 0) {

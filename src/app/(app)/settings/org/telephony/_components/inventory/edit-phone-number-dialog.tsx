@@ -11,11 +11,11 @@ import type { PhoneNumberRow } from '@/server/telephony-phone-numbers/types';
 
 import { EditPhoneNumberForm } from './edit-phone-number-form';
 
-type EditPhoneNumberDialogProps = {
+interface EditPhoneNumberDialogProps {
   phoneNumber: PhoneNumberRow;
   open: boolean;
   onOpenChange: (open: boolean) => void;
-};
+}
 
 export function EditPhoneNumberDialog({
   phoneNumber,

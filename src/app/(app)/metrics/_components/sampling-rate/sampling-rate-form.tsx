@@ -15,10 +15,10 @@ import { fromPercentInput, toPercentInput } from '../../_utils/sample-rate';
 
 const FIELD_ID = 'metric-sampling-rate';
 
-type SamplingRateFormProps = {
+interface SamplingRateFormProps {
   metric: MetricListItem;
   onSaved: () => void;
-};
+}
 
 export function SamplingRateForm({ metric, onSaved }: SamplingRateFormProps) {
   const { form, onSubmit } = useSamplingRateForm(metric, onSaved);

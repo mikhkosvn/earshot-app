@@ -1,6 +1,6 @@
-type GuideExampleLabelProps = {
+interface GuideExampleLabelProps {
   label?: string;
-};
+}
 
 export function GuideExampleLabel({ label }: GuideExampleLabelProps) {
   if (!label) return null;

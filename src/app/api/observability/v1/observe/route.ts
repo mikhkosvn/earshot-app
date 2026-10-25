@@ -6,7 +6,8 @@ import { withApiKey } from '@/server/public-api/with-api-key';
 
 const readJson = async (request: Request) => {
   try {
-    return { ok: true as const, body: (await request.json()) as unknown };
+    const body: unknown = await request.json();
+    return { ok: true as const, body };
   } catch {
     return { ok: false as const };
   }

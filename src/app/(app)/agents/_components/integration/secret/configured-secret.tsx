@@ -2,12 +2,12 @@
 
 import { Button } from '@/components/ui/button';
 
-type ConfiguredSecretProps = {
+interface ConfiguredSecretProps {
   label: string;
   description?: string;
   statusText: string;
   onUpdate: () => void;
-};
+}
 
 export function ConfiguredSecret({
   label,

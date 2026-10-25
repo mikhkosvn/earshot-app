@@ -1,8 +1,8 @@
 import type { MetricReference } from '@/server/metrics/types';
 
-type MetricDependenciesProps = {
-  dependencies: MetricReference[];
-};
+interface MetricDependenciesProps {
+  dependencies: readonly MetricReference[];
+}
 
 export function MetricDependencies({ dependencies }: MetricDependenciesProps) {
   if (dependencies.length === 0) return null;

@@ -7,13 +7,13 @@ import type { PersonalityFormValues } from '@/server/personalities/types';
 
 import { VoicePicker } from './picker/voice-picker';
 
-type VoiceIdControlProps = {
+interface VoiceIdControlProps {
   id: string;
   value: string;
   invalid: boolean;
   onChange: (value: string) => void;
   onBlur: () => void;
-};
+}
 
 export function VoiceIdControl({
   id,

@@ -6,10 +6,10 @@ import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 
-type ImproveComposerProps = {
+interface ImproveComposerProps {
   onSend: (prompt: string) => void;
   isPending: boolean;
-};
+}
 
 export function ImproveComposer({ onSend, isPending }: ImproveComposerProps) {
   const [prompt, setPrompt] = useState('');

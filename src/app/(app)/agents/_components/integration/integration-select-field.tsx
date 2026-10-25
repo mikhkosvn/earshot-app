@@ -16,9 +16,9 @@ import type { AgentConfigValues } from '@/server/agents/types';
 import { integrationFieldName } from '../../_utils/integration-field-name';
 import { IntegrationFieldLabel } from './integration-field-label';
 
-type IntegrationSelectFieldProps = {
+interface IntegrationSelectFieldProps {
   field: IntegrationField;
-};
+}
 
 export function IntegrationSelectField({ field }: IntegrationSelectFieldProps) {
   const { control } = useFormContext<AgentConfigValues>();

@@ -10,13 +10,13 @@ import { EvaluatorSortField } from '@/server/evaluators/constants/evaluator-list
 import { ExpandAllIcon } from './expand-all-icon';
 import { SortableHead } from './sortable-head';
 
-type EvaluatorTableHeaderProps = {
+interface EvaluatorTableHeaderProps {
   rowIds: number[];
   selectedIds: number[];
   onSelectionChange: (ids: number[]) => void;
-  expandedIds: number[];
+  expandedIds: readonly number[];
   onExpandedChange: (ids: number[]) => void;
-};
+}
 
 const nextIds = (isAll: boolean, rowIds: number[]) => {
   if (isAll) return [];

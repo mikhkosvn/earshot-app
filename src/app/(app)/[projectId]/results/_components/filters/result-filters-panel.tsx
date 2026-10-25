@@ -17,10 +17,10 @@ import {
 import { ResultFilterRow } from './result-filter-row';
 import { ResultFilterRowsEmpty } from './result-filter-rows-empty';
 
-type ResultFiltersPanelProps = {
+interface ResultFiltersPanelProps {
   pageParamKey: string;
   onClose: () => void;
-};
+}
 
 export function ResultFiltersPanel({
   pageParamKey,

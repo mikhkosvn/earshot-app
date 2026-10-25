@@ -3,9 +3,9 @@ import type { ConversationMetricItem } from '@/server/conversations/types';
 
 import { metricPercent } from '../../_utils/metric-display';
 
-type MetricPercentValueProps = {
+interface MetricPercentValueProps {
   metric: ConversationMetricItem;
-};
+}
 
 export function MetricPercentValue({ metric }: MetricPercentValueProps) {
   const percent = metricPercent(metric);

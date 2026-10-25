@@ -3,9 +3,9 @@
 import { usePatternGroup } from '../../_hooks/use-pattern-group';
 import { explanationBullets } from '../../_utils/explanation-bullets';
 
-type WhyThisScoreProps = {
+interface WhyThisScoreProps {
   groupKey: string;
-};
+}
 
 export function WhyThisScore({ groupKey }: WhyThisScoreProps) {
   const { representative } = usePatternGroup(groupKey);

@@ -5,10 +5,10 @@ import type { DashboardItem } from '@/server/dashboards/types';
 import { useRenameDashboardForm } from '../../../_hooks/forms/use-rename-dashboard-form';
 import { DashboardNameForm } from './dashboard-name-form';
 
-type RenameDashboardFormProps = {
+interface RenameDashboardFormProps {
   dashboard: DashboardItem | null;
   onDone: () => void;
-};
+}
 
 export function RenameDashboardForm({
   dashboard,

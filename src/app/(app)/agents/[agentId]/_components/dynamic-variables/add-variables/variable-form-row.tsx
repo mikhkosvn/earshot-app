@@ -10,11 +10,11 @@ import { Textarea } from '@/components/ui/textarea';
 
 import type { AddVariablesFormValues } from '../../../_schemas/add-variables-form-schema';
 
-type VariableFormRowProps = {
+interface VariableFormRowProps {
   index: number;
   canRemove: boolean;
   onRemove: () => void;
-};
+}
 
 export function VariableFormRow({
   index,

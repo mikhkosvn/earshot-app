@@ -10,9 +10,9 @@ import { RunDialogService } from '../_service';
 import { LabeledField } from '../fields/labeled-field';
 import { OptionSelect } from '../fields/option-select';
 
-type SpecAgentFieldProps = {
+interface SpecAgentFieldProps {
   control: RunFromFileForm['control'];
-};
+}
 
 export function SpecAgentField({ control }: SpecAgentFieldProps) {
   const projectId = useCurrentProjectId();

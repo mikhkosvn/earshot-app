@@ -7,9 +7,9 @@ import { Input } from '@/components/ui/input';
 import type { RunSettingsForm } from '../../_hooks/use-configure-run-form';
 import { LabeledField } from '../../fields/labeled-field';
 
-type RunLabelFieldProps = {
+interface RunLabelFieldProps {
   control: RunSettingsForm['control'];
-};
+}
 
 export function RunLabelField({ control }: RunLabelFieldProps) {
   return (

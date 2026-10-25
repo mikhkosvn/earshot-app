@@ -5,12 +5,12 @@ import { Label } from '@/components/ui/label';
 
 import type { CronPart } from '../../_constants/cron-help';
 
-type CronPartInputProps = {
+interface CronPartInputProps {
   index: number;
   part: CronPart;
   value: string;
   onValueChange: (value: string) => void;
-};
+}
 
 export function CronPartInput({
   index,

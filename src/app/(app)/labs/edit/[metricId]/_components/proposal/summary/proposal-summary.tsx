@@ -1,9 +1,9 @@
 import { summaryLines } from '../../../_utils/summary-lines';
 import { ProposalSummaryLine } from './proposal-summary-line';
 
-type ProposalSummaryProps = {
+interface ProposalSummaryProps {
   summary: string | null;
-};
+}
 
 export function ProposalSummary({ summary }: ProposalSummaryProps) {
   if (!summary) return null;

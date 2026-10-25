@@ -12,10 +12,10 @@ import type { Timezone } from '@/generated/prisma/enums';
 import { useMonitorRunsQuery } from '../../_hooks/use-monitor-runs-query';
 import { MonitorRunRow } from './monitor-run-row';
 
-type MonitorRunListProps = {
+interface MonitorRunListProps {
   monitorId: number;
   timezone: Timezone;
-};
+}
 
 export function MonitorRunList({ monitorId, timezone }: MonitorRunListProps) {
   const { data: runs } = useMonitorRunsQuery(monitorId);

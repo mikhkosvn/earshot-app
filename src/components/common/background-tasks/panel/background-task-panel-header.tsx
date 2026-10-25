@@ -7,12 +7,12 @@ import { Button } from '@/components/ui/button';
 import { minimizeLabel } from '../_utils/minimize-label';
 import { MinimizePanelIcon } from './minimize-panel-icon';
 
-type BackgroundTaskPanelHeaderProps = {
+interface BackgroundTaskPanelHeaderProps {
   title: string;
   minimized: boolean;
   onToggleMinimize: () => void;
   onClose: () => void;
-};
+}
 
 export function BackgroundTaskPanelHeader({
   title,

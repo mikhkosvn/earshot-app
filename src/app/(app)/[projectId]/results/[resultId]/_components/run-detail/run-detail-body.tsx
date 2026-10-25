@@ -6,9 +6,9 @@ import { useRunDetailQuery } from '../../../_hooks/runs/use-run-detail-query';
 import { RunDetailActions } from './run-detail-actions';
 import { RunDetailHeader } from './header/run-detail-header';
 
-type RunDetailBodyProps = {
+interface RunDetailBodyProps {
   runId: number;
-};
+}
 
 export function RunDetailBody({ runId }: RunDetailBodyProps) {
   const { data: run } = useRunDetailQuery(runId);

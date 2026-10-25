@@ -2,10 +2,10 @@ import { CheckIcon } from 'lucide-react';
 
 import { cn } from '@/lib/utils';
 
-type WizardStepBadgeProps = {
+interface WizardStepBadgeProps {
   index: number;
   step: number;
-};
+}
 
 export function WizardStepBadge({ index, step }: WizardStepBadgeProps) {
   if (index < step) {

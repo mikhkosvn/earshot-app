@@ -13,9 +13,9 @@ import { useIsStartingRun } from '../_hooks/use-is-starting-run';
 import { RunDialogService } from '../_service';
 import { StartRunLabel } from './start-run-label';
 
-type ConfigureRunFooterProps = {
+interface ConfigureRunFooterProps {
   evaluatorIds: number[];
-};
+}
 
 export function ConfigureRunFooter({ evaluatorIds }: ConfigureRunFooterProps) {
   const projectId = useCurrentProjectId();

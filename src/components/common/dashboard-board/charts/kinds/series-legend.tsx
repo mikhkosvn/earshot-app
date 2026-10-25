@@ -2,10 +2,10 @@ import type { BucketPlotData, PlotConfig } from '@/server/dashboards/types';
 
 import { seriesChartConfig } from '../../_utils/chart-format';
 
-type SeriesLegendProps = {
+interface SeriesLegendProps {
   data: BucketPlotData;
   config: PlotConfig;
-};
+}
 
 export function SeriesLegend({ data, config }: SeriesLegendProps) {
   if (data.series.length < 2) return null;

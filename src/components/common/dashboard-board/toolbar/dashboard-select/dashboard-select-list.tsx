@@ -16,14 +16,14 @@ import type { DashboardItem } from '@/server/dashboards/types';
 import { useDashboardListQuery } from '../../_hooks/queries/use-dashboard-list-query';
 import { DashboardSelectItem } from './dashboard-select-item';
 
-type DashboardSelectListProps = {
+interface DashboardSelectListProps {
   source: DashboardSource;
   currentDashboardId: number;
   onSelect: (dashboardId: number) => void;
   onCreate: () => void;
   onRename: (dashboard: DashboardItem) => void;
   onDelete: (dashboard: DashboardItem) => void;
-};
+}
 
 export function DashboardSelectList({
   source,

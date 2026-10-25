@@ -8,13 +8,13 @@ import { RunColumnCell } from './cells/run-column-cell';
 import { RunMetricCells } from './metrics/run-metric-cells';
 import type { RunSelection } from './runs-table';
 
-type RunTableRowProps = {
+interface RunTableRowProps {
   run: RunRow;
-  columns: RunColumn[];
-  metricColumns: MetricColumn[];
+  columns: readonly RunColumn[];
+  metricColumns: readonly MetricColumn[];
   selection?: RunSelection;
   onOpenRun: (run: RunRow) => void;
-};
+}
 
 export function RunTableRow({
   run,

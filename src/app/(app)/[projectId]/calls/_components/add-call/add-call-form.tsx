@@ -10,9 +10,9 @@ import { AddCallSubmitButton } from './add-call-submit-button';
 import { CallAgentField } from './call-agent-field';
 import { RecordingFilesField } from './recording-files/recording-files-field';
 
-type AddCallFormProps = {
+interface AddCallFormProps {
   onCreated: () => void;
-};
+}
 
 export function AddCallForm({ onCreated }: AddCallFormProps) {
   const { form, onSubmit } = useAddCallForm(onCreated);

@@ -7,9 +7,9 @@ import { useResultDetail } from '../../_hooks/use-result-detail';
 import { DownloadReportButton } from './download-report-button';
 import { ReportMetricOption } from './report-metric-option';
 
-type ReportMetricsDialogBodyProps = {
+interface ReportMetricsDialogBodyProps {
   onDownloaded: () => void;
-};
+}
 
 export function ReportMetricsDialogBody({
   onDownloaded,

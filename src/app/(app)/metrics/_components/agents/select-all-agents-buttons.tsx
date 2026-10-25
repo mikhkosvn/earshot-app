@@ -7,9 +7,9 @@ import { Button } from '@/components/ui/button';
 
 import { MetricService } from '../../_service';
 
-type SelectAllAgentsButtonsProps = {
+interface SelectAllAgentsButtonsProps {
   onChange: (agentIds: number[]) => void;
-};
+}
 
 export function SelectAllAgentsButtons({
   onChange,

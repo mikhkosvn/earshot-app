@@ -9,10 +9,10 @@ import {
 
 import { RunStatusBody } from './run-status-body';
 
-type RunStatusDialogProps = {
+interface RunStatusDialogProps {
   resultId: number | null;
   onClose: () => void;
-};
+}
 
 export function RunStatusDialog({ resultId, onClose }: RunStatusDialogProps) {
   return (

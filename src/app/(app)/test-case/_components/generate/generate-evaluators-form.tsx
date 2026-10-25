@@ -12,9 +12,9 @@ import { GenerateBasicFields } from './generate-basic-fields';
 import { GenerateExtraFields } from './generate-extra-fields';
 import { GenerateTypeFields } from './generate-type-fields';
 
-type GenerateEvaluatorsFormProps = {
+interface GenerateEvaluatorsFormProps {
   onStarted: () => void;
-};
+}
 
 export function GenerateEvaluatorsForm({
   onStarted,

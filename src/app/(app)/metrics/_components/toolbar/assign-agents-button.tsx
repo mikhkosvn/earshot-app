@@ -7,9 +7,9 @@ import { Button } from '@/components/ui/button';
 
 import { AssignAgentsDialog } from '../assign-agents/assign-agents-dialog';
 
-type AssignAgentsButtonProps = {
+interface AssignAgentsButtonProps {
   selectedIds: number[];
-};
+}
 
 export function AssignAgentsButton({ selectedIds }: AssignAgentsButtonProps) {
   const [open, setOpen] = useState(false);

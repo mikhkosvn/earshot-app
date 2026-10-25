@@ -7,12 +7,12 @@ import { Button } from '@/components/ui/button';
 
 import { EvaluatorService } from '../../../_service';
 
-type TagSuggestionsProps = {
+interface TagSuggestionsProps {
   isOpen: boolean;
   draft: string;
-  selected: string[];
+  selected: readonly string[];
   onPick: (tag: string) => void;
-};
+}
 
 export function TagSuggestions({
   isOpen,

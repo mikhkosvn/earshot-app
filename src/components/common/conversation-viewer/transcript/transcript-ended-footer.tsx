@@ -5,9 +5,9 @@ import { PhoneOffIcon } from 'lucide-react';
 import { useConversation } from '../_hooks/use-conversation';
 import type { ConversationQueryArgs } from '../_service';
 
-type TranscriptEndedFooterProps = {
+interface TranscriptEndedFooterProps {
   query: ConversationQueryArgs;
-};
+}
 
 export function TranscriptEndedFooter({ query }: TranscriptEndedFooterProps) {
   const { endedReason } = useConversation(query);

@@ -9,9 +9,9 @@ import { CardAction } from './card-action';
 import { EnabledSwitch } from './enabled-switch';
 import { StarMark } from './star-mark';
 
-type PersonalityCardHeaderProps = {
+interface PersonalityCardHeaderProps {
   item: PersonalityListItem;
-};
+}
 
 export function PersonalityCardHeader({ item }: PersonalityCardHeaderProps) {
   return (

@@ -29,7 +29,7 @@ const toHttpsUrl = (value: string) => {
 export const normalizeRepositoryUrl = (repository: unknown) => {
   if (typeof repository === 'string') return toHttpsUrl(repository);
   if (repository && typeof repository === 'object' && 'url' in repository) {
-    const { url } = repository as { url: unknown };
+    const { url } = repository;
     if (typeof url === 'string') return toHttpsUrl(url);
   }
   return null;

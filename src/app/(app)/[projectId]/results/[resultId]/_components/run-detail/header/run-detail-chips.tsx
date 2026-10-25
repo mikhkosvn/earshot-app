@@ -20,9 +20,9 @@ import {
 import { runDetailStartText } from '../../../../_utils/runs/run-format';
 import { RunChip } from './run-chip';
 
-type RunDetailChipsProps = {
+interface RunDetailChipsProps {
   run: RunDetail;
-};
+}
 
 export function RunDetailChips({ run }: RunDetailChipsProps) {
   const projectId = useCurrentProjectId();

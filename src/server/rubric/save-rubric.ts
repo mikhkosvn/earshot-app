@@ -13,11 +13,11 @@ import { rubricValueKind } from '@/server/rubric/utils/rubric-kind';
 import { storedRuleValue } from '@/server/rubric/utils/rule-value';
 import { requireProjectAccess } from '@/server/projects/utils/require-project-access';
 
-type RuleMetric = {
+interface RuleMetric {
   name: string;
   kind: RubricValueKind;
   enumValues: string[];
-};
+}
 
 const valueMatchesKind = (
   value: RubricRuleValue,

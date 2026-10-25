@@ -15,9 +15,9 @@ import { Skeleton } from '@/components/ui/skeleton';
 import { useActiveResultFilterCount } from '../../_hooks/filters/use-active-result-filter-count';
 import { ResultFiltersPanel } from './result-filters-panel';
 
-type ResultFiltersPopoverProps = {
+interface ResultFiltersPopoverProps {
   pageParamKey: string;
-};
+}
 
 const countText = (count: number) => {
   if (count === 0) return '';

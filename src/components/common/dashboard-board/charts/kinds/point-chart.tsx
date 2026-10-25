@@ -12,10 +12,10 @@ import type { PlotConfig, PointPlotData } from '@/server/dashboards/types';
 
 import { formatAxisValue } from '../../_utils/chart-format';
 
-type PointChartProps = {
+interface PointChartProps {
   data: PointPlotData;
   config: PlotConfig;
-};
+}
 
 const VALUE_KEY = 'value';
 

@@ -16,9 +16,9 @@ import { MetricRowDialog } from '../../_constants/metric-row-dialog';
 import { SamplingRateDialog } from '../sampling-rate/sampling-rate-dialog';
 import { DeleteMetricDialog } from './delete-metric-dialog';
 
-type MetricRowMenuProps = {
+interface MetricRowMenuProps {
   metric: MetricListItem;
-};
+}
 
 export function MetricRowMenu({ metric }: MetricRowMenuProps) {
   const [dialog, setDialog] = useState<MetricRowDialog | null>(null);

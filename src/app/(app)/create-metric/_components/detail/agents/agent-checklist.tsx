@@ -3,11 +3,11 @@
 import { Checkbox } from '@/components/ui/checkbox';
 import type { AgentOption } from '@/server/metrics/types';
 
-type AgentChecklistProps = {
-  agents: AgentOption[];
-  value: number[];
+interface AgentChecklistProps {
+  agents: readonly AgentOption[];
+  value: readonly number[];
   onValueChange: (value: number[]) => void;
-};
+}
 
 export function AgentChecklist({
   agents,

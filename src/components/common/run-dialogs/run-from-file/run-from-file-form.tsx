@@ -7,9 +7,9 @@ import { SpecSourceTabs } from './source/spec-source-tabs';
 import { SpecAgentField } from './spec-agent-field';
 import { SpecChannelField } from './spec-channel-field';
 
-type RunFromFileFormProps = {
+interface RunFromFileFormProps {
   onStarted: (resultId: number) => void;
-};
+}
 
 export function RunFromFileForm({ onStarted }: RunFromFileFormProps) {
   const { form, onSubmit } = useRunFromFileForm({ onStarted });

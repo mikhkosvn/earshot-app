@@ -28,19 +28,19 @@ export type RunInsightInput = z.infer<typeof runInsightSchema>;
 export type CategoryIdInput = z.infer<typeof categoryIdSchema>;
 export type FailureModeIdInput = z.infer<typeof failureModeIdSchema>;
 
-export type PassCondition = {
+export interface PassCondition {
   operator: ComparisonOperator;
   value: string;
-};
+}
 
-export type InsightMetricConfig = {
+export interface InsightMetricConfig {
   enabled: boolean;
   pass: PassCondition;
   triageFailureLimit: number | null;
   alertOnNewCategories: boolean;
-};
+}
 
-export type InsightMetricOption = {
+export interface InsightMetricOption {
   id: number;
   name: string;
   evalType: MetricEvalType;
@@ -48,25 +48,25 @@ export type InsightMetricOption = {
   enumValues: string[];
   defaultPass: PassCondition;
   config: InsightMetricConfig | null;
-};
+}
 
-export type CategoryExample = {
+export interface CategoryExample {
   evaluationId: number;
   callLogId: number | null;
   externalCallId: string | null;
   explanation: string | null;
   assignedAt: Date;
-};
+}
 
-export type InsightCategoryView = {
+export interface InsightCategoryView {
   id: number;
   name: string;
   description: string;
   count: number;
   examples: CategoryExample[];
-};
+}
 
-export type LatestInsightView = {
+export interface LatestInsightView {
   id: number;
   status: InsightStatus;
   headline: string | null;
@@ -76,9 +76,9 @@ export type LatestInsightView = {
   windowStart: Date;
   windowEnd: Date;
   createdAt: Date;
-};
+}
 
-export type InsightCardView = {
+export interface InsightCardView {
   metricId: number;
   metricName: string;
   evalType: MetricEvalType;
@@ -86,35 +86,35 @@ export type InsightCardView = {
   failures: number;
   categories: InsightCategoryView[];
   latestInsight: LatestInsightView | null;
-};
+}
 
-export type FailureTrendPoint = {
+export interface FailureTrendPoint {
   bucketStart: Date;
   counts: Record<string, number>;
-};
+}
 
-export type FailureTrendSeries = {
+export interface FailureTrendSeries {
   metricId: number;
   metricName: string;
   categories: { key: string; name: string }[];
   points: FailureTrendPoint[];
-};
+}
 
-export type InsightsOverview = {
+export interface InsightsOverview {
   cards: InsightCardView[];
   trends: FailureTrendSeries[];
-};
+}
 
-export type DeepResearchModeView = {
+export interface DeepResearchModeView {
   id: number;
   rank: number;
   title: string;
   description: string;
   callCount: number;
   exampleCallLogIds: number[];
-};
+}
 
-export type DeepResearchView = {
+export interface DeepResearchView {
   id: number;
   trigger: DeepResearchTrigger;
   status: DeepResearchStatus;
@@ -125,11 +125,13 @@ export type DeepResearchView = {
   numCallsAnalyzed: number;
   createdAt: Date;
   failureModes: DeepResearchModeView[];
-};
+}
 
-export type DeepResearchState = {
+export interface DeepResearchState {
   enabled: boolean;
   reports: DeepResearchView[];
-};
+}
 
-export type InsightJobStarted = { jobId: string };
+export interface InsightJobStarted {
+  jobId: string;
+}

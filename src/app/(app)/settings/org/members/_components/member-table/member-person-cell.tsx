@@ -3,9 +3,9 @@ import type { MemberRow } from '@/server/members/types';
 import { memberInitial } from '../../_utils/filter-members';
 import { MemberYouBadge } from './member-you-badge';
 
-type MemberPersonCellProps = {
+interface MemberPersonCellProps {
   member: MemberRow;
-};
+}
 
 export function MemberPersonCell({ member }: MemberPersonCellProps) {
   return (

@@ -18,9 +18,9 @@ import {
 
 import { ProjectMenuRow } from './project-menu-row';
 
-type ProjectMenuBodyProps = {
+interface ProjectMenuBodyProps {
   onOpenDialog: (dialog: ProjectDialog) => void;
-};
+}
 
 export function ProjectMenuBody({ onOpenDialog }: ProjectMenuBodyProps) {
   const [query, setQuery] = useState('');

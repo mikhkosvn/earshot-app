@@ -10,9 +10,9 @@ import { changeProvider } from '../../_utils/provider-transitions';
 import { ProviderMoreToggle } from './provider-more-toggle';
 import { ProviderTile } from './provider-tile';
 
-type ProviderGridProps = {
+interface ProviderGridProps {
   collapsedCount: number;
-};
+}
 
 const visibleProviders = (expanded: boolean, collapsedCount: number) => {
   if (expanded) return PROVIDER_TILE_ORDER;

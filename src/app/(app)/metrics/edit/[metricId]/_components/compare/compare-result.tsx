@@ -4,14 +4,14 @@ import { useMetricVersions } from '@/components/common/metric-history/_hooks/use
 import { diffSnapshots } from '../../_utils/snapshot-diff';
 import { CompareChangeList } from './compare-change-list';
 
-export type ComparedPair = {
+export interface ComparedPair {
   fromId: number;
   toId: number;
-};
+}
 
-type CompareResultProps = {
+interface CompareResultProps {
   compared: ComparedPair | null;
-};
+}
 
 export function CompareResult({ compared }: CompareResultProps) {
   const versions = useMetricVersions();

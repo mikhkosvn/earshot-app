@@ -1,8 +1,8 @@
 import { TableCell, TableRow } from '@/components/ui/table';
 
-type CallTableEmptyRowProps = {
+interface CallTableEmptyRowProps {
   count: number;
-};
+}
 
 export function CallTableEmptyRow({ count }: CallTableEmptyRowProps) {
   if (count > 0) return null;

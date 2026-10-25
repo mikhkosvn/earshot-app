@@ -22,9 +22,9 @@ import {
   nationalPart,
 } from '../../_utils/phone-number-parts';
 
-type PhoneNumberFieldProps = {
+interface PhoneNumberFieldProps {
   idPrefix: string;
-};
+}
 
 export function PhoneNumberField({ idPrefix }: PhoneNumberFieldProps) {
   const { control, getValues } = useFormContext<ImportPhoneNumberFormValues>();

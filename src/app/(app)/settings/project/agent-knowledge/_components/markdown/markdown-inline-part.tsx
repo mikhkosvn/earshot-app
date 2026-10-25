@@ -1,9 +1,9 @@
 import { MarkdownInlineKind } from '../../_constants/markdown-kinds';
 import type { MarkdownInline } from '../../_utils/parse-markdown';
 
-type MarkdownInlinePartProps = {
+interface MarkdownInlinePartProps {
   part: MarkdownInline;
-};
+}
 
 export function MarkdownInlinePart({ part }: MarkdownInlinePartProps) {
   if (part.kind === MarkdownInlineKind.bold) {

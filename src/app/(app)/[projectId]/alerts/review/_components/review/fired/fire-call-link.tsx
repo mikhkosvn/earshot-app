@@ -5,9 +5,9 @@ import Link from 'next/link';
 import { useCurrentProjectId } from '@/app/(app)/_hooks/use-current-project-id';
 import { UrlGenerator } from '@/lib/url-generator/url-generator';
 
-type FireCallLinkProps = {
+interface FireCallLinkProps {
   callLogId: number | null;
-};
+}
 
 export function FireCallLink({ callLogId }: FireCallLinkProps) {
   const projectId = useCurrentProjectId();

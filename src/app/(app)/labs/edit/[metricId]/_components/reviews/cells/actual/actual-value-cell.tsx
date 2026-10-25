@@ -7,9 +7,9 @@ import { valueText } from '../../../../_utils/value-text';
 import { ChangedBadge } from './changed-badge';
 import { ValueIcon } from './value-icon';
 
-type ActualValueCellProps = {
+interface ActualValueCellProps {
   row: LabRowView;
-};
+}
 
 export function ActualValueCell({ row }: ActualValueCellProps) {
   const { run } = useLab();

@@ -14,11 +14,11 @@ import { Skeleton } from '@/components/ui/skeleton';
 
 import { RunFromFileForm } from './run-from-file-form';
 
-type RunFromFileDialogProps = {
+interface RunFromFileDialogProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   onStarted: (resultId: number) => void;
-};
+}
 
 export function RunFromFileDialog({
   open,

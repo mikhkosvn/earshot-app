@@ -11,11 +11,11 @@ import {
 
 import { ExportEvaluatorsForm } from './export-evaluators-form';
 
-type ExportEvaluatorsDialogProps = {
+interface ExportEvaluatorsDialogProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   evaluatorIds: number[];
-};
+}
 
 export function ExportEvaluatorsDialog({
   open,

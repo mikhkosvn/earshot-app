@@ -2,12 +2,12 @@ import { CronExpressionParser } from 'cron-parser';
 
 import { isValidCronExpression } from './is-valid-cron-expression';
 
-type ListCronDatesArgs = {
+interface ListCronDatesArgs {
   expression: string;
   timeZone: string;
   from: Date;
   count: number;
-};
+}
 
 export const listCronDates = ({
   expression,

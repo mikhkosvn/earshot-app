@@ -1,9 +1,9 @@
 import { EMPTY_VALUE } from '../../_constants/result-detail';
 
-type AiSummarySectionProps = {
+interface AiSummarySectionProps {
   title: string;
   text: string | null;
-};
+}
 
 export function AiSummarySection({ title, text }: AiSummarySectionProps) {
   return (

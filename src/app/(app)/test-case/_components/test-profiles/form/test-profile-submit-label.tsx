@@ -1,8 +1,8 @@
 import type { TestProfileView } from '@/server/test-profiles/types';
 
-type TestProfileSubmitLabelProps = {
+interface TestProfileSubmitLabelProps {
   profile: TestProfileView | null;
-};
+}
 
 export function TestProfileSubmitLabel({
   profile,

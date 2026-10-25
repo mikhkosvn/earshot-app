@@ -1,6 +1,6 @@
-type RubricEmptyTextProps = {
+interface RubricEmptyTextProps {
   count: number;
-};
+}
 
 export function RubricEmptyText({ count }: RubricEmptyTextProps) {
   if (count > 0) return null;

@@ -1,8 +1,8 @@
 import { cn } from '@/lib/utils';
 
-type UserAvatarProps = {
+interface UserAvatarProps {
   className?: string;
-};
+}
 
 export function UserAvatar({ className }: UserAvatarProps) {
   return (

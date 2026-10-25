@@ -6,10 +6,10 @@ import { Button } from '@/components/ui/button';
 
 import { useOpenResultReport } from '../../_hooks/share/use-open-result-report';
 
-type DownloadReportButtonProps = {
+interface DownloadReportButtonProps {
   metricIds: number[];
   onDownloaded: () => void;
-};
+}
 
 export function DownloadReportButton({
   metricIds,

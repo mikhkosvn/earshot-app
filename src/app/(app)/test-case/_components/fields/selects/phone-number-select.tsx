@@ -8,12 +8,12 @@ import { EvaluatorService } from '../../../_service';
 import { OptionSelect } from '../option-select';
 import { PhoneNumberLabel } from './phone-number-label';
 
-type PhoneNumberSelectProps = {
+interface PhoneNumberSelectProps {
   id?: string;
   value: number | null;
   onValueChange: (phoneNumberId: number | null) => void;
   placeholder?: string;
-};
+}
 
 export function PhoneNumberSelect({
   id,

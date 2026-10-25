@@ -10,11 +10,11 @@ import type { FolderView } from '@/server/folders/types';
 
 import { RenameFolderForm } from './rename-folder-form';
 
-type RenameFolderDialogProps = {
+interface RenameFolderDialogProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   folder: FolderView;
-};
+}
 
 export function RenameFolderDialog({
   open,

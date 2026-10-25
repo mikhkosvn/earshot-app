@@ -15,14 +15,14 @@ import {
 } from '@/server/metric-scoring/utils/value-parts';
 import type { MetricValue } from '@/server/metrics/types';
 
-type ScoredEvaluation = {
+interface ScoredEvaluation {
   metricId: number;
   valueNumber: number | null;
   valueBoolean: boolean | null;
   valueText: string | null;
   explanation: string[];
   evaluatedAt: Date | null;
-};
+}
 
 const expectedOf = (
   evaluation: ScoredEvaluation,
@@ -55,10 +55,10 @@ const reviewData = (
   };
 };
 
-type SourceTestSet = {
+interface SourceTestSet {
   id: number;
   conversationId: number;
-};
+}
 
 const findSourceTestSet = (projectId: number, conversationId: number) =>
   prisma.labTestSet.findFirst({
@@ -108,7 +108,11 @@ const extendTestSet = async (
   const reviewCount = await prisma.labReview.count({
     where: { testSetId: testSet.id },
   });
-  return { id: testSet.id, conversationId: testSet.conversationId, reviewCount };
+  return {
+    id: testSet.id,
+    conversationId: testSet.conversationId,
+    reviewCount,
+  };
 };
 
 export const createLabTestSet = async (

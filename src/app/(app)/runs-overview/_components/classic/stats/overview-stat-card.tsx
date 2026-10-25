@@ -1,8 +1,8 @@
-type OverviewStatCardProps = {
+interface OverviewStatCardProps {
   label: string;
   value: string;
   change: number;
-};
+}
 
 const changeText = (change: number) => {
   if (change > 0) return `+${change}%`;

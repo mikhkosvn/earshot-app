@@ -13,10 +13,10 @@ import { Button } from '@/components/ui/button';
 
 import { PresetCard } from './preset-card';
 
-type DialogState = {
+interface DialogState {
   open: boolean;
   preset: MonitorPreset | null;
-};
+}
 
 const CLOSED: DialogState = { open: false, preset: null };
 

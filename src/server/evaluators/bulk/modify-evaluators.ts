@@ -12,12 +12,12 @@ import { requireProjectAccess } from '@/server/projects/utils/require-project-ac
 
 type ModifyArgs = z.output<typeof modifyEvaluatorsSchema>;
 
-type TargetEvaluator = {
+interface TargetEvaluator {
   id: number;
   agentId: number | null;
   testProfileId: number | null;
   instructions: string;
-};
+}
 
 const hasChange = (args: ModifyArgs) =>
   args.agentId !== null ||

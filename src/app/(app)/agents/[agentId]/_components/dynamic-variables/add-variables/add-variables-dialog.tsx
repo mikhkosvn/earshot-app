@@ -10,10 +10,10 @@ import {
 
 import { AddVariablesForm } from './add-variables-form';
 
-type AddVariablesDialogProps = {
+interface AddVariablesDialogProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
-};
+}
 
 export function AddVariablesDialog({
   open,

@@ -15,7 +15,10 @@ export type MarkdownBlock =
   | { kind: typeof MarkdownBlockKind.paragraph; text: string }
   | { kind: typeof MarkdownBlockKind.code; text: string };
 
-export type MarkdownInline = { kind: MarkdownInlineKind; text: string };
+export interface MarkdownInline {
+  kind: MarkdownInlineKind;
+  text: string;
+}
 
 const FENCE = /^\s*```/;
 const HEADING = /^(#{1,3})\s+(.*)$/;
@@ -23,12 +26,15 @@ const UNORDERED_ITEM = /^\s*[-*+]\s+(.*)$/;
 const ORDERED_ITEM = /^\s*\d+[.)]\s+(.*)$/;
 const INLINE_TOKEN = /(\*\*[^*]+\*\*|`[^`]+`|\*[^*\s][^*]*\*|_[^_\s][^_]*_)/;
 
-type ParserState = {
+const isMarkdownHeadingLevel = (level: number): level is MarkdownHeadingLevel =>
+  level >= 1 && level <= 3;
+
+interface ParserState {
   blocks: MarkdownBlock[];
   paragraph: string[];
   list: { ordered: boolean; items: string[] } | null;
   code: string[] | null;
-};
+}
 
 const flushParagraph = (state: ParserState) => {
   if (state.paragraph.length === 0) return;
@@ -83,11 +89,12 @@ const readLine = (state: ParserState, line: string) => {
     return;
   }
   const heading = HEADING.exec(line);
-  if (heading) {
+  const level = heading?.[1].length ?? 0;
+  if (heading && isMarkdownHeadingLevel(level)) {
     flushText(state);
     state.blocks.push({
       kind: MarkdownBlockKind.heading,
-      level: heading[1].length as MarkdownHeadingLevel,
+      level,
       text: heading[2],
     });
     return;

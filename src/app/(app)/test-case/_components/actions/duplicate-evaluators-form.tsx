@@ -15,10 +15,10 @@ import { AgentSelect } from '../fields/selects/agent-select';
 import { FolderSelect } from '../fields/selects/folder-select';
 import { ProjectSelect } from '../fields/selects/project-select';
 
-type DuplicateEvaluatorsFormProps = {
+interface DuplicateEvaluatorsFormProps {
   evaluatorIds: number[];
   onDone: () => void;
-};
+}
 
 export function DuplicateEvaluatorsForm({
   evaluatorIds,

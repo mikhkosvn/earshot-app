@@ -9,9 +9,9 @@ import type { AgentListItem } from '@/server/agents/types';
 import { DeleteAgentDialog } from './delete-agent-dialog';
 import { DuplicateAgentDialog } from './duplicate-agent-dialog';
 
-type AgentRowActionsProps = {
+interface AgentRowActionsProps {
   agent: AgentListItem;
-};
+}
 
 export function AgentRowActions({ agent }: AgentRowActionsProps) {
   const [duplicateOpen, setDuplicateOpen] = useState(false);

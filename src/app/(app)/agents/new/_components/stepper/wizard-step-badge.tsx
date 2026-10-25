@@ -1,11 +1,11 @@
 import { WizardStepMarker } from './wizard-step-marker';
 
-type WizardStepBadgeProps = {
+interface WizardStepBadgeProps {
   number: number;
   label: string;
   active: boolean;
   done: boolean;
-};
+}
 
 export function WizardStepBadge({
   number,

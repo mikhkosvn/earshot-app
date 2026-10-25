@@ -32,7 +32,7 @@ export const skipAudio = (audio: HTMLAudioElement | null, seconds: number) => {
   seekAudio(audio, audio.currentTime + seconds);
 };
 
-const turnStarts = (turns: ConversationTurnItem[]) =>
+const turnStarts = (turns: readonly ConversationTurnItem[]) =>
   turns.flatMap((turn) => {
     if (turn.startTime === null) return [];
     return [turn.startTime];
@@ -40,7 +40,7 @@ const turnStarts = (turns: ConversationTurnItem[]) =>
 
 export const jumpToPreviousTurn = (
   audio: HTMLAudioElement | null,
-  turns: ConversationTurnItem[],
+  turns: readonly ConversationTurnItem[],
 ) => {
   if (!audio) return;
   const time = audio.currentTime - TURN_GAP_SECONDS;
@@ -50,7 +50,7 @@ export const jumpToPreviousTurn = (
 
 export const jumpToNextTurn = (
   audio: HTMLAudioElement | null,
-  turns: ConversationTurnItem[],
+  turns: readonly ConversationTurnItem[],
 ) => {
   if (!audio) return;
   const time = audio.currentTime + TURN_GAP_SECONDS;
@@ -59,12 +59,18 @@ export const jumpToNextTurn = (
   seekAudio(audio, start);
 };
 
-export const setAudioMuted = (audio: HTMLAudioElement | null, muted: boolean) => {
+export const setAudioMuted = (
+  audio: HTMLAudioElement | null,
+  muted: boolean,
+) => {
   if (!audio) return;
   audio.muted = muted;
 };
 
-export const setAudioSpeed = (audio: HTMLAudioElement | null, speed: number) => {
+export const setAudioSpeed = (
+  audio: HTMLAudioElement | null,
+  speed: number,
+) => {
   if (!audio) return;
   audio.playbackRate = speed;
 };

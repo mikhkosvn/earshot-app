@@ -5,10 +5,10 @@ import { cn } from '@/lib/utils';
 
 import { PROVIDER_MONOGRAM } from '../../_constants/provider-display';
 
-type ProviderMonogramProps = {
+interface ProviderMonogramProps {
   provider: AgentProvider;
   className?: string;
-};
+}
 
 export function ProviderMonogram({
   provider,

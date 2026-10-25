@@ -6,10 +6,10 @@ import { cn } from '@/lib/utils';
 import { CopyStateIcon } from './copy-state-icon';
 import { useCopyToClipboard } from './use-copy-to-clipboard';
 
-type IdChipProps = {
+interface IdChipProps {
   id: number | string;
   className?: string;
-};
+}
 
 export function IdChip({ id, className }: IdChipProps) {
   const { isCopied, copy } = useCopyToClipboard();

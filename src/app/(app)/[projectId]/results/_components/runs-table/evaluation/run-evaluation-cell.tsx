@@ -9,9 +9,9 @@ import {
   EvaluationStatusMenu,
 } from './evaluation-status-menu';
 
-type RunEvaluationCellProps = {
+interface RunEvaluationCellProps {
   run: RunRow;
-};
+}
 
 export function RunEvaluationCell({ run }: RunEvaluationCellProps) {
   if (!isTerminalRunStatus(run.status)) {

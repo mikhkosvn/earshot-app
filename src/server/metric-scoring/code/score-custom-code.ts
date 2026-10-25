@@ -25,9 +25,12 @@ import {
 
 const EVAL_TYPES: string[] = Object.values(MetricEvalType);
 
+const isEvalType = (value: string): value is MetricEvalType =>
+  EVAL_TYPES.includes(value);
+
 const requestEvalType = (request: JudgeRequest, fallback: MetricEvalType) => {
-  if (EVAL_TYPES.includes(request.eval_type)) {
-    return request.eval_type as MetricEvalType;
+  if (isEvalType(request.eval_type)) {
+    return request.eval_type;
   }
   return fallback;
 };

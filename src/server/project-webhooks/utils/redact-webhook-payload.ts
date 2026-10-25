@@ -24,7 +24,10 @@ const KEY_ALIASES: Partial<Record<RedactionField, string[]>> = {
   [RedactionField.dob]: ['date_of_birth', 'birthday'],
 };
 
-const PATTERN_ORDER = Object.keys(VALUE_PATTERNS) as RedactionField[];
+const isPatternField = (key: string): key is RedactionField =>
+  key in VALUE_PATTERNS;
+
+const PATTERN_ORDER = Object.keys(VALUE_PATTERNS).filter(isPatternField);
 
 const placeholderFor = (field: RedactionField) => `[${field.toUpperCase()}]`;
 
@@ -45,24 +48,28 @@ const redactValue = (value: unknown, fields: Set<RedactionField>): unknown => {
   if (Array.isArray(value)) {
     return value.map((item) => redactValue(item, fields));
   }
-  if (value && typeof value === 'object') {
-    return Object.fromEntries(
-      Object.entries(value).map(([key, item]) => {
-        const field = fieldForKey(key, fields);
-        if (field && item !== null && typeof item !== 'object') {
-          return [key, placeholderFor(field)];
-        }
-        return [key, redactValue(item, fields)];
-      }),
-    );
-  }
+  if (value && typeof value === 'object') return redactRecord(value, fields);
   return value;
 };
+
+const redactRecord = (
+  record: object,
+  fields: Set<RedactionField>,
+): WebhookPayload =>
+  Object.fromEntries(
+    Object.entries(record).map(([key, item]) => {
+      const field = fieldForKey(key, fields);
+      if (field && item !== null && typeof item !== 'object') {
+        return [key, placeholderFor(field)];
+      }
+      return [key, redactValue(item, fields)];
+    }),
+  );
 
 export const redactWebhookPayload = (
   payload: WebhookPayload,
   fields: RedactionField[],
 ): WebhookPayload => {
   if (fields.length === 0) return payload;
-  return redactValue(payload, new Set(fields)) as WebhookPayload;
+  return redactRecord(payload, new Set(fields));
 };

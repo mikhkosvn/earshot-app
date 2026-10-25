@@ -1,6 +1,9 @@
-type Variable = { key: string; value: string };
+interface Variable {
+  key: string;
+  value: string;
+}
 
-export const variablesToJson = (variables: Variable[]) =>
+export const variablesToJson = (variables: readonly Variable[]) =>
   JSON.stringify(
     Object.fromEntries(
       variables
@@ -16,7 +19,8 @@ const isPlainObject = (value: unknown): value is Record<string, unknown> =>
 
 const readJson = (text: string) => {
   try {
-    return { value: JSON.parse(text) as unknown };
+    const value: unknown = JSON.parse(text);
+    return { value };
   } catch {
     return { value: undefined };
   }

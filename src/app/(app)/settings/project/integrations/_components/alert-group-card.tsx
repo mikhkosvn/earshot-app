@@ -1,10 +1,10 @@
 import type { ReactNode } from 'react';
 
-type AlertGroupCardProps = {
+interface AlertGroupCardProps {
   title: string;
   description: string;
   children: ReactNode;
-};
+}
 
 export function AlertGroupCard({
   title,

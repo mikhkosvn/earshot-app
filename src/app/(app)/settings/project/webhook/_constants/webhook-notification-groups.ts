@@ -1,15 +1,15 @@
 import { WebhookNotification } from '@/generated/prisma/enums';
 
-export type WebhookNotificationRowConfig = {
+export interface WebhookNotificationRowConfig {
   notification: WebhookNotification;
   label: string;
   description: string;
-};
+}
 
-export type WebhookNotificationGroupConfig = {
+export interface WebhookNotificationGroupConfig {
   title: string;
-  rows: WebhookNotificationRowConfig[];
-};
+  rows: readonly WebhookNotificationRowConfig[];
+}
 
 export const RESULT_NOTIFICATION_GROUPS: WebhookNotificationGroupConfig[] = [
   {

@@ -10,9 +10,9 @@ import { CurrentVersionBadge } from './current-version-badge';
 import { VersionMenu } from './version-menu';
 import { VersionName } from './version-name';
 
-type VersionEntryProps = {
+interface VersionEntryProps {
   version: AgentVersionItem;
-};
+}
 
 export function VersionEntry({ version }: VersionEntryProps) {
   return (

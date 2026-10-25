@@ -23,9 +23,9 @@ import { RunAgentTestProfiles } from './run-agent-test-profiles';
 import { RunPersonalitiesField } from './run-personalities-field';
 import { RunRandomizeField } from './run-randomize-field';
 
-type MoreRunFieldsProps = {
+interface MoreRunFieldsProps {
   control: RunSettingsForm['control'];
-};
+}
 
 export function MoreRunFields({ control }: MoreRunFieldsProps) {
   const [isOpen, setOpen] = useState(false);

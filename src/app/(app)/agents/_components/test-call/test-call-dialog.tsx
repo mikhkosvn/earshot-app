@@ -8,12 +8,12 @@ import type { ConnectionCheck } from '@/server/agents/types';
 import type { TestCallOfferKind } from '../../_constants/test-call-offer';
 import { TestCallDialogBody } from './test-call-dialog-body';
 
-type TestCallDialogProps = {
+interface TestCallDialogProps {
   agentId: number;
   kind: TestCallOfferKind;
   check: ConnectionCheck | null;
   onClose: () => void;
-};
+}
 
 export function TestCallDialog({
   agentId,

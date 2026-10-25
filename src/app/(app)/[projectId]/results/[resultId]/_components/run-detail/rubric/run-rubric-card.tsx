@@ -18,9 +18,9 @@ import { RubricItemRow } from './rubric-item-row';
 import { RubricPassedConditions } from './rubric-passed-conditions';
 import { RubricVerdictBadge } from './rubric-verdict-badge';
 
-type RunRubricCardProps = {
+interface RunRubricCardProps {
   rubric: RubricVerdict;
-};
+}
 
 export function RunRubricCard({ rubric }: RunRubricCardProps) {
   const projectId = useCurrentProjectId();

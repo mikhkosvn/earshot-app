@@ -19,13 +19,13 @@ import {
 } from '@/server/dashboards/utils/records/load-metric-values';
 import type { PlotRecord } from '@/server/dashboards/utils/records/load-plot-records';
 
-export type FieldContext = {
+export interface FieldContext {
   kind: FieldValueKind;
   isRating: boolean;
   displayName: string;
   values: Map<number, MetricValue>;
   groupValues: Map<number, MetricValue>;
-};
+}
 
 type MetricRef = {
   id: number;

@@ -1,8 +1,8 @@
 import { createdAtText } from '../../../../_utils/results-list/result-format';
 
-type ResultCreatedAtProps = {
+interface ResultCreatedAtProps {
   date: Date;
-};
+}
 
 export function ResultCreatedAt({ date }: ResultCreatedAtProps) {
   return (

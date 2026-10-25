@@ -1,9 +1,9 @@
 import type { ReactNode } from 'react';
 
-type NotificationGroupProps = {
+interface NotificationGroupProps {
   title: string;
   children: ReactNode;
-};
+}
 
 export function NotificationGroup({ title, children }: NotificationGroupProps) {
   return (

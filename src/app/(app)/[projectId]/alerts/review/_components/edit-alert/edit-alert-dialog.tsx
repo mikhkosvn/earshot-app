@@ -10,11 +10,11 @@ import type { AlertRow } from '@/server/alerts/types';
 
 import { EditAlertForm } from './edit-alert-form';
 
-type EditAlertDialogProps = {
+interface EditAlertDialogProps {
   alert: AlertRow;
   open: boolean;
   onOpenChange: (open: boolean) => void;
-};
+}
 
 export function EditAlertDialog({
   alert,

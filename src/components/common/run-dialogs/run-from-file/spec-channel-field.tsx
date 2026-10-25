@@ -11,9 +11,9 @@ import type { RunFromFileForm } from '../_hooks/use-run-from-file-form';
 import { LabeledField } from '../fields/labeled-field';
 import { OptionSelect } from '../fields/option-select';
 
-type SpecChannelFieldProps = {
+interface SpecChannelFieldProps {
   control: RunFromFileForm['control'];
-};
+}
 
 const CHANNEL_ITEMS = Object.values(RunChannel).map((channel) => ({
   value: channel,

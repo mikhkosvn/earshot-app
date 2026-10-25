@@ -12,10 +12,10 @@ import { AlertService } from '../_service';
 import { AlertsContent } from './alerts-content';
 import { AlertsPageSkeleton } from './alerts-page-skeleton';
 
-type AlertsDataProps = {
+interface AlertsDataProps {
   params: Promise<{ projectId: string }>;
   searchParams: Promise<Record<string, string | string[] | undefined>>;
-};
+}
 
 export async function AlertsData({ params, searchParams }: AlertsDataProps) {
   await io();

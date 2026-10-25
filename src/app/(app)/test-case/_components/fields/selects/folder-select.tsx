@@ -8,7 +8,7 @@ import { useCurrentProjectId } from '@/app/(app)/_hooks/use-current-project-id';
 import { EvaluatorService } from '../../../_service';
 import { OptionSelect } from '../option-select';
 
-type FolderSelectProps = {
+interface FolderSelectProps {
   id?: string;
   value: string | null;
   onValueChange: (path: string | null) => void;
@@ -16,7 +16,7 @@ type FolderSelectProps = {
   projectId?: number;
   className?: string;
   placeholder?: string;
-};
+}
 
 export function FolderSelect({
   id,

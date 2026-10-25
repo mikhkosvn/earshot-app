@@ -3,19 +3,19 @@ import 'server-only';
 import { EvaluatorTextKind } from '@/server/evaluators/constants/evaluator-text-kind';
 import { improveTextMock } from '@/server/evaluators/ai/mocks/improve-text-mock';
 
-export type ImprovementSource = {
+export interface ImprovementSource {
   id: number;
   name: string;
   instructions: string;
   expectedOutcomePrompt: string;
-};
+}
 
-type MockProposal = {
+interface MockProposal {
   evaluatorId: number;
   kind: EvaluatorTextKind;
   after: string;
   reason: string;
-};
+}
 
 const DTMF_STEP =
   '- When the agent asks you to verify your identity, press the digits of {{test_profile.phone_number}} on the keypad.';

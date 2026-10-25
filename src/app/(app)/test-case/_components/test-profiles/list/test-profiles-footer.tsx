@@ -2,12 +2,12 @@
 
 import { Button } from '@/components/ui/button';
 
-type TestProfilesFooterProps = {
+interface TestProfilesFooterProps {
   page: number;
   pageSize: number;
   total: number;
   onPageChange: (page: number) => void;
-};
+}
 
 export function TestProfilesFooter({
   page,

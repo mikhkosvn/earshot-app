@@ -12,11 +12,11 @@ import { mean, round2 } from '@/server/metric-scoring/utils/statistics';
 import { transcriptTime } from '@/server/metric-scoring/utils/transcript-time';
 import { RATING_SCALE_MAX } from '@/server/metrics/constants/definition/metric-limits';
 
-type Interruption = {
+interface Interruption {
   interrupted: ScoringTurn;
   interrupter: ScoringTurn;
   at: number;
-};
+}
 
 const MS_PER_SECOND = 1000;
 const STOP_SEARCH_SECONDS = 3;

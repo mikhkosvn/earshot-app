@@ -1,8 +1,8 @@
 import { Badge } from '@/components/ui/badge';
 
-type CurrentVersionBadgeProps = {
+interface CurrentVersionBadgeProps {
   isCurrent: boolean;
-};
+}
 
 export function CurrentVersionBadge({ isCurrent }: CurrentVersionBadgeProps) {
   if (!isCurrent) return null;

@@ -1,9 +1,9 @@
 import type { ReactNode } from 'react';
 
-type SelectedTileBadgeProps = {
+interface SelectedTileBadgeProps {
   selected: boolean;
   children: ReactNode;
-};
+}
 
 export function SelectedTileBadge({
   selected,

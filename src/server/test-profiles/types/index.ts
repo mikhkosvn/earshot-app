@@ -19,12 +19,12 @@ export type UpdateTestProfileInput = z.input<typeof updateTestProfileSchema>;
 export type TestProfileIdInput = z.input<typeof testProfileIdSchema>;
 export type ListTestProfilesInput = z.input<typeof listTestProfilesSchema>;
 
-export type TestProfileVariableView = {
+export interface TestProfileVariableView {
   key: string;
   value: string;
-};
+}
 
-export type TestProfileView = {
+export interface TestProfileView {
   id: number;
   name: string;
   agentId: number;
@@ -37,4 +37,4 @@ export type TestProfileView = {
   createdByName: string | null;
   updatedAt: Date;
   updatedByName: string | null;
-};
+}

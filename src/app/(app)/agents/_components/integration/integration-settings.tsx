@@ -17,9 +17,9 @@ import { IntegrationField } from './integration-field';
 import { IntegrationSwitches } from './integration-switches';
 import { RedactionField } from './redaction/redaction-field';
 
-type IntegrationSettingsProps = {
+interface IntegrationSettingsProps {
   apiKeyConfigured: boolean;
-};
+}
 
 export function IntegrationSettings({
   apiKeyConfigured,

@@ -1,9 +1,9 @@
 import { TestCallOfferKind } from '../../../_constants/test-call-offer';
 
-type CheckSummaryTextProps = {
+interface CheckSummaryTextProps {
   kind: TestCallOfferKind;
   count: string;
-};
+}
 
 export function CheckSummaryText({ kind, count }: CheckSummaryTextProps) {
   if (kind === TestCallOfferKind.saved) {

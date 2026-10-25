@@ -24,10 +24,10 @@ export type RunSettingsForm = UseFormReturn<
   RunSettingsOutput
 >;
 
-type UseConfigureRunFormArgs = {
+interface UseConfigureRunFormArgs {
   evaluatorIds: number[];
   onStarted: (resultId: number) => void;
-};
+}
 
 export const useConfigureRunForm = ({
   evaluatorIds,

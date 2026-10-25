@@ -13,12 +13,12 @@ const MODE_ICONS = {
 };
 
 const isCreateMode = (value: unknown): value is CreateMode =>
-  Object.values(CreateMode).includes(value as CreateMode);
+  Object.values(CreateMode).some((item) => item === value);
 
-type CreateModeSwitchProps = {
+interface CreateModeSwitchProps {
   mode: CreateMode;
   onModeChange: (mode: CreateMode) => void;
-};
+}
 
 export function CreateModeSwitch({
   mode,

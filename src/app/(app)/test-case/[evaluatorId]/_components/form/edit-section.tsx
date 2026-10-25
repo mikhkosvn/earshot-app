@@ -1,10 +1,10 @@
 import type { ReactNode } from 'react';
 
-type EditSectionProps = {
+interface EditSectionProps {
   id: string;
   title: string;
   children: ReactNode;
-};
+}
 
 export function EditSection({ id, title, children }: EditSectionProps) {
   return (

@@ -6,17 +6,17 @@ import {
   SensitivityPresetLabel,
 } from '@/server/alerts/constants/alert-presets';
 
-export type PresetOption = {
+export interface PresetOption {
   preset: SensitivityPreset;
   description: string;
   detail: string;
-};
+}
 
-type PresetCardsProps = {
+interface PresetCardsProps {
   value: SensitivityPreset | null;
-  options: PresetOption[];
+  options: readonly PresetOption[];
   onChange: (preset: SensitivityPreset) => void;
-};
+}
 
 export function PresetCards({ value, options, onChange }: PresetCardsProps) {
   return (

@@ -9,10 +9,10 @@ import { defaultRunTab, runsOfTab } from '../../../_utils/metric-runs';
 import { MetricPopupInfo } from './metric-popup-info';
 import { MetricRunList } from './metric-run-list';
 
-type MetricOutcomeTabsProps = {
+interface MetricOutcomeTabsProps {
   tile: ResultMetricTile;
   onOpenRun: (runId: number) => void;
-};
+}
 
 export function MetricOutcomeTabs({ tile, onOpenRun }: MetricOutcomeTabsProps) {
   const failureRuns = runsOfTab(tile.runs, MetricRunTab.failure);

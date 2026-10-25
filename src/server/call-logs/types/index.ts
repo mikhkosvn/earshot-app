@@ -27,16 +27,16 @@ import type { MetricValue } from '@/server/metrics/types';
 export type FilterValue =
   string | number | boolean | null | (string | number | boolean)[];
 
-export type FilterCondition = {
+export interface FilterCondition {
   field: string;
   op: FilterOperator;
   value: FilterValue;
-};
+}
 
-export type FilterGroup = {
+export interface FilterGroup {
   operator: FilterLogic;
   conditions: FilterNode[];
-};
+}
 
 export type FilterNode = FilterCondition | FilterGroup;
 
@@ -52,14 +52,14 @@ export type EvaluatorsFromCallsInput = z.input<
   typeof evaluatorsFromCallsSchema
 >;
 
-export type CallMetricColumn = {
+export interface CallMetricColumn {
   id: number;
   name: string;
   evalType: MetricEvalType;
   functionName: string | null;
-};
+}
 
-export type CallMetricCell = {
+export interface CallMetricCell {
   metricId: number;
   status: MetricEvaluationStatus;
   value: MetricValue;
@@ -67,9 +67,9 @@ export type CallMetricCell = {
   firstTurn: number | null;
   p50: number | null;
   p99: number | null;
-};
+}
 
-export type CallLogRow = {
+export interface CallLogRow {
   id: number;
   callId: string;
   conversationId: number;
@@ -84,27 +84,27 @@ export type CallLogRow = {
   feedback: string | null;
   errorMessage: string | null;
   metrics: CallMetricCell[];
-};
+}
 
-export type CallLogListPage = {
+export interface CallLogListPage {
   count: number;
   rows: CallLogRow[];
-};
+}
 
-export type CallLogDetail = CallLogRow & {
+export interface CallLogDetail extends CallLogRow {
   rubric: RubricVerdict;
-};
+}
 
-export type CallJobStarted = {
+export interface CallJobStarted {
   jobId: string;
-};
+}
 
-export type ObservedTurn = {
+export interface ObservedTurn {
   role: string;
   content: string;
   start_time?: number | null;
   end_time?: number | null;
-};
+}
 
 export type CallProcessingInput = {
   callLogId: number;

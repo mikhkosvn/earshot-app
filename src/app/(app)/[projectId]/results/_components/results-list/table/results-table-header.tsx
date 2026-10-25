@@ -16,10 +16,10 @@ const COLUMNS = [
   'Created At',
 ];
 
-type ResultsTableHeaderProps = {
-  selectedIds: number[];
+interface ResultsTableHeaderProps {
+  selectedIds: readonly number[];
   onSelectedIdsChange: (ids: number[]) => void;
-};
+}
 
 export function ResultsTableHeader({
   selectedIds,

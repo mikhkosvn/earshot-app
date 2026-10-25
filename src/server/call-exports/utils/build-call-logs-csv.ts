@@ -9,7 +9,10 @@ import { TranscriptRoleLabel } from '@/server/conversations/constants/transcript
 import { valueFromParts } from '@/server/metric-scoring/utils/value-parts';
 import { CallEvaluationStatusLabel } from '@/server/results/constants/call-evaluation-status-labels';
 
-type MetricHeader = { id: number; name: string };
+interface MetricHeader {
+  id: number;
+  name: string;
+}
 
 const csvCell = (value: string | number | boolean | null) => {
   const text = String(value ?? '');

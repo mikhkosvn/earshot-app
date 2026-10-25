@@ -34,7 +34,7 @@ export type SetPersonalitiesEnabledInput = z.input<
   typeof setPersonalitiesEnabledSchema
 >;
 
-export type PersonalityListItem = {
+export interface PersonalityListItem {
   id: number;
   name: string;
   description: string;
@@ -49,15 +49,15 @@ export type PersonalityListItem = {
   speed: number | null;
   enabled: boolean;
   createdAt: Date;
-};
+}
 
-export type PersonalityDetail = {
+export interface PersonalityDetail {
   id: number;
   name: string;
   isGlobal: boolean;
   values: PersonalityFormValues;
-};
+}
 
-export type PersonalityRef = {
+export interface PersonalityRef {
   id: number;
-};
+}

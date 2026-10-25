@@ -3,10 +3,10 @@ import { LoaderCircleIcon, SparklesIcon } from 'lucide-react';
 import { GenerationStage } from '@/app/(app)/test-case/_constants/generation-stage';
 import type { GenerationSessionView } from '@/server/evaluator-generation/types';
 
-type ScenarioCountChipProps = {
+interface ScenarioCountChipProps {
   session: GenerationSessionView;
   stage: GenerationStage;
-};
+}
 
 const scenarioWord = (count: number) => {
   if (count === 1) return 'scenario';

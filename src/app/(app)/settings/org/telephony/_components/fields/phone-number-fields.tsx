@@ -9,10 +9,10 @@ import { PhoneNumberField } from './phone-number-field';
 import { PhoneNumberProviderField } from './phone-number-provider-field';
 import { PhoneNumberTextField } from './phone-number-text-field';
 
-type PhoneNumberFieldsProps = {
+interface PhoneNumberFieldsProps {
   idPrefix: string;
   authTokenPlaceholder?: string;
-};
+}
 
 export function PhoneNumberFields({
   idPrefix,

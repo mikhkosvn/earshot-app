@@ -9,9 +9,9 @@ import {
 } from '../../_utils/metric-display';
 import { MetricPercentValue } from './metric-percent-value';
 
-type MetricValueProps = {
+interface MetricValueProps {
   metric: ConversationMetricItem;
-};
+}
 
 export function MetricValue({ metric }: MetricValueProps) {
   const kind = metricDisplayKind(metric);

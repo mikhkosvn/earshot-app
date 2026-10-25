@@ -6,12 +6,12 @@ import type { PanelScope } from '../_utils/panel-jobs';
 import { BackgroundTaskList } from './background-task-list';
 import { BackgroundTaskSummary } from './background-task-summary';
 
-type BackgroundTaskPanelBodyProps = {
+interface BackgroundTaskPanelBodyProps {
   kind: JobKind;
   scope: PanelScope;
   minimized: boolean;
   onDismiss: () => void;
-};
+}
 
 export function BackgroundTaskPanelBody({
   kind,

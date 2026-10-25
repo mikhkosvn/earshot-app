@@ -9,11 +9,11 @@ import { Textarea } from '@/components/ui/textarea';
 import { useFeedbackForm } from '../../_hooks/forms/use-feedback-form';
 import { useIsSavingFeedback } from '../../_hooks/mutations/call-review/use-is-saving-feedback';
 
-type FeedbackFormProps = {
+interface FeedbackFormProps {
   callLogId: number;
   feedback: string | null;
   onSaved: () => void;
-};
+}
 
 const FIELD_ID = 'call-feedback';
 

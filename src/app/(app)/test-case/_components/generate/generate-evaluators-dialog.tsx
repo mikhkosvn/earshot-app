@@ -12,10 +12,10 @@ import { Skeleton } from '@/components/ui/skeleton';
 
 import { GenerateEvaluatorsForm } from './generate-evaluators-form';
 
-type GenerateEvaluatorsDialogProps = {
+interface GenerateEvaluatorsDialogProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
-};
+}
 
 export function GenerateEvaluatorsDialog({
   open,

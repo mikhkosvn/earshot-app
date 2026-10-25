@@ -13,9 +13,9 @@ import { usePatternGroup } from '../../../_hooks/use-pattern-group';
 import { otherCallsText } from '../../../_utils/review-text';
 import { OtherCallRow } from './other-call-row';
 
-type OtherCallsCollapsibleProps = {
+interface OtherCallsCollapsibleProps {
   groupKey: string;
-};
+}
 
 export function OtherCallsCollapsible({
   groupKey,

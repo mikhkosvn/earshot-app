@@ -8,12 +8,12 @@ import { useDeleteResultsMutation } from '../../../_hooks/mutations/results-list
 const DELETE_DESCRIPTION =
   'This action cannot be undone. This will permanently delete the result and its runs.';
 
-type DeleteResultDialogProps = {
+interface DeleteResultDialogProps {
   resultId: number;
   open: boolean;
   onOpenChange: (open: boolean) => void;
   onDeleted: (resultId: number) => void;
-};
+}
 
 export function DeleteResultDialog({
   resultId,

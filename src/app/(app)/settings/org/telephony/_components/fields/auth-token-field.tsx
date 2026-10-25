@@ -7,10 +7,10 @@ import { Field, FieldError, FieldLabel } from '@/components/ui/field';
 import { PhoneNumberTokenLabel } from '@/server/telephony-phone-numbers/constants/phone-number-credential-labels';
 import type { ImportPhoneNumberFormValues } from '@/server/telephony-phone-numbers/types';
 
-type AuthTokenFieldProps = {
+interface AuthTokenFieldProps {
   idPrefix: string;
   placeholder?: string;
-};
+}
 
 export function AuthTokenField({ idPrefix, placeholder }: AuthTokenFieldProps) {
   const { control } = useFormContext<ImportPhoneNumberFormValues>();

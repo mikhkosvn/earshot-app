@@ -10,11 +10,11 @@ import {
 
 import { CloneVoiceForm } from './clone-voice-form';
 
-type CloneVoiceDialogProps = {
+interface CloneVoiceDialogProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   onCloned: (voiceId: string) => void;
-};
+}
 
 export function CloneVoiceDialog({
   open,

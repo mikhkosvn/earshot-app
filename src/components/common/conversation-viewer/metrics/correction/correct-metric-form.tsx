@@ -11,11 +11,11 @@ import { CorrectMetricNotesField } from './correct-metric-notes-field';
 import { CorrectMetricSubmitButton } from './correct-metric-submit-button';
 import { CorrectMetricValueField } from './correct-metric-value-field';
 
-type CorrectMetricFormProps = {
+interface CorrectMetricFormProps {
   metric: ConversationMetricItem;
   query: ConversationQueryArgs;
   onDone: () => void;
-};
+}
 
 export function CorrectMetricForm({
   metric,

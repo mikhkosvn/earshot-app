@@ -39,13 +39,13 @@ type CopySource = Prisma.EvaluatorGetPayload<{
   select: typeof copySourceSelect;
 }>;
 
-type CopyTarget = {
+interface CopyTarget {
   projectId: number;
   folderId: number;
   agentId: number | null;
   userId: number;
   namePrefix: string;
-};
+}
 
 const mapMetricIds = async (
   tx: Prisma.TransactionClient,

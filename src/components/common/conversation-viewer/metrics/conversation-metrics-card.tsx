@@ -5,10 +5,10 @@ import { ViewerCollapsibleCard } from '../viewer-collapsible-card';
 import { MetricCharts } from './charts/metric-charts';
 import { MetricRows } from './metric-rows';
 
-type ConversationMetricsCardProps = {
+interface ConversationMetricsCardProps {
   conversationId: number;
   shareToken?: string | null;
-};
+}
 
 export function ConversationMetricsCard({
   conversationId,

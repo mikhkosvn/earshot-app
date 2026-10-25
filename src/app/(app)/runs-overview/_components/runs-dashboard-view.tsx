@@ -11,7 +11,7 @@ import { useRunsOverviewParams } from '../_hooks/use-runs-overview-params';
 
 const resolveDashboardId = (
   requested: number | null,
-  dashboards: { id: number }[],
+  dashboards: readonly { id: number }[],
 ) => {
   if (requested && dashboards.some((item) => item.id === requested)) {
     return requested;

@@ -9,7 +9,7 @@ import {
   parseNumberInput,
 } from '../_utils/form/number-input';
 
-type NullableNumberInputProps = {
+interface NullableNumberInputProps {
   id: string;
   ref?: Ref<HTMLInputElement>;
   value: number | null;
@@ -20,7 +20,7 @@ type NullableNumberInputProps = {
   min?: number;
   max?: number;
   step?: number;
-};
+}
 
 export function NullableNumberInput({
   id,

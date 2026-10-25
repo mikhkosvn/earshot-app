@@ -2,10 +2,10 @@ import { GenerationStage } from '@/app/(app)/test-case/_constants/generation-sta
 import { Progress } from '@/components/ui/progress';
 import type { GenerationSessionView } from '@/server/evaluator-generation/types';
 
-type GenerationProgressCardProps = {
+interface GenerationProgressCardProps {
   session: GenerationSessionView;
   stage: GenerationStage;
-};
+}
 
 export function GenerationProgressCard({
   session,

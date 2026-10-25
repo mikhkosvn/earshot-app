@@ -1,6 +1,6 @@
-type InitialVersionNoteProps = {
+interface InitialVersionNoteProps {
   version: number;
-};
+}
 
 export function InitialVersionNote({ version }: InitialVersionNoteProps) {
   if (version !== 1) return null;

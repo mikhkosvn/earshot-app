@@ -1,6 +1,6 @@
-type FailureLimitHintProps = {
+interface FailureLimitHintProps {
   limit: number | null;
-};
+}
 
 const hintOf = (limit: number | null) => {
   if (limit === null) return 'Every failure will be analysed. No daily limit.';

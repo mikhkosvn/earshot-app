@@ -7,10 +7,10 @@ import { Button } from '@/components/ui/button';
 import { GUIDE_TIPS } from '../../_constants/guide-tips';
 import { GuideTipCard } from './guide-tip-card';
 
-type GuidePanelProps = {
+interface GuidePanelProps {
   isOpen: boolean;
   onClose: () => void;
-};
+}
 
 export function GuidePanel({ isOpen, onClose }: GuidePanelProps) {
   if (!isOpen) return null;

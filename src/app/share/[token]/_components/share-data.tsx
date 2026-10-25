@@ -13,10 +13,10 @@ import { InvalidShareLink } from './invalid-share-link';
 import { ShareContent } from './share-content';
 import { SharePageSkeleton } from './share-page-skeleton';
 
-type ShareDataProps = {
+interface ShareDataProps {
   params: Promise<{ token: string }>;
   searchParams: Promise<Record<string, string | string[] | undefined>>;
-};
+}
 
 export async function ShareData({ params, searchParams }: ShareDataProps) {
   await io();

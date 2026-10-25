@@ -2,22 +2,28 @@ import type { ConversationMetricItem } from '@/server/conversations/types';
 
 import { FALLBACK_LINE_COLOR, PERCENTILE_COLORS } from '../_constants/chart';
 
-export type GraphPoint = { time: number; value: number };
+export interface GraphPoint {
+  time: number;
+  value: number;
+}
 
-export type GraphLine = {
+export interface GraphLine {
   key: string;
   label: string;
   value: number;
   color: string;
-};
+}
+
+const isRecord = (value: unknown): value is Record<string, unknown> =>
+  typeof value === 'object' && value !== null && !Array.isArray(value);
 
 const recordOf = (value: unknown) => {
-  if (!value || typeof value !== 'object' || Array.isArray(value)) return null;
-  return value as Record<string, unknown>;
+  if (!isRecord(value)) return null;
+  return value;
 };
 
 export const findMetricByFunction = (
-  metrics: ConversationMetricItem[],
+  metrics: readonly ConversationMetricItem[],
   functionName: string,
 ) => metrics.find((metric) => metric.functionName === functionName) ?? null;
 
@@ -55,7 +61,7 @@ export const percentileLines = (
   });
 };
 
-export const averageOf = (points: GraphPoint[]) => {
+export const averageOf = (points: readonly GraphPoint[]) => {
   if (points.length === 0) return null;
   const sum = points.reduce((total, point) => total + point.value, 0);
   return Math.round((sum / points.length) * 10) / 10;

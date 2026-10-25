@@ -34,91 +34,91 @@ export type SaveDashboardChangesInput = z.input<
 >;
 export type GetPlotDataInput = z.input<typeof getPlotDataSchema>;
 
-export type DashboardItem = {
+export interface DashboardItem {
   id: number;
   name: string;
   source: DashboardSource;
   includeInDailyReport: boolean;
   widgetCount: number;
-};
+}
 
-export type WidgetItem = {
+export interface WidgetItem {
   id: number;
   sortPosition: number;
   config: PlotConfig;
-};
+}
 
-export type DashboardDetail = DashboardItem & {
+export interface DashboardDetail extends DashboardItem {
   filters: DashboardFilterState;
   widgets: WidgetItem[];
-};
+}
 
-export type PlotMetricOption = {
+export interface PlotMetricOption {
   id: number;
   name: string;
   evalType: MetricEvalType;
   functionName: string | null;
-};
+}
 
-export type StatCell = {
+export interface StatCell {
   label: string;
   value: string;
   unit: string | null;
   change: number | null;
-};
+}
 
-export type BucketRow = {
+export interface BucketRow {
   key: string;
   label: string;
   sampleCount: number;
   values: Record<string, number | null>;
-};
+}
 
-export type PlotSeries = {
+export interface PlotSeries {
   key: string;
   label: string;
-};
+}
 
-export type PlotPoint = {
+export interface PlotPoint {
   id: number;
   timestamp: string;
   label: string;
   value: number;
-};
+}
 
-export type PlotSlice = {
+export interface PlotSlice {
   label: string;
   value: number;
   percentage: number;
-};
+}
 
-type PlotDataBase = {
+interface PlotDataBase {
   displayName: string;
   aggregationLabel: string | null;
   percent: boolean;
-};
+}
 
-export type StatPlotData = PlotDataBase & {
+export interface StatPlotData extends PlotDataBase {
   kind: typeof PlotDataKind.stat;
   cells: StatCell[];
-};
+}
 
-export type BucketPlotData = PlotDataBase & {
+export interface BucketPlotData extends PlotDataBase {
   kind: typeof PlotDataKind.buckets;
   series: PlotSeries[];
   rows: BucketRow[];
-};
+}
 
-export type PointPlotData = PlotDataBase & {
+export interface PointPlotData extends PlotDataBase {
   kind: typeof PlotDataKind.points;
   points: PlotPoint[];
-};
+}
 
-export type SlicePlotData = PlotDataBase & {
+export interface SlicePlotData extends PlotDataBase {
   kind: typeof PlotDataKind.slices;
   slices: PlotSlice[];
   total: number;
-};
+}
 
 export type PlotData =
   StatPlotData | BucketPlotData | PointPlotData | SlicePlotData;

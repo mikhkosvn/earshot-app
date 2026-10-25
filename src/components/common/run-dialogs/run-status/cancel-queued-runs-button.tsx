@@ -8,9 +8,9 @@ import { useCancelResultMutation } from '../_hooks/mutations/use-cancel-result-m
 import { RunDialogService } from '../_service';
 import { queuedRunCount } from '../_utils/run-status-text';
 
-type CancelQueuedRunsButtonProps = {
+interface CancelQueuedRunsButtonProps {
   resultId: number;
-};
+}
 
 export function CancelQueuedRunsButton({
   resultId,

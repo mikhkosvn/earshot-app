@@ -8,10 +8,10 @@ import { PlotDisplayType } from '@/server/dashboards/constants/plot/plot-display
 import type { DashboardBoardState } from '../../_utils/board-types';
 import type { DraftPlot } from '../../_utils/dashboard-draft';
 
-type EditPlotMenuItemProps = {
+interface EditPlotMenuItemProps {
   board: DashboardBoardState;
   plot: DraftPlot;
-};
+}
 
 export function EditPlotMenuItem({ board, plot }: EditPlotMenuItemProps) {
   if (plot.config.displayType === PlotDisplayType.stat) return null;

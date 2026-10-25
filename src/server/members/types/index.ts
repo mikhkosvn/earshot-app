@@ -11,7 +11,7 @@ export type ListMembersInput = z.input<typeof listMembersSchema>;
 export type UpdateMemberRoleInput = z.input<typeof updateMemberRoleSchema>;
 export type RemoveMemberInput = z.input<typeof removeMemberSchema>;
 
-export type MemberRow = {
+export interface MemberRow {
   id: number;
   userId: number;
   name: string;
@@ -19,4 +19,4 @@ export type MemberRow = {
   role: MemberRole;
   isCurrentUser: boolean;
   createdAt: Date;
-};
+}

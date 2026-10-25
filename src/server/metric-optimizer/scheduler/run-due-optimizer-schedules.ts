@@ -7,16 +7,16 @@ import { queueOptimization } from '@/server/metric-optimizer/utils/queue-optimiz
 import { computeNextRunAt } from '@/server/monitors/utils/compute-next-run-at';
 import { claimRows } from '@/server/worker/claim-rows';
 
-type ClaimedSchedule = {
+interface ClaimedSchedule {
   id: number;
   name: string;
   projectId: number;
-};
+}
 
-export type ScheduleRunResult = {
+export interface ScheduleRunResult {
   scheduleId: number;
   sessionIds: number[];
-};
+}
 
 const laterOf = (left: Date, right: Date) => {
   if (left.getTime() > right.getTime()) return left;
