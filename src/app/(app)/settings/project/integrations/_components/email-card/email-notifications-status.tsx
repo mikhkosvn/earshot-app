@@ -9,8 +9,8 @@ export function EmailNotificationsStatus() {
   if (!isEmailEnabled) return null;
 
   return (
-    <Badge variant="secondary" className="ml-auto">
-      Enabled
+    <Badge variant="secondary" className="w-fit">
+      Email notifications are on
     </Badge>
   );
 }

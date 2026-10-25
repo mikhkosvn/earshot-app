@@ -18,12 +18,14 @@ export function EmailNotificationsCard() {
     <section className="flex flex-col gap-3 rounded-lg border bg-background p-4">
       <div className="flex items-center gap-2">
         <MailIcon className="size-6" />
-        <h2 className="text-lg font-semibold">Email Notifications</h2>
-        <EmailNotificationsStatus />
+        <h2 className="text-lg font-semibold whitespace-nowrap">
+          Email Notifications
+        </h2>
       </div>
       <p className="text-sm text-muted-foreground">
         Manage your email notification preferences for your organization
       </p>
+      <EmailNotificationsStatus />
       <Button
         type="button"
         className="mt-auto"
