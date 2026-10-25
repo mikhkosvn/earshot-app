@@ -5,11 +5,6 @@ export const recentJobsLabel = (kind: JobKind) => {
   return 'Recent';
 };
 
-export const viewTaskLabel = (kind: JobKind) => {
-  if (kind === JobKind.export) return 'Download';
-  return 'View';
-};
-
 export const removeTaskLabel = (kind: JobKind) => {
   if (kind === JobKind.export) return 'Remove export';
   return 'Remove task';
