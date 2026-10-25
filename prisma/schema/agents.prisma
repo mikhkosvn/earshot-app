@@ -1,0 +1,261 @@
+enum Language {
+  multi
+  af
+  ar
+  bn
+  bg
+  zh
+  cs
+  da
+  nl
+  en
+  et
+  fi
+  fr
+  de
+  el
+  gu
+  hi
+  he
+  hu
+  id
+  it
+  ja
+  kn
+  kk
+  ko
+  ms
+  ml
+  mr
+  no
+  pl
+  pa
+  pt
+  ro
+  ru
+  sk
+  es
+  sv
+  th
+  tr
+  tl
+  ta
+  te
+  uk
+  uz
+  vi
+}
+
+enum AgentProvider {
+  custom
+  vapi
+  retell
+  synthflow
+  elevenlabs
+  bland
+  livekit
+  pipecat
+  koreai
+  agentforce
+  genesys
+  cisco
+  amazon_connect
+  agora
+  telnyx
+  sierra
+  gemini_cx
+  assemblyai
+  smallest
+}
+
+enum RedactionField {
+  person_name
+  age
+  phone_number
+  email_address
+  date
+  time
+  location
+  origin
+  gender_sexuality
+  physical_attribute
+  occupation
+  username
+  password
+  ip_address
+  url
+  filename
+  event
+  vehicle_id
+  dob
+  healthcare_number
+  medical_professional
+  credit_card
+  account_number
+  bank_account
+  money
+  ssn
+  passport_number
+  driver_license
+  numerical_pii
+}
+
+enum KnowledgeConnectorType {
+  google_bigquery
+  website_scraper
+}
+
+enum HistoryChangeType {
+  created
+  updated
+}
+
+model Agent {
+  id                           Int                          @id @default(autoincrement())
+  projectId                    Int
+  name                         String
+  description                  String
+  language                     Language                     @default(en)
+  phoneNumber                  String?
+  inbound                      Boolean                      @default(true)
+  agentSpeaksFirst             Boolean?
+  provider                     AgentProvider                @default(custom)
+  providerAgentId              String?
+  providerApiKeyEncrypted      String?
+  providerPublicKeyEncrypted   String?
+  providerConfig               Json?
+  autoImportCalls              Boolean                      @default(false)
+  autoSyncPrompt               Boolean                      @default(false)
+  autoDialOutbound             Boolean                      @default(false)
+  sendPostConversationMetadata Boolean                      @default(false)
+  webhookUrl                   String?
+  webhookSecretEncrypted       String?
+  mockToolsEnabled             Boolean                      @default(true)
+  defaultTestProfileId         Int?                         @unique
+  createdAt                    DateTime                     @default(now())
+  updatedAt                    DateTime                     @updatedAt
+  project                      Project                      @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  defaultTestProfile           TestProfile?                 @relation("AgentDefaultTestProfile", fields: [defaultTestProfileId], references: [id], onDelete: SetNull)
+  redactionFields              AgentRedactionField[]
+  versions                     AgentVersion[]
+  knowledgeBaseFiles           KnowledgeBaseFile[]
+  knowledgeBaseConnectors      KnowledgeBaseConnector[]
+  mockTools                    MockTool[]
+  dynamicVariables             DynamicVariable[]
+  enabledPersonalities         AgentPersonality[]
+  testProfiles                 TestProfile[]                @relation("TestProfileAgent")
+  evaluators                   Evaluator[]
+  evaluatorGenerationSessions  EvaluatorGenerationSession[]
+  metrics                      MetricAgent[]
+  results                      Result[]
+  callLogs                     CallLog[]
+  monitors                     Monitor[]
+  savedViews                   SavedViewAgent[]
+
+  @@index([projectId])
+}
+
+model AgentRedactionField {
+  agentId Int
+  field   RedactionField
+  agent   Agent          @relation(fields: [agentId], references: [id], onDelete: Cascade)
+
+  @@id([agentId, field])
+}
+
+model AgentVersion {
+  id           Int               @id @default(autoincrement())
+  agentId      Int
+  version      Int
+  name         String?
+  changeType   HistoryChangeType
+  changeReason String?
+  snapshot     Json
+  createdById  Int?
+  createdAt    DateTime          @default(now())
+  agent        Agent             @relation(fields: [agentId], references: [id], onDelete: Cascade)
+  createdBy    User?             @relation("AgentVersionCreatedBy", fields: [createdById], references: [id], onDelete: SetNull)
+  results      Result[]
+  callLogs     CallLog[]
+  savedViews   SavedViewAgent[]
+
+  @@unique([agentId, version])
+}
+
+model KnowledgeBaseFile {
+  id        Int        @id @default(autoincrement())
+  agentId   Int
+  fileId    String     @unique
+  createdAt DateTime   @default(now())
+  agent     Agent      @relation(fields: [agentId], references: [id], onDelete: Cascade)
+  file      StoredFile @relation(fields: [fileId], references: [id], onDelete: Cascade)
+
+  @@index([agentId])
+}
+
+model KnowledgeBaseConnector {
+  id                   Int                    @id @default(autoincrement())
+  agentId              Int
+  name                 String
+  type                 KnowledgeConnectorType
+  syncEnabled          Boolean                @default(true)
+  syncIntervalDays     Int                    @default(1)
+  credentialsEncrypted String?
+  query                String?
+  url                  String?
+  lastSyncedAt         DateTime?
+  createdAt            DateTime               @default(now())
+  updatedAt            DateTime               @updatedAt
+  agent                Agent                  @relation(fields: [agentId], references: [id], onDelete: Cascade)
+
+  @@index([agentId])
+}
+
+model MockTool {
+  id                Int                         @id @default(autoincrement())
+  agentId           Int
+  name              String
+  description       String?
+  createdAt         DateTime                    @default(now())
+  updatedAt         DateTime                    @updatedAt
+  agent             Agent                       @relation(fields: [agentId], references: [id], onDelete: Cascade)
+  mappings          MockToolMapping[]
+  expectedToolCalls EvaluatorExpectedToolCall[]
+  resultSelections  ResultMockTool[]
+
+  @@unique([agentId, name])
+}
+
+model MockToolMapping {
+  id                   Int      @id @default(autoincrement())
+  mockToolId           Int
+  position             Int
+  input                Json
+  output               Json
+  responseStatusCode   Int?
+  responseHeaders      Json?
+  responseDelaySeconds Float?
+  mockTool             MockTool @relation(fields: [mockToolId], references: [id], onDelete: Cascade)
+
+  @@unique([mockToolId, position])
+}
+
+model DynamicVariable {
+  id          Int    @id @default(autoincrement())
+  agentId     Int
+  name        String
+  description String
+  agent       Agent  @relation(fields: [agentId], references: [id], onDelete: Cascade)
+
+  @@unique([agentId, name])
+}
+
+model AgentPersonality {
+  agentId       Int
+  personalityId Int
+  agent         Agent       @relation(fields: [agentId], references: [id], onDelete: Cascade)
+  personality   Personality @relation(fields: [personalityId], references: [id], onDelete: Cascade)
+
+  @@id([agentId, personalityId])
+  @@index([personalityId])
+}

@@ -1,0 +1,9 @@
+export const EVALUATOR_NAME_MAX_LENGTH = 200;
+
+export const MAX_DURATION_MIN_SECONDS = 10;
+
+export const MAX_DURATION_MAX_SECONDS = 3600;
+
+export const EVALUATOR_COPY_PREFIX = 'Copy of ';
+
+export const MAX_SELECTED_EVALUATORS = 500;

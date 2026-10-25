@@ -1,0 +1,151 @@
+enum DashboardSource {
+  call_logs
+  runs
+}
+
+enum ChartType {
+  line
+  bar
+  pie
+  stat
+}
+
+enum WidgetField {
+  stat
+  success
+  duration
+  is_reviewed
+  call_ended_reason
+  dropoff_point
+  topic
+  metric_value      @map("metric_evaluations.value")
+  metadata
+  scenario_name     @map("scenario.name")
+}
+
+enum WidgetAggregation {
+  count
+  sum
+  avg
+  min
+  max
+  p50
+  p95
+  p99
+}
+
+enum WidgetTimePeriod {
+  hour
+  day
+  week
+  month
+}
+
+enum WidgetGroupByType {
+  field
+  bucket
+}
+
+model Dashboard {
+  id                   Int             @id @default(autoincrement())
+  projectId            Int
+  name                 String
+  source               DashboardSource
+  filters              Json?
+  includeInDailyReport Boolean         @default(false)
+  createdAt            DateTime        @default(now())
+  updatedAt            DateTime        @updatedAt
+  project              Project         @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  widgets              Widget[]
+
+  @@index([projectId, source])
+}
+
+model Widget {
+  id                Int                @id @default(autoincrement())
+  dashboardId       Int
+  name              String?
+  chartType         ChartType
+  field             WidgetField
+  metricId          Int?
+  metadataKey       String?
+  aggregation       WidgetAggregation?
+  timePeriod        WidgetTimePeriod?
+  groupByType       WidgetGroupByType?
+  groupByField      String?
+  groupByIntervalMs Int?
+  filters           Json?
+  sortPosition      Int
+  layoutX           Int?
+  layoutY           Int?
+  layoutW           Int?
+  layoutH           Int?
+  displayOptions    Json?
+  createdAt         DateTime           @default(now())
+  updatedAt         DateTime           @updatedAt
+  dashboard         Dashboard          @relation(fields: [dashboardId], references: [id], onDelete: Cascade)
+  metric            Metric?            @relation(fields: [metricId], references: [id], onDelete: Cascade)
+
+  @@index([dashboardId, sortPosition])
+  @@index([metricId])
+}
+
+model SavedView {
+  id        Int              @id @default(autoincrement())
+  projectId Int
+  name      String
+  createdAt DateTime         @default(now())
+  updatedAt DateTime         @updatedAt
+  project   Project          @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  agents    SavedViewAgent[]
+
+  @@unique([projectId, name])
+}
+
+model SavedViewAgent {
+  id             Int           @id @default(autoincrement())
+  savedViewId    Int
+  agentId        Int
+  agentVersionId Int?
+  savedView      SavedView     @relation(fields: [savedViewId], references: [id], onDelete: Cascade)
+  agent          Agent         @relation(fields: [agentId], references: [id], onDelete: Cascade)
+  agentVersion   AgentVersion? @relation(fields: [agentVersionId], references: [id], onDelete: Cascade)
+
+  @@unique([savedViewId, agentId, agentVersionId])
+  @@index([agentId])
+}
+
+model RunsOverviewConfiguration {
+  id                      Int                        @id @default(autoincrement())
+  projectId               Int
+  name                    String
+  rangeFrom               String
+  rangeTo                 String
+  filters                 Json?
+  includeMetricVisibility Boolean                    @default(true)
+  createdAt               DateTime                   @default(now())
+  updatedAt               DateTime                   @updatedAt
+  project                 Project                    @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  hiddenMetrics           RunsOverviewHiddenMetric[]
+
+  @@unique([projectId, name])
+}
+
+model RunsOverviewHiddenMetric {
+  configurationId Int
+  metricId        Int
+  configuration   RunsOverviewConfiguration @relation(fields: [configurationId], references: [id], onDelete: Cascade)
+  metric          Metric                    @relation(fields: [metricId], references: [id], onDelete: Cascade)
+
+  @@id([configurationId, metricId])
+}
+
+model DailyReportDelivery {
+  id         Int      @id @default(autoincrement())
+  projectId  Int
+  reportDate DateTime @db.Date
+  createdAt  DateTime @default(now())
+  project    Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+
+  @@unique([projectId, reportDate])
+}

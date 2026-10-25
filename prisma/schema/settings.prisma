@@ -1,0 +1,117 @@
+enum ProviderKeyProvider {
+  vapi
+  retell
+  synthflow
+  elevenlabs
+  bland
+  livekit
+  pipecat
+}
+
+enum WebhookNotification {
+  result_pre_trigger           @map("result.pre_trigger")
+  result_success               @map("result.success")
+  result_failure               @map("result.failure")
+  result_error                 @map("result.error")
+  cronjob_success              @map("cronjob.success")
+  cronjob_failure              @map("cronjob.failure")
+  cronjob_error                @map("cronjob.error")
+  call_log_success             @map("call_log.success")
+  call_log_failure             @map("call_log.failure")
+  call_log_reevaluated_success @map("call_log_reevaluated.success")
+  call_log_reevaluated_failure @map("call_log_reevaluated.failure")
+  daily_report                 @map("daily.report")
+}
+
+enum TeamSize {
+  one             @map("1")
+  under_10        @map("<10")
+  from_10_to_100  @map("10-100")
+  from_100_to_500 @map("100-500")
+  over_500        @map("500+")
+}
+
+enum ShareLinkTarget {
+  result
+  run
+  call_log
+}
+
+model ProviderApiKey {
+  id           Int                 @id @default(autoincrement())
+  projectId    Int
+  provider     ProviderKeyProvider
+  encryptedKey String
+  createdAt    DateTime            @default(now())
+  updatedAt    DateTime            @updatedAt
+  project      Project             @relation(fields: [projectId], references: [id], onDelete: Cascade)
+
+  @@unique([projectId, provider])
+}
+
+model ProjectWebhook {
+  projectId               Int                            @id
+  url                     String
+  secretEncrypted         String?
+  skipCallsWithoutContent Boolean                        @default(false)
+  forwardVapiWebhooks     Boolean                        @default(true)
+  forwardRetellWebhooks   Boolean                        @default(true)
+  createdAt               DateTime                       @default(now())
+  updatedAt               DateTime                       @updatedAt
+  project                 Project                        @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  notifications           ProjectWebhookNotification[]
+  redactionFields         ProjectWebhookRedactionField[]
+}
+
+model ProjectWebhookNotification {
+  projectId    Int
+  notification WebhookNotification
+  webhook      ProjectWebhook      @relation(fields: [projectId], references: [projectId], onDelete: Cascade)
+
+  @@id([projectId, notification])
+}
+
+model ProjectWebhookRedactionField {
+  projectId Int
+  field     RedactionField
+  webhook   ProjectWebhook @relation(fields: [projectId], references: [projectId], onDelete: Cascade)
+
+  @@id([projectId, field])
+}
+
+model ProjectKnowledgeVersion {
+  id          Int      @id @default(autoincrement())
+  projectId   Int
+  version     Int
+  content     String
+  createdById Int?
+  createdAt   DateTime @default(now())
+  project     Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  createdBy   User?    @relation("KnowledgeVersionCreatedBy", fields: [createdById], references: [id], onDelete: SetNull)
+
+  @@unique([projectId, version])
+}
+
+model ShareLink {
+  id          Int             @id @default(autoincrement())
+  projectId   Int
+  token       String          @unique
+  target      ShareLinkTarget
+  resultId    Int?
+  runId       Int?
+  callLogId   Int?
+  expiresAt   DateTime?
+  revokedAt   DateTime?
+  createdById Int?
+  createdAt   DateTime        @default(now())
+  project     Project         @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  result      Result?         @relation(fields: [resultId], references: [id], onDelete: Cascade)
+  run         Run?            @relation(fields: [runId], references: [id], onDelete: Cascade)
+  callLog     CallLog?        @relation(fields: [callLogId], references: [id], onDelete: Cascade)
+  createdBy   User?           @relation("ShareLinkCreatedBy", fields: [createdById], references: [id], onDelete: SetNull)
+
+  @@index([projectId])
+  @@index([resultId])
+  @@index([runId])
+  @@index([callLogId])
+}

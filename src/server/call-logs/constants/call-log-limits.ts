@@ -1,0 +1,12 @@
+export const CALL_UPLOAD_MAX_FILES = 5;
+export const CALL_UPLOAD_MAX_TOTAL_BYTES = 500 * 1024 * 1024;
+export const RECORDING_MAX_BYTES = 500 * 1024 * 1024;
+export const RECORDING_DOWNLOAD_TIMEOUT_MS = 120_000;
+export const CALL_LIST_PAGE_SIZE_MAX = 500;
+export const CALL_LIST_DEFAULT_DAYS = 30;
+export const CALL_LIST_MAX_RANGE_DAYS = 33;
+export const CALL_ID_MAX_LENGTH = 100;
+export const CALL_TEXT_MAX_LENGTH = 100;
+export const CALL_FEEDBACK_MAX_LENGTH = 5000;
+export const CALL_POLL_INTERVAL_MS = 3000;
+export const CALL_SEARCH_MAX_LENGTH = 200;

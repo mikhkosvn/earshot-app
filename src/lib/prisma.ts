@@ -3,13 +3,17 @@ import 'server-only';
 import { PrismaPg } from '@prisma/adapter-pg';
 
 import { PrismaClient } from '@/generated/prisma/client';
+import { SerialPgClient } from '@/lib/serial-pg-client';
 
 const globalForPrisma = globalThis as unknown as {
   prisma: PrismaClient | undefined;
 };
 
 function createPrismaClient() {
-  const adapter = new PrismaPg({ connectionString: process.env.DATABASE_URL });
+  const adapter = new PrismaPg({
+    connectionString: process.env.DATABASE_URL,
+    Client: SerialPgClient,
+  });
   return new PrismaClient({ adapter });
 }
 

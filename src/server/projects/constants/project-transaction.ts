@@ -1,0 +1,1 @@
+export const PROJECT_TRANSACTION_TIMEOUT_MS = 30 * 1000;

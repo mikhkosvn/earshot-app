@@ -1,0 +1,85 @@
+enum TranscriptRole {
+  main_agent
+  testing_agent
+}
+
+enum MetricEvaluationStatus {
+  pending
+  running
+  completed
+  skipped
+  failed
+}
+
+model Conversation {
+  id                     Int                   @id @default(autoincrement())
+  projectId              Int
+  recordingFileId        String?
+  waveform               Json?
+  testingChannelIndex    Int?
+  startedAt              DateTime?
+  endedAt                DateTime?
+  ringingDurationSeconds Float?
+  endedReason            String?
+  providerCallId         String?
+  providerCallData       Json?
+  metadata               Json?
+  dynamicVariables       Json?
+  copiedFromId           Int?
+  createdAt              DateTime              @default(now())
+  updatedAt              DateTime              @updatedAt
+  project                Project               @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  recordingFile          StoredFile?           @relation(fields: [recordingFileId], references: [id], onDelete: SetNull)
+  copiedFrom             Conversation?         @relation("ConversationCopies", fields: [copiedFromId], references: [id], onDelete: SetNull)
+  copies                 Conversation[]        @relation("ConversationCopies")
+  turns                  TranscriptTurn[]
+  metricEvaluations      MetricEvaluation[]
+  run                    Run?
+  callLog                CallLog?
+  labTestSet             LabTestSet?
+  patternReviewSamples   PatternReviewSample[]
+  alertTriggers          AlertTrigger[]
+
+  @@index([projectId, startedAt])
+  @@index([copiedFromId])
+}
+
+model TranscriptTurn {
+  id             Int            @id @default(autoincrement())
+  conversationId Int
+  position       Int
+  role           TranscriptRole
+  content        String
+  startTime      Float?
+  endTime        Float?
+  conversation   Conversation   @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+
+  @@unique([conversationId, position])
+}
+
+model MetricEvaluation {
+  id                Int                        @id @default(autoincrement())
+  conversationId    Int
+  metricId          Int
+  status            MetricEvaluationStatus     @default(pending)
+  valueNumber       Float?
+  valueBoolean      Boolean?
+  valueText         String?
+  normalizedScore   Float?
+  explanation       String[]
+  extra             Json?
+  errorMessage      String?
+  evaluatedAt       DateTime?
+  thumbsUp          Boolean?
+  voteFeedback      String?
+  votedAt           DateTime?
+  createdAt         DateTime                   @default(now())
+  updatedAt         DateTime                   @updatedAt
+  conversation      Conversation               @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+  metric            Metric                     @relation(fields: [metricId], references: [id], onDelete: Cascade)
+  failureAssignment FailureCategoryAssignment?
+  alertTriggers     AlertTrigger[]
+
+  @@unique([conversationId, metricId])
+  @@index([metricId, createdAt])
+}

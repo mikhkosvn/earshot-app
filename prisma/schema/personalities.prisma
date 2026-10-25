@@ -1,0 +1,177 @@
+enum Gender {
+  male
+  female
+  neutral
+}
+
+enum InterruptionLevel {
+  off
+  low
+  medium
+  high
+}
+
+enum VoiceModel {
+  eleven_multilingual_v2
+  eleven_turbo_v2_5
+  eleven_flash_v2_5
+  eleven_v3_conversational
+  sonic_3_5                @map("sonic-3.5")
+}
+
+enum BackgroundNoise {
+  off
+  office
+  dog_barking
+  baby_crying
+  keyboard_typing
+  coughing
+  background_printer
+  quiet_room_tone
+  air_conditioner
+  construction_site
+  busy_street_traffic
+  airport_boarding
+  inside_moving_car
+  inside_moving_train
+  public_park
+  rain_and_thunder
+  windy_day
+  restaurant_ambience
+  shopping_mall
+  stadium_crowd
+  standard_hiss
+  static_radio_noise
+  fan_buzz
+  low_ship_humming
+  two_people_talking
+  train_station
+  custom_url
+}
+
+enum CartesiaEmotion {
+  neutral
+  happy
+  excited
+  enthusiastic
+  elated
+  euphoric
+  triumphant
+  amazed
+  surprised
+  flirtatious
+  joking_comedic @map("joking/comedic")
+  curious
+  content
+  peaceful
+  serene
+  calm
+  grateful
+  affectionate
+  trust
+  sympathetic
+  anticipation
+  mysterious
+  angry
+  mad
+  outraged
+  frustrated
+  agitated
+  threatened
+  disgusted
+  contempt
+  envious
+  sarcastic
+  ironic
+  sad
+  dejected
+  melancholic
+  disappointed
+  hurt
+  guilty
+  bored
+  tired
+  rejected
+  nostalgic
+  wistful
+  apologetic
+  hesitant
+  insecure
+  confused
+  resigned
+  anxious
+  panicked
+  alarmed
+  scared
+  proud
+  confident
+  distant
+  skeptical
+  contemplative
+  determined
+}
+
+model Personality {
+  id                           Int                  @id @default(autoincrement())
+  projectId                    Int?
+  forkedFromId                 Int?
+  name                         String
+  description                  String               @default("")
+  prompt                       String               @default("")
+  language                     Language
+  accent                       String?
+  gender                       Gender               @default(neutral)
+  isStarred                    Boolean              @default(false)
+  enabledByDefault             Boolean              @default(true)
+  voiceModel                   VoiceModel?
+  voiceId                      String?
+  voiceVolume                  Float?
+  speed                        Float?
+  interruptionLevel            InterruptionLevel?
+  backgroundNoise              BackgroundNoise      @default(off)
+  backgroundNoiseUrl           String?
+  backgroundSoundVolumeBase    Float?
+  backgroundSoundVolumeReduced Float?
+  packetLossPercent            Float?
+  jitterPercent                Float?
+  latencyPercent               Float?
+  idleTimeoutSeconds           Int?
+  idleMessageMaxSpokenCount    Int?
+  startSpeakingWaitSeconds     Float?
+  stopSpeakingNumWords         Int?
+  stopSpeakingVoiceSeconds     Float?
+  stopSpeakingBackoffSeconds   Float?
+  cartesiaVolume               Float?
+  cartesiaEmotion              CartesiaEmotion?
+  createdAt                    DateTime             @default(now())
+  updatedAt                    DateTime             @updatedAt
+  project                      Project?             @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  forkedFrom                   Personality?         @relation("PersonalityFork", fields: [forkedFromId], references: [id], onDelete: SetNull)
+  forks                        Personality[]        @relation("PersonalityFork")
+  projectEnablements           ProjectPersonality[]
+  agentEnablements             AgentPersonality[]
+  evaluators                   Evaluator[]
+  runs                         Run[]
+  monitorOverrides             MonitorPersonality[]
+
+  @@index([projectId])
+  @@index([language])
+}
+
+model ProjectPersonality {
+  projectId     Int
+  personalityId Int
+  project       Project     @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  personality   Personality @relation(fields: [personalityId], references: [id], onDelete: Cascade)
+
+  @@id([projectId, personalityId])
+  @@index([personalityId])
+}
+
+model ClonedVoice {
+  id           String     @id @default(uuid())
+  name         String
+  sampleFileId String     @unique
+  createdAt    DateTime   @default(now())
+  sampleFile   StoredFile @relation(fields: [sampleFileId], references: [id], onDelete: Cascade)
+}

@@ -1,0 +1,185 @@
+enum MemberRole {
+  admin
+  member
+  view_only
+}
+
+enum NotificationSeverity {
+  success
+  info
+  warning
+  error
+}
+
+enum NotificationEventType {
+  scenario_generation_complete
+  scenario_agent_question
+  metric_generation_complete
+  run_completed
+  monitor_failed
+  alert_triggered
+  call_import_complete
+  job_failed
+}
+
+model User {
+  id            Int                  @id @default(autoincrement())
+  email         String               @unique
+  name          String
+  passwordHash  String
+  createdAt     DateTime             @default(now())
+  updatedAt     DateTime             @updatedAt
+  sessions      Session[]
+  memberships   OrganizationMember[]
+  notifications Notification[]
+  apiKeys       ApiKey[]
+  jobs          BackgroundJob[]
+  agentVersionsCreated      AgentVersion[]               @relation("AgentVersionCreatedBy")
+  testProfilesCreated       TestProfile[]                @relation("TestProfileCreatedBy")
+  testProfilesUpdated       TestProfile[]                @relation("TestProfileUpdatedBy")
+  evaluatorsCreated         Evaluator[]                  @relation("EvaluatorCreatedBy")
+  evaluatorsUpdated         Evaluator[]                  @relation("EvaluatorUpdatedBy")
+  evaluatorVersionsCreated  EvaluatorVersion[]           @relation("EvaluatorVersionCreatedBy")
+  generationSessionsCreated EvaluatorGenerationSession[] @relation("GenerationSessionCreatedBy")
+  metricVersionsCreated     MetricVersion[]              @relation("MetricVersionCreatedBy")
+  resultsCreated            Result[]                     @relation("ResultCreatedBy")
+  monitorsCreated           Monitor[]                    @relation("MonitorCreatedBy")
+  optimizationsApplied      MetricOptimizationSession[]  @relation("OptimizationAppliedBy")
+  optimizationsCreated      MetricOptimizationSession[]  @relation("OptimizationCreatedBy")
+  knowledgeVersionsCreated  ProjectKnowledgeVersion[]    @relation("KnowledgeVersionCreatedBy")
+  shareLinksCreated         ShareLink[]                  @relation("ShareLinkCreatedBy")
+  phoneNumbersImported      TelephonyPhoneNumber[]       @relation("PhoneNumberImportedBy")
+}
+
+model Session {
+  id        String   @id
+  userId    Int
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+}
+
+model Organization {
+  id        Int                  @id @default(autoincrement())
+  name      String
+  createdAt DateTime             @default(now())
+  updatedAt DateTime             @updatedAt
+  members   OrganizationMember[]
+  projects  Project[]
+  apiKeys   ApiKey[]
+  maxConcurrentRuns           Int                    @default(10)
+  allowDuplicateCallIds       Boolean                @default(true)
+  restrictNumbersToOwnImports Boolean                @default(false)
+  telephonyPhoneNumbers       TelephonyPhoneNumber[]
+  teamSize                    TeamSize?
+}
+
+model OrganizationMember {
+  id             Int          @id @default(autoincrement())
+  organizationId Int
+  userId         Int
+  role           MemberRole   @default(member)
+  createdAt      DateTime     @default(now())
+  organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  user           User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([organizationId, userId])
+  @@index([userId])
+}
+
+model Project {
+  id                    Int             @id @default(autoincrement())
+  organizationId        Int
+  name                  String
+  outboundTimeout       Int             @default(300)
+  maxCallDuration       Int             @default(600)
+  minCallDuration       Int             @default(10)
+  useProviderTranscript Boolean         @default(false)
+  notifyDailyReport     Boolean         @default(true)
+  createdAt             DateTime        @default(now())
+  updatedAt             DateTime        @updatedAt
+  organization          Organization    @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  apiKeys               ApiKey[]
+  notifications         Notification[]
+  jobs                  BackgroundJob[]
+  files                 StoredFile[]
+  timezone                     Timezone                     @default(UTC)
+  sampleRate                   Float                        @default(1)
+  endCallEnabled               Boolean                      @default(true)
+  reconcileProviderTranscripts Boolean                      @default(false)
+  deepResearchEnabled          Boolean                      @default(false)
+  emailNotificationsEnabled    Boolean                      @default(false)
+  notifyMonitorFailure         Boolean                      @default(true)
+  notifyMonitorSuccess         Boolean                      @default(false)
+  notifyResultsCompletion      Boolean                      @default(false)
+  notifyDailyReportNoCalls     Boolean                      @default(false)
+  dailyReportAiSummaryEnabled  Boolean                      @default(false)
+  notifyNoCalls                Boolean                      @default(false)
+  notifyFrequentCalls          Boolean                      @default(false)
+  frequentCallsThreshold       Int                          @default(5)
+  frequentCallsWindowSeconds   Int                          @default(900)
+  frequentCallsCooldownSeconds Int                          @default(1200)
+  agents                       Agent[]
+  personalities                Personality[]
+  enabledPersonalities         ProjectPersonality[]
+  folders                      Folder[]
+  tags                         Tag[]
+  testProfiles                 TestProfile[]
+  evaluators                   Evaluator[]
+  evaluatorGenerationSessions  EvaluatorGenerationSession[]
+  metrics                      Metric[]
+  conversations                Conversation[]
+  results                      Result[]
+  callLogs                     CallLog[]
+  monitors                     Monitor[]
+  metricOptimizerSchedules     MetricOptimizerSchedule[]
+  dashboards                   Dashboard[]
+  savedViews                   SavedView[]
+  runsOverviewConfigurations   RunsOverviewConfiguration[]
+  providerApiKeys              ProviderApiKey[]
+  webhook                      ProjectWebhook?
+  knowledgeVersions            ProjectKnowledgeVersion[]
+  shareLinks                   ShareLink[]
+  observabilityNotificationLogs ObservabilityNotificationLog[]
+  deepResearchInsights         DeepResearchInsight[]
+  dailyReportDeliveries        DailyReportDelivery[]
+
+  @@index([organizationId])
+}
+
+model ApiKey {
+  id             Int          @id @default(autoincrement())
+  organizationId Int
+  projectId      Int?
+  createdById    Int?
+  name           String
+  keyPrefix      String
+  keyHash        String       @unique
+  lastUsedAt     DateTime?
+  createdAt      DateTime     @default(now())
+  organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  project        Project?     @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  createdBy      User?        @relation(fields: [createdById], references: [id], onDelete: SetNull)
+  results        Result[]
+
+  @@index([organizationId])
+}
+
+model Notification {
+  id        Int                   @id @default(autoincrement())
+  userId    Int
+  projectId Int?
+  eventType NotificationEventType
+  severity  NotificationSeverity  @default(success)
+  title     String
+  body      String
+  deepLink  String?
+  readAt    DateTime?
+  createdAt DateTime              @default(now())
+  user      User                  @relation(fields: [userId], references: [id], onDelete: Cascade)
+  project   Project?              @relation(fields: [projectId], references: [id], onDelete: Cascade)
+
+  @@index([userId, readAt])
+}

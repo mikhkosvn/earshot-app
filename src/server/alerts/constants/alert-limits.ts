@@ -1,0 +1,13 @@
+export const ALERT_NAME_MAX_LENGTH = 200;
+export const ALERT_WINDOW_SIZE_MAX = 1000;
+export const ALERT_FILTER_ROWS_MAX = 20;
+export const ALERT_FILTER_TEXT_MAX = 200;
+export const ALERT_TOP_SERIES = 3;
+export const ALERT_RECENT_FIRES = 10;
+export const ALERT_REVIEW_FIRES_MAX = 5000;
+export const ALERT_EVALUATION_BATCH = 500;
+export const ALERT_EVALUATION_INTERVAL_MS = 15_000;
+export const ALERT_PENDING_GRACE_MS = 10 * 60 * 1000;
+export const TREND_HISTORY_FACTOR = 4;
+export const MILLISECONDS_PER_HOUR = 60 * 60 * 1000;
+export const SPIKE_EXPECTED_FLOOR = 0.5;

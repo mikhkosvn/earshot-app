@@ -1,0 +1,167 @@
+enum NotifyOn {
+  never
+  success
+  failure
+  both
+}
+
+enum MonitorRunStatus {
+  queued
+  running
+  completed
+  failed
+  skipped
+}
+
+enum Timezone {
+  Africa_Abidjan       @map("Africa/Abidjan")
+  Africa_Accra         @map("Africa/Accra")
+  Africa_Addis_Ababa   @map("Africa/Addis_Ababa")
+  Africa_Algiers       @map("Africa/Algiers")
+  Africa_Asmara        @map("Africa/Asmara")
+  Africa_Bamako        @map("Africa/Bamako")
+  Africa_Bangui        @map("Africa/Bangui")
+  Africa_Banjul        @map("Africa/Banjul")
+  Africa_Bissau        @map("Africa/Bissau")
+  Africa_Blantyre      @map("Africa/Blantyre")
+  Africa_Brazzaville   @map("Africa/Brazzaville")
+  Africa_Bujumbura     @map("Africa/Bujumbura")
+  Africa_Cairo         @map("Africa/Cairo")
+  Africa_Casablanca    @map("Africa/Casablanca")
+  Africa_Ceuta         @map("Africa/Ceuta")
+  Africa_Conakry       @map("Africa/Conakry")
+  Africa_Dakar         @map("Africa/Dakar")
+  Africa_Dar_es_Salaam @map("Africa/Dar_es_Salaam")
+  Africa_Djibouti      @map("Africa/Djibouti")
+  Africa_Douala        @map("Africa/Douala")
+  Africa_El_Aaiun      @map("Africa/El_Aaiun")
+  Africa_Freetown      @map("Africa/Freetown")
+  Africa_Gaborone      @map("Africa/Gaborone")
+  Africa_Harare        @map("Africa/Harare")
+  Africa_Johannesburg  @map("Africa/Johannesburg")
+  Africa_Juba          @map("Africa/Juba")
+  Africa_Kampala       @map("Africa/Kampala")
+  Africa_Khartoum      @map("Africa/Khartoum")
+  Africa_Kigali        @map("Africa/Kigali")
+  Africa_Kinshasa      @map("Africa/Kinshasa")
+  Africa_Lagos         @map("Africa/Lagos")
+  Africa_Libreville    @map("Africa/Libreville")
+  Africa_Lome          @map("Africa/Lome")
+  Africa_Luanda        @map("Africa/Luanda")
+  Africa_Lubumbashi    @map("Africa/Lubumbashi")
+  Africa_Lusaka        @map("Africa/Lusaka")
+  Africa_Malabo        @map("Africa/Malabo")
+  Africa_Maputo        @map("Africa/Maputo")
+  Africa_Maseru        @map("Africa/Maseru")
+  Africa_Mbabane       @map("Africa/Mbabane")
+  Africa_Mogadishu     @map("Africa/Mogadishu")
+  Africa_Monrovia      @map("Africa/Monrovia")
+  Africa_Nairobi       @map("Africa/Nairobi")
+  Africa_Ndjamena      @map("Africa/Ndjamena")
+  Africa_Niamey        @map("Africa/Niamey")
+  Africa_Nouakchott    @map("Africa/Nouakchott")
+  Africa_Ouagadougou   @map("Africa/Ouagadougou")
+  Africa_Porto_Novo    @map("Africa/Porto-Novo")
+  Africa_Sao_Tome      @map("Africa/Sao_Tome")
+  Africa_Tripoli       @map("Africa/Tripoli")
+  Africa_Tunis         @map("Africa/Tunis")
+  Africa_Windhoek      @map("Africa/Windhoek")
+  America_Adak         @map("America/Adak")
+  America_Anchorage    @map("America/Anchorage")
+  America_Chicago      @map("America/Chicago")
+  America_Denver       @map("America/Denver")
+  America_Los_Angeles  @map("America/Los_Angeles")
+  America_New_York     @map("America/New_York")
+  America_Phoenix      @map("America/Phoenix")
+  America_Sao_Paulo    @map("America/Sao_Paulo")
+  Asia_Dubai           @map("Asia/Dubai")
+  Asia_Hong_Kong       @map("Asia/Hong_Kong")
+  Asia_Kolkata         @map("Asia/Kolkata")
+  Asia_Seoul           @map("Asia/Seoul")
+  Asia_Shanghai        @map("Asia/Shanghai")
+  Asia_Singapore       @map("Asia/Singapore")
+  Asia_Tokyo           @map("Asia/Tokyo")
+  Australia_Melbourne  @map("Australia/Melbourne")
+  Australia_Perth      @map("Australia/Perth")
+  Australia_Sydney     @map("Australia/Sydney")
+  Europe_Amsterdam     @map("Europe/Amsterdam")
+  Europe_Berlin        @map("Europe/Berlin")
+  Europe_London        @map("Europe/London")
+  Europe_Madrid        @map("Europe/Madrid")
+  Europe_Moscow        @map("Europe/Moscow")
+  Europe_Paris         @map("Europe/Paris")
+  Europe_Rome          @map("Europe/Rome")
+  Pacific_Auckland     @map("Pacific/Auckland")
+  Pacific_Honolulu     @map("Pacific/Honolulu")
+  US_Central           @map("US/Central")
+  US_Eastern           @map("US/Eastern")
+  US_Mountain          @map("US/Mountain")
+  US_Pacific           @map("US/Pacific")
+  UTC
+}
+
+model Monitor {
+  id               Int                  @id @default(autoincrement())
+  projectId        Int
+  agentId          Int
+  name             String
+  cronExpression   String
+  timezone         Timezone             @default(UTC)
+  frequency        Int                  @default(1)
+  concurrencyLimit Int?
+  callsPerSecond   Float?
+  callerNumberMode CallerNumberMode     @default(same_number)
+  agentNumber      String?
+  notifyOn         NotifyOn             @default(both)
+  isActive         Boolean              @default(true)
+  nextRunAt        DateTime?
+  createdById      Int?
+  createdAt        DateTime             @default(now())
+  updatedAt        DateTime             @updatedAt
+  project          Project              @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  agent            Agent                @relation(fields: [agentId], references: [id], onDelete: Cascade)
+  createdBy        User?                @relation("MonitorCreatedBy", fields: [createdById], references: [id], onDelete: SetNull)
+  evaluators       MonitorEvaluator[]
+  personalities    MonitorPersonality[]
+  runs             MonitorRun[]
+
+  @@index([projectId])
+  @@index([agentId])
+  @@index([isActive, nextRunAt])
+}
+
+model MonitorEvaluator {
+  monitorId   Int
+  evaluatorId Int
+  monitor     Monitor   @relation(fields: [monitorId], references: [id], onDelete: Cascade)
+  evaluator   Evaluator @relation(fields: [evaluatorId], references: [id], onDelete: Cascade)
+
+  @@id([monitorId, evaluatorId])
+  @@index([evaluatorId])
+}
+
+model MonitorPersonality {
+  monitorId     Int
+  personalityId Int
+  monitor       Monitor     @relation(fields: [monitorId], references: [id], onDelete: Cascade)
+  personality   Personality @relation(fields: [personalityId], references: [id], onDelete: Cascade)
+
+  @@id([monitorId, personalityId])
+}
+
+model MonitorRun {
+  id           Int              @id @default(autoincrement())
+  monitorId    Int
+  resultId     Int?             @unique
+  scheduledFor DateTime
+  status       MonitorRunStatus @default(queued)
+  errorMessage String?
+  startedAt    DateTime?
+  finishedAt   DateTime?
+  createdAt    DateTime         @default(now())
+  monitor      Monitor          @relation(fields: [monitorId], references: [id], onDelete: Cascade)
+  result       Result?          @relation(fields: [resultId], references: [id], onDelete: SetNull)
+
+  @@unique([monitorId, scheduledFor])
+  @@index([status])
+}

@@ -1,0 +1,18 @@
+import type { ComponentProps } from 'react';
+
+import { cn } from '@/lib/utils';
+
+export function SettingsCard({
+  className,
+  ...props
+}: ComponentProps<'section'>) {
+  return (
+    <section
+      className={cn(
+        'flex flex-col gap-4 rounded-lg border bg-background p-4',
+        className,
+      )}
+      {...props}
+    />
+  );
+}
