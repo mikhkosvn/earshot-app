@@ -2,6 +2,7 @@ import 'server-only';
 
 import { prisma } from '@/lib/prisma';
 import { ActionError, withValidation } from '@/server/common/run-action';
+import { deleteProjectFiles } from '@/server/files/delete-project-files';
 import { projectIdSchema } from '@/server/projects/schemas';
 import type { DeleteProjectResult } from '@/server/projects/types';
 import { setCurrentProjectCookie } from '@/server/projects/utils/current-project-cookie';
@@ -24,6 +25,7 @@ export const deleteProject = withValidation(
     }
 
     await prisma.project.delete({ where: { id: projectId } });
+    await deleteProjectFiles(projectId);
     await setCurrentProjectCookie(nextProject.id);
     return { nextProjectId: nextProject.id };
   },
