@@ -22,7 +22,6 @@ export const getProject = withValidation(
       useProviderTranscript: project.useProviderTranscript,
       reconcileProviderTranscripts: project.reconcileProviderTranscripts,
       deepResearchEnabled: project.deepResearchEnabled,
-      notifyDailyReport: project.notifyDailyReport,
       createdAt: project.createdAt,
       updatedAt: project.updatedAt,
       organization: project.organization,
