@@ -1,14 +1,14 @@
-import { PageHeader } from '@/components/common/page-header/page-header';
+import { Suspense } from 'react';
 
-export default function EvaluatorsPage() {
+import { EvaluatorsData } from './_components/evaluators-data';
+import { EvaluatorsSkeleton } from './_components/evaluators-skeleton';
+
+export default function EvaluatorsPage({
+  searchParams,
+}: PageProps<'/test-case'>) {
   return (
-    <div className="flex flex-col gap-2 p-3">
-      <PageHeader
-        title="Evaluators"
-        description={
-          'Evaluators are test scenarios that simulate real conversations against your agent, each paired with a persona and the metrics it should pass.'
-        }
-      />
-    </div>
+    <Suspense fallback={<EvaluatorsSkeleton />}>
+      <EvaluatorsData searchParams={searchParams} />
+    </Suspense>
   );
 }

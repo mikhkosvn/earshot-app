@@ -1,12 +1,14 @@
-import { PageHeader } from '@/components/common/page-header/page-header';
+import { Suspense } from 'react';
 
-export default function EditEvaluatorPage() {
+import { EditEvaluatorData } from './_components/edit-evaluator-data';
+import { EditEvaluatorSkeleton } from './_components/edit-evaluator-skeleton';
+
+export default function EditEvaluatorPage({
+  params,
+}: PageProps<'/test-case/[evaluatorId]'>) {
   return (
-    <div className="flex flex-col gap-2 p-3">
-      <PageHeader
-        title="Edit Evaluator"
-        description={'Update your evaluator settings.'}
-      />
-    </div>
+    <Suspense fallback={<EditEvaluatorSkeleton />}>
+      <EditEvaluatorData params={params} />
+    </Suspense>
   );
 }

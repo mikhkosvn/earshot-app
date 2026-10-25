@@ -167,3 +167,11 @@ model ProjectPersonality {
   @@id([projectId, personalityId])
   @@index([personalityId])
 }
+
+model ClonedVoice {
+  id           String     @id @default(uuid())
+  name         String
+  sampleFileId String     @unique
+  createdAt    DateTime   @default(now())
+  sampleFile   StoredFile @relation(fields: [sampleFileId], references: [id], onDelete: Cascade)
+}

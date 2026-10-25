@@ -1,0 +1,13 @@
+export const METRIC_NAME_MAX_LENGTH = 255;
+
+export const MAX_METRIC_DEPENDENCIES = 10;
+
+export const MAX_DEPENDENCY_CHAIN_DEPTH = 5;
+
+export const GENERATED_METRIC_COUNT = 5;
+
+export const AGENT_DESCRIPTION_MIN_LENGTH = 100;
+
+export const RATING_SCALE_MAX = 5;
+
+export const SLUG_SUFFIX_LENGTH = 3;

@@ -1,15 +1,18 @@
-import { SettingsHeaderCard } from '@/app/(app)/settings/_components/settings-header-card';
+import { Suspense } from 'react';
+
 import { SettingsPageContainer } from '@/app/(app)/settings/_components/settings-page-container';
+
+import { MembersData } from './_components/members-data';
+import { MembersHeader } from './_components/members-header';
+import { MembersSkeleton } from './_components/members-skeleton';
 
 export default function MembersPage() {
   return (
     <SettingsPageContainer>
-      <SettingsHeaderCard
-        title="Team members"
-        description={
-          "Who is in your organization, which projects they can open, and who gets each project's email alerts."
-        }
-      />
+      <MembersHeader />
+      <Suspense fallback={<MembersSkeleton />}>
+        <MembersData />
+      </Suspense>
     </SettingsPageContainer>
   );
 }

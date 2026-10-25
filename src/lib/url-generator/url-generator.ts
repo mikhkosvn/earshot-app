@@ -6,6 +6,7 @@ import {
   callsParser,
   evaluatorCreateParser,
   evaluatorsParser,
+  metricsParser,
   monitorsParser,
   personalityParser,
   projectParser,
@@ -27,6 +28,7 @@ import type {
   LabEditType,
   MetricEditType,
   MetricReviewType,
+  MetricsType,
   MonitorsType,
   PersonalityEditType,
   PersonalityType,
@@ -67,8 +69,8 @@ export class UrlGenerator {
     return `/agents/${agentId}` as Route;
   }
 
-  static metrics({ options, values }: ProjectQueryType = {}) {
-    return createTypedLink('/metrics' as Route, projectParser, options)(values);
+  static metrics({ options, values }: MetricsType = {}) {
+    return createTypedLink('/metrics' as Route, metricsParser, options)(values);
   }
 
   static metricEdit({ metricId, options, values }: MetricEditType) {

@@ -1,14 +1,14 @@
-import { PageHeader } from '@/components/common/page-header/page-header';
+import { Suspense } from 'react';
 
-export default function RubricPage() {
+import { RubricData } from './_components/rubric-data';
+import { RubricSkeleton } from './_components/rubric-skeleton';
+
+export default function RubricPage({ searchParams }: PageProps<'/rubric'>) {
   return (
-    <div className="flex flex-col gap-2 p-3">
-      <PageHeader
-        title="Rubric"
-        description={
-          'Define the conditions that decide whether a conversation is marked a success or failure.'
-        }
-      />
+    <div className="mx-auto flex w-full max-w-5xl flex-col gap-3 p-3">
+      <Suspense fallback={<RubricSkeleton />}>
+        <RubricData searchParams={searchParams} />
+      </Suspense>
     </div>
   );
 }

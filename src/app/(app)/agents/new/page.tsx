@@ -1,12 +1,14 @@
-import { PageHeader } from '@/components/common/page-header/page-header';
+import { Suspense } from 'react';
+
+import { CreateAgentData } from './_components/create-agent-data';
+import { CreateAgentSkeleton } from './_components/create-agent-skeleton';
 
 export default function CreateAgentPage() {
   return (
-    <div className="flex flex-col gap-2 p-3">
-      <PageHeader
-        title="Create an Agent"
-        description={'Create an agent to start testing your voice assistant'}
-      />
+    <div className="flex justify-center p-3">
+      <Suspense fallback={<CreateAgentSkeleton />}>
+        <CreateAgentData />
+      </Suspense>
     </div>
   );
 }

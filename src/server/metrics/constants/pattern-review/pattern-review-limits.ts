@@ -1,0 +1,7 @@
+export const PATTERN_REVIEW_MIN_SAMPLES = 2;
+
+export const PATTERN_REVIEW_MAX_SAMPLES = 20;
+
+export const PATTERN_REVIEW_HISTORY_DAYS = 30;
+
+export const PATTERN_REVIEW_EVIDENCE_LINES = 3;

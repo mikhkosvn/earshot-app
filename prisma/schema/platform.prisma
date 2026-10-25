@@ -52,6 +52,7 @@ model StoredFile {
   createdAt   DateTime @default(now())
   project     Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
   knowledgeBaseFile KnowledgeBaseFile?
+  clonedVoice       ClonedVoice?
   conversations     Conversation[]
 
   @@index([projectId])

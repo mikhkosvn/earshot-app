@@ -207,6 +207,7 @@ model EvaluatorGenerationSession {
   agentId     Int?
   title       String
   status      GenerationSessionStatus      @default(in_progress)
+  options     Json?
   createdById Int?
   createdAt   DateTime                     @default(now())
   updatedAt   DateTime                     @updatedAt

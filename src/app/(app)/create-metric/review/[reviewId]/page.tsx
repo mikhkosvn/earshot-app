@@ -1,9 +1,16 @@
-import { PageHeader } from '@/components/common/page-header/page-header';
+import { Suspense } from 'react';
 
-export default function MetricReviewPage() {
+import { MetricReviewData } from './_components/metric-review-data';
+import { MetricReviewSkeleton } from './_components/metric-review-skeleton';
+
+export default function MetricReviewPage({
+  params,
+}: PageProps<'/create-metric/review/[reviewId]'>) {
   return (
-    <div className="flex flex-col gap-2 p-3">
-      <PageHeader title="Review the metric" />
+    <div className="flex flex-col gap-4 p-4">
+      <Suspense fallback={<MetricReviewSkeleton />}>
+        <MetricReviewData params={params} />
+      </Suspense>
     </div>
   );
 }

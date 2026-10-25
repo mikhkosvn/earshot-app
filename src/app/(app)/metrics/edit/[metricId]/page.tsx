@@ -1,14 +1,16 @@
-import { PageHeader } from '@/components/common/page-header/page-header';
+import { Suspense } from 'react';
 
-export default function EditMetricPage() {
+import { EditMetricData } from './_components/edit-metric-data';
+import { EditMetricSkeleton } from './_components/edit-metric-skeleton';
+
+export default function EditMetricPage({
+  params,
+}: PageProps<'/metrics/edit/[metricId]'>) {
   return (
-    <div className="flex flex-col gap-2 p-3">
-      <PageHeader
-        title="Edit Metric"
-        description={
-          'Your AI agent is Main Agent and User is Test Agent (Earshot)'
-        }
-      />
+    <div className="p-3">
+      <Suspense fallback={<EditMetricSkeleton />}>
+        <EditMetricData params={params} />
+      </Suspense>
     </div>
   );
 }
