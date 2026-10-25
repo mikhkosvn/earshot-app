@@ -16,6 +16,12 @@ export const paginationParser = {
   pageSize: parseAsInteger,
 };
 
+export const metricsParser = {
+  ...projectParser,
+  generation: parseAsString,
+  view: parseAsInteger,
+};
+
 export const agentsParser = {
   ...projectParser,
   ...paginationParser,
@@ -32,6 +38,7 @@ export const evaluatorsParser = {
   folder: parseAsString,
   reopenSheet: parseAsBoolean,
   progressId: parseAsString,
+  sessionId: parseAsInteger,
 };
 
 export const evaluatorCreateParser = {

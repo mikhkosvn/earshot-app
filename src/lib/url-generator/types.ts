@@ -11,6 +11,7 @@ import type {
   callsParser,
   evaluatorCreateParser,
   evaluatorsParser,
+  metricsParser,
   monitorsParser,
   personalityParser,
   projectParser,
@@ -31,6 +32,8 @@ export type ProjectScopedType = {
 export type ProjectQueryType = TypedLinkProps<typeof projectParser>;
 
 export type AgentsType = TypedLinkProps<typeof agentsParser>;
+
+export type MetricsType = TypedLinkProps<typeof metricsParser>;
 
 export type AgentType = {
   agentId: number;
