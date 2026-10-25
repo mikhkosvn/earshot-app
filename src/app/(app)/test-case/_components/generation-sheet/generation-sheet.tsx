@@ -20,7 +20,7 @@ export function GenerationSheet() {
   return (
     <aside
       aria-label="Review Generated Scenarios"
-      className="flex w-105 shrink-0 flex-col border-l bg-background"
+      className="relative z-50 flex w-105 shrink-0 flex-col border-l bg-background"
     >
       <GenerationSheetHeader />
       <Tabs
