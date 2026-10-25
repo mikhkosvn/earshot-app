@@ -47,6 +47,16 @@ export const updateMetric = withValidation(
         metricId,
         dependencyIds,
       });
+      const versionCount = await tx.metricVersion.count({
+        where: { metricId },
+      });
+      if (versionCount === 0) {
+        await writeMetricVersion(tx, {
+          metricId,
+          userId: null,
+          changeType: HistoryChangeType.created,
+        });
+      }
       await tx.metric.update({
         where: { id: metricId },
         data: {

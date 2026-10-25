@@ -1,14 +1,14 @@
-import { PageHeader } from '@/components/common/page-header/page-header';
+import { Suspense } from 'react';
+
+import { CreateMetricData } from './_components/create-metric-data';
+import { CreateMetricSkeleton } from './_components/create-metric-skeleton';
 
 export default function CreateMetricPage() {
   return (
-    <div className="flex flex-col gap-2 p-3">
-      <PageHeader
-        title="Create Metrics"
-        description={
-          'Your AI agent is Main Agent and User is Test Agent (Earshot)'
-        }
-      />
+    <div className="p-3">
+      <Suspense fallback={<CreateMetricSkeleton />}>
+        <CreateMetricData />
+      </Suspense>
     </div>
   );
 }
