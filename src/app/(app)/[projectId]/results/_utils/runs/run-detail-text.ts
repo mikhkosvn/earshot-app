@@ -1,3 +1,4 @@
+import { TEST_PROFILE_QUERY_KEY } from '@/lib/url-generator/constants';
 import { UrlGenerator } from '@/lib/url-generator/url-generator';
 import type { AgentRef, RunDetail } from '@/server/results/types';
 
@@ -14,7 +15,12 @@ export const agentHref = (agent: AgentRef | null) => {
 
 export const testProfileHref = (run: RunDetail, projectId: number) => {
   if (!run.testProfile) return null;
-  return UrlGenerator.evaluators({ values: { project: projectId } });
+  return UrlGenerator.evaluators({
+    values: {
+      project: projectId,
+      [TEST_PROFILE_QUERY_KEY]: run.testProfile.id,
+    },
+  });
 };
 
 const directionText = (inbound: boolean) => {

@@ -6,7 +6,12 @@ import {
   parseAsStringLiteral,
 } from 'nuqs/server';
 
-import { PROJECT_QUERY_KEY, ResultsView, RunsOverviewView } from './constants';
+import {
+  PROJECT_QUERY_KEY,
+  ResultsView,
+  RunsOverviewView,
+  TEST_PROFILE_QUERY_KEY,
+} from './constants';
 
 export const projectParser = {
   [PROJECT_QUERY_KEY]: parseAsInteger,
@@ -40,6 +45,7 @@ export const evaluatorsParser = {
   reopenSheet: parseAsBoolean,
   progressId: parseAsString,
   sessionId: parseAsInteger,
+  [TEST_PROFILE_QUERY_KEY]: parseAsInteger,
 };
 
 export const evaluatorCreateParser = {
@@ -63,6 +69,11 @@ export const runsOverviewParser = {
   from: parseAsString,
   to: parseAsString,
   view: parseAsStringLiteral(Object.values(RunsOverviewView)),
+  dashboard: parseAsInteger,
+  chartType: parseAsString,
+  period: parseAsString,
+  filters: parseAsString,
+  hidden: parseAsArrayOf(parseAsInteger),
 };
 
 export const monitorsParser = {

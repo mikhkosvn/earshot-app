@@ -6,6 +6,7 @@ import { Badge } from '@/components/ui/badge';
 import { TableCell, TableRow } from '@/components/ui/table';
 import type { TestProfileView } from '@/server/test-profiles/types';
 
+import { useLinkedTestProfileParam } from '@/app/(app)/test-case/_hooks/test-profiles/use-linked-test-profile-param';
 import { formatAuthorDate } from '@/app/(app)/test-case/_utils/format-author-date';
 import { RowExpandButton } from '@/app/(app)/test-case/_components/table/row/row-expand-button';
 import { AgentChip } from '@/app/(app)/test-case/_components/table/row/agent-chip';
@@ -21,7 +22,10 @@ type TestProfileRowProps = {
 };
 
 export function TestProfileRow({ profile, onEdit }: TestProfileRowProps) {
-  const [isExpanded, setExpanded] = useState(false);
+  const [linkedProfileId] = useLinkedTestProfileParam();
+  const [isExpanded, setExpanded] = useState(
+    () => linkedProfileId === profile.id,
+  );
 
   return (
     <>
