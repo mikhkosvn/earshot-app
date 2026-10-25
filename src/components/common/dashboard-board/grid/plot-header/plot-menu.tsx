@@ -3,7 +3,6 @@
 import {
   CopyIcon,
   EllipsisVerticalIcon,
-  PencilIcon,
   RefreshCwIcon,
   Trash2Icon,
 } from 'lucide-react';
@@ -23,6 +22,7 @@ import { useRefreshPlot } from '../../_hooks/use-refresh-plot';
 import type { DashboardBoardState } from '../../_utils/board-types';
 import type { DraftPlot } from '../../_utils/dashboard-draft';
 import { DeletePlotDialog } from './delete-plot-dialog';
+import { EditPlotMenuItem } from './edit-plot-menu-item';
 
 type PlotMenuProps = {
   board: DashboardBoardState;
@@ -48,10 +48,7 @@ export function PlotMenu({ board, plot }: PlotMenuProps) {
           <EllipsisVerticalIcon />
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end" className="w-40">
-          <DropdownMenuItem onClick={() => board.openEditPlot(plot.key)}>
-            <PencilIcon />
-            Edit Plot
-          </DropdownMenuItem>
+          <EditPlotMenuItem board={board} plot={plot} />
           <DropdownMenuItem
             onClick={() =>
               board.dispatch({
