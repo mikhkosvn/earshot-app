@@ -1,15 +1,18 @@
-import { SettingsHeaderCard } from '@/app/(app)/settings/_components/settings-header-card';
+import { Suspense } from 'react';
+
 import { SettingsPageContainer } from '@/app/(app)/settings/_components/settings-page-container';
+
+import { TelephonyBreadcrumb } from './_components/telephony-breadcrumb';
+import { TelephonyData } from './_components/telephony-data';
+import { TelephonySkeleton } from './_components/telephony-skeleton';
 
 export default function TelephonyPage() {
   return (
     <SettingsPageContainer>
-      <SettingsHeaderCard
-        title="Bring your own Telephony"
-        description={
-          "Control the global policy for external carrier numbers and manage the organization's telephony inventory."
-        }
-      />
+      <TelephonyBreadcrumb />
+      <Suspense fallback={<TelephonySkeleton />}>
+        <TelephonyData />
+      </Suspense>
     </SettingsPageContainer>
   );
 }

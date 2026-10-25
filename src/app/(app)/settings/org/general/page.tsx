@@ -1,13 +1,16 @@
-import { SettingsHeaderCard } from '@/app/(app)/settings/_components/settings-header-card';
+import { Suspense } from 'react';
+
 import { SettingsPageContainer } from '@/app/(app)/settings/_components/settings-page-container';
+
+import { OrganizationGeneralData } from './_components/organization-general-data';
+import { OrganizationGeneralSkeleton } from './_components/organization-general-skeleton';
 
 export default function OrganizationGeneralPage() {
   return (
     <SettingsPageContainer>
-      <SettingsHeaderCard
-        title="Organization Settings"
-        description={'Manage your organization details and preferences'}
-      />
+      <Suspense fallback={<OrganizationGeneralSkeleton />}>
+        <OrganizationGeneralData />
+      </Suspense>
     </SettingsPageContainer>
   );
 }
