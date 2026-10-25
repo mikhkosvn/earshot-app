@@ -1,9 +1,16 @@
-import { PageHeader } from '@/components/common/page-header/page-header';
+import { Suspense } from 'react';
 
-export default function LabMetricPage() {
+import { LabEditorData } from './_components/lab-editor-data';
+import { LabEditorSkeleton } from './_components/lab-editor-skeleton';
+
+export default function LabMetricPage({
+  params,
+}: PageProps<'/labs/edit/[metricId]'>) {
   return (
-    <div className="flex flex-col gap-2 p-3">
-      <PageHeader title="Lab metric" />
+    <div className="p-3">
+      <Suspense fallback={<LabEditorSkeleton />}>
+        <LabEditorData params={params} />
+      </Suspense>
     </div>
   );
 }
