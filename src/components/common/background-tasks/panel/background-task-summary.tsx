@@ -5,20 +5,20 @@ import type { JobKind } from '@/generated/prisma/enums';
 import { useDismissAllJobsMutation } from '@/hooks/jobs/use-dismiss-all-jobs-mutation';
 import { useRecentJobs } from '@/hooks/jobs/use-recent-jobs';
 
-import { panelJobs } from '../_utils/panel-jobs';
+import { panelJobs, type PanelScope } from '../_utils/panel-jobs';
 
 type BackgroundTaskSummaryProps = {
   kind: JobKind;
-  hiddenBefore: number | undefined;
+  scope: PanelScope;
   onDismiss: () => void;
 };
 
 export function BackgroundTaskSummary({
   kind,
-  hiddenBefore,
+  scope,
   onDismiss,
 }: BackgroundTaskSummaryProps) {
-  const jobs = panelJobs(useRecentJobs(), kind, hiddenBefore);
+  const jobs = panelJobs(useRecentJobs(), kind, scope);
   const dismissAll = useDismissAllJobsMutation();
 
   if (jobs.length === 0) return null;

@@ -3,22 +3,22 @@
 import type { JobKind } from '@/generated/prisma/enums';
 import { useRecentJobs } from '@/hooks/jobs/use-recent-jobs';
 
-import { panelJobs } from '../_utils/panel-jobs';
+import { panelJobs, type PanelScope } from '../_utils/panel-jobs';
 import { BackgroundTaskRow } from '../task-row/background-task-row';
 import { BackgroundTaskEmpty } from './background-task-empty';
 
 type BackgroundTaskListProps = {
   kind: JobKind;
-  hiddenBefore: number | undefined;
+  scope: PanelScope;
   onDismiss: () => void;
 };
 
 export function BackgroundTaskList({
   kind,
-  hiddenBefore,
+  scope,
   onDismiss,
 }: BackgroundTaskListProps) {
-  const jobs = panelJobs(useRecentJobs(), kind, hiddenBefore);
+  const jobs = panelJobs(useRecentJobs(), kind, scope);
 
   if (jobs.length === 0) return <BackgroundTaskEmpty />;
 

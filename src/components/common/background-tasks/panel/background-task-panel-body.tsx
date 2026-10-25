@@ -2,19 +2,20 @@
 
 import type { JobKind } from '@/generated/prisma/enums';
 
+import type { PanelScope } from '../_utils/panel-jobs';
 import { BackgroundTaskList } from './background-task-list';
 import { BackgroundTaskSummary } from './background-task-summary';
 
 type BackgroundTaskPanelBodyProps = {
   kind: JobKind;
-  hiddenBefore: number | undefined;
+  scope: PanelScope;
   minimized: boolean;
   onDismiss: () => void;
 };
 
 export function BackgroundTaskPanelBody({
   kind,
-  hiddenBefore,
+  scope,
   minimized,
   onDismiss,
 }: BackgroundTaskPanelBodyProps) {
@@ -22,16 +23,8 @@ export function BackgroundTaskPanelBody({
 
   return (
     <div>
-      <BackgroundTaskSummary
-        kind={kind}
-        hiddenBefore={hiddenBefore}
-        onDismiss={onDismiss}
-      />
-      <BackgroundTaskList
-        kind={kind}
-        hiddenBefore={hiddenBefore}
-        onDismiss={onDismiss}
-      />
+      <BackgroundTaskSummary kind={kind} scope={scope} onDismiss={onDismiss} />
+      <BackgroundTaskList kind={kind} scope={scope} onDismiss={onDismiss} />
     </div>
   );
 }

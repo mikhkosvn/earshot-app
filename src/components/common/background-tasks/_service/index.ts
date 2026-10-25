@@ -1,6 +1,7 @@
 import { queryOptions } from '@tanstack/react-query';
 
 import type { JobStatus } from '@/generated/prisma/enums';
+import { deferAction } from '@/lib/query-client/defer-action';
 import {
   ACTIVE_JOB_STATUSES,
   JOB_IDLE_POLL_INTERVAL_MS,
@@ -39,7 +40,7 @@ export class JobService {
   static getRecentJobsQuery({ projectId }: { projectId: number }) {
     return queryOptions({
       queryKey: [JobKey.recent, projectId],
-      queryFn: () => listRecentJobsAction({ projectId }),
+      queryFn: () => deferAction(() => listRecentJobsAction({ projectId })),
       staleTime: 0,
       refetchInterval: (query) => recentJobsInterval(query.state.data),
     });
@@ -48,7 +49,7 @@ export class JobService {
   static getJobQuery({ jobId }: { jobId: string }) {
     return queryOptions({
       queryKey: [JobKey.detail, jobId],
-      queryFn: () => getJobAction({ jobId }),
+      queryFn: () => deferAction(() => getJobAction({ jobId })),
       staleTime: 0,
       refetchInterval: (query) => jobInterval(query.state.data),
     });

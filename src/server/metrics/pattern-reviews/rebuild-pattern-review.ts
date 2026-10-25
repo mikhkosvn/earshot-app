@@ -122,7 +122,7 @@ export const rebuildPatternReview = withValidation(
       projectId,
       userId: user.id,
       kind: JobKind.metric_pattern_review,
-      input: { reviewId, rebuild: true },
+      input: { reviewId, metricName: review.metric.name, rebuild: true },
       initialStep: 'Reading your fixes...',
       run: async (context) => {
         const entries = labEntries(view.groups);
