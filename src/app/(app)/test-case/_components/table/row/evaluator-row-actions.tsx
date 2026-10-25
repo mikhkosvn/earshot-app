@@ -20,9 +20,9 @@ import { DEFAULT_FOLDER_PATH } from '@/server/folders/constants';
 import { useDuplicateEvaluatorsMutation } from '../../../_hooks/mutations/evaluator-actions/use-duplicate-evaluators-mutation';
 import { useDeleteEvaluatorsMutation } from '../../../_hooks/mutations/evaluators/use-delete-evaluators-mutation';
 
-type EvaluatorRowActionsProps = {
+interface EvaluatorRowActionsProps {
   row: EvaluatorListRow;
-};
+}
 
 export function EvaluatorRowActions({ row }: EvaluatorRowActionsProps) {
   const projectId = useCurrentProjectId();

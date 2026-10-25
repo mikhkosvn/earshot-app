@@ -10,9 +10,9 @@ import { ImproveConversation } from './improve-conversation';
 import { ImprovePanelHeader } from './improve-panel-header';
 import { ImproveScopeRow } from './improve-scope-row';
 
-type ImprovePanelProps = {
+interface ImprovePanelProps {
   onClose: () => void;
-};
+}
 
 export function ImprovePanel({ onClose }: ImprovePanelProps) {
   const [scope, setScope] = useState<number>(IMPROVE_SCOPE_DEFAULT);

@@ -9,9 +9,9 @@ import { useRunInsightMutation } from '../../_hooks/mutations/use-run-insight-mu
 import { RunInsightIcon } from './run-insight-icon';
 import { RunInsightLabel } from './run-insight-label';
 
-type RunInsightButtonProps = {
+interface RunInsightButtonProps {
   metricId: number;
-};
+}
 
 export function RunInsightButton({ metricId }: RunInsightButtonProps) {
   const projectId = useCurrentProjectId();

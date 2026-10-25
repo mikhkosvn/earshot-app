@@ -14,11 +14,11 @@ import type { MonitorListItem } from '@/server/monitors/types';
 
 import { MonitorRunList } from './monitor-run-list';
 
-type MonitorHistoryDialogProps = {
+interface MonitorHistoryDialogProps {
   monitor: MonitorListItem;
   open: boolean;
   onOpenChange: (open: boolean) => void;
-};
+}
 
 export function MonitorHistoryDialog({
   monitor,

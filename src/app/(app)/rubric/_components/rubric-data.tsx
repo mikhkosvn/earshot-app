@@ -12,9 +12,9 @@ import { RubricService } from '../_service';
 import { RubricForm } from './rubric-form';
 import { RubricSkeleton } from './rubric-skeleton';
 
-type RubricDataProps = {
+interface RubricDataProps {
   searchParams: Promise<Record<string, string | string[] | undefined>>;
-};
+}
 
 export async function RubricData({ searchParams }: RubricDataProps) {
   await io();

@@ -4,10 +4,10 @@ import { Checkbox } from '@/components/ui/checkbox';
 
 import { useCallListQuery } from '../../_hooks/call-list/use-call-list-query';
 
-type SelectPageCheckboxProps = {
-  selectedIds: number[];
+interface SelectPageCheckboxProps {
+  selectedIds: readonly number[];
   onSelectedIdsChange: (ids: number[]) => void;
-};
+}
 
 export function SelectPageCheckbox({
   selectedIds,

@@ -14,9 +14,9 @@ import type { EditAlertFormValues } from '../../_schemas/edit-alert-form-schema'
 
 const FIELD_ID = 'alert-name';
 
-type AlertNameFieldProps = {
+interface AlertNameFieldProps {
   placeholder: string;
-};
+}
 
 export function AlertNameField({ placeholder }: AlertNameFieldProps) {
   const { control } = useFormContext<EditAlertFormValues>();

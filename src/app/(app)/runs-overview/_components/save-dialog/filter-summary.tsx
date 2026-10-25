@@ -1,6 +1,6 @@
-type FilterSummaryProps = {
-  lines: string[];
-};
+interface FilterSummaryProps {
+  lines: readonly string[];
+}
 
 export function FilterSummary({ lines }: FilterSummaryProps) {
   if (lines.length === 0) {

@@ -6,10 +6,10 @@ import { reviewPanelTitle } from '../_utils/review-panel-text';
 import { ReviewSampleLabelsButton } from './review-sample-labels-button';
 import { ReviewTaskPanelHeader } from './review-task-panel-header';
 
-type ReviewTaskPanelProps = {
+interface ReviewTaskPanelProps {
   job: JobView;
   onClose: () => void;
-};
+}
 
 export function ReviewTaskPanel({ job, onClose }: ReviewTaskPanelProps) {
   const title = reviewPanelTitle(job);

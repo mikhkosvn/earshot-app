@@ -7,9 +7,9 @@ import { Button } from '@/components/ui/button';
 
 import { ExportEvaluatorsDialog } from '../../actions/export-evaluators-dialog';
 
-type ExportButtonProps = {
+interface ExportButtonProps {
   selectedIds: number[];
-};
+}
 
 export function ExportButton({ selectedIds }: ExportButtonProps) {
   const [isOpen, setOpen] = useState(false);

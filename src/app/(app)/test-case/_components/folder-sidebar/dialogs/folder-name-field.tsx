@@ -6,9 +6,9 @@ import { Field, FieldError, FieldLabel } from '@/components/ui/field';
 import { Input } from '@/components/ui/input';
 import type { FolderNameFormValues } from '@/server/folders/types';
 
-type FolderNameFieldProps = {
+interface FolderNameFieldProps {
   id: string;
-};
+}
 
 export function FolderNameField({ id }: FolderNameFieldProps) {
   const { control } = useFormContext<FolderNameFormValues>();

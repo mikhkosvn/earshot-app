@@ -2,9 +2,9 @@ import { Spinner } from '@/components/ui/spinner';
 import { CallProcessingStatusLabel } from '@/server/call-logs/constants/call-processing-status-labels';
 import type { CallLogDetail } from '@/server/call-logs/types';
 
-type CallProcessingStateProps = {
+interface CallProcessingStateProps {
   call: CallLogDetail;
-};
+}
 
 export function CallProcessingState({ call }: CallProcessingStateProps) {
   return (

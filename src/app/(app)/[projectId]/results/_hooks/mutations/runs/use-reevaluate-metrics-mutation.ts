@@ -12,10 +12,10 @@ import {
   reevaluateTargets,
 } from '../../../_utils/runs/reevaluate-targets';
 
-type ReevaluateMetricsVariables = {
+interface ReevaluateMetricsVariables {
   targets: ReevaluateTarget[];
   metricIds: number[];
-};
+}
 
 export const useReevaluateMetricsMutation = () => {
   const queryClient = useQueryClient();

@@ -17,10 +17,10 @@ const labelFormatOf = (hours: AlertWindowHours) => {
   return DAY_FORMAT;
 };
 
-export type ActivityRow = Record<string, number | string> & {
+export interface ActivityRow extends Record<string, number | string> {
   label: string;
   total: number;
-};
+}
 
 export const activityRows = (
   timeline: AlertTimelineBucket[],

@@ -3,17 +3,17 @@
 import { Label } from '@/components/ui/label';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 
-type RadioOption<TValue extends string> = {
+interface RadioOption<TValue extends string> {
   value: TValue;
   label: string;
-};
+}
 
-type OptionRadioGroupProps<TValue extends string> = {
+interface OptionRadioGroupProps<TValue extends string> {
   name: string;
-  options: RadioOption<TValue>[];
+  options: readonly RadioOption<TValue>[];
   value: TValue;
   onValueChange: (value: TValue) => void;
-};
+}
 
 export function OptionRadioGroup<TValue extends string>({
   name,

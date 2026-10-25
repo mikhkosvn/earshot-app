@@ -10,11 +10,11 @@ import {
 
 import { ToggleSettingsForm } from './toggle-settings-form';
 
-type ToggleSettingsDialogProps = {
+interface ToggleSettingsDialogProps {
   metricIds: number[];
   open: boolean;
   onOpenChange: (open: boolean) => void;
-};
+}
 
 export function ToggleSettingsDialog({
   metricIds,

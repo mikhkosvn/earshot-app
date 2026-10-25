@@ -9,9 +9,9 @@ import { useGenerateMetricsForm } from '../../_hooks/forms/use-generate-metrics-
 import { GenerateAgentField } from './generate-agent-field';
 import { GenerateSubmitButton } from './generate-submit-button';
 
-type GenerateMetricsFormProps = {
+interface GenerateMetricsFormProps {
   onStarted: () => void;
-};
+}
 
 export function GenerateMetricsForm({ onStarted }: GenerateMetricsFormProps) {
   const { form, onSubmit } = useGenerateMetricsForm(onStarted);

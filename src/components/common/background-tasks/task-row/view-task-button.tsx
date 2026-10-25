@@ -8,10 +8,10 @@ import { JobKind } from '@/generated/prisma/enums';
 
 import { DownloadTaskButton } from './download-task-button';
 
-type ViewTaskButtonProps = {
+interface ViewTaskButtonProps {
   deepLink: string | undefined;
   kind: JobKind;
-};
+}
 
 export function ViewTaskButton({ deepLink, kind }: ViewTaskButtonProps) {
   if (!deepLink) return null;

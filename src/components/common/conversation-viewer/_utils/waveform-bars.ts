@@ -6,7 +6,7 @@ const peakOf = (values: number[]) =>
   Math.min(1, Math.max(0, ...values.map((value) => Math.abs(value))));
 
 export const downsamplePeaks = (
-  peaks: number[],
+  peaks: readonly number[],
   count = WAVEFORM_BAR_COUNT,
 ) => {
   const total = Math.min(count, peaks.length);

@@ -9,9 +9,9 @@ import { dateTimeText } from '../../_utils/share-format';
 import { ShareAgentChip } from '../share-agent-chip';
 import { ShareChip } from '../share-chip';
 
-type SharedRunHeaderProps = {
+interface SharedRunHeaderProps {
   runId: number;
-};
+}
 
 export function SharedRunHeader({ runId }: SharedRunHeaderProps) {
   const run = useSharedRun(runId);

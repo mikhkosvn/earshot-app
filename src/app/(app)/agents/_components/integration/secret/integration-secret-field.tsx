@@ -7,10 +7,10 @@ import type { IntegrationField } from '@/server/agents/constants/provider-integr
 import { ConfiguredSecret } from './configured-secret';
 import { IntegrationSecretInput } from './integration-secret-input';
 
-type IntegrationSecretFieldProps = {
+interface IntegrationSecretFieldProps {
   field: IntegrationField;
   configured: boolean;
-};
+}
 
 export function IntegrationSecretField({
   field,

@@ -14,9 +14,9 @@ import { usePatternGroup } from '../../../_hooks/use-pattern-group';
 import { usePatternReview } from '../../../_hooks/use-pattern-review';
 import { enumSelectionOf } from '../../../_utils/metric-value-text';
 
-type EnumScoreSelectProps = {
+interface EnumScoreSelectProps {
   groupKey: string;
-};
+}
 
 export function EnumScoreSelect({ groupKey }: EnumScoreSelectProps) {
   const review = usePatternReview();

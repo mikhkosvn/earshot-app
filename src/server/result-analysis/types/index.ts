@@ -5,21 +5,21 @@ import type {
 } from '@/generated/prisma/enums';
 import type { MetricValue } from '@/server/metrics/types';
 
-export type AnalysisMetricScore = {
+export interface AnalysisMetricScore {
   metricId: number;
   name: string;
   evalType: MetricEvalType;
   value: MetricValue;
   normalizedScore: number | null;
   explanation: string[];
-};
+}
 
-export type AnalysisFailingCheck = {
+export interface AnalysisFailingCheck {
   metricName: string;
   explanation: string[];
-};
+}
 
-export type AnalysisRun = {
+export interface AnalysisRun {
   id: number;
   evaluatorName: string;
   instructions: string;
@@ -32,45 +32,45 @@ export type AnalysisRun = {
   transcript: string;
   failingChecks: AnalysisFailingCheck[];
   metrics: AnalysisMetricScore[];
-};
+}
 
-export type AnalysisInput = {
+export interface AnalysisInput {
   resultId: number;
   agentName: string;
   agentDescription: string;
   runs: AnalysisRun[];
-};
+}
 
-export type AiSummaryText = {
+export interface AiSummaryText {
   whatHappened: string;
   whyItHappened: string;
   howToFix: string;
-};
+}
 
-export type FailureReasonDraft = {
+export interface FailureReasonDraft {
   description: string;
   runIds: number[];
-};
+}
 
-export type NextStepDraft = {
+export interface NextStepDraft {
   title: string;
   description: string;
-};
+}
 
-export type WorkflowPathDraft = {
+export interface WorkflowPathDraft {
   label: string;
   covered: boolean;
-};
+}
 
-export type MetricSummaryDraft = {
+export interface MetricSummaryDraft {
   metricId: number;
   explanation: string[];
-};
+}
 
-export type ResultAnalysis = {
+export interface ResultAnalysis {
   aiSummary: AiSummaryText | null;
   failureReasons: FailureReasonDraft[];
   nextSteps: NextStepDraft[];
   workflowPaths: WorkflowPathDraft[];
   metricSummaries: MetricSummaryDraft[];
-};
+}

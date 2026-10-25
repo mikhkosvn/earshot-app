@@ -10,10 +10,10 @@ import type { LabRowView } from '@/server/labs/types';
 
 import { useNotesForm } from '../../../_hooks/form/use-notes-form';
 
-type NotesFormProps = {
+interface NotesFormProps {
   row: LabRowView;
   onSaved: () => void;
-};
+}
 
 export function NotesForm({ row, onSaved }: NotesFormProps) {
   const { form, onSubmit, isSaving } = useNotesForm(row, onSaved);

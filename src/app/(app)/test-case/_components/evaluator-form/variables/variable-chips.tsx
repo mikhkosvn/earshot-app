@@ -8,15 +8,15 @@ import { ViewMoreButton } from './view-more-button';
 
 const VISIBLE_TOKENS = 4;
 
-const visibleTokens = (tokens: string[], isExpanded: boolean) => {
+const visibleTokens = (tokens: readonly string[], isExpanded: boolean) => {
   if (isExpanded) return tokens;
   return tokens.slice(0, VISIBLE_TOKENS);
 };
 
-type VariableChipsProps = {
-  tokens: string[];
+interface VariableChipsProps {
+  tokens: readonly string[];
   onInsert: (token: string) => void;
-};
+}
 
 export function VariableChips({ tokens, onInsert }: VariableChipsProps) {
   const [isExpanded, setExpanded] = useState(false);

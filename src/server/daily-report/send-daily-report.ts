@@ -14,7 +14,7 @@ import { notifyProjectMembersByEmail } from '@/server/email/notify-project-membe
 import { WebhookEvent } from '@/server/project-webhooks/constants/webhook-event';
 import { sendProjectWebhook } from '@/server/project-webhooks/send-project-webhook';
 
-type SendDailyReportInput = {
+interface SendDailyReportInput {
   projectId: number;
   projectName: string;
   reportDate: string;
@@ -22,7 +22,7 @@ type SendDailyReportInput = {
   windowStart: Date;
   windowEnd: Date;
   aiSummaryEnabled: boolean;
-};
+}
 
 const emailKindOf = (report: DailyReport) => {
   if (report.calls.count === 0) return EmailNotificationKind.dailyReportNoCalls;

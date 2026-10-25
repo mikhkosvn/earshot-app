@@ -2,9 +2,9 @@
 
 import { DropdownMenuItem } from '@/components/ui/dropdown-menu';
 
-type NoConfigurationsItemProps = {
+interface NoConfigurationsItemProps {
   count: number;
-};
+}
 
 export function NoConfigurationsItem({ count }: NoConfigurationsItemProps) {
   if (count > 0) return null;

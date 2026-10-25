@@ -7,10 +7,10 @@ import { connectionCountText } from '../../../_utils/test-call-progress';
 import { CheckSummaryText } from './check-summary-text';
 import { UntestableNote } from './untestable-note';
 
-type CheckSummaryBoxProps = {
+interface CheckSummaryBoxProps {
   kind: TestCallOfferKind;
   check: ConnectionCheck;
-};
+}
 
 export function CheckSummaryBox({ kind, check }: CheckSummaryBoxProps) {
   if (!check.valid) {

@@ -22,9 +22,9 @@ import { EditFormFooter } from './edit-form-footer';
 import { EditSection } from './edit-section';
 import { EditSectionNav } from './edit-section-nav';
 
-type EditEvaluatorFormBodyProps = {
+interface EditEvaluatorFormBodyProps {
   detail: EvaluatorDetail;
-};
+}
 
 export function EditEvaluatorFormBody({ detail }: EditEvaluatorFormBodyProps) {
   const { form, onSubmit, isPending } = useEditEvaluatorForm(detail);

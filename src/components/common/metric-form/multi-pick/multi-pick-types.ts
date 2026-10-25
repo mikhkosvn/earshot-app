@@ -1,4 +1,4 @@
-export type MultiPickItem = {
+export interface MultiPickItem {
   value: number;
   label: string;
-};
+}

@@ -3,13 +3,13 @@
 import { useMonitorScenarios } from '../_hooks/use-monitor-scenarios';
 import { ScenarioFolderRow } from './scenario-folder-row';
 
-type ScenarioFolderListProps = {
+interface ScenarioFolderListProps {
   openFolders: string[];
   onOpenFoldersChange: (openFolders: string[]) => void;
   search: string;
-  value: number[];
+  value: readonly number[];
   onValueChange: (evaluatorIds: number[]) => void;
-};
+}
 
 const changeOpenFolders = (
   openFolders: string[],

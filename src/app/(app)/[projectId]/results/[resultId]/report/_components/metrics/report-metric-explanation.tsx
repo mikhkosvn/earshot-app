@@ -1,6 +1,6 @@
-type ReportMetricExplanationProps = {
-  lines: string[];
-};
+interface ReportMetricExplanationProps {
+  lines: readonly string[];
+}
 
 export function ReportMetricExplanation({
   lines,

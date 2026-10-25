@@ -5,9 +5,9 @@ import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import type { PatternSampleView } from '@/server/metrics/types';
 
-type SampleSourceButtonProps = {
+interface SampleSourceButtonProps {
   sample: PatternSampleView;
-};
+}
 
 export function SampleSourceButton({ sample }: SampleSourceButtonProps) {
   if (!sample.href) {

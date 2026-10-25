@@ -10,7 +10,7 @@ import type { EmailNotificationKind } from '@/server/email/constants/email-notif
 import { notifyProjectMembersByEmail } from '@/server/email/notify-project-members-by-email';
 import { appUrl } from '@/server/runs/utils/app-url';
 
-type NotifyProjectArgs = {
+interface NotifyProjectArgs {
   projectId: number;
   kind: ObservabilityNotificationKind;
   emailKind: EmailNotificationKind;
@@ -19,7 +19,7 @@ type NotifyProjectArgs = {
   deepLink: string;
   customerNumber?: string;
   callCount?: number;
-};
+}
 
 const settle = async (label: string, task: () => Promise<unknown>) => {
   try {

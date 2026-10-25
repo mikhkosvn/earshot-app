@@ -1,8 +1,8 @@
 import { CopyButton } from '@/components/common/clipboard/copy-button';
 
-type CallIdCellProps = {
+interface CallIdCellProps {
   callId: string;
-};
+}
 
 export function CallIdCell({ callId }: CallIdCellProps) {
   return (

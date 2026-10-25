@@ -10,10 +10,10 @@ import { useRenameResultForm } from '../../../_hooks/results-list/use-rename-res
 import { RenameResultNameField } from './rename-result-name-field';
 import { RenameResultSubmitButton } from './rename-result-submit-button';
 
-type RenameResultFormProps = {
+interface RenameResultFormProps {
   result: ResultListRow;
   onRenamed: () => void;
-};
+}
 
 export function RenameResultForm({ result, onRenamed }: RenameResultFormProps) {
   const { form, onSubmit } = useRenameResultForm(result, onRenamed);

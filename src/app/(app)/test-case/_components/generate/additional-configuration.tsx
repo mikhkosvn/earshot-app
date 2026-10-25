@@ -13,10 +13,10 @@ import { cn } from '@/lib/utils';
 
 import { ManualConfigFields } from './manual-config-fields';
 
-type AdditionalConfigurationProps = {
+interface AdditionalConfigurationProps {
   isManual: boolean;
   onManualChange: (isManual: boolean) => void;
-};
+}
 
 export function AdditionalConfiguration({
   isManual,

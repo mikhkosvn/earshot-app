@@ -22,7 +22,7 @@ const seriesColor = (index: number, count: number, color: PlotColor) => {
 };
 
 export const seriesChartConfig = (
-  series: PlotSeries[],
+  series: readonly PlotSeries[],
   color: PlotColor,
 ): ChartConfig =>
   Object.fromEntries(

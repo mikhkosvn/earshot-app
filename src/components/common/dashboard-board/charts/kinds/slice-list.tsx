@@ -1,10 +1,10 @@
 import { PLOT_COLOR_VALUE } from '@/server/dashboards/constants/plot/plot-color';
 import type { PlotConfig, SlicePlotData } from '@/server/dashboards/types';
 
-type SliceListProps = {
+interface SliceListProps {
   data: SlicePlotData;
   config: PlotConfig;
-};
+}
 
 export function SliceList({ data, config }: SliceListProps) {
   const color = PLOT_COLOR_VALUE[config.color];

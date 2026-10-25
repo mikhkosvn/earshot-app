@@ -8,10 +8,10 @@ import { useEditScheduleForm } from '../../../_hooks/auto-optimise/use-edit-sche
 import { ScheduleFormFields } from './schedule-form-fields';
 import { ScheduleFormFooter } from './schedule-form-footer';
 
-type EditScheduleFormProps = {
+interface EditScheduleFormProps {
   schedule: OptimizerScheduleView;
   onSaved: () => void;
-};
+}
 
 export function EditScheduleForm({ schedule, onSaved }: EditScheduleFormProps) {
   const { form, onSubmit, isSaving } = useEditScheduleForm(schedule, onSaved);

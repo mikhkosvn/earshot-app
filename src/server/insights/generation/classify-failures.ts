@@ -34,17 +34,17 @@ export const classificationSchema = z.object({
 
 export type Classification = z.infer<typeof classificationSchema>;
 
-export type KnownCategory = {
+export interface KnownCategory {
   slug: string;
   name: string;
   description: string;
-};
+}
 
-type ClassifyInput = {
+interface ClassifyInput {
   metric: { name: string; description: string };
   failures: FailureItem[];
   knownCategories: KnownCategory[];
-};
+}
 
 const SYSTEM = [
   'You analyse failed evaluations of one metric on production calls of a voice AI agent.',

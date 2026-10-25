@@ -1,8 +1,8 @@
 import type { GraphLine } from '../../_utils/metric-graph';
 
-type ChartLegendProps = {
-  lines: GraphLine[];
-};
+interface ChartLegendProps {
+  lines: readonly GraphLine[];
+}
 
 export function ChartLegend({ lines }: ChartLegendProps) {
   if (lines.length === 0) return null;

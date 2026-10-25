@@ -9,9 +9,9 @@ import { NewNotificationsPill } from './new-notifications-pill';
 import { NotificationList } from './notification-list';
 import { NotificationListSkeleton } from './notification-list-skeleton';
 
-type NotificationsPanelProps = {
+interface NotificationsPanelProps {
   onNavigate: () => void;
-};
+}
 
 export function NotificationsPanel({ onNavigate }: NotificationsPanelProps) {
   return (

@@ -7,10 +7,10 @@ import { useCurrentProjectId } from '@/app/(app)/_hooks/use-current-project-id';
 import { EvaluatorService } from '../../_service';
 import { FilterOptionList } from './filter-option-list';
 
-type PersonalityFilterPanelProps = {
-  value: number[];
+interface PersonalityFilterPanelProps {
+  value: readonly number[];
   onValueChange: (personalityIds: number[]) => void;
-};
+}
 
 export function PersonalityFilterPanel({
   value,

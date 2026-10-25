@@ -5,10 +5,10 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { toggledIds } from '../../../_utils/runs/run-selection';
 import type { RunSelection } from '../runs-table';
 
-type RunSelectCheckboxProps = {
+interface RunSelectCheckboxProps {
   runId: number;
   selection?: RunSelection;
-};
+}
 
 export function RunSelectCheckbox({
   runId,

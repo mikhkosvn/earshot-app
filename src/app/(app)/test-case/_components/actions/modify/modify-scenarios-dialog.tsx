@@ -13,11 +13,11 @@ import { Skeleton } from '@/components/ui/skeleton';
 
 import { ModifyScenariosForm } from './modify-scenarios-form';
 
-type ModifyScenariosDialogProps = {
+interface ModifyScenariosDialogProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   evaluatorIds: number[];
-};
+}
 
 export function ModifyScenariosDialog({
   open,

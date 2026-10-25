@@ -6,10 +6,10 @@ import { useResultDetail } from '../../../_hooks/use-result-detail';
 import { MoreMetricsToggleIcon } from './more-metrics-toggle-icon';
 import { MoreMetricsToggleLabel } from './more-metrics-toggle-label';
 
-type MoreMetricsToggleProps = {
+interface MoreMetricsToggleProps {
   open: boolean;
   onToggle: () => void;
-};
+}
 
 export function MoreMetricsToggle({ open, onToggle }: MoreMetricsToggleProps) {
   const result = useResultDetail();

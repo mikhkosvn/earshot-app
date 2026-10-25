@@ -4,10 +4,10 @@ import { SparklesIcon, XIcon } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
 
-type ReviewTaskPanelHeaderProps = {
+interface ReviewTaskPanelHeaderProps {
   title: string;
   onClose: () => void;
-};
+}
 
 export function ReviewTaskPanelHeader({
   title,

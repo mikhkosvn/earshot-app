@@ -21,11 +21,11 @@ import { MetricFlagSwitch } from './metric-flag-switch';
 import { MetricRowDetails } from './metric-row-details';
 import { MetricRowMenu } from './metric-row-menu';
 
-type MetricRowProps = {
+interface MetricRowProps {
   metric: MetricListItem;
   selected: boolean;
   onSelectedChange: (checked: boolean) => void;
-};
+}
 
 export function MetricRow({
   metric,

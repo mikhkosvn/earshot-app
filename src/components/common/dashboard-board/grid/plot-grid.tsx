@@ -20,9 +20,9 @@ import type { DashboardBoardState } from '../_utils/board-types';
 import { PlotGridEmpty } from './plot-grid-empty';
 import { SortablePlot } from './sortable-plot';
 
-type PlotGridProps = {
+interface PlotGridProps {
   board: DashboardBoardState;
-};
+}
 
 const DRAG_DISTANCE = 5;
 

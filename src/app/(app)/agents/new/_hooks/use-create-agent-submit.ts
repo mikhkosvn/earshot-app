@@ -8,10 +8,10 @@ import type { AgentConfigValues, CreatedAgent } from '@/server/agents/types';
 import { useCheckAgentConfigMutation } from './mutations/use-check-agent-config-mutation';
 import { useCreateAgentMutation } from './mutations/use-create-agent-mutation';
 
-type CreateAgentSubmitHandlers = {
+interface CreateAgentSubmitHandlers {
   onCheckFailed: (message: string) => void;
   onCreated: (agent: CreatedAgent) => void;
-};
+}
 
 export const useCreateAgentSubmit = (
   form: UseFormReturn<AgentConfigValues>,

@@ -16,11 +16,11 @@ const FIELD_ITEMS = Object.entries(ResultFilterFieldLabel).map(
   ([value, label]) => ({ value, label }),
 );
 
-type ResultFilterRowProps = {
+interface ResultFilterRowProps {
   draft: ResultFilterDraft;
   onChange: (draft: ResultFilterDraft) => void;
   onRemove: () => void;
-};
+}
 
 export function ResultFilterRow({
   draft,

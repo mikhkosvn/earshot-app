@@ -12,9 +12,9 @@ import {
 } from '../../../_utils/number-rule-value';
 import { RubricFieldLabel } from '../rubric-field-label';
 
-type RubricNumberValueFieldProps = {
+interface RubricNumberValueFieldProps {
   index: number;
-};
+}
 
 export function RubricNumberValueField({ index }: RubricNumberValueFieldProps) {
   const { control } = useFormContext<RubricFormValues>();

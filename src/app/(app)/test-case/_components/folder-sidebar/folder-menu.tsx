@@ -25,9 +25,9 @@ import { CreateFolderDialog } from './dialogs/create-folder-dialog';
 import { DeleteFolderDialog } from './dialogs/delete-folder-dialog';
 import { RenameFolderDialog } from './dialogs/rename-folder-dialog';
 
-type FolderMenuProps = {
+interface FolderMenuProps {
   folder: FolderView;
-};
+}
 
 export function FolderMenu({ folder }: FolderMenuProps) {
   const projectId = useCurrentProjectId();

@@ -4,10 +4,10 @@ import { useImprovementTurns } from '../../_hooks/improve/use-improvement-turns'
 import { ImproveEmptyState } from './improve-empty-state';
 import { ImproveTurn } from './improve-turn';
 
-type ImproveConversationProps = {
+interface ImproveConversationProps {
   scope: number;
   onSend: (prompt: string) => void;
-};
+}
 
 export function ImproveConversation({
   scope,

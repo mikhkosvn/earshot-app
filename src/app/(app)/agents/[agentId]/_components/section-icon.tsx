@@ -1,8 +1,8 @@
 import type { LucideIcon } from 'lucide-react';
 
-type SectionIconProps = {
+interface SectionIconProps {
   icon?: LucideIcon;
-};
+}
 
 export function SectionIcon({ icon: Icon }: SectionIconProps) {
   if (!Icon) return null;

@@ -12,9 +12,9 @@ import { useProviderKeyState } from '../_hooks/use-provider-key-state';
 import { DeleteProviderKeyButton } from './delete-provider-key-button';
 import { ProviderKeySavedBadge } from './provider-key-saved-badge';
 
-type ProviderKeyFieldProps = {
+interface ProviderKeyFieldProps {
   provider: ProviderKeyProvider;
-};
+}
 
 export function ProviderKeyField({ provider }: ProviderKeyFieldProps) {
   const { control } = useFormContext<ProviderApiKeysFormValues>();

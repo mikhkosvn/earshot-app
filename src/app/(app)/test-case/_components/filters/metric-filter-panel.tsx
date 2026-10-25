@@ -9,12 +9,12 @@ import { EvaluatorService } from '../../_service';
 import { FilterLogicSelect } from './filter-logic-select';
 import { FilterOptionList } from './filter-option-list';
 
-type MetricFilterPanelProps = {
-  value: number[];
+interface MetricFilterPanelProps {
+  value: readonly number[];
   onValueChange: (metricIds: number[]) => void;
   logic: FilterLogic;
   onLogicChange: (logic: FilterLogic) => void;
-};
+}
 
 export function MetricFilterPanel({
   value,

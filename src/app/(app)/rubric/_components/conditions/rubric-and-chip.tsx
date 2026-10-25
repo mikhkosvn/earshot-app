@@ -1,6 +1,6 @@
-type RubricAndChipProps = {
+interface RubricAndChipProps {
   index: number;
-};
+}
 
 export function RubricAndChip({ index }: RubricAndChipProps) {
   if (index === 0) return null;

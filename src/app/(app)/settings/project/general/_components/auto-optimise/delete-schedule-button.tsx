@@ -8,11 +8,13 @@ import { Button } from '@/components/ui/button';
 
 import { useDeleteScheduleMutation } from '../../_hooks/mutations/auto-optimise/use-delete-schedule-mutation';
 
-type DeleteScheduleButtonProps = {
+interface DeleteScheduleButtonProps {
   scheduleId: number;
-};
+}
 
-export function DeleteScheduleButton({ scheduleId }: DeleteScheduleButtonProps) {
+export function DeleteScheduleButton({
+  scheduleId,
+}: DeleteScheduleButtonProps) {
   const [isOpen, setIsOpen] = useState(false);
   const deleteSchedule = useDeleteScheduleMutation();
 

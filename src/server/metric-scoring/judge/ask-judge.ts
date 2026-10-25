@@ -20,7 +20,7 @@ const resultSchemaFor = (metric: ScoringMetric) => {
     return z.number().min(0).max(RATING_SCALE_MAX).nullable();
   }
   if (metric.evalType === MetricEvalType.enum && metric.enumValues.length > 0) {
-    return z.enum(metric.enumValues as [string, ...string[]]).nullable();
+    return z.enum(metric.enumValues).nullable();
   }
   if (metric.evalType === MetricEvalType.enum) return z.string().nullable();
   return z.number().nullable();
@@ -45,11 +45,11 @@ const resultHint = (metric: ScoringMetric) => {
   return 'Result: a number.';
 };
 
-type AskJudgeArgs = {
+interface AskJudgeArgs {
   metric: ScoringMetric;
   prompt: string;
   mock: () => JudgeResult;
-};
+}
 
 export const askJudge = async ({
   metric,
@@ -65,7 +65,7 @@ export const askJudge = async ({
     prompt: `${prompt}\n\n${resultHint(metric)}`,
     schema,
     mock,
-  }) as Promise<JudgeResult>;
+  });
 };
 
 const relevanceSchema = z.object({

@@ -10,9 +10,9 @@ import getQueryClient from '@/lib/query-client/get-query-client';
 
 import { QueryDevtools } from './query-devtools';
 
-type ProvidersProps = {
+interface ProvidersProps {
   children: ReactNode;
-};
+}
 
 export const Providers = ({ children }: ProvidersProps) => {
   const queryClient = getQueryClient();

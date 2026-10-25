@@ -5,9 +5,9 @@ import type { MetricOverTime } from '@/server/runs-overview/types';
 import { useRunsOverviewParams } from '../../../_hooks/use-runs-overview-params';
 import { OverviewChart } from '../trends/overview-chart';
 
-type MetricChartCardProps = {
+interface MetricChartCardProps {
   metric: MetricOverTime;
-};
+}
 
 export function MetricChartCard({ metric }: MetricChartCardProps) {
   const [{ chartType }] = useRunsOverviewParams();

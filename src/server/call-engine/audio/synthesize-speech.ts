@@ -2,10 +2,10 @@ import 'server-only';
 
 import type { Random } from '@/server/call-engine/audio/random';
 
-export type Voice = {
+export interface Voice {
   pitchHz: number;
   wordsPerSecond: number;
-};
+}
 
 const HARMONICS = 6;
 const SPEECH_GAIN = 0.32;

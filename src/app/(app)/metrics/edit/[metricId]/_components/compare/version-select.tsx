@@ -8,13 +8,13 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 
-type VersionSelectProps = {
+interface VersionSelectProps {
   label: string;
   placeholder: string;
-  items: { value: number; label: string }[];
+  items: readonly { value: number; label: string }[];
   value: number | null;
   onValueChange: (value: number) => void;
-};
+}
 
 export function VersionSelect({
   label,

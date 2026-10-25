@@ -6,9 +6,9 @@ import { cn } from '@/lib/utils';
 
 import { ExpandToggleButton } from '../expand-toggle-button';
 
-type TranscriptPreviewProps = {
-  lines: string[];
-};
+interface TranscriptPreviewProps {
+  lines: readonly string[];
+}
 
 const PREVIEW_LINES = 2;
 

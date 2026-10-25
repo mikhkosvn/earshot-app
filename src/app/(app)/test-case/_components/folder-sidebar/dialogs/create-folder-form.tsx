@@ -9,10 +9,10 @@ import { useCreateFolderForm } from '../../../_hooks/folders/use-create-folder-f
 import { FolderNameField } from './folder-name-field';
 import { FolderNameSubmitButton } from './folder-name-submit-button';
 
-type CreateFolderFormProps = {
+interface CreateFolderFormProps {
   parentPath: string | null;
   onCreated: () => void;
-};
+}
 
 export function CreateFolderForm({
   parentPath,

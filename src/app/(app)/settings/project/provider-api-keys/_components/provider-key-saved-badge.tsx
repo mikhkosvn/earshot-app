@@ -1,8 +1,8 @@
 import { Badge } from '@/components/ui/badge';
 
-type ProviderKeySavedBadgeProps = {
+interface ProviderKeySavedBadgeProps {
   maskedKey: string | null;
-};
+}
 
 export function ProviderKeySavedBadge({
   maskedKey,

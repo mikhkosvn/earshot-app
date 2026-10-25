@@ -5,7 +5,7 @@ import type { MetricListItem } from '@/server/metrics/types';
 import { metricGroupOf, orderByGroup } from './metric-groups';
 
 export const moveMetric = (
-  metrics: MetricListItem[],
+  metrics: readonly MetricListItem[],
   activeId: number,
   overId: number,
 ): MetricListItem[] | null => {

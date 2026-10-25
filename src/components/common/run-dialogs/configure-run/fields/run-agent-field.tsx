@@ -12,10 +12,10 @@ import { RunDialogService } from '../../_service';
 import { LabeledField } from '../../fields/labeled-field';
 import { OptionSelect } from '../../fields/option-select';
 
-type RunAgentFieldProps = {
+interface RunAgentFieldProps {
   form: RunSettingsForm;
   evaluatorIds: number[];
-};
+}
 
 const AGENT_HELP =
   'Note - We leverage the description of the agent for generating. It is important you provide good detailed description.';

@@ -1,9 +1,9 @@
 import type { ReactNode } from 'react';
 
-type MetricGroupProps = {
+interface MetricGroupProps {
   label: string;
   children: ReactNode;
-};
+}
 
 export function MetricGroup({ label, children }: MetricGroupProps) {
   return (

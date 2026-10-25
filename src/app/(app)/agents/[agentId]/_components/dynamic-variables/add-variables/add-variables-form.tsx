@@ -8,15 +8,16 @@ import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
 import { PendingLabel } from '../../../../_components/pending-label';
 import {
+  isVariableEditorMode,
   VARIABLE_EDITOR_MODE_LABEL,
   VariableEditorMode,
 } from '../../../_constants/variable-editor-mode';
 import { useAddVariablesForm } from '../../../_hooks/use-add-variables-form';
 import { VariablesEditor } from './variables-editor';
 
-type AddVariablesFormProps = {
+interface AddVariablesFormProps {
   onSaved: () => void;
-};
+}
 
 export function AddVariablesForm({ onSaved }: AddVariablesFormProps) {
   const editor = useAddVariablesForm(onSaved);
@@ -30,9 +31,10 @@ export function AddVariablesForm({ onSaved }: AddVariablesFormProps) {
       >
         <Tabs
           value={editor.mode}
-          onValueChange={(value) =>
-            editor.changeMode(value as VariableEditorMode)
-          }
+          onValueChange={(value) => {
+            if (!isVariableEditorMode(value)) return;
+            editor.changeMode(value);
+          }}
         >
           <TabsList>
             {Object.values(VariableEditorMode).map((mode) => (

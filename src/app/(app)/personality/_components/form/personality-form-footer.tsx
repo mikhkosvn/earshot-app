@@ -9,10 +9,10 @@ import { UrlGenerator } from '@/lib/url-generator/url-generator';
 
 import { useIsSavingPersonality } from '../../_hooks/form/use-is-saving-personality';
 
-type PersonalityFormFooterProps = {
+interface PersonalityFormFooterProps {
   status: ReactNode;
   submitLabel: string;
-};
+}
 
 export function PersonalityFormFooter({
   status,

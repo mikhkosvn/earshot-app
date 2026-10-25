@@ -11,10 +11,10 @@ import { useIsUpdatingPhoneNumber } from '../../_hooks/use-is-updating-phone-num
 import { PhoneNumberFields } from '../fields/phone-number-fields';
 import { SavePhoneNumberLabel } from './save-phone-number-label';
 
-type EditPhoneNumberFormProps = {
+interface EditPhoneNumberFormProps {
   phoneNumber: PhoneNumberRow;
   onSaved: () => void;
-};
+}
 
 const SAVED_SECRET_PLACEHOLDER = 'Saved. Type a new value to replace it.';
 

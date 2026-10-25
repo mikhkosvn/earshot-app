@@ -5,13 +5,13 @@ import { prisma } from '@/lib/prisma';
 import type { CallRecording, PlacedCall } from '@/server/call-engine/types';
 import { saveFile } from '@/server/files/save-file';
 
-type StoreConversationArgs = {
+interface StoreConversationArgs {
   projectId: number;
   conversationId: number;
   runId: number;
   call: PlacedCall;
   dynamicVariables: Record<string, string>;
-};
+}
 
 const RECORDING_FILE_PREFIX = 'run-';
 const RECORDING_FILE_EXTENSION = '.wav';
@@ -75,7 +75,7 @@ export const storeConversation = async ({
         providerCallId: call.providerCallId,
         providerCallData: call.providerCallData as Prisma.InputJsonObject,
         metadata: call.metadata as Prisma.InputJsonObject,
-        dynamicVariables: dynamicVariables as Prisma.InputJsonObject,
+        dynamicVariables,
       },
     }),
   ]);

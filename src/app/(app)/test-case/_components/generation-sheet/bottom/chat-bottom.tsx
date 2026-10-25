@@ -8,10 +8,10 @@ import { QuestionComposer } from './question-composer';
 import { SaveScenariosFooter } from './save-scenarios-footer';
 import { WaitingComposer } from './waiting-composer';
 
-type ChatBottomProps = {
+interface ChatBottomProps {
   session: GenerationSessionView;
   stage: GenerationStage;
-};
+}
 
 export function ChatBottom({ session, stage }: ChatBottomProps) {
   if (stage === GenerationStage.question) {

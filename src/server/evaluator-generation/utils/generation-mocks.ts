@@ -5,21 +5,21 @@ import {
   GenerationScenarioType,
 } from '@/server/evaluator-generation/constants';
 
-type DecisionMockArgs = {
+interface DecisionMockArgs {
   agentName: string;
   agentSpeaksFirst: boolean | null;
   userMessageCount: number;
   numScenarios: number;
   scenarioType: GenerationScenarioType;
   baseInstructions: string;
-};
+}
 
-type Persona = {
+interface Persona {
   fullName: string;
   phoneNumber: string;
   dateOfBirth: string;
   email: string;
-};
+}
 
 const WORKFLOW_VARIATIONS = [
   {

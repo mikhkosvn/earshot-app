@@ -1,9 +1,9 @@
 import { BOOLEAN_SCORE_OPTIONS } from '../../../_constants/boolean-score-options';
 import { ScoreToggle } from './score-toggle';
 
-type BooleanScoreTogglesProps = {
+interface BooleanScoreTogglesProps {
   groupKey: string;
-};
+}
 
 export function BooleanScoreToggles({ groupKey }: BooleanScoreTogglesProps) {
   return (

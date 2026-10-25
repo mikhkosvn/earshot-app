@@ -6,11 +6,11 @@ import type { DashboardBoardState } from '../_utils/board-types';
 import { PlotForm } from './plot-form';
 import { QuickAddList } from './quick-add/quick-add-list';
 
-type PlotDialogBodyProps = {
+interface PlotDialogBodyProps {
   board: DashboardBoardState;
   state: PlotDialogState;
   onClose: () => void;
-};
+}
 
 export function PlotDialogBody({ board, state, onClose }: PlotDialogBodyProps) {
   if (state.mode === PlotDialogMode.closed) return null;

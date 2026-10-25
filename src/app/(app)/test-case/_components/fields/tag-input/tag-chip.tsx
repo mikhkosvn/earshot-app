@@ -4,10 +4,10 @@ import { XIcon } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
 
-type TagChipProps = {
+interface TagChipProps {
   tag: string;
   onRemove: () => void;
-};
+}
 
 export function TagChip({ tag, onRemove }: TagChipProps) {
   return (

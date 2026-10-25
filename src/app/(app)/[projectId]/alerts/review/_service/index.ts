@@ -23,7 +23,10 @@ export const AlertKey = {
 
 export type AlertKey = (typeof AlertKey)[keyof typeof AlertKey];
 
-type ReviewArgs = { projectId: number; hours: AlertWindowHours };
+interface ReviewArgs {
+  projectId: number;
+  hours: AlertWindowHours;
+}
 
 export class AlertService {
   static readonly reviewKey = [AlertKey.review];

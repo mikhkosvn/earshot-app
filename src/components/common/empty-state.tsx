@@ -10,13 +10,13 @@ import {
 } from '@/components/ui/empty';
 import { cn } from '@/lib/utils';
 
-type EmptyStateProps = {
+interface EmptyStateProps {
   icon: LucideIcon;
   title: ReactNode;
   description: ReactNode;
   children?: ReactNode;
   className?: string;
-};
+}
 
 export function EmptyState({
   icon: Icon,

@@ -13,9 +13,9 @@ import { useResultId } from '../../../../_hooks/use-result-id';
 import { ResultService } from '../../../../_service';
 import { selectedEvaluatorIds } from '../../../../_utils/runs/run-selection';
 
-type RunSelectedButtonProps = {
-  selectedIds: number[];
-};
+interface RunSelectedButtonProps {
+  selectedIds: readonly number[];
+}
 
 export function RunSelectedButton({ selectedIds }: RunSelectedButtonProps) {
   const [startedResultId, setStartedResultId] = useState<number | null>(null);

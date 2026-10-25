@@ -2,9 +2,9 @@ import { GAUGE_ARC_PATH } from '../../_constants/result-detail';
 import { formatPercent } from '../../_utils/number-format';
 import { ScoreGaugeArc } from './score-gauge-arc';
 
-type ScoreGaugeProps = {
+interface ScoreGaugeProps {
   percent: number;
-};
+}
 
 export function ScoreGauge({ percent }: ScoreGaugeProps) {
   return (

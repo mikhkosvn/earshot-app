@@ -12,9 +12,9 @@ import { AgentService } from '../../_service';
 import { AgentsTable } from './agents-table';
 import { AgentsTableSkeleton } from './agents-table-skeleton';
 
-type AgentsDataProps = {
+interface AgentsDataProps {
   searchParams: Promise<Record<string, string | string[] | undefined>>;
-};
+}
 
 export async function AgentsData({ searchParams }: AgentsDataProps) {
   await io();

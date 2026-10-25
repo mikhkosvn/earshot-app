@@ -21,12 +21,12 @@ import { ChartLegend } from './chart-legend';
 const CHART_HEIGHT = 260;
 const AXIS_FONT_SIZE = 11;
 
-type MetricLineChartProps = {
+interface MetricLineChartProps {
   points: GraphPoint[];
-  lines: GraphLine[];
+  lines: readonly GraphLine[];
   duration: number;
   valueLabel: string;
-};
+}
 
 export function MetricLineChart({
   points,

@@ -10,12 +10,12 @@ import type {
 import { matchesSearch } from '../../../_utils/matches-search';
 import { FilterEmpty } from './filter-empty';
 
-type AgentPanelProps = {
+interface AgentPanelProps {
   draft: RunsOverviewFilters;
   search: string;
-  options: FilterOption[];
+  options: readonly FilterOption[];
   onChange: (draft: RunsOverviewFilters) => void;
-};
+}
 
 const valueOf = (agentId: number | null) => {
   if (agentId === null) return '';

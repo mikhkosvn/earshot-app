@@ -38,10 +38,10 @@ export type ListGenerationSessionsInput = z.input<
 export type AssistantJobInput = z.output<typeof assistantJobInputSchema>;
 export type GenerationJobInput = z.output<typeof generationJobInputSchema>;
 
-export type StartedAssistant = {
+export interface StartedAssistant {
   jobId: string;
   sessionId: number;
-};
+}
 
 export type ClarificationQuestion = {
   question: string;
@@ -72,22 +72,22 @@ export type GenerationJobResult = {
   deepLink?: string;
 };
 
-export type GenerationJobView<TResult> = {
+export interface GenerationJobView<TResult> {
   id: string;
   status: JobStatus;
   currentStep: string | null;
   result: TResult | null;
   error: string | null;
-};
+}
 
-export type GenerationMessageView = {
+export interface GenerationMessageView {
   id: number;
   role: ChatRole;
   content: string;
   createdAt: Date;
-};
+}
 
-export type GeneratedEvaluatorView = {
+export interface GeneratedEvaluatorView {
   id: number;
   name: string;
   instructions: string;
@@ -96,9 +96,9 @@ export type GeneratedEvaluatorView = {
   language: Language;
   testProfileName: string | null;
   tools: ScenarioTool[];
-};
+}
 
-export type GenerationSessionView = {
+export interface GenerationSessionView {
   id: number;
   title: string;
   status: GenerationSessionStatus;
@@ -111,13 +111,13 @@ export type GenerationSessionView = {
   assistantJob: GenerationJobView<AssistantJobResult> | null;
   generationJob: GenerationJobView<GenerationJobResult> | null;
   createdAt: Date;
-};
+}
 
-export type GenerationSessionSummary = {
+export interface GenerationSessionSummary {
   id: number;
   title: string;
   status: GenerationSessionStatus;
   agentName: string | null;
   evaluatorCount: number;
   createdAt: Date;
-};
+}

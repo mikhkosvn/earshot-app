@@ -5,9 +5,9 @@ import { Input } from '@/components/ui/input';
 import { useGroupCorrection } from '../../../_hooks/use-group-correction';
 import { usePatternGroup } from '../../../_hooks/use-pattern-group';
 
-type CorrectionNoteFieldProps = {
+interface CorrectionNoteFieldProps {
   groupKey: string;
-};
+}
 
 export function CorrectionNoteField({ groupKey }: CorrectionNoteFieldProps) {
   const { correction } = usePatternGroup(groupKey);

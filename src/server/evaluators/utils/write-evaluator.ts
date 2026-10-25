@@ -7,20 +7,20 @@ import { assertEvaluatorReferences } from '@/server/evaluators/utils/resolve-eva
 import { findFolderOrThrow } from '@/server/folders/utils/find-folder';
 import { upsertTags } from '@/server/tags/utils/upsert-tags';
 
-type WriteEvaluatorArgs = {
+interface WriteEvaluatorArgs {
   projectId: number;
   userId: number | null;
   fields: EvaluatorFieldsOutput;
   generationSessionId?: number | null;
-};
+}
 
-type CreateEvaluatorArgs = WriteEvaluatorArgs & {
+interface CreateEvaluatorArgs extends WriteEvaluatorArgs {
   creationMethod: CreationMethod;
-};
+}
 
-type UpdateEvaluatorArgs = WriteEvaluatorArgs & {
+interface UpdateEvaluatorArgs extends WriteEvaluatorArgs {
   evaluatorId: number;
-};
+}
 
 const prepareRelations = async (
   tx: Prisma.TransactionClient,

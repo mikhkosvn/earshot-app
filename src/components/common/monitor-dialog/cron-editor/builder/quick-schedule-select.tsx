@@ -22,10 +22,10 @@ const matchQuickSchedule = (expression: string) =>
   QUICK_SCHEDULES.find((schedule) => schedule.cron === expression)?.cron ??
   null;
 
-type QuickScheduleSelectProps = {
-  parts: string[];
+interface QuickScheduleSelectProps {
+  parts: readonly string[];
   onSelect: (cron: string) => void;
-};
+}
 
 export function QuickScheduleSelect({
   parts,

@@ -2,6 +2,7 @@ import 'server-only';
 
 import type { OverviewAssignment } from '@/server/insights/overview/get-insights-overview';
 import type {
+  FailureTrendPoint,
   FailureTrendSeries,
   InsightCardView,
 } from '@/server/insights/types';
@@ -30,10 +31,13 @@ export const failureTrendOf = (
     Math.ceil((windowEnd.getTime() - start) / bucketMs),
   );
   return cards.map((card) => {
-    const points = Array.from({ length: bucketCount }, (_, index) => ({
-      bucketStart: new Date(start + index * bucketMs),
-      counts: {} as Record<string, number>,
-    }));
+    const points = Array.from(
+      { length: bucketCount },
+      (_, index): FailureTrendPoint => ({
+        bucketStart: new Date(start + index * bucketMs),
+        counts: {},
+      }),
+    );
     assignments
       .filter((row) => row.category.metricId === card.metricId)
       .forEach((row) => {

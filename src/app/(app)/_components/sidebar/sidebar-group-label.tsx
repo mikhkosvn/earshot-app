@@ -1,6 +1,6 @@
-type SidebarGroupLabelProps = {
+interface SidebarGroupLabelProps {
   label: string | null;
-};
+}
 
 export function SidebarGroupLabel({ label }: SidebarGroupLabelProps) {
   if (!label) return null;

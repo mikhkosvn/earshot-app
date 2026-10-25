@@ -14,9 +14,9 @@ import { SeriesFields } from './fields/series/series-fields';
 import { ShowPercentagesField } from './fields/show-percentages-field';
 import { PlotFiltersSection } from './plot-filters-section';
 
-type PlotFormDetailsProps = {
+interface PlotFormDetailsProps {
   source: DashboardSource;
-};
+}
 
 export function PlotFormDetails({ source }: PlotFormDetailsProps) {
   const field = useWatch<PlotFormValues, 'field'>({ name: 'field' });

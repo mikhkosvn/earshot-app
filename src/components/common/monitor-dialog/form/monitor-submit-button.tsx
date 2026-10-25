@@ -6,9 +6,9 @@ import { Button } from '@/components/ui/button';
 
 import { useIsSavingMonitor } from '../_hooks/use-is-saving-monitor';
 
-type MonitorSubmitButtonProps = {
+interface MonitorSubmitButtonProps {
   children: ReactNode;
-};
+}
 
 export function MonitorSubmitButton({ children }: MonitorSubmitButtonProps) {
   const isSaving = useIsSavingMonitor();

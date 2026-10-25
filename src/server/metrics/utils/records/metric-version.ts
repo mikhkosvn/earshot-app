@@ -8,12 +8,12 @@ import {
   toMetricDetail,
 } from '@/server/metrics/utils/metric-view';
 
-type WriteMetricVersionArgs = {
+interface WriteMetricVersionArgs {
   metricId: number;
   userId: number | null;
   changeType: HistoryChangeType;
   changeReason?: string;
-};
+}
 
 export const toMetricSnapshot = (
   detail: ReturnType<typeof toMetricDetail>,

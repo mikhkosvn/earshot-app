@@ -4,10 +4,10 @@ import { Button } from '@/components/ui/button';
 
 import { IMPROVE_SUGGESTIONS } from '../../_constants/improve-suggestions';
 
-type ImproveEmptyStateProps = {
+interface ImproveEmptyStateProps {
   scope: number;
   onSend: (prompt: string) => void;
-};
+}
 
 export function ImproveEmptyState({ scope, onSend }: ImproveEmptyStateProps) {
   return (

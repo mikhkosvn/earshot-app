@@ -9,10 +9,10 @@ import {
   TooltipTrigger,
 } from '@/components/ui/tooltip';
 
-type InfoTooltipProps = {
+interface InfoTooltipProps {
   label: string;
   text: string;
-};
+}
 
 export function InfoTooltip({ label, text }: InfoTooltipProps) {
   return (

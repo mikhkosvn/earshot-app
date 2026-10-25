@@ -16,9 +16,9 @@ import { useRuleOperatorItems } from '../../_hooks/use-rule-operator-items';
 import type { RubricFormValues } from '../../_schemas/rubric-form-schema';
 import { RubricFieldLabel } from './rubric-field-label';
 
-type RubricOperatorFieldProps = {
+interface RubricOperatorFieldProps {
   index: number;
-};
+}
 
 export function RubricOperatorField({ index }: RubricOperatorFieldProps) {
   const { control } = useFormContext<RubricFormValues>();

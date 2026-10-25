@@ -12,10 +12,10 @@ import type { PlotConfig, SlicePlotData } from '@/server/dashboards/types';
 import { sliceColor } from '../../_utils/chart-format';
 import { SliceLegend } from './slice-legend';
 
-type SlicePieChartProps = {
+interface SlicePieChartProps {
   data: SlicePlotData;
   config: PlotConfig;
-};
+}
 
 export function SlicePieChart({ data, config }: SlicePieChartProps) {
   const chartConfig = Object.fromEntries(

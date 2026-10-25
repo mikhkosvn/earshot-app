@@ -1,7 +1,7 @@
-type OptionIdLabelProps = {
+interface OptionIdLabelProps {
   id: number | string;
   label: string;
-};
+}
 
 export function OptionIdLabel({ id, label }: OptionIdLabelProps) {
   return (

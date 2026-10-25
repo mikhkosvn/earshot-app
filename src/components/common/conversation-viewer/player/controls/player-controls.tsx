@@ -24,7 +24,7 @@ import { PlayerTime } from './player-time';
 import { SpeedSelect } from './speed-select';
 import { VolumeButton } from './volume-button';
 
-type PlayerControlsProps = {
+interface PlayerControlsProps {
   query: ConversationQueryArgs;
   audioRef: RefObject<HTMLAudioElement | null>;
   currentTime: number;
@@ -33,7 +33,7 @@ type PlayerControlsProps = {
   speed: number;
   onMutedChange: (muted: boolean) => void;
   onSpeedChange: (speed: number) => void;
-};
+}
 
 const playLabel = (playing: boolean) => {
   if (playing) return 'Pause';

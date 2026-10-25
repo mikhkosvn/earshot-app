@@ -9,10 +9,10 @@ import type { LabRowView } from '@/server/labs/types';
 import { useExpectedValueForm } from '../../../_hooks/form/use-expected-value-form';
 import { ExpectedValueInput } from './expected-value-input';
 
-type ExpectedValueFormProps = {
+interface ExpectedValueFormProps {
   row: LabRowView;
   onSaved: () => void;
-};
+}
 
 export function ExpectedValueForm({ row, onSaved }: ExpectedValueFormProps) {
   const { form, onSubmit, isSaving } = useExpectedValueForm(row, onSaved);

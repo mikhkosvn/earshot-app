@@ -4,10 +4,10 @@ import type { ProviderKeyProvider } from '@/generated/prisma/enums';
 import { prisma } from '@/lib/prisma';
 import { decryptSecret } from '@/server/crypto/decrypt-secret';
 
-type ProviderApiKeyRef = {
+interface ProviderApiKeyRef {
   projectId: number;
   provider: ProviderKeyProvider;
-};
+}
 
 export const getProviderApiKey = async ({
   projectId,

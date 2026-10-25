@@ -9,10 +9,10 @@ import {
 
 import { ExportCallsForm } from './export-calls-form';
 
-type ExportCallsDialogProps = {
+interface ExportCallsDialogProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
-};
+}
 
 export function ExportCallsDialog({
   open,

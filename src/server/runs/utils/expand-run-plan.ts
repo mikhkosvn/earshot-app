@@ -2,19 +2,19 @@ import 'server-only';
 
 import type { EvaluatorSnapshot, RunPlanCase } from '@/server/runs/types';
 
-export type RunPlanSource = {
+export interface RunPlanSource {
   evaluatorId: number | null;
   evaluatorSnapshot: EvaluatorSnapshot;
   personalityId: number | null;
   testProfileId: number | null;
   frequency: number;
-};
+}
 
-type ExpandRunPlanArgs = {
+interface ExpandRunPlanArgs {
   sources: RunPlanSource[];
   personalityIds: number[];
   testProfileIds: number[];
-};
+}
 
 const choices = (overrides: number[], fallback: number | null) => {
   if (overrides.length > 0) return overrides;

@@ -1,6 +1,6 @@
-type CodeLineNumbersProps = {
+interface CodeLineNumbersProps {
   value: string;
-};
+}
 
 export function CodeLineNumbers({ value }: CodeLineNumbersProps) {
   const lineCount = value.split('\n').length;

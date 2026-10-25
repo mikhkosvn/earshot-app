@@ -11,9 +11,9 @@ import { ResultService } from '../../../_service';
 import { ResultReportSkeleton } from './result-report-skeleton';
 import { ResultReportView } from './result-report-view';
 
-type ResultReportDataProps = {
+interface ResultReportDataProps {
   params: Promise<{ projectId: string; resultId: string }>;
-};
+}
 
 export async function ResultReportData({ params }: ResultReportDataProps) {
   await io();

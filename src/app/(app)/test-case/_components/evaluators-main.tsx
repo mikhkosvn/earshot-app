@@ -6,9 +6,9 @@ import { EvaluatorsPagination } from './table/evaluators-pagination';
 import { EvaluatorTable } from './table/evaluator-table';
 import { EvaluatorsToolbar } from './toolbar/evaluators-toolbar';
 
-type EvaluatorsMainProps = {
+interface EvaluatorsMainProps {
   onImproveOpen: () => void;
-};
+}
 
 export function EvaluatorsMain({ onImproveOpen }: EvaluatorsMainProps) {
   const [selectedIds, setSelectedIds] = useState<number[]>([]);

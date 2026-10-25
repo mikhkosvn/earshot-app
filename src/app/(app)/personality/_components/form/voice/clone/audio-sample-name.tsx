@@ -1,6 +1,6 @@
-type AudioSampleNameProps = {
+interface AudioSampleNameProps {
   file: File | null;
-};
+}
 
 export function AudioSampleName({ file }: AudioSampleNameProps) {
   if (!file) return null;

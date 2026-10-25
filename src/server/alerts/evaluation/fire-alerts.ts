@@ -10,14 +10,14 @@ import { EmailNotificationKind } from '@/server/email/constants/email-notificati
 import { notifyProjectMembersByEmail } from '@/server/email/notify-project-members-by-email';
 import { appUrl } from '@/server/runs/utils/app-url';
 
-export type AlertFire = {
+export interface AlertFire {
   rule: { id: number; name: string; projectId: number };
   message: string;
   observedValue: number | null;
   conversationId: number | null;
   metricEvaluationId: number | null;
   failureCategoryId: number | null;
-};
+}
 
 const EMAIL_MESSAGES_MAX = 5;
 

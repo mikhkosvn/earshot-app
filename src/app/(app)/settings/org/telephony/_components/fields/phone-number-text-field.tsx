@@ -6,12 +6,12 @@ import { Field, FieldError, FieldLabel } from '@/components/ui/field';
 import { Input } from '@/components/ui/input';
 import type { ImportPhoneNumberFormValues } from '@/server/telephony-phone-numbers/types';
 
-type PhoneNumberTextFieldProps = {
+interface PhoneNumberTextFieldProps {
   id: string;
   name: 'name' | 'accountSid';
   label: string;
   placeholder: string;
-};
+}
 
 export function PhoneNumberTextField({
   id,

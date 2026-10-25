@@ -6,9 +6,9 @@ import { Button } from '@/components/ui/button';
 
 import type { DashboardBoardState } from '../_utils/board-types';
 
-type PlotGridEmptyProps = {
+interface PlotGridEmptyProps {
   board: DashboardBoardState;
-};
+}
 
 export function PlotGridEmpty({ board }: PlotGridEmptyProps) {
   return (

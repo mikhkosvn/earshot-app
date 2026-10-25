@@ -4,9 +4,9 @@ import { MarkdownHeading } from './markdown-heading';
 import { MarkdownInlineText } from './markdown-inline-text';
 import { MarkdownList } from './markdown-list';
 
-type MarkdownBlockViewProps = {
+interface MarkdownBlockViewProps {
   block: MarkdownBlock;
-};
+}
 
 export function MarkdownBlockView({ block }: MarkdownBlockViewProps) {
   if (block.kind === MarkdownBlockKind.heading) {

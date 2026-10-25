@@ -5,9 +5,9 @@ import { createdPlainKey } from '../../_utils/api-key-values';
 import { CreateApiKeyForm } from './create-api-key-form';
 import { CreatedApiKeyPanel } from './created-api-key-panel';
 
-type CreateApiKeyDialogBodyProps = {
+interface CreateApiKeyDialogBodyProps {
   onDone: () => void;
-};
+}
 
 export function CreateApiKeyDialogBody({
   onDone,

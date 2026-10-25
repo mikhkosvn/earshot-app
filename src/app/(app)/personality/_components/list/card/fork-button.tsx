@@ -7,9 +7,9 @@ import { Button } from '@/components/ui/button';
 
 import { useForkPersonalityMutation } from '../../../_hooks/mutations/list/use-fork-personality-mutation';
 
-type ForkButtonProps = {
+interface ForkButtonProps {
   personalityId: number;
-};
+}
 
 export function ForkButton({ personalityId }: ForkButtonProps) {
   const projectId = useCurrentProjectId();

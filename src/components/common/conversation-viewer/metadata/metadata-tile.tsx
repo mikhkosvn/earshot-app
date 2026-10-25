@@ -1,8 +1,8 @@
 import type { ConversationMetadataTile } from '@/server/conversations/types';
 
-type MetadataTileProps = {
+interface MetadataTileProps {
   tile: ConversationMetadataTile;
-};
+}
 
 export function MetadataTile({ tile }: MetadataTileProps) {
   return (

@@ -37,6 +37,9 @@ const STEP_FIELDS: Record<ManualStep, EvaluatorFieldName[]> = {
 
 const LAST_STEP = ManualStep.configuration;
 
+const isManualStep = (value: number): value is ManualStep =>
+  Object.values(ManualStep).some((item) => item === value);
+
 export const useManualWizardStep = (
   form: UseFormReturn<EvaluatorFormValues, unknown, EvaluatorFormOutput>,
 ) => {
@@ -44,13 +47,15 @@ export const useManualWizardStep = (
 
   const next = async () => {
     const isValid = await form.trigger(STEP_FIELDS[step]);
-    if (!isValid || step === LAST_STEP) return;
-    setStep((step + 1) as ManualStep);
+    const nextStep = step + 1;
+    if (!isValid || !isManualStep(nextStep)) return;
+    setStep(nextStep);
   };
 
   const back = () => {
-    if (step === ManualStep.scenarioInput) return;
-    setStep((step - 1) as ManualStep);
+    const previousStep = step - 1;
+    if (!isManualStep(previousStep)) return;
+    setStep(previousStep);
   };
 
   return { step, isLastStep: step === LAST_STEP, next, back };

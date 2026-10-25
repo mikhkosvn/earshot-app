@@ -6,9 +6,9 @@ import { ConfiguredSecret } from '../../../_components/integration/secret/config
 import { WEBHOOK_SECRET_HELP } from '../../_constants/webhook';
 import { WebhookSecretInput } from './webhook-secret-input';
 
-type WebhookSecretFieldProps = {
+interface WebhookSecretFieldProps {
   configured: boolean;
-};
+}
 
 export function WebhookSecretField({ configured }: WebhookSecretFieldProps) {
   const [updating, setUpdating] = useState(false);

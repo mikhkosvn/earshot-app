@@ -6,9 +6,9 @@ import { Textarea } from '@/components/ui/textarea';
 
 import type { RunFromFileForm } from '../../_hooks/use-run-from-file-form';
 
-type SpecPasteFieldProps = {
+interface SpecPasteFieldProps {
   control: RunFromFileForm['control'];
-};
+}
 
 const SPEC_PLACEHOLDER = '{\n  "version": "1",\n  "scenarios": []\n}';
 

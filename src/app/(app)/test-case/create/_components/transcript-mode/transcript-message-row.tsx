@@ -16,10 +16,10 @@ import {
 import type { TranscriptFormValues } from '../../_schemas/transcript-form-schema';
 import { TranscriptRoleAvatar } from './transcript-role-avatar';
 
-type TranscriptMessageRowProps = {
+interface TranscriptMessageRowProps {
   index: number;
   onRemove: () => void;
-};
+}
 
 const swapRole = (role: TranscriptRole) => {
   if (role === TranscriptRole.main_agent) return TranscriptRole.testing_agent;

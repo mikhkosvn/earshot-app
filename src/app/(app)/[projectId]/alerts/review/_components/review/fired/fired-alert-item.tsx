@@ -15,9 +15,9 @@ import type { FiredAlertSummary } from '@/server/alerts/types';
 import { firesText } from '../../../_utils/fires-text';
 import { FiredAlertFireRow } from './fired-alert-fire-row';
 
-type FiredAlertItemProps = {
+interface FiredAlertItemProps {
   alert: FiredAlertSummary;
-};
+}
 
 export function FiredAlertItem({ alert }: FiredAlertItemProps) {
   return (

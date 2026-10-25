@@ -5,11 +5,11 @@ import { MetricSubCategoryLabel } from '@/server/metrics/constants/metric-sub-ca
 import type { PredefinedCardSection as PredefinedCardSectionData } from '../../../_utils/predefined-cards';
 import { PredefinedMetricCardView } from './predefined-metric-card-view';
 
-type PredefinedCardSectionProps = {
+interface PredefinedCardSectionProps {
   section: PredefinedCardSectionData;
   selectedCodes: string[];
   onToggle: (code: string, checked: boolean) => void;
-};
+}
 
 export function PredefinedCardSection({
   section,

@@ -6,21 +6,21 @@ import type {
 
 import { DraftActionType } from '../_constants/draft-action-type';
 
-export type DraftPlot = {
+export interface DraftPlot {
   key: string;
   id: number | null;
   config: PlotConfig;
   isNew: boolean;
   isEdited: boolean;
-};
+}
 
-export type DashboardDraft = {
+export interface DashboardDraft {
   savedOrder: number[];
   savedFilters: DashboardFilterState;
   plots: DraftPlot[];
   deletedIds: number[];
   filters: DashboardFilterState;
-};
+}
 
 export type DraftAction =
   | { type: typeof DraftActionType.add; key: string; config: PlotConfig }
@@ -132,7 +132,11 @@ export const draftReducer = (
       return movePlot(state, action.fromKey, action.toKey);
     case DraftActionType.setFilters:
       return { ...state, filters: action.filters };
-    default:
+    case DraftActionType.reset:
       return initDraft(action.detail);
+    default: {
+      const unhandled: never = action;
+      return unhandled;
+    }
   }
 };

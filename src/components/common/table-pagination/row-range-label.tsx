@@ -3,10 +3,10 @@
 import { getRowRange } from './pagination-config';
 import { usePaginationParams } from './use-pagination-params';
 
-type RowRangeLabelProps = {
+interface RowRangeLabelProps {
   totalCount: number;
   pageParamKey: string;
-};
+}
 
 export function RowRangeLabel({
   totalCount,

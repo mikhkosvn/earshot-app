@@ -12,12 +12,15 @@ import { ExportAllButton } from './export-all-button';
 import { ReevaluateResultsButton } from './reevaluate-results-button';
 import { ResultsViewToggle } from './results-view-toggle';
 
-type ResultsToolbarProps = {
+interface ResultsToolbarProps {
   selectedIds: number[];
   onDeleted: () => void;
-};
+}
 
-export function ResultsToolbar({ selectedIds, onDeleted }: ResultsToolbarProps) {
+export function ResultsToolbar({
+  selectedIds,
+  onDeleted,
+}: ResultsToolbarProps) {
   return (
     <div className="flex flex-wrap items-center gap-1.5">
       <SelectViewMenu />

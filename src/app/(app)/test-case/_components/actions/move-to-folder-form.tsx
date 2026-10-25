@@ -10,10 +10,10 @@ import { Field, FieldDescription, FieldLabel } from '@/components/ui/field';
 import { useMoveEvaluatorsMutation } from '../../_hooks/mutations/evaluator-actions/use-move-evaluators-mutation';
 import { FolderSelect } from '../fields/selects/folder-select';
 
-type MoveToFolderFormProps = {
+interface MoveToFolderFormProps {
   evaluatorIds: number[];
   onMoved: () => void;
-};
+}
 
 export function MoveToFolderForm({
   evaluatorIds,

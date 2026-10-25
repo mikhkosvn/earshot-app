@@ -1,9 +1,9 @@
 import { PlotDataKind } from '@/server/dashboards/constants/plot/plot-data-kind';
 import type { PlotData } from '@/server/dashboards/types';
 
-type PlotFooterProps = {
+interface PlotFooterProps {
   data: PlotData;
-};
+}
 
 export function PlotFooter({ data }: PlotFooterProps) {
   if (data.kind === PlotDataKind.stat) return null;

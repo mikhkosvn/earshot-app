@@ -8,17 +8,17 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 
-type FilterItem<Value extends string> = {
+interface FilterItem<Value extends string> {
   value: Value;
   label: string;
-};
+}
 
-type FilterSelectProps<Value extends string> = {
+interface FilterSelectProps<Value extends string> {
   label: string;
-  items: FilterItem<Value>[];
+  items: readonly FilterItem<Value>[];
   value: Value;
   onChange: (value: Value) => void;
-};
+}
 
 export function FilterSelect<Value extends string>({
   label,

@@ -15,13 +15,13 @@ import type {
 
 import { signWebhookBody } from './sign-webhook-body';
 
-type DeliverWebhookInput = {
+interface DeliverWebhookInput {
   url: string;
   secret: string | null;
   body: WebhookBody;
   idempotencyKey?: string;
   timeoutMs?: number;
-};
+}
 
 const buildHeaders = (
   json: string,

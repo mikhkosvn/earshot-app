@@ -18,12 +18,12 @@ export const PredefinedPlotIcon = {
 export type PredefinedPlotIcon =
   (typeof PredefinedPlotIcon)[keyof typeof PredefinedPlotIcon];
 
-export type PredefinedPlot = {
+export interface PredefinedPlot {
   description: string;
   icon: PredefinedPlotIcon;
   config: PlotConfig;
   metricFunction: MetricFunction | null;
-};
+}
 
 export const SOURCE_TIME_PERIOD: Record<DashboardSource, WidgetTimePeriod> = {
   [DashboardSource.call_logs]: WidgetTimePeriod.hour,

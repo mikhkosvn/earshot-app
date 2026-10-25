@@ -6,12 +6,12 @@ import { sectionsBySubCategory } from '../../../_utils/predefined-cards';
 import { PredefinedAddedCards } from './predefined-added-cards';
 import { PredefinedCardSection } from './predefined-card-section';
 
-type PredefinedCardListProps = {
+interface PredefinedCardListProps {
   available: PredefinedMetricCard[];
   added: PredefinedMetricCard[];
   selectedCodes: string[];
   onToggle: (code: string, checked: boolean) => void;
-};
+}
 
 export function PredefinedCardList({
   available,

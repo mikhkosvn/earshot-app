@@ -1,8 +1,8 @@
 import { CircleCheckIcon, CircleXIcon } from 'lucide-react';
 
-type RubricItemIconProps = {
+interface RubricItemIconProps {
   passed: boolean;
-};
+}
 
 export function RubricItemIcon({ passed }: RubricItemIconProps) {
   if (passed) {

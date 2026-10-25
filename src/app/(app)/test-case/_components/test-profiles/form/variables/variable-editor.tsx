@@ -7,10 +7,10 @@ import {
 import { VariableJsonEditor } from './variable-json-editor';
 import { VariableTableEditor } from './variable-table-editor';
 
-type VariableEditorProps = {
+interface VariableEditorProps {
   name: VariableListName;
   mode: VariableEditorMode;
-};
+}
 
 export function VariableEditor({ name, mode }: VariableEditorProps) {
   if (mode === VariableEditorMode.json)

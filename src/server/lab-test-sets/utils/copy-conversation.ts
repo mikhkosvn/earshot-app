@@ -5,15 +5,15 @@ import { prisma } from '@/lib/prisma';
 import { readFileBytes } from '@/server/files/read-file-bytes';
 import { saveFile } from '@/server/files/save-file';
 
-type RecordingSource = {
+interface RecordingSource {
   storageKey: string;
   fileName: string;
   contentType: string;
-};
+}
 
 const jsonInput = (value: Prisma.JsonValue | null) => {
   if (value === null) return Prisma.DbNull;
-  return value as Prisma.InputJsonValue;
+  return value;
 };
 
 const copyRecording = async (

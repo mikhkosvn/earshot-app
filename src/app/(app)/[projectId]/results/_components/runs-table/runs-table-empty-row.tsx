@@ -1,9 +1,9 @@
 import { TableCell, TableRow } from '@/components/ui/table';
 
-type RunsTableEmptyRowProps = {
+interface RunsTableEmptyRowProps {
   count: number;
   columnCount: number;
-};
+}
 
 export function RunsTableEmptyRow({
   count,

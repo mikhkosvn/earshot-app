@@ -8,12 +8,12 @@ import { ConversationMetricsCard } from './metrics/conversation-metrics-card';
 import { ConversationAudioPlayer } from './player/conversation-audio-player';
 import { ConversationTranscript } from './transcript/conversation-transcript';
 
-type ConversationViewerColumnsProps = {
+interface ConversationViewerColumnsProps {
   conversationId: number;
   header?: ReactNode;
   actions?: ReactNode;
   shareToken?: string | null;
-};
+}
 
 export function ConversationViewerColumns({
   conversationId,

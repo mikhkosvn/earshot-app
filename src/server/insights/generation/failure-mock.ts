@@ -2,12 +2,12 @@ import 'server-only';
 
 import type { FailureItem } from '@/server/insights/generation/load-failures';
 
-export type MockFailureMode = {
+export interface MockFailureMode {
   slug: string;
   name: string;
   description: string;
   keywords: string[];
-};
+}
 
 export const MOCK_FAILURE_MODES: MockFailureMode[] = [
   {

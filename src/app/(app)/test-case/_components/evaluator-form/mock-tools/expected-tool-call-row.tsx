@@ -11,11 +11,11 @@ import type { MockToolOption } from '@/server/evaluators/types';
 
 import { ExpectedToolCallEditor } from './expected-tool-call-editor';
 
-type ExpectedToolCallRowProps = {
+interface ExpectedToolCallRowProps {
   index: number;
-  mockTools: MockToolOption[];
+  mockTools: readonly MockToolOption[];
   onRemove: () => void;
-};
+}
 
 export function ExpectedToolCallRow({
   index,

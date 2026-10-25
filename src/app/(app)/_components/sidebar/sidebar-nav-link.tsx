@@ -7,9 +7,9 @@ import type { NavItem } from '@/app/(app)/_constants/nav-types';
 import { useCurrentProjectId } from '@/app/(app)/_hooks/use-current-project-id';
 import { isNavItemActive } from '@/app/(app)/_utils/nav-active';
 
-type SidebarNavLinkProps = {
+interface SidebarNavLinkProps {
   item: NavItem;
-};
+}
 
 export function SidebarNavLink({ item }: SidebarNavLinkProps) {
   const pathname = usePathname();

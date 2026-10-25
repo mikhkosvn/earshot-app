@@ -1,9 +1,9 @@
 import type { MetricEvalType } from '@/generated/prisma/enums';
 
-type MetricOptionLabelProps = {
+interface MetricOptionLabelProps {
   name: string;
   evalType: MetricEvalType;
-};
+}
 
 export function MetricOptionLabel({ name, evalType }: MetricOptionLabelProps) {
   return (

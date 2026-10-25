@@ -6,11 +6,11 @@ import { cn } from '@/lib/utils';
 import { CopyStateIcon } from './copy-state-icon';
 import { useCopyToClipboard } from './use-copy-to-clipboard';
 
-type CopyButtonProps = {
+interface CopyButtonProps {
   value: string;
   label?: string;
   className?: string;
-};
+}
 
 export function CopyButton({
   value,

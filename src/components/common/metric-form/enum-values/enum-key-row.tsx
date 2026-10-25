@@ -9,14 +9,14 @@ import { Input } from '@/components/ui/input';
 
 import { enumRowError } from '../_utils/enum-row-error';
 
-type EnumKeyRowProps = {
+interface EnumKeyRowProps {
   index: number;
   value: string;
   error: HookFieldError | undefined;
   disabled?: boolean;
   onValueChange: (value: string) => void;
   onRemove: () => void;
-};
+}
 
 export function EnumKeyRow({
   index,

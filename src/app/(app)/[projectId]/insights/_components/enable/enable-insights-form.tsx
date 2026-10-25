@@ -11,10 +11,10 @@ import { FailureLimitField } from './failure-limit/failure-limit-field';
 import { InsightMetricField } from './insight-metric-field';
 import { PassConditionField } from './pass-condition/pass-condition-field';
 
-type EnableInsightsFormProps = {
+interface EnableInsightsFormProps {
   initialMetricId: number | null;
   onSaved: () => void;
-};
+}
 
 export function EnableInsightsForm({
   initialMetricId,

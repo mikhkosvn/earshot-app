@@ -3,25 +3,25 @@ import type { SendProjectWebhookResult } from '@/server/project-webhooks/types';
 
 import type { DailyReportOutcome } from '../constants';
 
-export type ReportTotals = {
+export interface ReportTotals {
   count: number;
   successRatio: number | null;
   totalSeconds: number;
   medianLatency: number | null;
-};
+}
 
-export type ReportPlotLine = {
+export interface ReportPlotLine {
   name: string;
   summary: string;
-};
+}
 
-export type ReportDashboard = {
+export interface ReportDashboard {
   id: number;
   name: string;
   plots: ReportPlotLine[];
-};
+}
 
-export type DailyReport = {
+export interface DailyReport {
   projectId: number;
   projectName: string;
   reportDate: string;
@@ -32,12 +32,12 @@ export type DailyReport = {
   runs: ReportTotals;
   dashboards: ReportDashboard[];
   aiSummary: string | null;
-};
+}
 
-export type DailyReportDeliveryResult = {
+export interface DailyReportDeliveryResult {
   projectId: number;
   reportDate: string;
   outcome: DailyReportOutcome;
   email: NotifyProjectMembersResult | null;
   webhook: SendProjectWebhookResult | null;
-};
+}

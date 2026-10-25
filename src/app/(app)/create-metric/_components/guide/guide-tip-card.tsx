@@ -1,9 +1,9 @@
 import type { GuideTip } from '../../_constants/guide-tips';
 import { GuideExampleBox } from './guide-example-box';
 
-type GuideTipCardProps = {
+interface GuideTipCardProps {
   tip: GuideTip;
-};
+}
 
 export function GuideTipCard({ tip }: GuideTipCardProps) {
   return (

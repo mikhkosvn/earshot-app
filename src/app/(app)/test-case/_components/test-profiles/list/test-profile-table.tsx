@@ -12,10 +12,10 @@ import type { TestProfileView } from '@/server/test-profiles/types';
 import { TestProfileEmptyRow } from './test-profile-empty-row';
 import { TestProfileRow } from './row/test-profile-row';
 
-type TestProfileTableProps = {
-  profiles: TestProfileView[];
+interface TestProfileTableProps {
+  profiles: readonly TestProfileView[];
   onEdit: (profile: TestProfileView) => void;
-};
+}
 
 export function TestProfileTable({ profiles, onEdit }: TestProfileTableProps) {
   return (

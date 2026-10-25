@@ -10,9 +10,9 @@ import type { MonitorListItem } from '@/server/monitors/types';
 import { MonitorHistoryDialog } from '../../history/monitor-history-dialog';
 import { DeleteMonitorDialog } from './delete-monitor-dialog';
 
-type MonitorRowActionsProps = {
+interface MonitorRowActionsProps {
   monitor: MonitorListItem;
-};
+}
 
 export function MonitorRowActions({ monitor }: MonitorRowActionsProps) {
   const [historyOpen, setHistoryOpen] = useState(false);

@@ -10,9 +10,9 @@ import type { AgentConfigValues } from '@/server/agents/types';
 import { integrationFieldName } from '../../_utils/integration-field-name';
 import { IntegrationFieldLabel } from './integration-field-label';
 
-type IntegrationTextFieldProps = {
+interface IntegrationTextFieldProps {
   field: IntegrationField;
-};
+}
 
 export function IntegrationTextField({ field }: IntegrationTextFieldProps) {
   const { control } = useFormContext<AgentConfigValues>();

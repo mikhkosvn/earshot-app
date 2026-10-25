@@ -4,9 +4,9 @@ import { TranscriptEditorMode } from '../../_constants/transcript-editor-mode';
 import { TranscriptChatEditor } from './transcript-chat-editor';
 import { TranscriptJsonEditor } from './transcript-json-editor';
 
-type TranscriptEditorProps = {
+interface TranscriptEditorProps {
   mode: TranscriptEditorMode;
-};
+}
 
 export function TranscriptEditor({ mode }: TranscriptEditorProps) {
   if (mode === TranscriptEditorMode.json) return <TranscriptJsonEditor />;

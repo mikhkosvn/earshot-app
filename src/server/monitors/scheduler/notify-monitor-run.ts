@@ -30,11 +30,11 @@ const resultLine = (projectId: number, resultId: number | null) => {
   ];
 };
 
-type NotifyMonitorRunArgs = {
+interface NotifyMonitorRunArgs {
   monitorRunId: number;
   outcome: MonitorRunOutcome;
   detail: string;
-};
+}
 
 export const notifyMonitorRun = async ({
   monitorRunId,

@@ -12,12 +12,16 @@ import { useLab } from '../../_hooks/lab/use-lab';
 import { LabReviewRow } from './lab-review-row';
 import { SelectAllRowsCheckbox } from './select-all-rows-checkbox';
 
-type LabReviewTableProps = {
+interface LabReviewTableProps {
   selected: number[];
   onSelectedChange: (selected: number[]) => void;
-};
+}
 
-const toggleId = (selected: number[], id: number, checked: boolean) => {
+const toggleId = (
+  selected: readonly number[],
+  id: number,
+  checked: boolean,
+) => {
   if (checked) return [...new Set([...selected, id])];
   return selected.filter((item) => item !== id);
 };

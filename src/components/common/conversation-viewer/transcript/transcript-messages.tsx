@@ -8,11 +8,11 @@ import { isActiveTurn } from '../_utils/playback';
 import { TranscriptEmpty } from './transcript-empty';
 import { TranscriptMessage } from './transcript-message';
 
-type TranscriptMessagesProps = {
+interface TranscriptMessagesProps {
   query: ConversationQueryArgs;
   audioRef: RefObject<HTMLAudioElement | null>;
   currentTime: number;
-};
+}
 
 export function TranscriptMessages({
   query,

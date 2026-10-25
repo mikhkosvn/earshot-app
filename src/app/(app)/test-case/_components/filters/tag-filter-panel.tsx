@@ -9,12 +9,12 @@ import { EvaluatorService } from '../../_service';
 import { FilterLogicSelect } from './filter-logic-select';
 import { FilterOptionList } from './filter-option-list';
 
-type TagFilterPanelProps = {
-  value: string[];
+interface TagFilterPanelProps {
+  value: readonly string[];
   onValueChange: (tags: string[]) => void;
   logic: FilterLogic;
   onLogicChange: (logic: FilterLogic) => void;
-};
+}
 
 export function TagFilterPanel({
   value,

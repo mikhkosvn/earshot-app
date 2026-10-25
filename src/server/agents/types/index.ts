@@ -82,26 +82,26 @@ export type DynamicVariableIdInput = z.input<typeof dynamicVariableIdSchema>;
 export type RenameAgentVersionInput = z.input<typeof renameAgentVersionSchema>;
 export type AgentVersionIdInput = z.input<typeof agentVersionIdSchema>;
 
-export type AgentListItem = {
+export interface AgentListItem {
   id: number;
   name: string;
   provider: AgentProvider;
   language: Language;
   phoneNumber: string | null;
   inbound: boolean;
-};
+}
 
-export type AgentListPage = {
+export interface AgentListPage {
   count: number;
   results: AgentListItem[];
-};
+}
 
-export type AgentOption = {
+export interface AgentOption {
   id: number;
   name: string;
-};
+}
 
-export type AgentDetail = {
+export interface AgentDetail {
   id: number;
   projectId: number;
   name: string;
@@ -122,18 +122,18 @@ export type AgentDetail = {
   mockToolsEnabled: boolean;
   createdAt: Date;
   updatedAt: Date;
-};
+}
 
-export type KnowledgeFileItem = {
+export interface KnowledgeFileItem {
   id: number;
   fileId: string;
   fileName: string;
   contentType: string;
   sizeBytes: number;
   createdAt: Date;
-};
+}
 
-export type KnowledgeConnectorItem = {
+export interface KnowledgeConnectorItem {
   id: number;
   name: string;
   type: KnowledgeConnectorType;
@@ -142,23 +142,23 @@ export type KnowledgeConnectorItem = {
   url: string | null;
   lastSyncedAt: Date | null;
   createdAt: Date;
-};
+}
 
-export type MockToolItem = {
+export interface MockToolItem {
   id: number;
   name: string;
   description: string | null;
   mappings: MockToolMappingValue[];
   failureCount: number;
-};
+}
 
-export type DynamicVariableItem = {
+export interface DynamicVariableItem {
   id: number;
   name: string;
   description: string;
-};
+}
 
-export type AgentVersionItem = {
+export interface AgentVersionItem {
   id: number;
   version: number;
   name: string | null;
@@ -167,31 +167,31 @@ export type AgentVersionItem = {
   isCurrent: boolean;
   createdAt: Date;
   createdByEmail: string | null;
-};
+}
 
-export type AgentVersionList = {
+export interface AgentVersionList {
   count: number;
   results: AgentVersionItem[];
-};
+}
 
-export type ConnectionCheckItem = {
+export interface ConnectionCheckItem {
   type: ConnectionType;
   target: string | null;
   testable: boolean;
   blockedReason: string | null;
-};
+}
 
-export type ConnectionCheck = {
+export interface ConnectionCheck {
   valid: boolean;
   message: string | null;
   connections: ConnectionCheckItem[];
-};
+}
 
-export type CreatedAgent = {
+export interface CreatedAgent {
   id: number;
   name: string;
   check: ConnectionCheck;
-};
+}
 
 export type TestStep = {
   key: TestStepKey;
@@ -226,6 +226,6 @@ export type TestCallProgress = {
   connections: TestConnectionProgress[];
 };
 
-export type StartedTestCall = {
+export interface StartedTestCall {
   jobId: string;
-};
+}

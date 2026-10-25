@@ -4,10 +4,10 @@ import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { UrlGenerator } from '@/lib/url-generator/url-generator';
 
-type EditPersonalityLinkProps = {
+interface EditPersonalityLinkProps {
   personalityId: number;
   name: string;
-};
+}
 
 export function EditPersonalityLink({
   personalityId,

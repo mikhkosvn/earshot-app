@@ -24,9 +24,9 @@ const items = Object.values(ChangeDirection).map((direction) => ({
   label: ChangeDirectionLabel[direction],
 }));
 
-type AlertDirectionSelectProps = {
+interface AlertDirectionSelectProps {
   alert: AlertRow;
-};
+}
 
 export function AlertDirectionSelect({ alert }: AlertDirectionSelectProps) {
   const updateAlert = useUpdateAlertMutation();

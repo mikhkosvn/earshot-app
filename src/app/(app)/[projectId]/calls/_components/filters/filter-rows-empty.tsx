@@ -1,6 +1,6 @@
-type FilterRowsEmptyProps = {
+interface FilterRowsEmptyProps {
   count: number;
-};
+}
 
 export function FilterRowsEmpty({ count }: FilterRowsEmptyProps) {
   if (count > 0) return null;

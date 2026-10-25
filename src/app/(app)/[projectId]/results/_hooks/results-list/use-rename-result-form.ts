@@ -8,10 +8,10 @@ import type { RenameResultInput } from '@/server/results/types';
 
 import { useRenameResultMutation } from '../mutations/results-list/use-rename-result-mutation';
 
-type RenameTarget = {
+interface RenameTarget {
   id: number;
   name: string;
-};
+}
 
 export const useRenameResultForm = (
   target: RenameTarget,

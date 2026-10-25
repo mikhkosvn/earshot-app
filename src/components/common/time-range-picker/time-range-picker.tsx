@@ -15,9 +15,9 @@ import { AbsoluteRangeForm } from './absolute-range-form';
 import { QuickRangeList } from './quick-range-list';
 import type { TimeRange } from './time-range';
 
-type TimeRangePickerProps = TimeRange & {
+interface TimeRangePickerProps extends TimeRange {
   onApply: (range: TimeRange) => void;
-};
+}
 
 export function TimeRangePicker({ from, to, onApply }: TimeRangePickerProps) {
   const [open, setOpen] = useState(false);

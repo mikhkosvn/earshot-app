@@ -4,10 +4,10 @@ import { Dialog, DialogContent } from '@/components/ui/dialog';
 
 import { CreateApiKeyDialogBody } from './create-api-key-dialog-body';
 
-type CreateApiKeyDialogProps = {
+interface CreateApiKeyDialogProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
-};
+}
 
 export function CreateApiKeyDialog({
   open,

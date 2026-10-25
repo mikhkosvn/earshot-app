@@ -4,9 +4,9 @@ import Link from 'next/link';
 import { UrlGenerator } from '@/lib/url-generator/url-generator';
 import type { AgentRef } from '@/server/results/types';
 
-type RunAgentCellProps = {
+interface RunAgentCellProps {
   agent: AgentRef | null;
-};
+}
 
 export function RunAgentCell({ agent }: RunAgentCellProps) {
   if (!agent) return null;

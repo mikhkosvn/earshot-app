@@ -1,10 +1,10 @@
 import type { ReactNode } from 'react';
 
-type AccountProfileRowProps = {
+interface AccountProfileRowProps {
   label: string;
   value: string;
   children?: ReactNode;
-};
+}
 
 export function AccountProfileRow({
   label,

@@ -15,10 +15,10 @@ import { toResultFilters } from '../../_utils/filters-input';
 import { ResultsListSkeleton } from './results-list-skeleton';
 import { ResultsListView } from './results-list-view';
 
-type ResultsListDataProps = {
+interface ResultsListDataProps {
   params: Promise<{ projectId: string }>;
   searchParams: Promise<Record<string, string | string[] | undefined>>;
-};
+}
 
 export async function ResultsListData({
   params,

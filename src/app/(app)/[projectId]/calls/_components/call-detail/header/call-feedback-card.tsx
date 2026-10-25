@@ -1,9 +1,9 @@
 import { FeedbackEditButton } from '../../call-review/feedback-edit-button';
 
-type CallFeedbackCardProps = {
+interface CallFeedbackCardProps {
   callLogId: number;
   feedback: string | null;
-};
+}
 
 const feedbackText = (feedback: string | null) => {
   if (feedback) return feedback;

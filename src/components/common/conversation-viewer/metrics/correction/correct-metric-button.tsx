@@ -15,11 +15,11 @@ import type { ConversationQueryArgs } from '../../_service';
 import { isExpectedOutcomeMetric } from '../../_utils/metric-display';
 import { CorrectMetricForm } from './correct-metric-form';
 
-type CorrectMetricButtonProps = {
+interface CorrectMetricButtonProps {
   metric: ConversationMetricItem;
   query: ConversationQueryArgs;
   readOnly: boolean;
-};
+}
 
 export function CorrectMetricButton({
   metric,

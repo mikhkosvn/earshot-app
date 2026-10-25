@@ -12,9 +12,9 @@ import {
 import { useConversation } from '../../_hooks/use-conversation';
 import type { ConversationQueryArgs } from '../../_service';
 
-type DownloadRecordingButtonProps = {
+interface DownloadRecordingButtonProps {
   query: ConversationQueryArgs;
-};
+}
 
 export function DownloadRecordingButton({
   query,

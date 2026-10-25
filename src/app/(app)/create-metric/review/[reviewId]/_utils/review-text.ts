@@ -36,7 +36,7 @@ export const groupSizeText = (size: number) => plural(size, 'call', 'calls');
 export const otherCallsText = (count: number) =>
   `${plural(count, 'other call', 'other calls')} like this`;
 
-export const reviewFooterText = (groups: PatternGroupView[]) => {
+export const reviewFooterText = (groups: readonly PatternGroupView[]) => {
   const corrected = groups.filter((group) => group.correction !== null);
   if (corrected.length === 0) return 'Fix anything the judge got wrong';
   const calls = corrected.reduce((sum, group) => sum + group.size, 0);

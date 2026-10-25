@@ -10,9 +10,9 @@ import { AgentRowActions } from '../agent-row-actions/agent-row-actions';
 import { ProviderBadge } from '../provider/provider-badge';
 import { AgentConnectionChip } from './agent-connection-chip';
 
-type AgentRowProps = {
+interface AgentRowProps {
   agent: AgentListItem;
-};
+}
 
 export function AgentRow({ agent }: AgentRowProps) {
   return (

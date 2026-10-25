@@ -3,11 +3,11 @@ import 'server-only';
 import { prisma } from '@/lib/prisma';
 import { ActionError } from '@/server/common/run-action';
 
-type AssertMockToolNameFreeArgs = {
+interface AssertMockToolNameFreeArgs {
   agentId: number;
   name: string;
   mockToolId?: number;
-};
+}
 
 export const assertMockToolNameFree = async ({
   agentId,

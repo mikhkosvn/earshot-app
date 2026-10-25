@@ -3,9 +3,9 @@ import { CheckCheckIcon, XIcon } from 'lucide-react';
 import type { CallEvaluationStatus } from '@/generated/prisma/enums';
 import { SUCCESS_STATUSES } from '@/server/call-logs/constants/call-review';
 
-type EvaluationStatusIconProps = {
+interface EvaluationStatusIconProps {
   evaluationStatus: CallEvaluationStatus;
-};
+}
 
 export function EvaluationStatusIcon({
   evaluationStatus,

@@ -15,9 +15,9 @@ import { FLAG_CHANGE_ITEMS } from '../../_constants/flag-change';
 import { type MetricFlag, MetricFlagLabel } from '../../_constants/metric-flag';
 import type { ToggleSettingsValues } from '../../_hooks/forms/use-toggle-settings-form';
 
-type FlagChangeFieldProps = {
+interface FlagChangeFieldProps {
   flag: MetricFlag;
-};
+}
 
 export function FlagChangeField({ flag }: FlagChangeFieldProps) {
   const { control } = useFormContext<ToggleSettingsValues>();

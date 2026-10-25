@@ -13,9 +13,9 @@ import { MetricFilterPanel } from './metric-filter-panel';
 import { PersonalityFilterPanel } from './personality-filter-panel';
 import { TagFilterPanel } from './tag-filter-panel';
 
-type FiltersFormProps = {
+interface FiltersFormProps {
   onDone: () => void;
-};
+}
 
 export function FiltersForm({ onDone }: FiltersFormProps) {
   const [params, setParams] = useEvaluatorListParams();

@@ -11,10 +11,10 @@ const SCOPE_ITEMS = IMPROVE_SCOPE_OPTIONS.map((size) => ({
   label: String(size),
 }));
 
-type ImproveScopeRowProps = {
+interface ImproveScopeRowProps {
   scope: number;
   onScopeChange: (scope: number) => void;
-};
+}
 
 export function ImproveScopeRow({
   scope,

@@ -13,13 +13,13 @@ import { Input } from '@/components/ui/input';
 
 import { SettingFieldDescription } from './setting-field-description';
 
-type SettingTextFieldProps<Values extends FieldValues> = {
+interface SettingTextFieldProps<Values extends FieldValues> {
   name: Path<Values>;
   label: string;
   description?: ReactNode;
   type?: HTMLInputTypeAttribute;
   autoComplete?: string;
-};
+}
 
 export function SettingTextField<Values extends FieldValues>({
   name,

@@ -7,9 +7,9 @@ import { useCurrentProject } from '@/app/(app)/_hooks/use-current-project';
 import { DropdownMenuItem } from '@/components/ui/dropdown-menu';
 import type { OrganizationSummary } from '@/server/organizations/types';
 
-type OrganizationMenuRowProps = {
+interface OrganizationMenuRowProps {
   organization: OrganizationSummary;
-};
+}
 
 export function OrganizationMenuRow({
   organization,

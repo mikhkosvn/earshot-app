@@ -19,9 +19,9 @@ export type RunFromFileForm = UseFormReturn<
   RunFromFileOutput
 >;
 
-type UseRunFromFileFormArgs = {
+interface UseRunFromFileFormArgs {
   onStarted: (resultId: number) => void;
-};
+}
 
 export const useRunFromFileForm = ({ onStarted }: UseRunFromFileFormArgs) => {
   const projectId = useCurrentProjectId();

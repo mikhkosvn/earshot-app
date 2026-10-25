@@ -4,11 +4,11 @@ import { DeleteConfirmDialog } from '@/components/common/delete-confirm-dialog/d
 
 import { useDeleteMonitorMutation } from '../../../_hooks/mutations/use-delete-monitor-mutation';
 
-type DeleteMonitorDialogProps = {
+interface DeleteMonitorDialogProps {
   monitorId: number;
   open: boolean;
   onOpenChange: (open: boolean) => void;
-};
+}
 
 export function DeleteMonitorDialog({
   monitorId,

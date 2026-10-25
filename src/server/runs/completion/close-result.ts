@@ -14,7 +14,9 @@ const CLOSABLE_RESULT_STATUSES: RunStatus[] = [
   RunStatus.in_progress,
 ];
 
-type ClosedRun = { status: RunStatus };
+interface ClosedRun {
+  status: RunStatus;
+}
 
 export const finalResultStatus = (runs: ClosedRun[]) => {
   if (runs.some((run) => run.status === RunStatus.completed)) {

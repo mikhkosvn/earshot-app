@@ -12,11 +12,11 @@ import { WaveformCursor } from './waveform-cursor';
 import { WaveformLane } from './waveform-lane';
 import { WaveformTimeAxis } from './waveform-time-axis';
 
-type PlayerWaveformProps = {
+interface PlayerWaveformProps {
   query: ConversationQueryArgs;
   audioRef: RefObject<HTMLAudioElement | null>;
   currentTime: number;
-};
+}
 
 export function PlayerWaveform({
   query,
@@ -42,8 +42,7 @@ export function PlayerWaveform({
           className="absolute inset-0 cursor-pointer"
           onClick={(event) => {
             const rect = event.currentTarget.getBoundingClientRect();
-            const ratio =
-              (event.clientX - rect.left) / Math.max(rect.width, 1);
+            const ratio = (event.clientX - rect.left) / Math.max(rect.width, 1);
             seekAudio(audioRef.current, ratio * durationSeconds);
           }}
         />

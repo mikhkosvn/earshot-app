@@ -18,14 +18,14 @@ import { FilterSelect } from './filter-select';
 import { FilterValueControl } from './filter-value-control';
 import { MetadataKeyInput } from './metadata-key-input';
 
-type FilterRowProps = {
+interface FilterRowProps {
   draft: FilterDraft;
-  options: FilterFieldOption[];
+  options: readonly FilterFieldOption[];
   onChange: (draft: FilterDraft) => void;
   onRemove: () => void;
-};
+}
 
-const kindOf = (options: FilterFieldOption[], field: string) =>
+const kindOf = (options: readonly FilterFieldOption[], field: string) =>
   options.find((option) => option.key === field)?.kind ?? FilterFieldKind.text;
 
 export function FilterRow({

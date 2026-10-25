@@ -7,9 +7,9 @@ import { useCurrentProjectId } from '@/app/(app)/_hooks/use-current-project-id';
 import { Button } from '@/components/ui/button';
 import { UrlGenerator } from '@/lib/url-generator/url-generator';
 
-type EditFormFooterProps = {
+interface EditFormFooterProps {
   isPending: boolean;
-};
+}
 
 export function EditFormFooter({ isPending }: EditFormFooterProps) {
   const projectId = useCurrentProjectId();

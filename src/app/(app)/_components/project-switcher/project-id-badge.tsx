@@ -1,6 +1,6 @@
-type ProjectIdBadgeProps = {
+interface ProjectIdBadgeProps {
   projectId: number;
-};
+}
 
 export function ProjectIdBadge({ projectId }: ProjectIdBadgeProps) {
   return (

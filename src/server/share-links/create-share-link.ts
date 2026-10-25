@@ -11,11 +11,11 @@ import type { CreatedShareLink } from '@/server/share-links/types';
 
 const TOKEN_BYTES = 24;
 
-type TargetFields = {
+interface TargetFields {
   resultId?: number;
   runId?: number;
   callLogId?: number;
-};
+}
 
 const targetWhere = (
   target: ShareLinkTarget,

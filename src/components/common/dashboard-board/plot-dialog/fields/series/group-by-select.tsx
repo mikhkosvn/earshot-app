@@ -13,9 +13,9 @@ import {
 import type { PlotFormValues } from '../../../_schemas/plot-form-schema';
 import { PlotSelect } from '../plot-select';
 
-type GroupBySelectProps = {
+interface GroupBySelectProps {
   source: DashboardSource;
-};
+}
 
 const groupBySchema = z.enum(WidgetGroupBy);
 

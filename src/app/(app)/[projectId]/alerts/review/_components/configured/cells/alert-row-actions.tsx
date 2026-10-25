@@ -10,9 +10,9 @@ import { hasEditableParams } from '../../../_utils/alert-params';
 import { EditAlertDialog } from '../../edit-alert/edit-alert-dialog';
 import { DeleteAlertDialog } from './delete-alert-dialog';
 
-type AlertRowActionsProps = {
+interface AlertRowActionsProps {
   alert: AlertRow;
-};
+}
 
 export function AlertRowActions({ alert }: AlertRowActionsProps) {
   const [editOpen, setEditOpen] = useState(false);

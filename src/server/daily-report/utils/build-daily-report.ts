@@ -20,14 +20,14 @@ import type { DailyReport, ReportDashboard } from '@/server/daily-report/types';
 
 import { summarizePlot } from './summarize-plot';
 
-type ReportWindow = {
+interface ReportWindow {
   projectId: number;
   projectName: string;
   reportDate: string;
   timeZone: string;
   windowStart: Date;
   windowEnd: Date;
-};
+}
 
 const windowFilters = (
   window: ReportWindow,

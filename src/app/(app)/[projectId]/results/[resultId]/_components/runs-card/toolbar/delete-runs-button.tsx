@@ -9,10 +9,10 @@ import { Button } from '@/components/ui/button';
 import { useDeleteRunsMutation } from '../../../../_hooks/mutations/runs/use-delete-runs-mutation';
 import { useResultId } from '../../../../_hooks/use-result-id';
 
-type DeleteRunsButtonProps = {
+interface DeleteRunsButtonProps {
   selectedIds: number[];
   onDeleted: () => void;
-};
+}
 
 export function DeleteRunsButton({
   selectedIds,

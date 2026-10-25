@@ -9,9 +9,9 @@ import { ScenarioToolLabel } from '@/server/evaluators/constants/scenario-tool-l
 
 import { ScenarioTextBlock } from './scenario-text-block';
 
-type GeneratedScenarioCardProps = {
+interface GeneratedScenarioCardProps {
   evaluator: GeneratedEvaluatorView;
-};
+}
 
 export function GeneratedScenarioCard({
   evaluator,

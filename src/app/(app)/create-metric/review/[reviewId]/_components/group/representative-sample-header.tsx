@@ -4,9 +4,9 @@ import { usePatternGroup } from '../../_hooks/use-pattern-group';
 import { SampleSourceButton } from './sample-source-button';
 import { SampleVerdict } from './sample-verdict';
 
-type RepresentativeSampleHeaderProps = {
+interface RepresentativeSampleHeaderProps {
   groupKey: string;
-};
+}
 
 export function RepresentativeSampleHeader({
   groupKey,

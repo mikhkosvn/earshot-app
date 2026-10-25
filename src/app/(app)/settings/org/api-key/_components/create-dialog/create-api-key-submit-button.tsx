@@ -7,9 +7,9 @@ import { Button } from '@/components/ui/button';
 import type { CreateApiKeyFormValues } from '../../_schemas/create-api-key-form-schema';
 import { CreateApiKeySubmitLabel } from './create-api-key-submit-label';
 
-type CreateApiKeySubmitButtonProps = {
+interface CreateApiKeySubmitButtonProps {
   isPending: boolean;
-};
+}
 
 export function CreateApiKeySubmitButton({
   isPending,

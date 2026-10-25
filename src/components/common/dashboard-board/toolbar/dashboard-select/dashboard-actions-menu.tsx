@@ -18,11 +18,11 @@ import type { DashboardItem } from '@/server/dashboards/types';
 
 import { useDuplicateDashboardMutation } from '../../_hooks/mutations/use-duplicate-dashboard-mutation';
 
-type DashboardActionsMenuProps = {
+interface DashboardActionsMenuProps {
   dashboard: DashboardItem;
   onRename: (dashboard: DashboardItem) => void;
   onDelete: (dashboard: DashboardItem) => void;
-};
+}
 
 export function DashboardActionsMenu({
   dashboard,

@@ -1,8 +1,8 @@
 import { Volume2Icon, VolumeXIcon } from 'lucide-react';
 
-type VolumeIconProps = {
+interface VolumeIconProps {
   muted: boolean;
-};
+}
 
 export function VolumeIcon({ muted }: VolumeIconProps) {
   if (muted) return <VolumeXIcon />;

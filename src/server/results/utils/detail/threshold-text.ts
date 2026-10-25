@@ -1,12 +1,12 @@
 import type { ComparisonOperator } from '@/generated/prisma/enums';
 import { ComparisonOperatorLabel } from '@/server/metrics/constants/comparison-operator-labels';
 
-type StoredRule = {
+interface StoredRule {
   operator: ComparisonOperator;
   numberValue: number | null;
   booleanValue: boolean | null;
   textValues: string[];
-};
+}
 
 const booleanText = (value: boolean) => {
   if (value) return 'True';

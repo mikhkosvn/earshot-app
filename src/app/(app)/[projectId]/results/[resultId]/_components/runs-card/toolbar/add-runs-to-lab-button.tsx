@@ -6,9 +6,9 @@ import { Button } from '@/components/ui/button';
 
 import { useAddRunsToLabMutation } from '../../../../_hooks/mutations/runs/use-add-runs-to-lab-mutation';
 
-type AddRunsToLabButtonProps = {
+interface AddRunsToLabButtonProps {
   selectedIds: number[];
-};
+}
 
 export function AddRunsToLabButton({ selectedIds }: AddRunsToLabButtonProps) {
   const addToLab = useAddRunsToLabMutation();

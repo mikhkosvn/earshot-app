@@ -12,7 +12,7 @@ import { GenerationSheetHeader } from './generation-sheet-header';
 import { HistoryTab } from './history/history-tab';
 
 const isSheetTab = (value: unknown): value is SheetTab =>
-  Object.values(SheetTab).includes(value as SheetTab);
+  Object.values(SheetTab).some((item) => item === value);
 
 export function GenerationSheet() {
   const [tab, setTab] = useState<SheetTab>(SheetTab.chat);

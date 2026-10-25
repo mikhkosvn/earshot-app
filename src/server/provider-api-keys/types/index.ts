@@ -21,8 +21,8 @@ export type ProviderApiKeysFormValues = z.input<
   typeof providerApiKeysFormSchema
 >;
 
-export type ProviderApiKeyState = {
+export interface ProviderApiKeyState {
   provider: ProviderKeyProvider;
   maskedKey: string | null;
   updatedAt: Date | null;
-};
+}

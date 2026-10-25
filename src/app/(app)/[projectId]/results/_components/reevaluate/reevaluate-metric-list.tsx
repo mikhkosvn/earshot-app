@@ -4,11 +4,11 @@ import { useFilteredMetricOptions } from '../../_hooks/runs/use-filtered-metric-
 import { ReevaluateMetricItem } from './reevaluate-metric-item';
 import { ReevaluateMetricsEmpty } from './reevaluate-metrics-empty';
 
-type ReevaluateMetricListProps = {
+interface ReevaluateMetricListProps {
   search: string;
-  metricIds: number[];
+  metricIds: readonly number[];
   onToggle: (id: number, checked: boolean) => void;
-};
+}
 
 export function ReevaluateMetricList({
   search,

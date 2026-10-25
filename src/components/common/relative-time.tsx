@@ -4,10 +4,10 @@ import { format, formatDistanceToNow } from 'date-fns';
 
 import { cn } from '@/lib/utils';
 
-type RelativeTimeProps = {
+interface RelativeTimeProps {
   date: Date | string;
   className?: string;
-};
+}
 
 export function RelativeTime({ date, className }: RelativeTimeProps) {
   const value = new Date(date);

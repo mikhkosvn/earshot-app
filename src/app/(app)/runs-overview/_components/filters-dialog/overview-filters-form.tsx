@@ -19,9 +19,9 @@ import {
 import { FilterTabList } from './filter-tab-list';
 import { FilterTabPanels } from './panels/filter-tab-panels';
 
-type OverviewFiltersFormProps = {
+interface OverviewFiltersFormProps {
   onApplied: () => void;
-};
+}
 
 export function OverviewFiltersForm({ onApplied }: OverviewFiltersFormProps) {
   const applied = useOverviewFilters();

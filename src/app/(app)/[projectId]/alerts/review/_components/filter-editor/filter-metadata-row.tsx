@@ -8,10 +8,10 @@ import { Field, FieldError } from '@/components/ui/field';
 import { Input } from '@/components/ui/input';
 import type { AlertFilters } from '@/server/alerts/types';
 
-type FilterMetadataRowProps = {
+interface FilterMetadataRowProps {
   index: number;
   onRemove: () => void;
-};
+}
 
 export function FilterMetadataRow({ index, onRemove }: FilterMetadataRowProps) {
   const { control } = useFormContext<AlertFilters>();

@@ -10,11 +10,11 @@ import {
   DialogTitle,
 } from '@/components/ui/dialog';
 
-type ConnectionCheckFailedDialogProps = {
+interface ConnectionCheckFailedDialogProps {
   message: string | null;
   onClose: () => void;
   onCreateAnyway: () => void;
-};
+}
 
 export function ConnectionCheckFailedDialog({
   message,

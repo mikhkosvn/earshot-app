@@ -6,10 +6,10 @@ import { Field, FieldLabel } from '@/components/ui/field';
 import { Input } from '@/components/ui/input';
 import type { RunsOverviewFilters } from '@/server/runs-overview/types';
 
-type IdsPanelProps = {
+interface IdsPanelProps {
   draft: RunsOverviewFilters;
   onChange: (draft: RunsOverviewFilters) => void;
-};
+}
 
 const parseIds = (text: string) => [
   ...new Set(

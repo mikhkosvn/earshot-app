@@ -14,13 +14,13 @@ import type { TestProfileView } from '@/server/test-profiles/types';
 import { TestProfileDialogTitle } from './test-profile-dialog-title';
 import { TestProfileForm } from './test-profile-form';
 
-type TestProfileFormDialogProps = {
+interface TestProfileFormDialogProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   profile: TestProfileView | null;
   defaultAgentId?: number | null;
   onSaved?: (profileId: number) => void;
-};
+}
 
 export function TestProfileFormDialog({
   open,

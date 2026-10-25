@@ -11,10 +11,10 @@ import { useScenarioCount } from '../../_hooks/use-scenario-count';
 import { presetEstimate } from '../../_utils/preset-estimate';
 import { PresetDailyRate } from './preset-daily-rate';
 
-type PresetCardProps = {
+interface PresetCardProps {
   preset: MonitorPreset;
   onSelect: (preset: MonitorPreset) => void;
-};
+}
 
 export function PresetCard({ preset, onSelect }: PresetCardProps) {
   const scenarioCount = useScenarioCount();

@@ -8,9 +8,9 @@ import { Button } from '@/components/ui/button';
 import type { LabMetricFormInput } from '../../_schemas/lab-metric-form-schema';
 import { removeVariable, variableCode } from '../../_utils/variables-used';
 
-type RemovableVariableChipProps = {
+interface RemovableVariableChipProps {
   name: string;
-};
+}
 
 const SET_OPTIONS = { shouldDirty: true };
 

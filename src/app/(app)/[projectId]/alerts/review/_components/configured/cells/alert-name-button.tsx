@@ -7,9 +7,9 @@ import type { AlertRow } from '@/server/alerts/types';
 
 import { EditAlertDialog } from '../../edit-alert/edit-alert-dialog';
 
-type AlertNameButtonProps = {
+interface AlertNameButtonProps {
   alert: AlertRow;
-};
+}
 
 export function AlertNameButton({ alert }: AlertNameButtonProps) {
   const [open, setOpen] = useState(false);

@@ -1,6 +1,6 @@
-type RequiredStarProps = {
+interface RequiredStarProps {
   required: boolean;
-};
+}
 
 export function RequiredStar({ required }: RequiredStarProps) {
   if (!required) return null;

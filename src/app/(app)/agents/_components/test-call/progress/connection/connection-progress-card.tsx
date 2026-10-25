@@ -7,9 +7,9 @@ import { FirstMessageQuote } from './first-message-quote';
 import { TestStepRow } from './test-step-row';
 import { TranscriptPreview } from './transcript-preview';
 
-type ConnectionProgressCardProps = {
+interface ConnectionProgressCardProps {
   connection: TestConnectionProgress;
-};
+}
 
 export function ConnectionProgressCard({
   connection,

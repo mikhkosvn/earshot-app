@@ -7,9 +7,9 @@ import { Button } from '@/components/ui/button';
 import { ApplyProposalButton } from './apply-proposal-button';
 import { DismissProposalConfirm } from './dismiss-proposal-confirm';
 
-type ProposalActionsProps = {
+interface ProposalActionsProps {
   sessionId: number;
-};
+}
 
 export function ProposalActions({ sessionId }: ProposalActionsProps) {
   const [isConfirming, setIsConfirming] = useState(false);

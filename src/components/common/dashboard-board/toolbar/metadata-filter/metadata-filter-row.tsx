@@ -6,11 +6,11 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import type { MetadataCondition } from '@/server/dashboards/types';
 
-type MetadataFilterRowProps = {
+interface MetadataFilterRowProps {
   condition: MetadataCondition;
   onChange: (change: Partial<MetadataCondition>) => void;
   onRemove: () => void;
-};
+}
 
 export function MetadataFilterRow({
   condition,

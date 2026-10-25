@@ -1,10 +1,10 @@
 import { Button } from '@/components/ui/button';
 import { DialogClose } from '@/components/ui/dialog';
 
-type ScheduleFormFooterProps = {
+interface ScheduleFormFooterProps {
   isSaving: boolean;
   submitLabel: string;
-};
+}
 
 export function ScheduleFormFooter({
   isSaving,

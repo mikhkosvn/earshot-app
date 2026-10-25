@@ -33,10 +33,10 @@ const TYPE_ITEMS = Object.values(GenerationScenarioType).map((type) => ({
 
 const COMPACT = 'h-8 w-auto max-w-48 text-xs';
 
-type AiComposerOptionsProps = {
+interface AiComposerOptionsProps {
   isMoreOpen: boolean;
   onMoreToggle: () => void;
-};
+}
 
 export function AiComposerOptions({
   isMoreOpen,

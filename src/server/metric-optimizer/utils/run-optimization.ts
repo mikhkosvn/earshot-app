@@ -5,7 +5,10 @@ import { prisma } from '@/lib/prisma';
 import { UrlGenerator } from '@/lib/url-generator/url-generator';
 import type { JobContext } from '@/server/jobs/types';
 import type { LabDraft, LabRowOutcome } from '@/server/labs/types';
-import { applyDraft, loadScoringMetric } from '@/server/labs/utils/draft-metric';
+import {
+  applyDraft,
+  loadScoringMetric,
+} from '@/server/labs/utils/draft-metric';
 import {
   labRowOrder,
   labRowSelect,
@@ -25,19 +28,19 @@ import {
 import { valueParts } from '@/server/metric-scoring/utils/value-parts';
 import type { ScoringMetric } from '@/server/metric-scoring/types';
 
-type RunOptimizationArgs = {
+interface RunOptimizationArgs {
   sessionId: number;
   draft: LabDraft | null;
   context: JobContext<unknown>;
-};
+}
 
 type LabReviewRow = Awaited<ReturnType<typeof loadSessionReviews>>[number];
 
-type Attempt = {
+interface Attempt {
   proposal: MetricProposal;
   outcomes: LabRowOutcome[];
   matched: number;
-};
+}
 
 const loadSessionReviews = (sessionId: number, metricId: number) =>
   prisma.labReview.findMany({
@@ -169,12 +172,18 @@ const optimize = async ({ sessionId, draft, context }: RunOptimizationArgs) => {
   const current = withDraft(loaded, draft);
   const reviews = await loadSessionReviews(sessionId, metric.id);
   const cache: ConversationCache = new Map();
-  await context.setStep(`Improving ${metric.name}: scoring the current version...`);
+  await context.setStep(
+    `Improving ${metric.name}: scoring the current version...`,
+  );
   const baseline = await scoreAll(metric.projectId, current, reviews, cache);
   const baselineMatched = matchedCount(baseline);
   let best: Attempt | null = null;
   let rows = optimizerRows(reviews, baseline);
-  for (let iteration = 1; iteration <= OPTIMIZER_ITERATION_BUDGET; iteration += 1) {
+  for (
+    let iteration = 1;
+    iteration <= OPTIMIZER_ITERATION_BUDGET;
+    iteration += 1
+  ) {
     const proposal = await proposeMetric({
       metric: current,
       rows,

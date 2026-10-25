@@ -1,9 +1,9 @@
 import { FeedbackEditButton } from '../../call-review/feedback-edit-button';
 
-type CallFeedbackCellProps = {
+interface CallFeedbackCellProps {
   callLogId: number;
   feedback: string | null;
-};
+}
 
 export function CallFeedbackCell({
   callLogId,

@@ -5,9 +5,9 @@ import type { ComponentProps } from 'react';
 
 import { Button } from '@/components/ui/button';
 
-type PlotDragHandleProps = ComponentProps<typeof Button> & {
+interface PlotDragHandleProps extends ComponentProps<typeof Button> {
   plotName: string;
-};
+}
 
 export function PlotDragHandle({ plotName, ...props }: PlotDragHandleProps) {
   return (

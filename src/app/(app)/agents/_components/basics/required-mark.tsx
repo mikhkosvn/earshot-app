@@ -1,6 +1,6 @@
-type RequiredMarkProps = {
+interface RequiredMarkProps {
   required: boolean;
-};
+}
 
 export function RequiredMark({ required }: RequiredMarkProps) {
   if (!required) return null;

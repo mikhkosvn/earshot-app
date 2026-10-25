@@ -1,10 +1,10 @@
 import { WizardStep } from '../../_constants/wizard-step';
 import { WizardStepBadge } from './wizard-step-badge';
 
-type WizardStepperProps = {
+interface WizardStepperProps {
   step: WizardStep;
   completed: boolean;
-};
+}
 
 export function WizardStepper({ step, completed }: WizardStepperProps) {
   const onBasicInfo = step === WizardStep.basicInfo;

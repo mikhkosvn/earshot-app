@@ -13,11 +13,11 @@ import type { MetricVariable } from '@/server/metrics/constants/definition/metri
 
 import { VariableRow } from './variable-row';
 
-type VariablesDialogProps = {
+interface VariablesDialogProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
-  variables: MetricVariable[];
-};
+  variables: readonly MetricVariable[];
+}
 
 export function VariablesDialog({
   open,

@@ -13,10 +13,10 @@ import { ReevaluateMetricSearch } from './reevaluate-metric-search';
 import { ReevaluateSelectAllButton } from './reevaluate-select-all-button';
 import { ReevaluateSubmitButton } from './reevaluate-submit-button';
 
-type ReevaluateMetricsFormProps = {
+interface ReevaluateMetricsFormProps {
   targets: ReevaluateTarget[];
   onDone: () => void;
-};
+}
 
 const countText = (count: number) => {
   if (count === 1) return '1 metric selected';

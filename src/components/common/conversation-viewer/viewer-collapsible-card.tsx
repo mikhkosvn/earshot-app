@@ -10,12 +10,12 @@ import {
   CollapsibleTrigger,
 } from '@/components/ui/collapsible';
 
-type ViewerCollapsibleCardProps = {
+interface ViewerCollapsibleCardProps {
   title: string;
   description: string;
   total: number;
   children: ReactNode;
-};
+}
 
 export function ViewerCollapsibleCard({
   title,

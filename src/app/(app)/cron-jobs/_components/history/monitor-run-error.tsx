@@ -1,6 +1,6 @@
-type MonitorRunErrorProps = {
+interface MonitorRunErrorProps {
   errorMessage: string | null;
-};
+}
 
 export function MonitorRunError({ errorMessage }: MonitorRunErrorProps) {
   if (!errorMessage) return null;

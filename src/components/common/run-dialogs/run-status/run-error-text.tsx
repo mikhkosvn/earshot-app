@@ -1,6 +1,6 @@
-type RunErrorTextProps = {
+interface RunErrorTextProps {
   message: string | null;
-};
+}
 
 export function RunErrorText({ message }: RunErrorTextProps) {
   if (!message) return null;

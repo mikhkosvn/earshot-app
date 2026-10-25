@@ -14,16 +14,16 @@ export type ProjectKnowledgeFormValues = z.input<
   typeof projectKnowledgeContentSchema
 >;
 
-export type ProjectKnowledge = {
+export interface ProjectKnowledge {
   content: string;
   exists: boolean;
   version: number | null;
-};
+}
 
-export type ProjectKnowledgeVersionRow = {
+export interface ProjectKnowledgeVersionRow {
   id: number;
   version: number;
   content: string;
   createdAt: Date;
   createdByName: string | null;
-};
+}

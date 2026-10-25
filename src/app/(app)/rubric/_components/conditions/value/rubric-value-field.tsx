@@ -8,9 +8,9 @@ import { RubricEmptyValueField } from './rubric-empty-value-field';
 import { RubricEnumValueField } from './rubric-enum-value-field';
 import { RubricNumberValueField } from './rubric-number-value-field';
 
-type RubricValueFieldProps = {
+interface RubricValueFieldProps {
   index: number;
-};
+}
 
 export function RubricValueField({ index }: RubricValueFieldProps) {
   const metric = useRuleMetric(index);

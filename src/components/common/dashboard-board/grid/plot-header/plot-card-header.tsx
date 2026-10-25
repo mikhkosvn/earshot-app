@@ -9,11 +9,11 @@ import { PlotHeaderActions } from './plot-header-actions';
 import { PlotIcon } from './plot-icon';
 import { PlotMenu } from './plot-menu';
 
-type PlotCardHeaderProps = {
+interface PlotCardHeaderProps {
   board: DashboardBoardState;
   plot: DraftPlot;
   dragHandle: ReactNode;
-};
+}
 
 export function PlotCardHeader({
   board,

@@ -4,12 +4,12 @@ import { XIcon } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
 
-type MultiPickClearProps = {
+interface MultiPickClearProps {
   label: string;
   count: number;
   disabled?: boolean;
   onClear: () => void;
-};
+}
 
 export function MultiPickClear({
   label,

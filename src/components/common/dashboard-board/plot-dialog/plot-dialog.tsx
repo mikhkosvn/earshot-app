@@ -12,11 +12,11 @@ import type { DashboardBoardState } from '../_utils/board-types';
 import { PlotDialogBody } from './plot-dialog-body';
 import { PlotDialogHeading } from './plot-dialog-heading';
 
-type PlotDialogProps = {
+interface PlotDialogProps {
   board: DashboardBoardState;
   state: PlotDialogState;
   onClose: () => void;
-};
+}
 
 export function PlotDialog({ board, state, onClose }: PlotDialogProps) {
   return (

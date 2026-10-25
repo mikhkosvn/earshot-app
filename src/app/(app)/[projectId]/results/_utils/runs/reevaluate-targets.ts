@@ -2,7 +2,10 @@ import type { ActionResult } from '@/lib/action-result';
 import { reevaluateResultAction } from '@/server/runs/actions';
 import type { StartedReevaluation } from '@/server/runs/types';
 
-export type ReevaluateTarget = { resultId: number; runIds?: number[] };
+export interface ReevaluateTarget {
+  resultId: number;
+  runIds?: number[];
+}
 
 export const reevaluateTargets = async (
   targets: ReevaluateTarget[],

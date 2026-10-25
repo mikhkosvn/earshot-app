@@ -2,9 +2,9 @@ import type { ReactNode } from 'react';
 
 import { FieldDescription } from '@/components/ui/field';
 
-type SliderHelpProps = {
+interface SliderHelpProps {
   help?: ReactNode;
-};
+}
 
 export function SliderHelp({ help }: SliderHelpProps) {
   if (!help) return null;

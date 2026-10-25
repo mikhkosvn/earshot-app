@@ -5,10 +5,10 @@ import type { VoiceOption } from '@/server/voices/types';
 
 import { PlaySampleButton } from './play-sample-button';
 
-type VoiceOptionItemProps = {
+interface VoiceOptionItemProps {
   voice: VoiceOption;
   onSelect: (voiceId: string) => void;
-};
+}
 
 export function VoiceOptionItem({ voice, onSelect }: VoiceOptionItemProps) {
   return (

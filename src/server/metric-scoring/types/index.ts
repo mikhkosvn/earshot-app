@@ -11,41 +11,41 @@ import type { DecodedWav } from '@/server/call-engine/audio/decode-wav';
 import type { ScoringSource } from '@/server/metric-scoring/constants';
 import type { MetricValue } from '@/server/metrics/types';
 
-export type ScoreConversationInput = {
+export interface ScoreConversationInput {
   projectId: number;
   conversationId: number;
   metricIds?: number[];
-};
+}
 
-export type ComputeRubricVerdictInput = {
+export interface ComputeRubricVerdictInput {
   conversationId: number;
-};
+}
 
-export type ScoringTurn = {
+export interface ScoringTurn {
   role: TranscriptRole;
   content: string;
   startTime: number | null;
   endTime: number | null;
-};
+}
 
-export type ScoringAgent = {
+export interface ScoringAgent {
   id: number;
   name: string;
   description: string;
   language: string;
   inbound: boolean;
   phoneNumber: string | null;
-};
+}
 
-export type ScoringEvaluator = {
+export interface ScoringEvaluator {
   id: number;
   name: string;
   instructions: string;
   expectedOutcome: string | null;
   metricIds: number[];
-};
+}
 
-export type ScoringConversation = {
+export interface ScoringConversation {
   id: number;
   projectId: number;
   source: ScoringSource;
@@ -65,9 +65,9 @@ export type ScoringConversation = {
   agent: ScoringAgent | null;
   evaluator: ScoringEvaluator | null;
   projectSampleRate: number;
-};
+}
 
-export type ScoringMetric = {
+export interface ScoringMetric {
   id: number;
   name: string;
   slug: string | null;
@@ -86,37 +86,37 @@ export type ScoringMetric = {
   samplingEnabled: boolean;
   sampleRate: number | null;
   dependencyIds: number[];
-};
+}
 
-export type ScoreOutcome = {
+export interface ScoreOutcome {
   status: MetricEvaluationStatus;
   value: MetricValue;
   explanation: string[];
   extra: Record<string, unknown> | null;
   errorMessage: string | null;
-};
+}
 
-export type DependencyResult = {
+export interface DependencyResult {
   id: number;
   name: string;
   slug: string | null;
   value: MetricValue;
   explanation: string[];
-};
+}
 
-export type ScoringContext = {
+export interface ScoringContext {
   conversation: ScoringConversation;
   metric: ScoringMetric;
   dependencies: DependencyResult[];
-};
+}
 
-export type RubricCondition = {
+export interface RubricCondition {
   op: ComparisonOperator;
   field: string;
   value: boolean | number | string | string[];
-};
+}
 
-export type RubricBreakdownItem = {
+export interface RubricBreakdownItem {
   metricId: number;
   metricName: string;
   value: MetricValue;
@@ -127,18 +127,18 @@ export type RubricBreakdownItem = {
     operator: 'and';
     conditions: RubricCondition[];
   };
-};
+}
 
-export type RubricVerdict = {
+export interface RubricVerdict {
   passed: boolean;
   passedCount: number;
   failedCount: number;
   items: RubricBreakdownItem[];
-};
+}
 
-export type PythonRunResult = {
+export interface PythonRunResult {
   ok: boolean;
   result: MetricValue;
   explanation: string[];
   error: string | null;
-};
+}

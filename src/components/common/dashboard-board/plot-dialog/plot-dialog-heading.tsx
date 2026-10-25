@@ -5,9 +5,9 @@ import { DialogDescription, DialogTitle } from '@/components/ui/dialog';
 import { PlotDialogMode } from '../_constants/draft-action-type';
 import type { PlotDialogState } from '../_hooks/use-dashboard-board';
 
-type PlotDialogHeadingProps = {
+interface PlotDialogHeadingProps {
   state: PlotDialogState;
-};
+}
 
 export function PlotDialogHeading({ state }: PlotDialogHeadingProps) {
   if (state.mode === PlotDialogMode.edit) {

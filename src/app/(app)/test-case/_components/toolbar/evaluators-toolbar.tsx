@@ -12,11 +12,11 @@ import { RunEvaluatorsButton } from './run/run-evaluators-button';
 import { RunFromFileButton } from './run/run-from-file-button';
 import { TestProfilesButton } from './test-profiles-button';
 
-type EvaluatorsToolbarProps = {
+interface EvaluatorsToolbarProps {
   selectedIds: number[];
   onSelectionChange: (ids: number[]) => void;
   onImproveOpen: () => void;
-};
+}
 
 export function EvaluatorsToolbar({
   selectedIds,

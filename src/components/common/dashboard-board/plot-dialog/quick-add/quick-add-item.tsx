@@ -13,10 +13,10 @@ const ICONS = {
   [PredefinedPlotIcon.trendingUp]: TrendingUpIcon,
 };
 
-type QuickAddItemProps = {
+interface QuickAddItemProps {
   preset: PredefinedPlot;
   onAdd: (preset: PredefinedPlot) => void;
-};
+}
 
 export function QuickAddItem({ preset, onAdd }: QuickAddItemProps) {
   const Icon = ICONS[preset.icon];

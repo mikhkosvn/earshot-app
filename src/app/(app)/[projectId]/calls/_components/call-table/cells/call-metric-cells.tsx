@@ -6,9 +6,9 @@ import type { CallMetricCell } from '@/server/call-logs/types';
 import { useMetricColumnsQuery } from '../../../_hooks/call-list/use-metric-columns-query';
 import { CallMetricValue } from './call-metric-value';
 
-type CallMetricCellsProps = {
-  metrics: CallMetricCell[];
-};
+interface CallMetricCellsProps {
+  metrics: readonly CallMetricCell[];
+}
 
 export function CallMetricCells({ metrics }: CallMetricCellsProps) {
   const { data: columns } = useMetricColumnsQuery();

@@ -10,11 +10,11 @@ import type { OptimizerScheduleView } from '@/server/metric-optimizer/types';
 
 import { EditScheduleForm } from './edit-schedule-form';
 
-type EditScheduleDialogProps = {
+interface EditScheduleDialogProps {
   schedule: OptimizerScheduleView;
   open: boolean;
   onOpenChange: (open: boolean) => void;
-};
+}
 
 export function EditScheduleDialog({
   schedule,

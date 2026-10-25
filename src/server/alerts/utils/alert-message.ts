@@ -9,18 +9,18 @@ import { evaluationValueOf } from '@/server/alerts/utils/evaluation-value';
 import type { EvaluationValueParts } from '@/server/alerts/utils/evaluation-value';
 import { round2 } from '@/server/metric-scoring/utils/statistics';
 
-type CallRef = EvaluationValueParts & {
+interface CallRef extends EvaluationValueParts {
   conversation: {
     callLog: { id: number; externalCallId: string } | null;
   };
-};
+}
 
-type ThresholdRule = {
+interface ThresholdRule {
   metric: { name: string };
   thresholdOperator: ThresholdOperator | null;
   thresholdValue: number | null;
   thresholdUpperValue: number | null;
-};
+}
 
 const callText = (row: CallRef) => {
   const callLog = row.conversation.callLog;

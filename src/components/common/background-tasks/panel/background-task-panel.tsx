@@ -9,12 +9,12 @@ import type { PanelScope } from '../_utils/panel-jobs';
 import { BackgroundTaskPanelBody } from './background-task-panel-body';
 import { BackgroundTaskPanelHeader } from './background-task-panel-header';
 
-type BackgroundTaskPanelProps = {
+interface BackgroundTaskPanelProps {
   kind: JobKind;
   scope: PanelScope;
   onClose: (kind: JobKind) => void;
   onDismiss: (kind: JobKind) => void;
-};
+}
 
 export function BackgroundTaskPanel({
   kind,

@@ -3,12 +3,12 @@ import 'server-only';
 import { MetricEvalType } from '@/generated/prisma/enums';
 import type { GeneratedMetricDraft } from '@/server/metrics/types';
 
-type DraftSeed = {
+interface DraftSeed {
   name: string;
   purpose: string;
   success: string[];
   failure: string[];
-};
+}
 
 const APPOINTMENT_PATTERN = /appoint|book|schedul|reserv/i;
 

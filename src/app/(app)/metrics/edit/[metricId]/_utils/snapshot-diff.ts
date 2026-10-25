@@ -2,12 +2,12 @@ import type { MetricSnapshot } from '@/server/metrics/types';
 
 import { SNAPSHOT_FIELD_LABELS } from '../_constants/snapshot-field-labels';
 
-export type SnapshotChange = {
+export interface SnapshotChange {
   field: keyof MetricSnapshot;
   label: string;
   before: string;
   after: string;
-};
+}
 
 const EMPTY_TEXT = '(empty)';
 

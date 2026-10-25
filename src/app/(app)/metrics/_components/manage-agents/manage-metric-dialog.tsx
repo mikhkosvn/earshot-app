@@ -11,11 +11,11 @@ import type { MetricListItem } from '@/server/metrics/types';
 
 import { ManageMetricForm } from './manage-metric-form';
 
-type ManageMetricDialogProps = {
+interface ManageMetricDialogProps {
   metric: MetricListItem;
   open: boolean;
   onOpenChange: (open: boolean) => void;
-};
+}
 
 export function ManageMetricDialog({
   metric,

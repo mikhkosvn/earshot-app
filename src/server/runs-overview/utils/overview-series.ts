@@ -30,10 +30,10 @@ import type { OverviewEvaluation, OverviewRun } from './load-overview-runs';
 
 const MAX_BUCKET_SCAN = 20_000;
 
-type BucketContext = {
+interface BucketContext {
   period: WidgetTimePeriod;
   timeZone: string;
-};
+}
 
 const average = (values: number[]) => {
   if (values.length === 0) return 0;

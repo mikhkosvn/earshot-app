@@ -1,10 +1,10 @@
 import type { LucideIcon } from 'lucide-react';
 import type { ReactNode } from 'react';
 
-type ShareChipProps = {
+interface ShareChipProps {
   icon: LucideIcon;
   children: ReactNode;
-};
+}
 
 export function ShareChip({ icon: Icon, children }: ShareChipProps) {
   return (

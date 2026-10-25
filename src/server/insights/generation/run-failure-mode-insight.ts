@@ -18,18 +18,18 @@ import {
 const MILLISECONDS_PER_SECOND = 1000;
 const WINDOW_EVALUATIONS_MAX = 5000;
 
-type RunArgs = {
+interface RunArgs {
   metricId: number;
   windowStart: Date;
   windowEnd: Date;
-};
+}
 
-export type InsightRunOutcome = {
+export interface InsightRunOutcome {
   insightId: number;
   status: InsightStatus;
   failures: number;
   categories: number;
-};
+}
 
 const errorText = (error: unknown) => {
   if (error instanceof Error && error.message) return error.message;

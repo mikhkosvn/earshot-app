@@ -9,9 +9,9 @@ import type { RunsOverviewFilters } from '@/server/runs-overview/types';
 
 import { FilterCountBadge } from './filter-count-badge';
 
-type FilterTabListProps = {
+interface FilterTabListProps {
   draft: RunsOverviewFilters;
-};
+}
 
 const tabCount = (tab: OverviewFilterTab, draft: RunsOverviewFilters) => {
   switch (tab) {

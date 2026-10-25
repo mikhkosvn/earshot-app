@@ -27,12 +27,12 @@ export const TelephonySupport = {
 export type TelephonySupport =
   (typeof TelephonySupport)[keyof typeof TelephonySupport];
 
-export type IntegrationFieldOption = {
+export interface IntegrationFieldOption {
   value: string;
   label: string;
-};
+}
 
-export type IntegrationField = {
+export interface IntegrationField {
   target: IntegrationFieldTarget;
   configKey?: string;
   kind: IntegrationFieldKind;
@@ -41,15 +41,15 @@ export type IntegrationField = {
   placeholder?: string;
   description?: string;
   options?: IntegrationFieldOption[];
-};
+}
 
-export type ProviderIntegration = {
+export interface ProviderIntegration {
   telephony: TelephonySupport;
   fields: IntegrationField[];
   autoImportDescription?: string;
   autoSyncDescription?: string;
   postConversationMetadata: boolean;
-};
+}
 
 export const PROVIDER_TILE_ORDER: AgentProvider[] = [
   AgentProvider.custom,

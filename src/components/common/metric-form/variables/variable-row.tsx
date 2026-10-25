@@ -5,9 +5,9 @@ import type { MetricVariable } from '@/server/metrics/constants/definition/metri
 
 import { useCopyVariable } from '../_hooks/use-copy-variable';
 
-type VariableRowProps = {
+interface VariableRowProps {
   variable: MetricVariable;
-};
+}
 
 export function VariableRow({ variable }: VariableRowProps) {
   const copyVariable = useCopyVariable();

@@ -4,9 +4,9 @@ import { TablePagination } from '@/components/common/table-pagination/table-pagi
 
 import { useResultRunsQuery } from '../../../_hooks/runs/use-result-runs-query';
 
-type ResultRunsPaginationProps = {
+interface ResultRunsPaginationProps {
   pageParamKey: string;
-};
+}
 
 export function ResultRunsPagination({
   pageParamKey,

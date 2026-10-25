@@ -7,9 +7,9 @@ import { useCurrentProjectId } from '@/app/(app)/_hooks/use-current-project-id';
 import { buttonVariants } from '@/components/ui/button';
 import { UrlGenerator } from '@/lib/url-generator/url-generator';
 
-type EvaluatorLinksProps = {
+interface EvaluatorLinksProps {
   evaluatorId: number | null;
-};
+}
 
 const ICON_LINK = buttonVariants({
   variant: 'ghost',

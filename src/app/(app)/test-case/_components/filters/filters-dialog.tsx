@@ -12,10 +12,10 @@ import { Skeleton } from '@/components/ui/skeleton';
 
 import { FiltersForm } from './filters-form';
 
-type FiltersDialogProps = {
+interface FiltersDialogProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
-};
+}
 
 export function FiltersDialog({ open, onOpenChange }: FiltersDialogProps) {
   return (

@@ -6,11 +6,11 @@ import type { MetricListItem } from '@/server/metrics/types';
 
 import { useDeleteMetricsMutation } from '../../_hooks/mutations/row/use-delete-metrics-mutation';
 
-type DeleteMetricDialogProps = {
+interface DeleteMetricDialogProps {
   metric: MetricListItem;
   open: boolean;
   onOpenChange: (open: boolean) => void;
-};
+}
 
 export function DeleteMetricDialog({
   metric,

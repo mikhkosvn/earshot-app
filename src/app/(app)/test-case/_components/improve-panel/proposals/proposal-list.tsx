@@ -11,9 +11,9 @@ import {
 import { useApplyImprovementsMutation } from '@/app/(app)/test-case/_hooks/mutations/evaluator-ai/use-apply-improvements-mutation';
 import { ProposalCard } from './proposal-card';
 
-type ProposalListProps = {
-  proposals: EvaluatorImprovementProposal[];
-};
+interface ProposalListProps {
+  proposals: readonly EvaluatorImprovementProposal[];
+}
 
 export function ProposalList({ proposals }: ProposalListProps) {
   const projectId = useCurrentProjectId();

@@ -12,9 +12,9 @@ import { useAddRunConversationToLabMutation } from '../../../_hooks/mutations/ru
 import { useRunDetailQuery } from '../../../_hooks/runs/use-run-detail-query';
 import { evaluatorIdsOf } from '../../../_utils/runs/run-detail-text';
 
-type RunDetailActionsProps = {
+interface RunDetailActionsProps {
   runId: number;
-};
+}
 
 export function RunDetailActions({ runId }: RunDetailActionsProps) {
   const [monitorOpen, setMonitorOpen] = useState(false);

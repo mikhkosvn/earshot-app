@@ -1,8 +1,8 @@
 import type { ReactNode } from 'react';
 
-type ConversationViewerActionsProps = {
+interface ConversationViewerActionsProps {
   actions?: ReactNode;
-};
+}
 
 export function ConversationViewerActions({
   actions,

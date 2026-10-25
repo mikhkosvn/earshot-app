@@ -16,10 +16,10 @@ import { TestProfileRowActions } from './test-profile-row-actions';
 import { TestProfileVariablesRow } from './test-profile-variables-row';
 import { UpdatedCell } from './updated-cell';
 
-type TestProfileRowProps = {
+interface TestProfileRowProps {
   profile: TestProfileView;
   onEdit: (profile: TestProfileView) => void;
-};
+}
 
 export function TestProfileRow({ profile, onEdit }: TestProfileRowProps) {
   const [linkedProfileId] = useLinkedTestProfileParam();

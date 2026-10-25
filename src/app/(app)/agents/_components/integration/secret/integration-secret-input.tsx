@@ -10,9 +10,9 @@ import { integrationFieldName } from '../../../_utils/integration-field-name';
 import { IntegrationFieldLabel } from '../integration-field-label';
 import { PasswordInput } from './password-input';
 
-type IntegrationSecretInputProps = {
+interface IntegrationSecretInputProps {
   field: IntegrationField;
-};
+}
 
 export function IntegrationSecretInput({ field }: IntegrationSecretInputProps) {
   const { control } = useFormContext<AgentConfigValues>();

@@ -30,7 +30,7 @@ export type ReevaluateConversationsInput = z.input<
 export type RunDefaultsInput = z.input<typeof runDefaultsSchema>;
 export type RunAgentInput = z.input<typeof runAgentSchema>;
 
-export type CreateRunBatchArgs = {
+export interface CreateRunBatchArgs {
   projectId: number;
   createdById: number | null;
   agentId: number;
@@ -47,14 +47,14 @@ export type CreateRunBatchArgs = {
   agentNumber?: string | null;
   mockToolIds?: number[] | null;
   apiKeyId?: number | null;
-};
+}
 
-export type CreatedRunBatch = {
+export interface CreatedRunBatch {
   resultId: number;
   runIds: number[];
-};
+}
 
-export type EvaluatorSnapshot = {
+export interface EvaluatorSnapshot {
   id: number | null;
   key: string | null;
   name: string;
@@ -67,23 +67,23 @@ export type EvaluatorSnapshot = {
   tools: string[];
   tags: string[];
   metricIds: number[];
-};
+}
 
-export type TestProfileSnapshot = {
+export interface TestProfileSnapshot {
   id: number;
   name: string;
   mainAgentVariables: Record<string, string>;
   testingAgentVariables: Record<string, string>;
-};
+}
 
-export type RunPlanCase = {
+export interface RunPlanCase {
   evaluatorId: number | null;
   personalityId: number | null;
   testProfileId: number | null;
   evaluatorSnapshot: EvaluatorSnapshot;
-};
+}
 
-export type RunBatchSettings = {
+export interface RunBatchSettings {
   projectId: number;
   createdById: number | null;
   agentId: number;
@@ -97,18 +97,18 @@ export type RunBatchSettings = {
   mockToolIds: number[];
   monitorRunId: number | null;
   apiKeyId: number | null;
-};
+}
 
-export type RunBatchStatusRun = {
+export interface RunBatchStatusRun {
   id: number;
   evaluatorName: string;
   personalityName: string | null;
   status: RunStatus;
   evaluationStatus: CallEvaluationStatus | null;
   errorMessage: string | null;
-};
+}
 
-export type RunBatchStatus = {
+export interface RunBatchStatus {
   resultId: number;
   projectId: number;
   name: string;
@@ -118,46 +118,46 @@ export type RunBatchStatus = {
   successRuns: number;
   failedRuns: number;
   runs: RunBatchStatusRun[];
-};
+}
 
-export type RunDefaults = {
+export interface RunDefaults {
   agentId: number | null;
   maxConcurrentRuns: number;
-};
+}
 
-export type RunMockTool = {
+export interface RunMockTool {
   id: number;
   name: string;
-};
+}
 
-export type SkippedMetric = {
+export interface SkippedMetric {
   id: number;
   name: string;
-};
+}
 
-export type RunAgentConfiguration = {
+export interface RunAgentConfiguration {
   agentId: number;
   phoneNumber: string | null;
   mockToolsEnabled: boolean;
   mockTools: RunMockTool[];
   skippedMetrics: SkippedMetric[];
-};
+}
 
-export type SpecIssue = {
+export interface SpecIssue {
   path: string;
   message: string;
-};
+}
 
-export type PlanScenario = {
+export interface PlanScenario {
   key: string;
   name: string;
   frequency: number;
   runs: number;
   metricCount: number;
   personalityName: string;
-};
+}
 
-export type TestSuitePlan = {
+export interface TestSuitePlan {
   suiteName: string;
   channel: RunChannel;
   agentNumber: string;
@@ -165,17 +165,17 @@ export type TestSuitePlan = {
   totalRuns: number;
   saveScenarios: boolean;
   scenarios: PlanScenario[];
-};
+}
 
 export type SpecCheck =
   | { valid: true; errors: []; plan: TestSuitePlan }
   | { valid: false; errors: SpecIssue[]; plan: null };
 
-export type StartedReevaluation = {
+export interface StartedReevaluation {
   jobId: string;
-};
+}
 
-export type CancelledResult = {
+export interface CancelledResult {
   resultId: number;
   cancelledCount: number;
-};
+}

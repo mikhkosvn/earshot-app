@@ -18,10 +18,10 @@ import { MOCK_TOOL_MAPPINGS_HELP } from '../../_constants/mock-tool-defaults';
 import { useMockToolForm } from '../../_hooks/use-mock-tool-form';
 import { MockToolSubmitLabel } from './mock-tool-submit-label';
 
-type MockToolFormProps = {
+interface MockToolFormProps {
   tool: MockToolItem | null;
   onSaved: () => void;
-};
+}
 
 export function MockToolForm({ tool, onSaved }: MockToolFormProps) {
   const { form, onSubmit, isPending } = useMockToolForm(tool, onSaved);

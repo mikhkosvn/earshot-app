@@ -1,9 +1,9 @@
 import { HistoryChangeType } from '@/generated/prisma/enums';
 import type { EvaluatorVersionView } from '@/server/evaluators/types';
 
-type VersionNoteProps = {
+interface VersionNoteProps {
   version: EvaluatorVersionView;
-};
+}
 
 export function VersionNote({ version }: VersionNoteProps) {
   if (version.changeReason) {

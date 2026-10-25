@@ -11,10 +11,10 @@ import {
 
 import { EditProjectForm } from './edit-project-form';
 
-type EditProjectDialogProps = {
+interface EditProjectDialogProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
-};
+}
 
 export function EditProjectDialog({
   open,

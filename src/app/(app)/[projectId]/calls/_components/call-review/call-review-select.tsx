@@ -16,10 +16,10 @@ import { CallEvaluationStatusLabel } from '@/server/results/constants/call-evalu
 import { useUpdateReviewMutation } from '../../_hooks/mutations/call-review/use-update-review-mutation';
 import { CallReviewIcon } from './call-review-icon';
 
-type CallReviewSelectProps = {
+interface CallReviewSelectProps {
   callLogId: number;
   evaluationStatus: CallEvaluationStatus;
-};
+}
 
 const REVIEW_ITEMS = [
   { value: CallEvaluationStatus.reviewed_success, label: 'Success' },

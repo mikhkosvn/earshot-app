@@ -1,6 +1,6 @@
-type ImproveRunLabelProps = {
+interface ImproveRunLabelProps {
   isPending: boolean;
-};
+}
 
 export function ImproveRunLabel({ isPending }: ImproveRunLabelProps) {
   if (isPending) return 'Improving...';

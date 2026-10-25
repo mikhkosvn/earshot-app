@@ -8,9 +8,9 @@ import { FireCallLink } from './fire-call-link';
 
 const FIRE_TIME_FORMAT = 'MMM d, HH:mm:ss';
 
-type FiredAlertFireRowProps = {
+interface FiredAlertFireRowProps {
   fire: AlertFireRef;
-};
+}
 
 export function FiredAlertFireRow({ fire }: FiredAlertFireRowProps) {
   return (

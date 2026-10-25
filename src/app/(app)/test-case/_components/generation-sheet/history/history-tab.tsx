@@ -9,9 +9,9 @@ import { EvaluatorService } from '@/app/(app)/test-case/_service';
 import { HistoryEmpty } from './history-empty';
 import { HistoryRow } from './history-row';
 
-type HistoryTabProps = {
+interface HistoryTabProps {
   onOpenSession: () => void;
-};
+}
 
 export function HistoryTab({ onOpenSession }: HistoryTabProps) {
   const projectId = useCurrentProjectId();

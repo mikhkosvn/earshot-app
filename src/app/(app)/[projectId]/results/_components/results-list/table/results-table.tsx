@@ -8,12 +8,12 @@ import { ResultRow } from './result-row';
 import { ResultsTableEmptyRow } from './results-table-empty-row';
 import { ResultsTableHeader } from './results-table-header';
 
-type ResultsTableProps = {
-  selectedIds: number[];
+interface ResultsTableProps {
+  selectedIds: readonly number[];
   onSelectedIdsChange: (ids: number[]) => void;
-};
+}
 
-const toggled = (ids: number[], id: number, checked: boolean) => {
+const toggled = (ids: readonly number[], id: number, checked: boolean) => {
   if (checked) return [...ids, id];
   return ids.filter((item) => item !== id);
 };

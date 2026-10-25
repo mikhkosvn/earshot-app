@@ -11,9 +11,9 @@ import getQueryClient from '@/lib/query-client/get-query-client';
 import { LabEditorSkeleton } from './lab-editor-skeleton';
 import { LabEditorView } from './lab-editor-view';
 
-type LabEditorDataProps = {
+interface LabEditorDataProps {
   params: Promise<{ metricId: string }>;
-};
+}
 
 export async function LabEditorData({ params }: LabEditorDataProps) {
   await io();

@@ -1,8 +1,8 @@
 import { TableCell, TableRow } from '@/components/ui/table';
 
-type AgentsEmptyRowProps = {
+interface AgentsEmptyRowProps {
   count: number;
-};
+}
 
 export function AgentsEmptyRow({ count }: AgentsEmptyRowProps) {
   if (count > 0) return null;

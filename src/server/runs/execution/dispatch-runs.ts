@@ -17,14 +17,14 @@ const runsInFlight = () => {
   return globalForRuns.earshotRunsInFlight;
 };
 
-type QueuedResult = {
+interface QueuedResult {
   id: number;
   concurrencyLimit: number | null;
   callsPerSecond: number | null;
   organizationId: number;
   maxConcurrentRuns: number;
   activeRuns: number;
-};
+}
 
 const loadQueuedResults = async (): Promise<QueuedResult[]> => {
   const rows = await prisma.result.findMany({

@@ -11,10 +11,10 @@ import { RunSizeSection } from './run-size/run-size-section';
 import { WhatToTestSection } from './what-to-test/what-to-test-section';
 import { WhenItRunsSection } from './when-it-runs/when-it-runs-section';
 
-type CreateMonitorFormProps = {
+interface CreateMonitorFormProps {
   prefill: CreateMonitorPrefill;
   onCreated: () => void;
-};
+}
 
 export function CreateMonitorForm({
   prefill,

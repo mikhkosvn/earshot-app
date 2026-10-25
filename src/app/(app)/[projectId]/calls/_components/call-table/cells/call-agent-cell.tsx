@@ -3,10 +3,10 @@ import Link from 'next/link';
 
 import { UrlGenerator } from '@/lib/url-generator/url-generator';
 
-type CallAgentCellProps = {
+interface CallAgentCellProps {
   agentId: number | null;
   agentName: string | null;
-};
+}
 
 export function CallAgentCell({ agentId, agentName }: CallAgentCellProps) {
   if (agentId === null || agentName === null) return null;

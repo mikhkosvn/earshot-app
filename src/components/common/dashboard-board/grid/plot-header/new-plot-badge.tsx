@@ -1,8 +1,8 @@
 import { Badge } from '@/components/ui/badge';
 
-type NewPlotBadgeProps = {
+interface NewPlotBadgeProps {
   isNew: boolean;
-};
+}
 
 export function NewPlotBadge({ isNew }: NewPlotBadgeProps) {
   if (!isNew) return null;

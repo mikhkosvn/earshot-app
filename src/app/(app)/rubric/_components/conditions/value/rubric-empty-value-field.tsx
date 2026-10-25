@@ -3,9 +3,9 @@ import { Input } from '@/components/ui/input';
 
 import { RubricFieldLabel } from '../rubric-field-label';
 
-type RubricEmptyValueFieldProps = {
+interface RubricEmptyValueFieldProps {
   index: number;
-};
+}
 
 export function RubricEmptyValueField({ index }: RubricEmptyValueFieldProps) {
   const id = `rubric-rule-${index}-value`;

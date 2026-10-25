@@ -11,9 +11,9 @@ import { GroupByMetadataField } from './group-by-metadata-field';
 import { GroupBySelect } from './group-by-select';
 import { TimePeriodSelect } from './time-period-select';
 
-type SeriesFieldsProps = {
+interface SeriesFieldsProps {
   source: DashboardSource;
-};
+}
 
 export function SeriesFields({ source }: SeriesFieldsProps) {
   const displayType = useWatch<PlotFormValues, 'displayType'>({

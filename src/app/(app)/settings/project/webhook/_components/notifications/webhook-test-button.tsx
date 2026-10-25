@@ -9,9 +9,9 @@ import { useTestWebhookMutation } from '../../_hooks/mutations/use-test-webhook-
 import { useWebhookSettings } from '../../_hooks/use-webhook-settings';
 import { WebhookTestIcon } from './webhook-test-icon';
 
-type WebhookTestButtonProps = {
+interface WebhookTestButtonProps {
   notification: WebhookNotification;
-};
+}
 
 export function WebhookTestButton({ notification }: WebhookTestButtonProps) {
   const projectId = useCurrentProjectId();

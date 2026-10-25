@@ -80,9 +80,11 @@ export type ConversationDetailRow = Prisma.ConversationGetPayload<{
 
 type EvaluationRow = ConversationDetailRow['metricEvaluations'][number];
 
-const asRecord = (value: Prisma.JsonValue | null) => {
+const asRecord = (
+  value: Prisma.JsonValue | null,
+): Record<string, unknown> | null => {
   if (!value || typeof value !== 'object' || Array.isArray(value)) return null;
-  return value as Record<string, unknown>;
+  return value;
 };
 
 const numberList = (value: unknown) => {

@@ -25,7 +25,10 @@ const computePeaks = (samples: Int16Array, peakCount: number) => {
   });
 };
 
-const countSpeechSegments = (peaks: number[], secondsPerPeak: number) => {
+const countSpeechSegments = (
+  peaks: readonly number[],
+  secondsPerPeak: number,
+) => {
   const minSilentPeaks = Math.max(
     1,
     Math.ceil(MIN_SILENCE_SECONDS / secondsPerPeak),

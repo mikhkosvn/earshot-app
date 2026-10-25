@@ -9,13 +9,13 @@ import {
 } from '@/server/runs-overview/constants';
 import type { RunsOverviewFilters } from '@/server/runs-overview/types';
 
-type RunSourcePanelProps = {
+interface RunSourcePanelProps {
   draft: RunsOverviewFilters;
   onChange: (draft: RunsOverviewFilters) => void;
-};
+}
 
 const toggledSource = (
-  sources: RunSource[],
+  sources: readonly RunSource[],
   source: RunSource,
   checked: boolean,
 ) => {

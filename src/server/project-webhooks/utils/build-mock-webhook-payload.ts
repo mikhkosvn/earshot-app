@@ -4,17 +4,17 @@ import { WebhookNotification } from '@/generated/prisma/enums';
 import { WebhookEvent } from '@/server/project-webhooks/constants/webhook-event';
 import type { WebhookPayload } from '@/server/project-webhooks/types';
 
-type MockWebhook = {
+interface MockWebhook {
   event: WebhookEvent;
   payload: WebhookPayload;
   idempotencyKey?: string;
-};
+}
 
-type ResultOutcome = {
+interface ResultOutcome {
   success: boolean;
   isCronjob: boolean;
   errorMessage: string;
-};
+}
 
 const MOCK_RESULT_ID = 101;
 const MOCK_RUN_ID = 5001;

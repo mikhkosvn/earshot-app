@@ -1,6 +1,6 @@
-type ProposalScheduleNoteProps = {
+interface ProposalScheduleNoteProps {
   scheduleName: string | null;
-};
+}
 
 export function ProposalScheduleNote({
   scheduleName,

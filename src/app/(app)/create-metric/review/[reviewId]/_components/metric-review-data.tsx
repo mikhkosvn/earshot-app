@@ -12,9 +12,9 @@ import { MetricReviewBreadcrumb } from './metric-review-breadcrumb';
 import { MetricReviewContent } from './metric-review-content';
 import { MetricReviewSkeleton } from './metric-review-skeleton';
 
-type MetricReviewDataProps = {
+interface MetricReviewDataProps {
   params: Promise<{ reviewId: string }>;
-};
+}
 
 export async function MetricReviewData({ params }: MetricReviewDataProps) {
   await io();

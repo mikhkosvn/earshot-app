@@ -13,10 +13,10 @@ import type { ConversationTurnItem } from '@/server/conversations/types';
 
 import { playAudioFrom } from '../_utils/playback';
 
-type TurnPlayButtonProps = {
+interface TurnPlayButtonProps {
   turn: ConversationTurnItem;
   audioRef: RefObject<HTMLAudioElement | null>;
-};
+}
 
 export function TurnPlayButton({ turn, audioRef }: TurnPlayButtonProps) {
   const startTime = turn.startTime;

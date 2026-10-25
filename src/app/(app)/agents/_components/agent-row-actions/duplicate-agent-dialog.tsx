@@ -14,11 +14,11 @@ import {
 import { useDuplicateAgentMutation } from '../../_hooks/mutations/agent-list/use-duplicate-agent-mutation';
 import { PendingLabel } from '../pending-label';
 
-type DuplicateAgentDialogProps = {
+interface DuplicateAgentDialogProps {
   agentId: number;
   open: boolean;
   onOpenChange: (open: boolean) => void;
-};
+}
 
 export function DuplicateAgentDialog({
   agentId,

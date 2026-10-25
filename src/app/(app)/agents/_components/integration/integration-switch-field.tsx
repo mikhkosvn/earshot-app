@@ -14,11 +14,11 @@ import type { AgentConfigValues } from '@/server/agents/types';
 type SwitchName =
   'autoImportCalls' | 'autoSyncPrompt' | 'sendPostConversationMetadata';
 
-type IntegrationSwitchFieldProps = {
+interface IntegrationSwitchFieldProps {
   name: SwitchName;
   label: string;
   description?: string;
-};
+}
 
 export function IntegrationSwitchField({
   name,

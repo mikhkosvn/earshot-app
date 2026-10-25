@@ -6,10 +6,10 @@ import { Button } from '@/components/ui/button';
 
 import type { DashboardNameFormValues } from '../../../_schemas/dashboard-name-form-schema';
 
-type DashboardNameSubmitProps = {
+interface DashboardNameSubmitProps {
   label: string;
   isPending: boolean;
-};
+}
 
 export function DashboardNameSubmit({
   label,

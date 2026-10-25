@@ -1,9 +1,6 @@
 import type { z } from 'zod';
 
-import type {
-  OptimizationStatus,
-  Timezone,
-} from '@/generated/prisma/enums';
+import type { OptimizationStatus, Timezone } from '@/generated/prisma/enums';
 import type { LabScore } from '@/server/labs/types';
 import type { ProposalField } from '@/server/metric-optimizer/constants/proposal-field';
 import type {
@@ -38,20 +35,20 @@ export type ListOptimizerSchedulesInput = z.input<
   typeof listOptimizerSchedulesSchema
 >;
 
-export type ProposalChange = {
+export interface ProposalChange {
   field: ProposalField;
   label: string;
   before: string;
   after: string;
-};
+}
 
-export type OptimizationProposalView = {
+export interface OptimizationProposalView {
   id: number;
   version: number;
   changes: ProposalChange[];
-};
+}
 
-export type OptimizationView = {
+export interface OptimizationView {
   sessionId: number;
   status: OptimizationStatus;
   jobId: string | null;
@@ -61,9 +58,9 @@ export type OptimizationView = {
   scheduleName: string | null;
   createdAt: Date;
   proposal: OptimizationProposalView | null;
-};
+}
 
-export type OptimizerScheduleView = {
+export interface OptimizerScheduleView {
   id: number;
   name: string;
   cronExpression: string;
@@ -72,17 +69,17 @@ export type OptimizerScheduleView = {
   nextRunAt: Date | null;
   lastRunAt: Date | null;
   createdAt: Date;
-};
+}
 
-export type QueuedOptimization = {
+export interface QueuedOptimization {
   sessionId: number;
   jobId: string;
-};
+}
 
-export type ProposalSummary = {
+export interface ProposalSummary {
   whatChanged: string[];
   whatItChecks: string;
   returnsFalseWhen: string;
   returnsTrueWhen: string;
   notApplicableWhen: string;
-};
+}

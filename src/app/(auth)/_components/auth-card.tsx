@@ -1,10 +1,10 @@
 import type { ReactNode } from 'react';
 
-type AuthCardProps = {
+interface AuthCardProps {
   title: string;
   description: string;
   children: ReactNode;
-};
+}
 
 export function AuthCard({ title, description, children }: AuthCardProps) {
   return (

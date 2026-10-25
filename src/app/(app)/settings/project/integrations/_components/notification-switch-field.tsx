@@ -9,11 +9,11 @@ import type { NotificationSettings } from '@/server/notification-settings/types'
 
 import { useIsEmailEnabled } from '../_hooks/use-is-email-enabled';
 
-type NotificationSwitchFieldProps = {
+interface NotificationSwitchFieldProps {
   name: Exclude<keyof NotificationSettings, 'emailNotificationsEnabled'>;
   label: string;
   description: string;
-};
+}
 
 export function NotificationSwitchField({
   name,

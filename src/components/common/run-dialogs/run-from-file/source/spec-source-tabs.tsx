@@ -7,9 +7,9 @@ import type { RunFromFileForm } from '../../_hooks/use-run-from-file-form';
 import { SpecFileDropZone } from './spec-file-drop-zone';
 import { SpecPasteField } from './spec-paste-field';
 
-type SpecSourceTabsProps = {
+interface SpecSourceTabsProps {
   form: RunFromFileForm;
-};
+}
 
 export function SpecSourceTabs({ form }: SpecSourceTabsProps) {
   return (

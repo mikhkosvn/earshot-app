@@ -11,9 +11,9 @@ import type { LabMetricFormInput } from '../../../_schemas/lab-metric-form-schem
 import { valueText } from '../../../_utils/value-text';
 import { ExpectedValueDialog } from '../dialogs/expected-value-dialog';
 
-type ExpectedValueCellProps = {
+interface ExpectedValueCellProps {
   row: LabRowView;
-};
+}
 
 export function ExpectedValueCell({ row }: ExpectedValueCellProps) {
   const [isOpen, setIsOpen] = useState(false);

@@ -7,10 +7,10 @@ import { RubricMetricField } from './rubric-metric-field';
 import { RubricOperatorField } from './rubric-operator-field';
 import { RubricValueField } from './value/rubric-value-field';
 
-type RubricConditionBlockProps = {
+interface RubricConditionBlockProps {
   index: number;
   onRemove: () => void;
-};
+}
 
 export function RubricConditionBlock({
   index,

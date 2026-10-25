@@ -1,9 +1,9 @@
 import type { PredefinedMetricBadge } from '@/generated/prisma/enums';
 import { PredefinedMetricBadgeLabel } from '@/server/metrics/constants/predefined-metric-badge-labels';
 
-type PredefinedBadgeProps = {
+interface PredefinedBadgeProps {
   badge: PredefinedMetricBadge | null;
-};
+}
 
 export function PredefinedBadge({ badge }: PredefinedBadgeProps) {
   if (!badge) return null;

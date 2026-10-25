@@ -11,11 +11,11 @@ import { startJob } from '@/server/jobs/start-job';
 import { runPatternReview } from '@/server/metrics/pattern-reviews/utils/run-pattern-review';
 import type { StartedPatternReview } from '@/server/metrics/types';
 
-type StartPatternReviewArgs = {
+interface StartPatternReviewArgs {
   metricId: number;
   projectId: number;
   userId: number | null;
-};
+}
 
 export const startPatternReview = async ({
   metricId,

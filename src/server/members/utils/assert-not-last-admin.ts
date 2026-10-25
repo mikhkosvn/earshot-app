@@ -4,11 +4,11 @@ import { MemberRole } from '@/generated/prisma/enums';
 import { prisma } from '@/lib/prisma';
 import { ActionError } from '@/server/common/run-action';
 
-type MemberRef = {
+interface MemberRef {
   id: number;
   organizationId: number;
   role: MemberRole;
-};
+}
 
 export const assertNotLastAdmin = async (member: MemberRef) => {
   if (member.role !== MemberRole.admin) return;

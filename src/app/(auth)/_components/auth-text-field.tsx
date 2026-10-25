@@ -11,13 +11,13 @@ import {
 import { Field, FieldError, FieldLabel } from '@/components/ui/field';
 import { Input } from '@/components/ui/input';
 
-type AuthTextFieldProps<Values extends FieldValues> = {
+interface AuthTextFieldProps<Values extends FieldValues> {
   name: Path<Values>;
   label: string;
   type?: HTMLInputTypeAttribute;
   autoComplete?: string;
   placeholder?: string;
-};
+}
 
 export function AuthTextField<Values extends FieldValues>({
   name,

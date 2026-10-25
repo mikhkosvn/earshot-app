@@ -27,12 +27,12 @@ const BUBBLE_CLASS: Record<TranscriptRole, string> = {
   [TranscriptRole.testing_agent]: 'border bg-background',
 };
 
-type TranscriptMessageProps = {
+interface TranscriptMessageProps {
   turn: ConversationTurnItem;
   source: ConversationSource;
   active: boolean;
   audioRef: RefObject<HTMLAudioElement | null>;
-};
+}
 
 export function TranscriptMessage({
   turn,

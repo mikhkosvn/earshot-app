@@ -4,36 +4,36 @@ import type {
   TranscriptRole,
 } from '@/server/call-engine/constants';
 
-export type CallVariable = {
+export interface CallVariable {
   key: string;
   value: string;
-};
+}
 
-export type CallAgent = {
+export interface CallAgent {
   id: number;
   name: string;
   description: string;
   language: string;
   phoneNumber: string | null;
-};
+}
 
-export type CallEvaluator = {
+export interface CallEvaluator {
   name: string;
   instructions: string;
   expectedOutcome: string;
   firstMessage: string | null;
-};
+}
 
-export type CallPersonality = {
+export interface CallPersonality {
   name: string;
   gender: string;
   language: string;
   speed: string;
   interruptionLevel: string;
   backgroundNoise: string;
-};
+}
 
-export type PlaceCallInput = {
+export interface PlaceCallInput {
   direction: CallDirection;
   agent: CallAgent;
   evaluator: CallEvaluator;
@@ -41,23 +41,23 @@ export type PlaceCallInput = {
   mainAgentVariables: CallVariable[];
   testingAgentVariables: CallVariable[];
   maxDurationSeconds: number;
-};
+}
 
-export type TranscriptTurn = {
+export interface TranscriptTurn {
   role: TranscriptRole;
   content: string;
   startTime: number;
   endTime: number;
-};
+}
 
-export type CallRecording = {
+export interface CallRecording {
   data: Uint8Array;
   contentType: string;
   durationSeconds: number;
   sampleRate: number;
   channels: number;
   testingChannelIndex: number;
-};
+}
 
 export type CallWaveform = {
   version: number;
@@ -69,7 +69,7 @@ export type CallWaveform = {
   testingSpeaking: number;
 };
 
-export type PlacedCall = {
+export interface PlacedCall {
   turns: TranscriptTurn[];
   recording: CallRecording | null;
   waveform: CallWaveform | null;
@@ -80,11 +80,11 @@ export type PlacedCall = {
   providerCallId: string;
   providerCallData: Record<string, unknown>;
   metadata: Record<string, unknown>;
-};
+}
 
-export type CallEngine = {
+export interface CallEngine {
   placeCall: (
     input: PlaceCallInput,
     signal?: AbortSignal,
   ) => Promise<PlacedCall>;
-};
+}

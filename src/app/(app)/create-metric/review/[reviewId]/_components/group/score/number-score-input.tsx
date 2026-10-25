@@ -10,9 +10,9 @@ import { useIsSavingCorrection } from '../../../_hooks/use-is-saving-correction'
 import { usePatternGroup } from '../../../_hooks/use-pattern-group';
 import { numberDraftOf } from '../../../_utils/metric-value-text';
 
-type NumberScoreInputProps = {
+interface NumberScoreInputProps {
   groupKey: string;
-};
+}
 
 export function NumberScoreInput({ groupKey }: NumberScoreInputProps) {
   const { correction } = usePatternGroup(groupKey);

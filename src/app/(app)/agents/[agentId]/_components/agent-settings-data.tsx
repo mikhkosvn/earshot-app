@@ -11,9 +11,9 @@ import { AgentService } from '../../_service';
 import { AgentSettingsForm } from './agent-settings-form';
 import { AgentSettingsSkeleton } from './agent-settings-skeleton';
 
-type AgentSettingsDataProps = {
+interface AgentSettingsDataProps {
   params: Promise<{ agentId: string }>;
-};
+}
 
 export async function AgentSettingsData({ params }: AgentSettingsDataProps) {
   await io();

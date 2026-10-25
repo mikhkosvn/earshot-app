@@ -7,10 +7,10 @@ import { useSelectedRunAgent } from '../../_hooks/use-selected-run-agent';
 import { LabeledField } from '../../fields/labeled-field';
 import { OptionMultiSelect } from '../../fields/option-multi-select';
 
-type RunMockToolsFieldProps = {
+interface RunMockToolsFieldProps {
   control: RunSettingsForm['control'];
   evaluatorIds: number[];
-};
+}
 
 export function RunMockToolsField({
   control,

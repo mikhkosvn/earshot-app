@@ -15,11 +15,11 @@ export type CreateProjectInput = z.input<typeof createProjectSchema>;
 export type UpdateProjectInput = z.input<typeof updateProjectSchema>;
 export type ProjectSettingsValues = z.input<typeof projectSettingsSchema>;
 
-export type ProjectSummary = {
+export interface ProjectSummary {
   id: number;
   name: string;
   organizationId: number;
-};
+}
 
 export type ProjectDetail = ProjectSummary &
   ProjectSettingsValues & {
@@ -29,6 +29,6 @@ export type ProjectDetail = ProjectSummary &
     role: MemberRole;
   };
 
-export type DeleteProjectResult = {
+export interface DeleteProjectResult {
   nextProjectId: number;
-};
+}

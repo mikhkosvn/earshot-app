@@ -7,9 +7,9 @@ import { Button } from '@/components/ui/button';
 
 import { ToggleSettingsDialog } from '../toggle-settings/toggle-settings-dialog';
 
-type ToggleSettingsButtonProps = {
+interface ToggleSettingsButtonProps {
   selectedIds: number[];
-};
+}
 
 export function ToggleSettingsButton({
   selectedIds,

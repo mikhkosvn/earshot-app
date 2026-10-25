@@ -5,13 +5,13 @@ import { CopyButton } from '@/components/common/clipboard/copy-button';
 
 import { RunChipLink } from './run-chip-link';
 
-type RunChipProps = {
+interface RunChipProps {
   icon: LucideIcon;
   text: string | null;
   copyLabel: string;
   linkLabel?: string;
   href?: Route | null;
-};
+}
 
 export function RunChip({
   icon: Icon,

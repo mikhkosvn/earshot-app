@@ -1,7 +1,7 @@
-type FormSectionHeaderProps = {
+interface FormSectionHeaderProps {
   title: string;
   description: string;
-};
+}
 
 export function FormSectionHeader({
   title,

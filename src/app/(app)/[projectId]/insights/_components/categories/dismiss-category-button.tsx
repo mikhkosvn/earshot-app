@@ -6,9 +6,9 @@ import { Button } from '@/components/ui/button';
 
 import { useDismissCategoryMutation } from '../../_hooks/mutations/use-dismiss-category-mutation';
 
-type DismissCategoryButtonProps = {
+interface DismissCategoryButtonProps {
   categoryId: number;
-};
+}
 
 export function DismissCategoryButton({
   categoryId,

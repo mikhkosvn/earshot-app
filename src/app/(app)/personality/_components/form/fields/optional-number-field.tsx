@@ -11,12 +11,12 @@ import {
   parseOptionalNumber,
 } from '../../../_utils/number-input-value';
 
-type OptionalNumberFieldProps = {
+interface OptionalNumberFieldProps {
   name: Path<PersonalityFormValues>;
   label: string;
   placeholder: string;
   step: number;
-};
+}
 
 export function OptionalNumberField({
   name,
@@ -40,7 +40,7 @@ export function OptionalNumberField({
             min={0}
             step={step}
             placeholder={placeholder}
-            value={numberInputValue(field.value as number | null)}
+            value={numberInputValue(field.value)}
             aria-invalid={fieldState.invalid}
             onBlur={field.onBlur}
             onChange={(event) =>

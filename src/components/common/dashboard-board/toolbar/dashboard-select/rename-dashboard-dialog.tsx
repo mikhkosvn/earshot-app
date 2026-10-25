@@ -11,10 +11,10 @@ import type { DashboardItem } from '@/server/dashboards/types';
 
 import { RenameDashboardForm } from './name-form/rename-dashboard-form';
 
-type RenameDashboardDialogProps = {
+interface RenameDashboardDialogProps {
   dashboard: DashboardItem | null;
   onClose: () => void;
-};
+}
 
 export function RenameDashboardDialog({
   dashboard,

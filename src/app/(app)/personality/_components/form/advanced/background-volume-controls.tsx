@@ -9,9 +9,9 @@ import {
 
 import { SliderField } from '../fields/slider-field';
 
-type BackgroundVolumeControlsProps = {
+interface BackgroundVolumeControlsProps {
   noiseOff: boolean;
-};
+}
 
 export function BackgroundVolumeControls({
   noiseOff,

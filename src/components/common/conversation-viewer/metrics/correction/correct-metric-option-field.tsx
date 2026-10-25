@@ -11,9 +11,9 @@ import {
   optionKeyOf,
 } from '../../_utils/correction-options';
 
-type CorrectMetricOptionFieldProps = {
-  options: CorrectionOption[];
-};
+interface CorrectMetricOptionFieldProps {
+  options: readonly CorrectionOption[];
+}
 
 export function CorrectMetricOptionField({
   options,
@@ -37,8 +37,14 @@ export function CorrectMetricOptionField({
           {options.map((option) => {
             const id = `correct-metric-${option.key}`;
             return (
-              <div key={option.key} className="flex flex-col items-center gap-1.5">
-                <Label htmlFor={id} className="font-normal text-muted-foreground">
+              <div
+                key={option.key}
+                className="flex flex-col items-center gap-1.5"
+              >
+                <Label
+                  htmlFor={id}
+                  className="font-normal text-muted-foreground"
+                >
                   {option.label}
                 </Label>
                 <RadioGroupItem id={id} value={option.key} />

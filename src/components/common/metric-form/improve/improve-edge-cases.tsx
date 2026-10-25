@@ -1,6 +1,6 @@
-type ImproveEdgeCasesProps = {
-  edgeCases: string[];
-};
+interface ImproveEdgeCasesProps {
+  edgeCases: readonly string[];
+}
 
 export function ImproveEdgeCases({ edgeCases }: ImproveEdgeCasesProps) {
   if (edgeCases.length === 0) return null;

@@ -1,6 +1,6 @@
-type VersionNameProps = {
+interface VersionNameProps {
   name: string | null;
-};
+}
 
 export function VersionName({ name }: VersionNameProps) {
   if (!name) return null;

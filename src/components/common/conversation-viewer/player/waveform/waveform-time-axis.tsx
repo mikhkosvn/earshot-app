@@ -2,9 +2,9 @@ import { formatClock } from '../../_utils/format-time';
 import { progressPercent } from '../../_utils/playback';
 import { timeTicks } from '../../_utils/time-ticks';
 
-type WaveformTimeAxisProps = {
+interface WaveformTimeAxisProps {
   duration: number;
-};
+}
 
 export function WaveformTimeAxis({ duration }: WaveformTimeAxisProps) {
   return (

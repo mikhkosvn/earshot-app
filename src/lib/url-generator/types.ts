@@ -22,14 +22,14 @@ import type {
   runsOverviewParser,
 } from './parsers';
 
-export type TypedLinkProps<Parsers extends ParserMap> = {
+export interface TypedLinkProps<Parsers extends ParserMap> {
   options?: CreateSerializerOptions<Parsers>;
   values?: Partial<Nullable<inferParserType<Parsers>>>;
-};
+}
 
-export type ProjectScopedType = {
+export interface ProjectScopedType {
   projectId: number;
-};
+}
 
 export type ProjectQueryType = TypedLinkProps<typeof projectParser>;
 
@@ -37,42 +37,43 @@ export type AgentsType = TypedLinkProps<typeof agentsParser>;
 
 export type MetricsType = TypedLinkProps<typeof metricsParser>;
 
-export type AgentType = {
+export interface AgentType {
   agentId: number;
-};
+}
 
-export type MetricEditType = {
+export interface MetricEditType extends ProjectQueryType {
   metricId: number;
-} & ProjectQueryType;
+}
 
-export type MetricReviewType = {
+export interface MetricReviewType extends ProjectQueryType {
   reviewId: number;
-} & ProjectQueryType;
+}
 
-export type LabEditType = {
+export interface LabEditType {
   metricId: number;
-};
+}
 
 export type PersonalityType = TypedLinkProps<typeof personalityParser>;
 
-export type PersonalityEditType = {
+export interface PersonalityEditType extends ProjectQueryType {
   personalityId: number;
-} & ProjectQueryType;
+}
 
 export type EvaluatorsType = TypedLinkProps<typeof evaluatorsParser>;
 
 export type EvaluatorCreateType = TypedLinkProps<typeof evaluatorCreateParser>;
 
-export type EvaluatorType = {
+export interface EvaluatorType extends ProjectQueryType {
   evaluatorId: number;
-} & ProjectQueryType;
+}
 
 export type ResultsType = ProjectScopedType &
   TypedLinkProps<typeof resultsParser>;
 
-export type ResultType = ProjectScopedType & {
+export interface ResultType
+  extends ProjectScopedType, TypedLinkProps<typeof resultParser> {
   resultId: number;
-} & TypedLinkProps<typeof resultParser>;
+}
 
 export type RunsOverviewType = TypedLinkProps<typeof runsOverviewParser>;
 
@@ -83,23 +84,24 @@ export type CallsType = ProjectScopedType & TypedLinkProps<typeof callsParser>;
 export type AlertsType = ProjectScopedType &
   TypedLinkProps<typeof alertsParser>;
 
-export type DashboardType = ProjectScopedType & {
+export interface DashboardType extends ProjectScopedType {
   dashboardId: number;
-};
+}
 
-export type FileType = {
+export interface FileType extends TypedLinkProps<typeof fileParser> {
   fileId: string;
-} & TypedLinkProps<typeof fileParser>;
+}
 
-export type ShareFileType = {
+export interface ShareFileType extends TypedLinkProps<typeof fileParser> {
   token: string;
   fileId: string;
-} & TypedLinkProps<typeof fileParser>;
+}
 
-export type ResultReportType = ProjectScopedType & {
+export interface ResultReportType
+  extends ProjectScopedType, TypedLinkProps<typeof resultReportParser> {
   resultId: number;
-} & TypedLinkProps<typeof resultReportParser>;
+}
 
-export type ShareType = {
+export interface ShareType {
   token: string;
-};
+}

@@ -14,7 +14,11 @@ export const toAgentRef = (
   version: { version: number } | null,
 ): AgentRef | null => {
   if (!agent) return null;
-  return { id: agent.id, name: agent.name, versionLabel: versionLabel(version) };
+  return {
+    id: agent.id,
+    name: agent.name,
+    versionLabel: versionLabel(version),
+  };
 };
 
 export const toNamedRef = (value: NamedRef | null): NamedRef | null => {
@@ -26,7 +30,7 @@ const snapshotName = (snapshot: Prisma.JsonValue) => {
   if (!snapshot || typeof snapshot !== 'object' || Array.isArray(snapshot)) {
     return null;
   }
-  const name = (snapshot as Record<string, unknown>).name;
+  const name = snapshot.name;
   if (typeof name === 'string') return name;
   return null;
 };

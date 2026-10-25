@@ -5,11 +5,11 @@ import {
 } from '@/server/metrics/constants/rubric/rubric-value-kind';
 import type { RubricRuleValue } from '@/server/rubric/types';
 
-type StoredRuleValue = {
+interface StoredRuleValue {
   numberValue: number | null;
   booleanValue: boolean | null;
   textValues: string[];
-};
+}
 
 const legacyBoolean = (value: number | null) => {
   if (value === LEGACY_PASS_SCORE) return true;

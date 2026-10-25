@@ -9,10 +9,10 @@ import { IntegrationSecretField } from './secret/integration-secret-field';
 import { IntegrationSelectField } from './integration-select-field';
 import { IntegrationTextField } from './integration-text-field';
 
-type IntegrationFieldProps = {
+interface IntegrationFieldProps {
   field: IntegrationFieldConfig;
   apiKeyConfigured: boolean;
-};
+}
 
 export function IntegrationField({
   field,

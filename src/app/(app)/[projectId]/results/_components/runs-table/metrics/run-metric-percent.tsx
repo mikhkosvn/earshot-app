@@ -2,10 +2,10 @@ import { Progress } from '@/components/ui/progress';
 
 import { metricPercent } from '../../../_utils/runs/run-format';
 
-type RunMetricPercentProps = {
+interface RunMetricPercentProps {
   name: string;
   value: number;
-};
+}
 
 export function RunMetricPercent({ name, value }: RunMetricPercentProps) {
   const percent = metricPercent(value);

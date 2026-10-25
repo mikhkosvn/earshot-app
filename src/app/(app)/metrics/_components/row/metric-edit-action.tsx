@@ -8,9 +8,9 @@ import { Button } from '@/components/ui/button';
 import { UrlGenerator } from '@/lib/url-generator/url-generator';
 import type { MetricListItem } from '@/server/metrics/types';
 
-type MetricEditActionProps = {
+interface MetricEditActionProps {
   metric: MetricListItem;
-};
+}
 
 export function MetricEditAction({ metric }: MetricEditActionProps) {
   const projectId = useCurrentProjectId();

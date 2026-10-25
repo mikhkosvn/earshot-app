@@ -13,11 +13,11 @@ import { cn } from '@/lib/utils';
 
 import { FeedbackForm } from './feedback-form';
 
-type FeedbackEditButtonProps = {
+interface FeedbackEditButtonProps {
   callLogId: number;
   feedback: string | null;
   className?: string;
-};
+}
 
 export function FeedbackEditButton({
   callLogId,

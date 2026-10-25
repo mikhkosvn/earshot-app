@@ -5,10 +5,10 @@ import { ChevronDownIcon } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 
-type RowExpandButtonProps = {
+interface RowExpandButtonProps {
   isExpanded: boolean;
   onToggle: () => void;
-};
+}
 
 export function RowExpandButton({
   isExpanded,

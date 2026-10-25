@@ -7,10 +7,10 @@ import { DeleteRunsButton } from './delete-runs-button';
 import { ReevaluateRunsButton } from './reevaluate-runs-button';
 import { RunSelectedButton } from './run-selected-button';
 
-type RunsCardToolbarProps = {
+interface RunsCardToolbarProps {
   selectedIds: number[];
   onCleared: () => void;
-};
+}
 
 export function RunsCardToolbar({
   selectedIds,

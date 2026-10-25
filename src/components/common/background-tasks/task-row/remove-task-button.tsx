@@ -8,11 +8,11 @@ import { useDismissJobMutation } from '@/hooks/jobs/use-dismiss-job-mutation';
 
 import { removeTaskLabel } from '../_utils/panel-labels';
 
-type RemoveTaskButtonProps = {
+interface RemoveTaskButtonProps {
   jobId: string;
   kind: JobKind;
   onDismiss: () => void;
-};
+}
 
 export function RemoveTaskButton({
   jobId,

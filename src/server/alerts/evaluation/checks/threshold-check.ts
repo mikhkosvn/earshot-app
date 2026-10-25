@@ -1,18 +1,18 @@
 import { ThresholdOperator } from '@/generated/prisma/enums';
 
-export type ThresholdCheckInput = {
+export interface ThresholdCheckInput {
   values: number[];
   operator: ThresholdOperator;
   value: number;
   upperValue: number | null;
   minBreaches: number;
-};
+}
 
-export type ThresholdCheckResult = {
+export interface ThresholdCheckResult {
   fired: boolean;
   breaches: number;
   latest: number | null;
-};
+}
 
 export const isThresholdBreach = (
   operator: ThresholdOperator,

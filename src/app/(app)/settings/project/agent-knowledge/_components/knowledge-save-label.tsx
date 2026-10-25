@@ -1,6 +1,6 @@
-type KnowledgeSaveLabelProps = {
+interface KnowledgeSaveLabelProps {
   isSaving: boolean;
-};
+}
 
 export function KnowledgeSaveLabel({ isSaving }: KnowledgeSaveLabelProps) {
   if (isSaving) return 'Saving...';

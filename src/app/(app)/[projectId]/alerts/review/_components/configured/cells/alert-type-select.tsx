@@ -15,9 +15,9 @@ import { useIsUpdatingAlert } from '../../../_hooks/mutations/use-is-updating-al
 import { useUpdateAlertMutation } from '../../../_hooks/mutations/use-update-alert-mutation';
 import { defaultParamsOf } from '../../../_utils/alert-params';
 
-type AlertTypeSelectProps = {
+interface AlertTypeSelectProps {
   alert: AlertRow;
-};
+}
 
 export function AlertTypeSelect({ alert }: AlertTypeSelectProps) {
   const updateAlert = useUpdateAlertMutation();

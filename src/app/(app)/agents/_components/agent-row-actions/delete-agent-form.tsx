@@ -12,10 +12,10 @@ import type { AgentListItem } from '@/server/agents/types';
 import { useDeleteAgentMutation } from '../../_hooks/mutations/agent-list/use-delete-agent-mutation';
 import { PendingLabel } from '../pending-label';
 
-type DeleteAgentFormProps = {
+interface DeleteAgentFormProps {
   agent: AgentListItem;
   onDeleted: () => void;
-};
+}
 
 export function DeleteAgentForm({ agent, onDeleted }: DeleteAgentFormProps) {
   const [confirmText, setConfirmText] = useState('');

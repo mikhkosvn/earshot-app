@@ -8,18 +8,18 @@ import { RunTableRow } from './run-table-row';
 import { RunsTableEmptyRow } from './runs-table-empty-row';
 import { RunsTableHeader } from './runs-table-header';
 
-export type RunSelection = {
-  selectedIds: number[];
+export interface RunSelection {
+  selectedIds: readonly number[];
   onSelectedIdsChange: (ids: number[]) => void;
-};
+}
 
-type RunsTableProps = {
+interface RunsTableProps {
   page: RunListPage;
-  columns: RunColumn[];
+  columns: readonly RunColumn[];
   pageParamKey: string;
   selection?: RunSelection;
   onOpenRun: (run: RunRow) => void;
-};
+}
 
 export function RunsTable({
   page,

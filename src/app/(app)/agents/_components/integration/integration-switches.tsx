@@ -5,9 +5,9 @@ import { PROVIDER_INTEGRATIONS } from '@/server/agents/constants/provider-integr
 
 import { IntegrationSwitchField } from './integration-switch-field';
 
-type IntegrationSwitchesProps = {
+interface IntegrationSwitchesProps {
   provider: AgentProvider;
-};
+}
 
 export function IntegrationSwitches({ provider }: IntegrationSwitchesProps) {
   const integration = PROVIDER_INTEGRATIONS[provider];

@@ -8,11 +8,11 @@ import type { UpdateRunFeedbackInput } from '@/server/run-reviews/types';
 
 import { useUpdateRunFeedbackMutation } from '../mutations/runs/use-update-run-feedback-mutation';
 
-type UseRunFeedbackFormArgs = {
+interface UseRunFeedbackFormArgs {
   runId: number;
   feedback: string | null;
   onSaved: () => void;
-};
+}
 
 export const useRunFeedbackForm = ({
   runId,

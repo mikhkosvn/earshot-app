@@ -8,10 +8,10 @@ import { PlotDialog } from './plot-dialog/plot-dialog';
 import { DashboardToolbar } from './toolbar/dashboard-toolbar';
 import { UnsavedChangesBar } from './unsaved-changes-bar';
 
-type DashboardBoardProps = {
+interface DashboardBoardProps {
   dashboardId: number;
   source: DashboardSource;
-};
+}
 
 export function DashboardBoard({ dashboardId, source }: DashboardBoardProps) {
   const { board, plotDialog, closePlotDialog } = useDashboardBoard(

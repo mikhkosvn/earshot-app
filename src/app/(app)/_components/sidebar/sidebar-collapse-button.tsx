@@ -4,10 +4,10 @@ import { ChevronLeftIcon } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
 
-type SidebarCollapseButtonProps = {
+interface SidebarCollapseButtonProps {
   isCollapsed: boolean;
   onToggle: () => void;
-};
+}
 
 export function SidebarCollapseButton({
   isCollapsed,

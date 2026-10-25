@@ -8,10 +8,10 @@ import { JobStatusIcon } from './job-status-icon';
 import { RemoveTaskButton } from './remove-task-button';
 import { ViewTaskButton } from './view-task-button';
 
-type BackgroundTaskRowProps = {
+interface BackgroundTaskRowProps {
   job: JobView;
   onDismiss: () => void;
-};
+}
 
 export function BackgroundTaskRow({ job, onDismiss }: BackgroundTaskRowProps) {
   return (

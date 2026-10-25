@@ -8,10 +8,10 @@ import { Skeleton } from '@/components/ui/skeleton';
 
 import { OverviewFiltersForm } from './overview-filters-form';
 
-type OverviewFiltersDialogProps = {
+interface OverviewFiltersDialogProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
-};
+}
 
 export function OverviewFiltersDialog({
   open,

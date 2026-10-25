@@ -1,7 +1,7 @@
-type MoreMetricsToggleLabelProps = {
+interface MoreMetricsToggleLabelProps {
   open: boolean;
   count: number;
-};
+}
 
 export function MoreMetricsToggleLabel({
   open,

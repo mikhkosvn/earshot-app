@@ -13,9 +13,9 @@ import { LabeledField } from '../../fields/labeled-field';
 import { ExpectedToolCallRow } from './expected-tool-call-row';
 import { NoMockToolsNotice } from './no-mock-tools-notice';
 
-type ExpectedToolCallsEditorProps = {
+interface ExpectedToolCallsEditorProps {
   agentId: number;
-};
+}
 
 const EMPTY_JSON = '{}';
 

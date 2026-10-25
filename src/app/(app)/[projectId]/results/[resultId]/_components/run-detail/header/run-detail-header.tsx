@@ -7,9 +7,9 @@ import { RunDetailStatus } from './run-detail-status';
 import { RunFeedbackRow } from './run-feedback-row';
 import { RunTitleRow } from './run-title-row';
 
-type RunDetailHeaderProps = {
+interface RunDetailHeaderProps {
   runId: number;
-};
+}
 
 export function RunDetailHeader({ runId }: RunDetailHeaderProps) {
   const { data: run } = useRunDetailQuery(runId);

@@ -6,10 +6,10 @@ import { usePlotDataQuery } from '../_hooks/queries/use-plot-data-query';
 import { PlotChart } from './plot-chart';
 import { PlotFooter } from './plot-footer';
 
-type PlotBodyContentProps = {
+interface PlotBodyContentProps {
   board: DashboardBoardState;
   config: PlotConfig;
-};
+}
 
 export function PlotBodyContent({ board, config }: PlotBodyContentProps) {
   const { data } = usePlotDataQuery(board, config);

@@ -14,9 +14,9 @@ import type { DashboardBoardState } from '../../_utils/board-types';
 import { MetadataFilterCount } from './metadata-filter-count';
 import { MetadataFilterForm } from './metadata-filter-form';
 
-type MetadataFilterPopoverProps = {
+interface MetadataFilterPopoverProps {
   board: DashboardBoardState;
-};
+}
 
 export function MetadataFilterPopover({ board }: MetadataFilterPopoverProps) {
   const [open, setOpen] = useState(false);

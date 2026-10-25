@@ -13,10 +13,10 @@ import {
 import { ResultService } from '../../../_service';
 import { runSelectedInput } from '../../../_utils/runs/run-selected-input';
 
-type RunSelectedVariables = {
+interface RunSelectedVariables {
   agentId: number | null;
   evaluatorIds: number[];
-};
+}
 
 const loadAgent = (args: {
   projectId: number;

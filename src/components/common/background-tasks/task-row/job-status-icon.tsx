@@ -3,9 +3,9 @@ import { CircleAlertIcon, CircleCheckIcon } from 'lucide-react';
 import { Spinner } from '@/components/ui/spinner';
 import { JobStatus } from '@/generated/prisma/enums';
 
-type JobStatusIconProps = {
+interface JobStatusIconProps {
   status: JobStatus;
-};
+}
 
 export function JobStatusIcon({ status }: JobStatusIconProps) {
   if (status === JobStatus.completed) {

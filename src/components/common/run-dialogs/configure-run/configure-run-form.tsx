@@ -19,10 +19,10 @@ import { RunPhoneNumberField } from './fields/run-phone-number-field';
 import { SkippedMetricsWarning } from './fields/skipped-metrics-warning';
 import { MoreRunFields } from './more/more-run-fields';
 
-type ConfigureRunFormProps = {
+interface ConfigureRunFormProps {
   evaluatorIds: number[];
   onStarted: (resultId: number) => void;
-};
+}
 
 export function ConfigureRunForm({
   evaluatorIds,

@@ -1,7 +1,7 @@
-export type CronHelpSection = {
+export interface CronHelpSection {
   title: string;
   lines: string[];
-};
+}
 
 export const CRON_HELP_SECTIONS: CronHelpSection[] = [
   {
@@ -44,10 +44,10 @@ export const CRON_HELP_SECTIONS: CronHelpSection[] = [
   },
 ];
 
-export type CronPart = {
+export interface CronPart {
   label: string;
   hint: string;
-};
+}
 
 export const CRON_PARTS: CronPart[] = [
   { label: 'Minute', hint: 'e.g. *, */5, 0-59, 30' },

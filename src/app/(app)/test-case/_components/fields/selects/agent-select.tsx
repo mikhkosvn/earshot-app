@@ -8,14 +8,14 @@ import { useCurrentProjectId } from '@/app/(app)/_hooks/use-current-project-id';
 import { EvaluatorService } from '../../../_service';
 import { OptionSelect } from '../option-select';
 
-type AgentSelectProps = {
+interface AgentSelectProps {
   id?: string;
   value: number | null;
   onValueChange: (agentId: number | null) => void;
   invalid?: boolean;
   projectId?: number;
   className?: string;
-};
+}
 
 export function AgentSelect({
   id,

@@ -7,12 +7,14 @@ import type {
   voteMetricSchema,
 } from '@/server/run-reviews/schemas';
 
-export type UpdateRunEvaluationInput = z.input<typeof updateRunEvaluationSchema>;
+export type UpdateRunEvaluationInput = z.input<
+  typeof updateRunEvaluationSchema
+>;
 export type UpdateRunFeedbackInput = z.input<typeof updateRunFeedbackSchema>;
 export type VoteMetricInput = z.input<typeof voteMetricSchema>;
 
-export type RunReviewState = {
+export interface RunReviewState {
   runId: number;
   evaluationStatus: CallEvaluationStatus | null;
   feedback: string | null;
-};
+}

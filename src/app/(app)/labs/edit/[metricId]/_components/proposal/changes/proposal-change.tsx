@@ -3,9 +3,9 @@ import type { ProposalChange as ProposalChangeData } from '@/server/metric-optim
 
 import { ProposalTextLines } from './proposal-text-lines';
 
-type ProposalChangeProps = {
+interface ProposalChangeProps {
   change: ProposalChangeData;
-};
+}
 
 export function ProposalChange({ change }: ProposalChangeProps) {
   if (INLINE_PROPOSAL_FIELDS.includes(change.field)) {

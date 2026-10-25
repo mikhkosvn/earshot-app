@@ -1,6 +1,6 @@
-type MoreChipProps = {
+interface MoreChipProps {
   count: number;
-};
+}
 
 export function MoreChip({ count }: MoreChipProps) {
   if (count <= 0) return null;

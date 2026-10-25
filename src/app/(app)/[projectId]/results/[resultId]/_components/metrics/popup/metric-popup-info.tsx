@@ -2,9 +2,9 @@ import type { ResultMetricTile } from '@/server/results/types';
 
 import { EMPTY_VALUE } from '../../../_constants/result-detail';
 
-type MetricPopupInfoProps = {
+interface MetricPopupInfoProps {
   tile: ResultMetricTile;
-};
+}
 
 export function MetricPopupInfo({ tile }: MetricPopupInfoProps) {
   return (

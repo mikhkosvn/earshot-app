@@ -1,19 +1,19 @@
 import { SPIKE_EXPECTED_FLOOR } from '@/server/alerts/constants/alert-limits';
 
-export type SpikeCheckInput = {
+export interface SpikeCheckInput {
   recentCount: number;
   baselineCount: number;
   windowHours: number;
   baselineHours: number;
   minCount: number;
   multiplier: number;
-};
+}
 
-export type SpikeCheckResult = {
+export interface SpikeCheckResult {
   fired: boolean;
   expected: number;
   ratio: number;
-};
+}
 
 export const checkSpike = ({
   recentCount,

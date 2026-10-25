@@ -1,10 +1,10 @@
 import { WizardStep } from '../../_constants/wizard-step';
 import { WizardStepper } from './wizard-stepper';
 
-type WizardHeaderProps = {
+interface WizardHeaderProps {
   step: WizardStep;
   completed: boolean;
-};
+}
 
 export function WizardHeader({ step, completed }: WizardHeaderProps) {
   return (

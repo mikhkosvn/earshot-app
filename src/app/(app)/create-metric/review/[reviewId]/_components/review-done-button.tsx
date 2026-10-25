@@ -7,9 +7,9 @@ import { Button } from '@/components/ui/button';
 
 import { useMetricsListUrl } from '../_hooks/use-metrics-list-url';
 
-type ReviewDoneButtonProps = {
+interface ReviewDoneButtonProps {
   variant?: ComponentProps<typeof Button>['variant'];
-};
+}
 
 export function ReviewDoneButton({
   variant = 'default',

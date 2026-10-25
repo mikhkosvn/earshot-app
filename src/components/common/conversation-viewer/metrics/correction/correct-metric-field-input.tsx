@@ -4,9 +4,9 @@ import type { CorrectionOption } from '../../_utils/correction-options';
 import { CorrectMetricNumberField } from './correct-metric-number-field';
 import { CorrectMetricOptionField } from './correct-metric-option-field';
 
-type CorrectMetricFieldInputProps = {
+interface CorrectMetricFieldInputProps {
   options: CorrectionOption[] | null;
-};
+}
 
 export function CorrectMetricFieldInput({
   options,

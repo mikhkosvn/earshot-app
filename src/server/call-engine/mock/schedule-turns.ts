@@ -8,11 +8,11 @@ import {
 import type { ConversationScript } from '@/server/call-engine/mock/conversation-script';
 import type { TranscriptTurn } from '@/server/call-engine/types';
 
-export type TurnSchedule = {
+export interface TurnSchedule {
   turns: TranscriptTurn[];
   durationSeconds: number;
   endedReason: CallEndedReason;
-};
+}
 
 export type SpeakingRates = Record<TranscriptRole, number>;
 

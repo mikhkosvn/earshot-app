@@ -21,11 +21,11 @@ export const ResultFilterFieldLabel: Record<ResultFilterField, string> = {
   [ResultFilterField.evaluation]: 'Evaluation',
 };
 
-export type ResultFilterDraft = {
+export interface ResultFilterDraft {
   id: string;
   field: ResultFilterField;
   value: string;
-};
+}
 
 export const newResultFilterDraft = (
   field: ResultFilterField = ResultFilterField.agent,
@@ -41,8 +41,7 @@ const findRunStatus = (value: string) =>
 const findEvaluationStatus = (value: string) =>
   Object.values(CallEvaluationStatus).find((status) => status === value);
 
-const isPresent = <T>(value: T | undefined): value is T =>
-  value !== undefined;
+const isPresent = <T>(value: T | undefined): value is T => value !== undefined;
 
 export const paramsToDrafts = (
   params: ResultFilterParams,

@@ -11,10 +11,10 @@ import {
 
 import { CreateProjectForm } from './create-project-form';
 
-type CreateProjectDialogProps = {
+interface CreateProjectDialogProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
-};
+}
 
 export function CreateProjectDialog({
   open,

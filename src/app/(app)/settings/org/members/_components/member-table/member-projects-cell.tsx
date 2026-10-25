@@ -12,9 +12,9 @@ import type { MemberRow } from '@/server/members/types';
 
 import { useOrganizationSettings } from '../../../_hooks/use-organization-settings';
 
-type MemberProjectsCellProps = {
+interface MemberProjectsCellProps {
   member: MemberRow;
-};
+}
 
 export function MemberProjectsCell({ member }: MemberProjectsCellProps) {
   const { projects } = useOrganizationSettings();

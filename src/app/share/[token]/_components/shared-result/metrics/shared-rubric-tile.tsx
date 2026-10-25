@@ -3,9 +3,9 @@ import type { ResultMetricTile } from '@/server/results/types';
 import { tileValueText } from '../../../_utils/tile-display';
 import { SharedTileBar } from './shared-tile-bar';
 
-type SharedRubricTileProps = {
+interface SharedRubricTileProps {
   tile: ResultMetricTile;
-};
+}
 
 export function SharedRubricTile({ tile }: SharedRubricTileProps) {
   return (

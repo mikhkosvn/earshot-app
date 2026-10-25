@@ -4,10 +4,10 @@ import { Badge } from '@/components/ui/badge';
 
 import { telephonyChipLabel } from '../../_utils/telephony-chip-label';
 
-type AgentConnectionChipProps = {
+interface AgentConnectionChipProps {
   phoneNumber: string | null;
   inbound: boolean;
-};
+}
 
 export function AgentConnectionChip({
   phoneNumber,

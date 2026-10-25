@@ -4,11 +4,11 @@ import { useResultFilterValueItems } from '../../_hooks/filters/use-result-filte
 import type { ResultFilterField } from '../../_utils/results-list/filter-drafts';
 import { ResultFilterSelect } from './result-filter-select';
 
-type ResultFilterValueSelectProps = {
+interface ResultFilterValueSelectProps {
   field: ResultFilterField;
   value: string;
   onValueChange: (value: string) => void;
-};
+}
 
 export function ResultFilterValueSelect({
   field,

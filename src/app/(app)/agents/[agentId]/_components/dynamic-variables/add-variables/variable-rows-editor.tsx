@@ -9,9 +9,9 @@ import { EMPTY_VARIABLE } from '../../../_constants/variable-editor-mode';
 import type { AddVariablesFormValues } from '../../../_schemas/add-variables-form-schema';
 import { VariableFormRow } from './variable-form-row';
 
-type VariableRowsEditorProps = {
+interface VariableRowsEditorProps {
   rows: UseFieldArrayReturn<AddVariablesFormValues, 'variables'>;
-};
+}
 
 export function VariableRowsEditor({ rows }: VariableRowsEditorProps) {
   return (

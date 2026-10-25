@@ -2,10 +2,10 @@
 
 import { useIsSavingMonitor } from '../_hooks/use-is-saving-monitor';
 
-type MonitorSubmitLabelProps = {
+interface MonitorSubmitLabelProps {
   idle: string;
   pending: string;
-};
+}
 
 export function MonitorSubmitLabel({ idle, pending }: MonitorSubmitLabelProps) {
   const isSaving = useIsSavingMonitor();

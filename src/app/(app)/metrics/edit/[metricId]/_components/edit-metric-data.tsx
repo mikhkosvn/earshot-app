@@ -11,9 +11,9 @@ import { EditMetricService } from '@/components/common/metric-history/_service';
 import { EditMetricSkeleton } from './edit-metric-skeleton';
 import { EditMetricView } from './edit-metric-view';
 
-type EditMetricDataProps = {
+interface EditMetricDataProps {
   params: Promise<{ metricId: string }>;
-};
+}
 
 export async function EditMetricData({ params }: EditMetricDataProps) {
   await io();

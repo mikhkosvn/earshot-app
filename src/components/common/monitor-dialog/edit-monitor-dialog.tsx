@@ -14,11 +14,11 @@ import { EDIT_MONITOR_SUBTITLE } from './_constants/monitor-dialog-text';
 import { EditMonitorForm } from './edit-monitor-form';
 import { MonitorFormSkeleton } from './monitor-form-skeleton';
 
-type EditMonitorDialogProps = {
+interface EditMonitorDialogProps {
   monitorId: number;
   open: boolean;
   onOpenChange: (open: boolean) => void;
-};
+}
 
 export function EditMonitorDialog({
   monitorId,

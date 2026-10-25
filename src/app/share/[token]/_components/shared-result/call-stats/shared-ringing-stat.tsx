@@ -3,9 +3,9 @@ import type { ResultRingingStats } from '@/server/results/types';
 import { EMPTY_VALUE, numberText } from '../../../_utils/share-format';
 import { SharedPercentile } from './shared-percentile';
 
-type SharedRingingStatProps = {
+interface SharedRingingStatProps {
   ringing: ResultRingingStats | null;
-};
+}
 
 export function SharedRingingStat({ ringing }: SharedRingingStatProps) {
   if (!ringing) return <span className="font-medium">{EMPTY_VALUE}</span>;

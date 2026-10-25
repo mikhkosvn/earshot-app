@@ -1,9 +1,9 @@
 import type { TestProfileVariableView } from '@/server/test-profiles/types';
 
-type VariableListProps = {
+interface VariableListProps {
   title: string;
-  variables: TestProfileVariableView[];
-};
+  variables: readonly TestProfileVariableView[];
+}
 
 export function VariableList({ title, variables }: VariableListProps) {
   return (

@@ -4,11 +4,11 @@ import { cn } from '@/lib/utils';
 
 import { PageHeaderDescription } from './page-header-description';
 
-type PageHeaderProps = {
+interface PageHeaderProps {
   title: ReactNode;
   description?: ReactNode;
   className?: string;
-};
+}
 
 export function PageHeader({ title, description, className }: PageHeaderProps) {
   return (

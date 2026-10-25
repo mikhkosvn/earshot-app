@@ -8,9 +8,9 @@ import type { GeneratedEvaluatorView } from '@/server/evaluator-generation/types
 
 import { GeneratedScenarioCard } from './generated-scenario-card';
 
-type GeneratedScenariosAccordionProps = {
-  evaluators: GeneratedEvaluatorView[];
-};
+interface GeneratedScenariosAccordionProps {
+  evaluators: readonly GeneratedEvaluatorView[];
+}
 
 export function GeneratedScenariosAccordion({
   evaluators,

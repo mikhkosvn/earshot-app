@@ -3,13 +3,13 @@ import 'server-only';
 import { Prisma } from '@/generated/prisma/client';
 import type { MockToolMappingValue } from '@/server/agents/types';
 
-type MappingRow = {
+interface MappingRow {
   input: Prisma.JsonValue;
   output: Prisma.JsonValue;
   responseStatusCode: number | null;
   responseHeaders: Prisma.JsonValue | null;
   responseDelaySeconds: number | null;
-};
+}
 
 const FAILURE_STATUS_MIN = 400;
 

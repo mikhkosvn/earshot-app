@@ -9,9 +9,9 @@ import { ShortDescriptionWarning } from '../../../_components/basics/short-descr
 import { useIsCreatingAgent } from '../../_hooks/use-is-creating-agent';
 import { CreateAgentSubmitLabel } from './create-agent-submit-label';
 
-type BasicInfoStepProps = {
+interface BasicInfoStepProps {
   onBack: () => void;
-};
+}
 
 export function BasicInfoStep({ onBack }: BasicInfoStepProps) {
   const isCreating = useIsCreatingAgent();

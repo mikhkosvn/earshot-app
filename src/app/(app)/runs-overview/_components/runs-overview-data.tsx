@@ -20,9 +20,9 @@ import { parseOverviewFilters } from '../_utils/overview-filters-param';
 import { RunsOverviewContent } from './runs-overview-content';
 import { RunsOverviewSkeleton } from './runs-overview-skeleton';
 
-type RunsOverviewDataProps = {
+interface RunsOverviewDataProps {
   searchParams: Promise<Record<string, string | string[] | undefined>>;
-};
+}
 
 type RunsOverviewParams = Awaited<ReturnType<typeof loadRunsOverviewParams>>;
 

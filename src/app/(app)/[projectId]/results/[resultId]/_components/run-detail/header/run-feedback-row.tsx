@@ -8,10 +8,10 @@ import { Button } from '@/components/ui/button';
 import { RunFeedbackEditor } from '../../../../_components/runs-table/feedback/run-feedback-editor';
 import { feedbackText } from '../../../../_utils/runs/run-detail-text';
 
-type RunFeedbackRowProps = {
+interface RunFeedbackRowProps {
   runId: number;
   feedback: string | null;
-};
+}
 
 export function RunFeedbackRow({ runId, feedback }: RunFeedbackRowProps) {
   const [editing, setEditing] = useState(false);

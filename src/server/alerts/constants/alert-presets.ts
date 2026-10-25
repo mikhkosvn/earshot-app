@@ -13,11 +13,11 @@ export const SensitivityPresetLabel: Record<SensitivityPreset, string> = {
   [SensitivityPreset.aggressive]: 'Aggressive',
 };
 
-export type TrendPresetValues = {
+export interface TrendPresetValues {
   windowSize: number;
   stdMultiplier: number;
   ewmaAlpha: number;
-};
+}
 
 export const TREND_PRESETS: Record<SensitivityPreset, TrendPresetValues> = {
   [SensitivityPreset.conservative]: {
@@ -45,12 +45,12 @@ export const TREND_PRESET_DESCRIPTION: Record<SensitivityPreset, string> = {
     'Fires quickly on small shifts. Best for high-traffic metrics.',
 };
 
-export type SpikePresetValues = {
+export interface SpikePresetValues {
   minCount: number;
   multiplier: number;
   windowHours: number;
   baselineHours: number;
-};
+}
 
 export const SPIKE_BASELINE_HOURS = 168;
 

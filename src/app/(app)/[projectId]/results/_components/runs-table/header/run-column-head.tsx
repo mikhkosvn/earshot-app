@@ -12,12 +12,12 @@ import type { RunSelection } from '../runs-table';
 import { RunColumnLabel } from './run-column-label';
 import { SelectPageRunsCheckbox } from './select-page-runs-checkbox';
 
-type RunColumnHeadProps = {
+interface RunColumnHeadProps {
   column: RunColumn;
-  rows: RunRow[];
+  rows: readonly RunRow[];
   pageParamKey: string;
   selection?: RunSelection;
-};
+}
 
 export function RunColumnHead({
   column,

@@ -6,14 +6,14 @@ import type { TestCallOfferKind } from '../../_constants/test-call-offer';
 import { TestCallOffer } from './offer/test-call-offer';
 import { TestCallProgressView } from './progress/test-call-progress-view';
 
-type TestCallDialogBodyProps = {
+interface TestCallDialogBodyProps {
   agentId: number;
   kind: TestCallOfferKind;
   check: ConnectionCheck | null;
   jobId: string | null;
   onStarted: (jobId: string) => void;
   onClose: () => void;
-};
+}
 
 export function TestCallDialogBody({
   agentId,

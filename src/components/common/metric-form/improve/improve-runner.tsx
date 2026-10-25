@@ -16,11 +16,11 @@ import { ImproveAgentSelect } from './improve-agent-select';
 import { ImproveResult } from './improve-result';
 import { ImproveRunLabel } from './improve-run-label';
 
-type ImproveRunnerProps = {
+interface ImproveRunnerProps {
   type: MetricFormType;
   evalType: MetricEvalType;
   onApplied: () => void;
-};
+}
 
 export function ImproveRunner({
   type,

@@ -11,9 +11,9 @@ import {
 
 import { useRefreshPlots } from '../_hooks/use-refresh-plots';
 
-type RefreshPlotsButtonProps = {
+interface RefreshPlotsButtonProps {
   dashboardId: number;
-};
+}
 
 export function RefreshPlotsButton({ dashboardId }: RefreshPlotsButtonProps) {
   const refresh = useRefreshPlots(dashboardId);

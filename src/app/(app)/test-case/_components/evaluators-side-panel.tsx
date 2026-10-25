@@ -13,10 +13,10 @@ const GenerationSheet = dynamic(
   { ssr: false },
 );
 
-type EvaluatorsSidePanelProps = {
+interface EvaluatorsSidePanelProps {
   isImproveOpen: boolean;
   onImproveClose: () => void;
-};
+}
 
 export function EvaluatorsSidePanel({
   isImproveOpen,

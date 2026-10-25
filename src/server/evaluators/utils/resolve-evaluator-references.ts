@@ -4,7 +4,7 @@ import type { Prisma } from '@/generated/prisma/client';
 import { ActionError } from '@/server/common/run-action';
 import { personalityForProjectWhere } from '@/server/evaluators/utils/evaluator-access-where';
 
-type ReferenceArgs = {
+interface ReferenceArgs {
   projectId: number;
   agentId: number | null;
   testProfileId?: number | null;
@@ -12,7 +12,7 @@ type ReferenceArgs = {
   metricIds?: number[];
   phoneNumberId?: number | null;
   mockToolIds?: number[];
-};
+}
 
 const assertAgent = async (
   tx: Prisma.TransactionClient,

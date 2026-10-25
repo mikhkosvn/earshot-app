@@ -5,9 +5,9 @@ import { Controller, useFormContext } from 'react-hook-form';
 import { Field, FieldError, FieldLabel } from '@/components/ui/field';
 import { Input } from '@/components/ui/input';
 
-type ProjectNameFieldProps = {
+interface ProjectNameFieldProps {
   id: string;
-};
+}
 
 export function ProjectNameField({ id }: ProjectNameFieldProps) {
   const { control } = useFormContext<{ name: string }>();

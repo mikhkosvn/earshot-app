@@ -13,17 +13,17 @@ import {
 import type { QueuedOptimization } from '@/server/metric-optimizer/types';
 import { runOptimization } from '@/server/metric-optimizer/utils/run-optimization';
 
-type QueueOptimizationArgs = {
+interface QueueOptimizationArgs {
   metricId: number;
   userId: number | null;
   draft: LabDraft | null;
   schedule?: ScheduleRef | null;
-};
+}
 
-export type ScheduleRef = {
+export interface ScheduleRef {
   id: number;
   name: string;
-};
+}
 
 const scheduleInput = (schedule: ScheduleRef | null) => {
   if (!schedule) return {};

@@ -3,7 +3,7 @@ import 'server-only';
 import { PlotAggregation } from '@/server/dashboards/constants/plot/plot-aggregation';
 import { FieldValueKind } from '@/server/dashboards/constants/plot/field-value-kind';
 
-export const percentile = (values: number[], fraction: number) => {
+export const percentile = (values: readonly number[], fraction: number) => {
   const sorted = [...values].sort((a, b) => a - b);
   if (sorted.length === 0) return null;
   const position = (sorted.length - 1) * fraction;
@@ -13,10 +13,10 @@ export const percentile = (values: number[], fraction: number) => {
   return sorted[lower] * (1 - weight) + sorted[upper] * weight;
 };
 
-const sum = (values: number[]) =>
+const sum = (values: readonly number[]) =>
   values.reduce((total, value) => total + value, 0);
 
-const average = (values: number[]) => sum(values) / values.length;
+const average = (values: readonly number[]) => sum(values) / values.length;
 
 const PERCENTILES: Partial<Record<PlotAggregation, number>> = {
   [PlotAggregation.p50]: 0.5,
@@ -24,12 +24,18 @@ const PERCENTILES: Partial<Record<PlotAggregation, number>> = {
   [PlotAggregation.p99]: 0.99,
 };
 
-const aggregateBoolean = (values: number[], aggregation: PlotAggregation) => {
+const aggregateBoolean = (
+  values: readonly number[],
+  aggregation: PlotAggregation,
+) => {
   if (aggregation === PlotAggregation.count) return sum(values);
   return average(values) * 100;
 };
 
-const aggregateNumber = (values: number[], aggregation: PlotAggregation) => {
+const aggregateNumber = (
+  values: readonly number[],
+  aggregation: PlotAggregation,
+) => {
   if (aggregation === PlotAggregation.count) return values.length;
   if (aggregation === PlotAggregation.sum) return sum(values);
   if (aggregation === PlotAggregation.min) return Math.min(...values);
@@ -40,7 +46,7 @@ const aggregateNumber = (values: number[], aggregation: PlotAggregation) => {
 };
 
 const aggregateByKind = (
-  values: number[],
+  values: readonly number[],
   aggregation: PlotAggregation,
   kind: FieldValueKind,
 ) => {
@@ -53,7 +59,7 @@ const aggregateByKind = (
 export const roundValue = (value: number) => Math.round(value * 100) / 100;
 
 export const aggregateValues = (
-  values: number[],
+  values: readonly number[],
   aggregation: PlotAggregation,
   kind: FieldValueKind,
 ) => {
@@ -63,4 +69,4 @@ export const aggregateValues = (
   return roundValue(result);
 };
 
-export const median = (values: number[]) => percentile(values, 0.5);
+export const median = (values: readonly number[]) => percentile(values, 0.5);

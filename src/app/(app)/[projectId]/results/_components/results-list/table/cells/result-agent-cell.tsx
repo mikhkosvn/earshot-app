@@ -4,9 +4,9 @@ import Link from 'next/link';
 import { UrlGenerator } from '@/lib/url-generator/url-generator';
 import type { AgentRef } from '@/server/results/types';
 
-type ResultAgentCellProps = {
+interface ResultAgentCellProps {
   agent: AgentRef | null;
-};
+}
 
 export function ResultAgentCell({ agent }: ResultAgentCellProps) {
   if (!agent) return <span className="text-muted-foreground">-</span>;

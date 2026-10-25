@@ -14,10 +14,10 @@ import { DismissCategoryButton } from './dismiss-category-button';
 
 const PERCENT = 100;
 
-type InsightCategoryItemProps = {
+interface InsightCategoryItemProps {
   category: InsightCategoryView;
   total: number;
-};
+}
 
 export function InsightCategoryItem({
   category,

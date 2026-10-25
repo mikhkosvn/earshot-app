@@ -35,12 +35,12 @@ export type FailureEvaluationRecord = Prisma.MetricEvaluationGetPayload<{
   select: typeof failureEvaluationSelect;
 }>;
 
-export type FailureItem = {
+export interface FailureItem {
   evaluationId: number;
   value: string;
   explanation: string;
   excerpt: string;
-};
+}
 
 export const insightMetricSelect = {
   id: true,

@@ -21,7 +21,7 @@ export type EditPhoneNumberFormValues = z.input<
   typeof editPhoneNumberFormSchema
 >;
 
-export type PhoneNumberRow = {
+export interface PhoneNumberRow {
   id: number;
   provider: PhoneNumberProvider;
   phoneNumber: string;
@@ -31,4 +31,4 @@ export type PhoneNumberRow = {
   smsEnabled: boolean;
   importedByName: string | null;
   createdAt: Date;
-};
+}

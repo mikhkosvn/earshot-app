@@ -10,9 +10,9 @@ import { DashboardTimeRange } from './dashboard-time-range';
 import { MetadataFilterPopover } from './metadata-filter/metadata-filter-popover';
 import { RefreshPlotsButton } from './refresh-plots-button';
 
-type DashboardToolbarProps = {
+interface DashboardToolbarProps {
   board: DashboardBoardState;
-};
+}
 
 export function DashboardToolbar({ board }: DashboardToolbarProps) {
   return (

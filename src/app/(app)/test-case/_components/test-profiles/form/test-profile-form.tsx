@@ -16,11 +16,11 @@ import { TestProfileSubmitButton } from './test-profile-submit-button';
 import { VariableCount } from './variables/variable-count';
 import { VariableSection } from './variables/variable-section';
 
-type TestProfileFormProps = {
+interface TestProfileFormProps {
   profile: TestProfileView | null;
   defaultAgentId: number | null;
   onSaved: (profileId: number) => void;
-};
+}
 
 export function TestProfileForm({
   profile,

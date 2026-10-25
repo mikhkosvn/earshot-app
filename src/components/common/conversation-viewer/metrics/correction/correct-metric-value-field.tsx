@@ -5,9 +5,9 @@ import type { ConversationMetricItem } from '@/server/conversations/types';
 import { correctionOptions } from '../../_utils/correction-options';
 import { CorrectMetricFieldInput } from './correct-metric-field-input';
 
-type CorrectMetricValueFieldProps = {
+interface CorrectMetricValueFieldProps {
   metric: ConversationMetricItem;
-};
+}
 
 export function CorrectMetricValueField({
   metric,

@@ -9,11 +9,11 @@ export const SummaryLineKind = {
 export type SummaryLineKind =
   (typeof SummaryLineKind)[keyof typeof SummaryLineKind];
 
-export type SummaryLine = {
+export interface SummaryLine {
   kind: SummaryLineKind;
   label: string;
   text: string;
-};
+}
 
 const BULLET_PREFIX = '- ';
 const HEADINGS: string[] = Object.values(SUMMARY_HEADINGS);

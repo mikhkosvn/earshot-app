@@ -2,10 +2,10 @@ import { ArrowUpRightIcon } from 'lucide-react';
 import type { Route } from 'next';
 import Link from 'next/link';
 
-type RunChipLinkProps = {
+interface RunChipLinkProps {
   href: Route | null;
   label?: string;
-};
+}
 
 export function RunChipLink({ href, label }: RunChipLinkProps) {
   if (href === null) return null;

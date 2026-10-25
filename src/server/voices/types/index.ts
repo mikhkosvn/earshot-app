@@ -11,20 +11,20 @@ export type ListVoicesInput = z.input<typeof listVoicesSchema>;
 export type CloneVoiceFormValues = z.input<typeof cloneVoiceFormSchema>;
 export type CloneVoiceInput = z.input<typeof cloneVoiceSchema>;
 
-export type VoiceOption = {
+export interface VoiceOption {
   id: string;
   label: string;
   gender: Gender | null;
   accent: string | null;
   sampleFileId: string | null;
-};
+}
 
-export type VoiceCatalog = {
+export interface VoiceCatalog {
   catalog: VoiceOption[];
   cloned: VoiceOption[];
-};
+}
 
-export type ClonedVoiceResult = {
+export interface ClonedVoiceResult {
   id: string;
   name: string;
-};
+}

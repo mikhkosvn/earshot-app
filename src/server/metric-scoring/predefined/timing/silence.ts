@@ -13,7 +13,10 @@ import { completed } from '@/server/metric-scoring/utils/outcome';
 import { round2 } from '@/server/metric-scoring/utils/statistics';
 import { transcriptTime } from '@/server/metric-scoring/utils/transcript-time';
 
-type Gap = { from: number; seconds: number };
+interface Gap {
+  from: number;
+  seconds: number;
+}
 
 const timedTurns = (conversation: ScoringConversation) =>
   conversation.turns

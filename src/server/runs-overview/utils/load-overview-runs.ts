@@ -11,22 +11,22 @@ import { evaluatorRefOf } from '@/server/results/utils/refs';
 import type { RunsOverviewFilters } from '@/server/runs-overview/types';
 import { runOverviewWhere } from '@/server/runs-overview/utils/run-overview-where';
 
-export type OverviewEvaluation = {
+export interface OverviewEvaluation {
   metricId: number;
   metricName: string;
   evalType: MetricEvalType;
   functionName: string | null;
   number: number | null;
   boolean: boolean | null;
-};
+}
 
-export type OverviewRun = {
+export interface OverviewRun {
   id: number;
   createdAt: Date;
   evaluationStatus: CallEvaluationStatus | null;
   scenarioName: string;
   evaluations: OverviewEvaluation[];
-};
+}
 
 export const loadOverviewRuns = async (
   projectId: number,

@@ -7,7 +7,7 @@ import { cn } from '@/lib/utils';
 import { FieldHelp } from './field-help';
 import { RequiredMark } from './required-mark';
 
-type LabeledFieldProps = {
+interface LabeledFieldProps {
   id: string;
   label: string;
   description?: ReactNode;
@@ -16,7 +16,7 @@ type LabeledFieldProps = {
   action?: ReactNode;
   className?: string;
   children: ReactNode;
-};
+}
 
 export function LabeledField({
   id,

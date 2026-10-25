@@ -7,12 +7,12 @@ import { MetricFormType } from '@/server/metrics/constants/definition/metric-for
 
 import { isMetricFormType } from '../_utils/metric-form-type';
 
-type JudgePythonToggleProps = {
+interface JudgePythonToggleProps {
   value: string;
   label: string;
   onValueChange: (value: MetricFormType) => void;
   disabled?: boolean;
-};
+}
 
 const ITEM_CLASS =
   'border border-transparent aria-pressed:border-border aria-pressed:bg-background aria-pressed:shadow-xs';

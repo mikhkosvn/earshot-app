@@ -6,12 +6,12 @@ import type { PanelScope, StackPanel } from './_utils/panel-jobs';
 import { BackgroundTaskPanel } from './panel/background-task-panel';
 import { ReviewTaskPanel } from './review-panel/review-task-panel';
 
-type BackgroundTaskStackItemProps = {
+interface BackgroundTaskStackItemProps {
   panel: StackPanel;
   scope: PanelScope;
   onClose: (key: string) => void;
   onDismiss: (kind: JobKind) => void;
-};
+}
 
 export function BackgroundTaskStackItem({
   panel,

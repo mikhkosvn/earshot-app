@@ -1,8 +1,8 @@
 import { scoreText } from '../../../../_utils/results-list/result-format';
 
-type ResultScoreCellProps = {
+interface ResultScoreCellProps {
   successRate: number | null;
-};
+}
 
 export function ResultScoreCell({ successRate }: ResultScoreCellProps) {
   if (successRate === null) {

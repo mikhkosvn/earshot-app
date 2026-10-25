@@ -10,21 +10,21 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 
-export type SelectOption<TValue extends string | number> = {
+export interface SelectOption<TValue extends string | number> {
   value: TValue;
   label: string;
-};
+}
 
-type OptionSelectProps<TValue extends string | number> = {
+interface OptionSelectProps<TValue extends string | number> {
   id?: string;
   ariaLabel?: string;
-  items: SelectOption<TValue>[];
+  items: readonly SelectOption<TValue>[];
   value: TValue | null;
   onValueChange: (value: TValue) => void;
   placeholder: string;
   icon?: ReactNode;
   invalid?: boolean;
-};
+}
 
 export function OptionSelect<TValue extends string | number>({
   id,

@@ -8,12 +8,12 @@ import { profileKeyToken } from '@/app/(app)/test-case/_utils/evaluator-form/var
 
 import { VariableChips } from './variable-chips';
 
-type AgentProfileVariableChipsProps = {
+interface AgentProfileVariableChipsProps {
   agentId: number;
   testProfileId: number;
-  baseTokens: string[];
+  baseTokens: readonly string[];
   onInsert: (token: string) => void;
-};
+}
 
 export function AgentProfileVariableChips({
   agentId,

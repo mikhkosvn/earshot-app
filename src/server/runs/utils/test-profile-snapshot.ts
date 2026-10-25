@@ -55,7 +55,7 @@ export const loadTestProfileSnapshots = async (
 
 const asRecord = (value: Prisma.JsonValue | null): Record<string, unknown> => {
   if (!value || typeof value !== 'object' || Array.isArray(value)) return {};
-  return value as Record<string, unknown>;
+  return value;
 };
 
 const stringRecord = (value: unknown): Record<string, string> => {

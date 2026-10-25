@@ -10,9 +10,9 @@ import { AlertMetricField } from './alert-metric-field';
 import { CreateAlertSubmitButton } from './create-alert-submit-button';
 import { NewAlertDetails } from './new-alert-details';
 
-type NewAlertFormProps = {
+interface NewAlertFormProps {
   onCreated: () => void;
-};
+}
 
 export function NewAlertForm({ onCreated }: NewAlertFormProps) {
   const { form, onSubmit } = useNewAlertForm(onCreated);

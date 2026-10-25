@@ -16,10 +16,10 @@ const FIXED_COLUMNS = [
   'Feedback',
 ];
 
-type CallTableHeaderProps = {
-  selectedIds: number[];
+interface CallTableHeaderProps {
+  selectedIds: readonly number[];
   onSelectedIdsChange: (ids: number[]) => void;
-};
+}
 
 export function CallTableHeader({
   selectedIds,

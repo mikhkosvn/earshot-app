@@ -6,10 +6,10 @@ import { ROLE_SUBTITLE } from '@/components/common/metric-form/_constants/metric
 import type { CreateMode } from '../_constants/create-mode';
 import { ModeSwitch } from './mode-switch';
 
-type CreateMetricHeaderProps = {
+interface CreateMetricHeaderProps {
   mode: CreateMode;
   onModeChange: (mode: CreateMode) => void;
-};
+}
 
 export function CreateMetricHeader({
   mode,

@@ -14,10 +14,10 @@ import {
   InputGroupInput,
 } from '@/components/ui/input-group';
 
-type CreatedApiKeyPanelProps = {
+interface CreatedApiKeyPanelProps {
   plainKey: string;
   onDone: () => void;
-};
+}
 
 export function CreatedApiKeyPanel({
   plainKey,

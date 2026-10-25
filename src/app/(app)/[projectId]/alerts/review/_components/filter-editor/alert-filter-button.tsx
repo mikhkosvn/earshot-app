@@ -17,9 +17,9 @@ import type { AlertRow } from '@/server/alerts/types';
 import { AlertFilterForm } from './alert-filter-form';
 import { AlertFilterLabel } from './alert-filter-label';
 
-type AlertFilterButtonProps = {
+interface AlertFilterButtonProps {
   alert: AlertRow;
-};
+}
 
 export function AlertFilterButton({ alert }: AlertFilterButtonProps) {
   const [open, setOpen] = useState(false);

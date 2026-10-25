@@ -10,9 +10,9 @@ import type { LabRowView } from '@/server/labs/types';
 import type { LabMetricFormInput } from '../../../_schemas/lab-metric-form-schema';
 import { NotesDialog } from '../dialogs/notes-dialog';
 
-type NotesCellProps = {
+interface NotesCellProps {
   row: LabRowView;
-};
+}
 
 export function NotesCell({ row }: NotesCellProps) {
   const [isOpen, setIsOpen] = useState(false);

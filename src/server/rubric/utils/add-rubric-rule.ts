@@ -3,14 +3,14 @@ import 'server-only';
 import type { Prisma } from '@/generated/prisma/client';
 import type { ComparisonOperator } from '@/generated/prisma/enums';
 
-type AddRubricRuleArgs = {
+interface AddRubricRuleArgs {
   metricId: number;
   projectId: number;
   operator: ComparisonOperator;
   numberValue?: number | null;
   booleanValue?: boolean | null;
   textValues?: string[];
-};
+}
 
 export const addRubricRule = async (
   tx: Prisma.TransactionClient,

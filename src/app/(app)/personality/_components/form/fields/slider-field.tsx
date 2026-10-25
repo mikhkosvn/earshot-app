@@ -15,7 +15,7 @@ import {
 } from '../../../_utils/number-input-value';
 import { SliderHelp } from './slider-help';
 
-type SliderFieldProps = {
+interface SliderFieldProps {
   name: Path<PersonalityFormValues>;
   label: string;
   icon: LucideIcon;
@@ -25,7 +25,7 @@ type SliderFieldProps = {
   suffix: string;
   rangeText: string;
   help?: ReactNode;
-};
+}
 
 export function SliderField({
   name,
@@ -70,7 +70,7 @@ export function SliderField({
                 min={min}
                 max={max}
                 step={step}
-                value={numberInputValue(field.value as number | null)}
+                value={numberInputValue(field.value)}
                 aria-invalid={fieldState.invalid}
                 className="h-6 w-16 border-0 px-1 text-right text-xs shadow-none md:text-xs dark:bg-transparent"
                 onBlur={field.onBlur}

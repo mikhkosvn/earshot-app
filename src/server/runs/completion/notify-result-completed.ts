@@ -16,7 +16,11 @@ import {
 import { appUrl } from '@/server/runs/utils/app-url';
 import { buildResultCompletedPayload } from '@/server/runs/webhooks/build-result-completed-payload';
 
-type Counts = { total: number; success: number; failed: number };
+interface Counts {
+  total: number;
+  success: number;
+  failed: number;
+}
 
 const outcomeOf = (status: RunStatus, counts: Counts) => {
   if (status === RunStatus.failed) return ResultOutcome.error;

@@ -2,10 +2,10 @@ import { MoreChip } from './more-chip';
 
 const MAX_VISIBLE_CHIPS = 3;
 
-type MultiSelectChipsProps = {
-  labels: string[];
+interface MultiSelectChipsProps {
+  labels: readonly string[];
   placeholder: string;
-};
+}
 
 export function MultiSelectChips({
   labels,

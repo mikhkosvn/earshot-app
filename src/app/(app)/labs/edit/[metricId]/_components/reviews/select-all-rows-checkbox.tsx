@@ -4,10 +4,10 @@ import { Checkbox } from '@/components/ui/checkbox';
 
 import { useLab } from '../../_hooks/lab/use-lab';
 
-type SelectAllRowsCheckboxProps = {
+interface SelectAllRowsCheckboxProps {
   selected: number[];
   onSelectedChange: (selected: number[]) => void;
-};
+}
 
 export function SelectAllRowsCheckbox({
   selected,

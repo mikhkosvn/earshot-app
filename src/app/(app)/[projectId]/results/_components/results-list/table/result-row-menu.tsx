@@ -15,10 +15,10 @@ import type { ResultListRow } from '@/server/results/types';
 import { RenameResultDialog } from '../rename/rename-result-dialog';
 import { DeleteResultDialog } from './delete-result-dialog';
 
-type ResultRowMenuProps = {
+interface ResultRowMenuProps {
   result: ResultListRow;
   onDeleted: (resultId: number) => void;
-};
+}
 
 export function ResultRowMenu({ result, onDeleted }: ResultRowMenuProps) {
   const [renameOpen, setRenameOpen] = useState(false);

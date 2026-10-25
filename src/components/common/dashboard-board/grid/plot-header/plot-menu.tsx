@@ -24,10 +24,10 @@ import type { DraftPlot } from '../../_utils/dashboard-draft';
 import { DeletePlotDialog } from './delete-plot-dialog';
 import { EditPlotMenuItem } from './edit-plot-menu-item';
 
-type PlotMenuProps = {
+interface PlotMenuProps {
   board: DashboardBoardState;
   plot: DraftPlot;
-};
+}
 
 export function PlotMenu({ board, plot }: PlotMenuProps) {
   const [confirmOpen, setConfirmOpen] = useState(false);

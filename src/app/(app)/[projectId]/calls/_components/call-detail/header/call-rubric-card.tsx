@@ -15,9 +15,9 @@ import type { RubricVerdict } from '@/server/metric-scoring/types';
 import { RubricItemRow } from './rubric-item-row';
 import { RubricVerdictBadge } from './rubric-verdict-badge';
 
-type CallRubricCardProps = {
+interface CallRubricCardProps {
   rubric: RubricVerdict;
-};
+}
 
 export function CallRubricCard({ rubric }: CallRubricCardProps) {
   return (

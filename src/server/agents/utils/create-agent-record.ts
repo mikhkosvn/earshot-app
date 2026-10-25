@@ -13,12 +13,12 @@ type AgentRecordData = Omit<
   'projectId' | 'redactionFields' | 'defaultTestProfileId'
 >;
 
-type CreateAgentRecordArgs = {
+interface CreateAgentRecordArgs {
   projectId: number;
   userId: number;
   data: AgentRecordData;
   redactionFields: RedactionField[];
-};
+}
 
 const defaultTestProfileName = (agentName: string, agentId: number) =>
   `${DEFAULT_TEST_PROFILE_PREFIX} - ${agentName} (${agentId})`;

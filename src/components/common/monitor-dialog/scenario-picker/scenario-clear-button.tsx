@@ -4,10 +4,10 @@ import { XIcon } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
 
-type ScenarioClearButtonProps = {
+interface ScenarioClearButtonProps {
   selectedCount: number;
   onClear: () => void;
-};
+}
 
 export function ScenarioClearButton({
   selectedCount,

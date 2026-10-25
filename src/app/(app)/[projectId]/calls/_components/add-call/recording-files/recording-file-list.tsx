@@ -1,9 +1,9 @@
 import { RecordingFileItem } from './recording-file-item';
 
-type RecordingFileListProps = {
-  files: File[];
+interface RecordingFileListProps {
+  files: readonly File[];
   onRemove: (index: number) => void;
-};
+}
 
 export function RecordingFileList({ files, onRemove }: RecordingFileListProps) {
   if (files.length === 0) return null;

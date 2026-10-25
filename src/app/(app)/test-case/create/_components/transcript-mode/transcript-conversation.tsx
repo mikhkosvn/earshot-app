@@ -13,7 +13,7 @@ import { MessageCount } from './message-count';
 import { TranscriptEditor } from './transcript-editor';
 
 const isMode = (value: unknown): value is TranscriptEditorMode =>
-  Object.values(TranscriptEditorMode).includes(value as TranscriptEditorMode);
+  Object.values(TranscriptEditorMode).some((item) => item === value);
 
 export function TranscriptConversation() {
   const [mode, setMode] = useState<TranscriptEditorMode>(

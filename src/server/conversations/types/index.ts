@@ -11,16 +11,16 @@ import type { getConversationSchema } from '@/server/conversations/schemas';
 
 export type GetConversationInput = z.input<typeof getConversationSchema>;
 
-export type ConversationTurnItem = {
+export interface ConversationTurnItem {
   id: number;
   position: number;
   role: TranscriptRole;
   content: string;
   startTime: number | null;
   endTime: number | null;
-};
+}
 
-export type ConversationMetricItem = {
+export interface ConversationMetricItem {
   evaluationId: number;
   metricId: number;
   name: string;
@@ -35,20 +35,20 @@ export type ConversationMetricItem = {
   extra: Record<string, unknown> | null;
   thumbsUp: boolean | null;
   voteFeedback: string | null;
-};
+}
 
-export type ConversationWaveformView = {
+export interface ConversationWaveformView {
   peaks: number[][];
   duration: number;
   testingChannelIndex: number;
-};
+}
 
-export type ConversationMetadataTile = {
+export interface ConversationMetadataTile {
   key: string;
   value: string;
-};
+}
 
-export type ConversationDetail = {
+export interface ConversationDetail {
   id: number;
   projectId: number;
   source: ConversationSource;
@@ -63,4 +63,4 @@ export type ConversationDetail = {
   turns: ConversationTurnItem[];
   metrics: ConversationMetricItem[];
   metadata: ConversationMetadataTile[];
-};
+}

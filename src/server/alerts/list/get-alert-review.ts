@@ -85,11 +85,14 @@ const buildTimeline = (
   bucketCount: number,
   topIds: Set<number>,
 ): AlertTimelineBucket[] => {
-  const buckets = Array.from({ length: bucketCount }, (_, index) => ({
-    bucketStart: new Date(start + index * bucketMs),
-    total: 0,
-    counts: {} as Record<string, number>,
-  }));
+  const buckets = Array.from(
+    { length: bucketCount },
+    (_, index): AlertTimelineBucket => ({
+      bucketStart: new Date(start + index * bucketMs),
+      total: 0,
+      counts: {},
+    }),
+  );
   fires.forEach((fire) => {
     const index = Math.min(
       bucketCount - 1,

@@ -10,10 +10,10 @@ import {
 
 import { AddConnectorForm } from './add-connector-form';
 
-type AddConnectorDialogProps = {
+interface AddConnectorDialogProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
-};
+}
 
 export function AddConnectorDialog({
   open,

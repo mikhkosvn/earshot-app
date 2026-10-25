@@ -17,9 +17,9 @@ import { useAddCallToLabMutation } from '../../../_hooks/mutations/call-actions/
 import { useRecomputeMetricsMutation } from '../../../_hooks/mutations/call-actions/use-recompute-metrics-mutation';
 import { UseAsEvaluatorDialog } from '../../use-as-evaluator/use-as-evaluator-dialog';
 
-type CallRowMenuProps = {
+interface CallRowMenuProps {
   call: CallLogRow;
-};
+}
 
 export function CallRowMenu({ call }: CallRowMenuProps) {
   const [evaluatorOpen, setEvaluatorOpen] = useState(false);

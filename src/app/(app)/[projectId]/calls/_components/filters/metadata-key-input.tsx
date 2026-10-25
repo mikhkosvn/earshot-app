@@ -2,11 +2,11 @@ import { Input } from '@/components/ui/input';
 
 import { FilterFieldKind } from '../../_constants/call-filter-fields';
 
-type MetadataKeyInputProps = {
+interface MetadataKeyInputProps {
   kind: FilterFieldKind;
   value: string;
   onChange: (value: string) => void;
-};
+}
 
 export function MetadataKeyInput({
   kind,

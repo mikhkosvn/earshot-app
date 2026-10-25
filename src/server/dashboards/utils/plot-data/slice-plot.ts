@@ -4,7 +4,7 @@ import type { PlotSlice } from '@/server/dashboards/types';
 
 const MAX_SLICES = 20;
 
-export const slicePlot = (labels: string[]) => {
+export const slicePlot = (labels: readonly string[]) => {
   const counts = new Map<string, number>();
   for (const label of labels) {
     counts.set(label, (counts.get(label) ?? 0) + 1);

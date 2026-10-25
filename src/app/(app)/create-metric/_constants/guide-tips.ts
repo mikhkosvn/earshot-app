@@ -1,10 +1,10 @@
-export type GuideTip = {
+export interface GuideTip {
   title: string;
   text: string;
-  examples: { label?: string; text: string }[];
-};
+  examples: readonly { label?: string; text: string }[];
+}
 
-export const GUIDE_TIPS: GuideTip[] = [
+export const GUIDE_TIPS: readonly GuideTip[] = [
   {
     title: '1. Define Roles Clearly',
     text: 'Your prompt should reference your AI Agent as Main Agent and the other party as Testing Agent.',

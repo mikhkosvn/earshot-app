@@ -9,11 +9,11 @@ import type { MockToolOption } from '@/server/evaluators/types';
 import { LabeledField } from '../../fields/labeled-field';
 import { OptionSelect } from '../../fields/option-select';
 
-type ExpectedToolCallEditorProps = {
+interface ExpectedToolCallEditorProps {
   index: number;
-  mockTools: MockToolOption[];
+  mockTools: readonly MockToolOption[];
   isOpen: boolean;
-};
+}
 
 export function ExpectedToolCallEditor({
   index,

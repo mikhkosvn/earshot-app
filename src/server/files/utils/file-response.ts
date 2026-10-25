@@ -13,12 +13,12 @@ import {
   RangeResult,
 } from '@/server/files/utils/parse-range-header';
 
-type ServedFile = {
+interface ServedFile {
   storageKey: string;
   contentType: string;
   fileName: string;
   sizeBytes: number;
-};
+}
 
 export const dispositionOf = (request: NextRequest) => {
   if (request.nextUrl.searchParams.get('download') === '1') {

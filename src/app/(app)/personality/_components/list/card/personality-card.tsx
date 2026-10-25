@@ -23,9 +23,9 @@ import { CardDetailRow } from './card-detail-row';
 import { ForkedRow } from './forked-row';
 import { PersonalityCardHeader } from './personality-card-header';
 
-type PersonalityCardProps = {
+interface PersonalityCardProps {
   item: PersonalityListItem;
-};
+}
 
 export function PersonalityCard({ item }: PersonalityCardProps) {
   return (

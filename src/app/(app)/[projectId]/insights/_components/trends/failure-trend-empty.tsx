@@ -1,6 +1,6 @@
-type FailureTrendEmptyProps = {
+interface FailureTrendEmptyProps {
   count: number;
-};
+}
 
 export function FailureTrendEmpty({ count }: FailureTrendEmptyProps) {
   if (count > 0) return null;

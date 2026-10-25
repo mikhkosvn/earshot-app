@@ -10,8 +10,8 @@ export type LabCorrection = z.output<typeof labCorrectionSchema>;
 export type CreateLabTestSetInput = z.input<typeof createLabTestSetSchema>;
 export type AddRunsToLabInput = z.input<typeof addRunsToLabSchema>;
 
-export type LabTestSetSummary = {
+export interface LabTestSetSummary {
   id: number;
   conversationId: number;
   reviewCount: number;
-};
+}

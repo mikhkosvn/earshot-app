@@ -13,9 +13,9 @@ import {
 } from '../_utils/run-status-text';
 import { RunStatusRow } from './run-status-row';
 
-type RunStatusProgressProps = {
+interface RunStatusProgressProps {
   resultId: number;
-};
+}
 
 export function RunStatusProgress({ resultId }: RunStatusProgressProps) {
   const { data: status } = useSuspenseQuery(

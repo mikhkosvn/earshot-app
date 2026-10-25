@@ -37,14 +37,14 @@ const MAX_POINTS = 1000;
 
 const DEFAULT_RANGE_MS = 7 * 24 * 3_600_000;
 
-export type PlotComputeInput = {
+export interface PlotComputeInput {
   projectId: number;
   source: DashboardSource;
   timeZone: string;
   config: PlotConfig;
   filters: DashboardFilterState;
   now?: Date;
-};
+}
 
 export const rangeOf = (filters: DashboardFilterState, now: Date) => {
   const to = parseTimeExpression(filters.to, now) ?? now;

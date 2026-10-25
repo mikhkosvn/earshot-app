@@ -11,9 +11,9 @@ import {
 } from '@/components/ui/select';
 import type { SaveInsightConfigInput } from '@/server/insights/types';
 
-type PassValueSelectProps = {
-  values: string[];
-};
+interface PassValueSelectProps {
+  values: readonly string[];
+}
 
 export function PassValueSelect({ values }: PassValueSelectProps) {
   const { control } = useFormContext<SaveInsightConfigInput>();

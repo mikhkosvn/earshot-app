@@ -9,7 +9,7 @@ import { RedactionFieldLabel } from '@/server/agents/constants/redaction-field-l
 import type { AgentConfigValues } from '@/server/agents/types';
 
 const toggleField = (
-  fields: RedactionField[],
+  fields: readonly RedactionField[],
   field: RedactionField,
   checked: boolean,
 ) => {

@@ -1,6 +1,6 @@
-type FilterEmptyHintProps = {
+interface FilterEmptyHintProps {
   count: number;
-};
+}
 
 export function FilterEmptyHint({ count }: FilterEmptyHintProps) {
   if (count > 0) return null;

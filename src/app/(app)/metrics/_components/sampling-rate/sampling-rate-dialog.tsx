@@ -11,11 +11,11 @@ import type { MetricListItem } from '@/server/metrics/types';
 
 import { SamplingRateForm } from './sampling-rate-form';
 
-type SamplingRateDialogProps = {
+interface SamplingRateDialogProps {
   metric: MetricListItem;
   open: boolean;
   onOpenChange: (open: boolean) => void;
-};
+}
 
 export function SamplingRateDialog({
   metric,

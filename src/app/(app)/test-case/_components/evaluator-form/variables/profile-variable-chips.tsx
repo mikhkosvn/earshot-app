@@ -8,10 +8,10 @@ import type { EvaluatorFormValues } from '@/app/(app)/test-case/_schemas/evaluat
 import { AgentProfileVariableChips } from './agent-profile-variable-chips';
 import { VariableChips } from './variable-chips';
 
-type ProfileVariableChipsProps = {
-  baseTokens: string[];
+interface ProfileVariableChipsProps {
+  baseTokens: readonly string[];
   onInsert: (token: string) => void;
-};
+}
 
 export function ProfileVariableChips({
   baseTokens,

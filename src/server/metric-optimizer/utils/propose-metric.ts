@@ -17,7 +17,7 @@ import type { MetricValue } from '@/server/metrics/types';
 const TRANSCRIPT_EXCERPT_TURNS = 16;
 const PROPOSAL_MAX_TOKENS = 8000;
 
-export type OptimizerRow = {
+export interface OptimizerRow {
   reviewId: number;
   expected: MetricValue;
   actual: MetricValue;
@@ -25,16 +25,18 @@ export type OptimizerRow = {
   feedback: string | null;
   explanation: string[];
   transcript: string[];
-};
+}
 
-export type ProposalRequest = {
+export interface ProposalRequest {
   metric: ScoringMetric;
   rows: OptimizerRow[];
   iteration: number;
   budget: number;
-};
+}
 
-export type MetricProposal = LabDraft & { summary: ProposalSummary };
+export interface MetricProposal extends LabDraft {
+  summary: ProposalSummary;
+}
 
 const proposalSchema = z.object({
   description: z.string(),

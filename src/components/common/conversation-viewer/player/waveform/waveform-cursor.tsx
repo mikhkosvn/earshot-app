@@ -1,6 +1,6 @@
-type WaveformCursorProps = {
+interface WaveformCursorProps {
   percent: number;
-};
+}
 
 export function WaveformCursor({ percent }: WaveformCursorProps) {
   return (

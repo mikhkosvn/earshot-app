@@ -1,8 +1,8 @@
 import { EyeIcon, EyeOffIcon } from 'lucide-react';
 
-type PasswordVisibilityIconProps = {
+interface PasswordVisibilityIconProps {
   visible: boolean;
-};
+}
 
 export function PasswordVisibilityIcon({
   visible,

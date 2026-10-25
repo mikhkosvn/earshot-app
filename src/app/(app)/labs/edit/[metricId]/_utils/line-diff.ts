@@ -6,17 +6,17 @@ export const DiffLineKind = {
 
 export type DiffLineKind = (typeof DiffLineKind)[keyof typeof DiffLineKind];
 
-export type DiffLine = {
+export interface DiffLine {
   kind: DiffLineKind;
   text: string;
-};
+}
 
 const splitLines = (text: string) => {
   if (!text) return [];
   return text.split('\n');
 };
 
-const lcsTable = (before: string[], after: string[]) => {
+const lcsTable = (before: readonly string[], after: readonly string[]) => {
   const table = Array.from({ length: before.length + 1 }, () =>
     new Array<number>(after.length + 1).fill(0),
   );

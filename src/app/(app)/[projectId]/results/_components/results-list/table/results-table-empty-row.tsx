@@ -2,9 +2,9 @@ import { TableCell, TableRow } from '@/components/ui/table';
 
 const COLUMN_COUNT = 11;
 
-type ResultsTableEmptyRowProps = {
+interface ResultsTableEmptyRowProps {
   count: number;
-};
+}
 
 export function ResultsTableEmptyRow({ count }: ResultsTableEmptyRowProps) {
   if (count > 0) return null;

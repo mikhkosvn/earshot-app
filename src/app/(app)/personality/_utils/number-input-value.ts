@@ -1,5 +1,5 @@
-export const numberInputValue = (value: number | null | undefined) => {
-  if (value === null || value === undefined || Number.isNaN(value)) return '';
+export const numberInputValue = (value: unknown) => {
+  if (typeof value !== 'number' || Number.isNaN(value)) return '';
   return value;
 };
 

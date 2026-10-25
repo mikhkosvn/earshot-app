@@ -6,9 +6,9 @@ import { useShareToken } from '../../_hooks/use-share-token';
 import { useSharedRun } from '../../_hooks/use-shared-run';
 import { SharedRunHeader } from './shared-run-header';
 
-type SharedRunConversationProps = {
+interface SharedRunConversationProps {
   runId: number;
-};
+}
 
 export function SharedRunConversation({ runId }: SharedRunConversationProps) {
   const token = useShareToken();

@@ -12,10 +12,10 @@ const LOGIC_ITEMS = Object.values(FilterLogic).map((logic) => ({
   label: FilterLogicLabel[logic],
 }));
 
-type FilterLogicSelectProps = {
+interface FilterLogicSelectProps {
   value: FilterLogic;
   onValueChange: (logic: FilterLogic) => void;
-};
+}
 
 export function FilterLogicSelect({
   value,

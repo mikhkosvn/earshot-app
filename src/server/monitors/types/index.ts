@@ -25,9 +25,11 @@ export type CreateMonitorInput = z.input<typeof createMonitorSchema>;
 export type UpdateMonitorInput = z.input<typeof updateMonitorSchema>;
 export type SetMonitorActiveInput = z.input<typeof setMonitorActiveSchema>;
 
-export type MonitorRef = { id: number };
+export interface MonitorRef {
+  id: number;
+}
 
-export type MonitorListItem = {
+export interface MonitorListItem {
   id: number;
   name: string;
   agentId: number;
@@ -37,14 +39,14 @@ export type MonitorListItem = {
   scenarioCount: number;
   nextRunAt: Date | null;
   isActive: boolean;
-};
+}
 
-export type MonitorListPage = {
+export interface MonitorListPage {
   count: number;
   results: MonitorListItem[];
-};
+}
 
-export type MonitorDetail = {
+export interface MonitorDetail {
   id: number;
   name: string;
   agentId: number;
@@ -57,15 +59,15 @@ export type MonitorDetail = {
   callsPerSecond: number | null;
   callerNumberMode: CallerNumberMode;
   agentNumber: string | null;
-};
+}
 
-export type MonitorActiveState = {
+export interface MonitorActiveState {
   id: number;
   isActive: boolean;
   nextRunAt: Date | null;
-};
+}
 
-export type MonitorRunItem = {
+export interface MonitorRunItem {
   id: number;
   scheduledFor: Date;
   status: MonitorRunStatus;
@@ -74,26 +76,26 @@ export type MonitorRunItem = {
   finishedAt: Date | null;
   resultId: number | null;
   projectId: number;
-};
+}
 
-export type MonitorAgentOption = {
+export interface MonitorAgentOption {
   id: number;
   name: string;
   phoneNumber: string | null;
-};
+}
 
-export type MonitorScenarioOption = {
+export interface MonitorScenarioOption {
   id: number;
   name: string;
-};
+}
 
-export type MonitorScenarioFolder = {
+export interface MonitorScenarioFolder {
   key: string;
   name: string;
   scenarios: MonitorScenarioOption[];
-};
+}
 
-export type MonitorScenarioTree = {
+export interface MonitorScenarioTree {
   folders: MonitorScenarioFolder[];
   scenarioCount: number;
-};
+}

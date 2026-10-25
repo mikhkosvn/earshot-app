@@ -7,11 +7,11 @@ import type { ResultsView } from '@/lib/url-generator/constants';
 
 import { useResultsViewParam } from '../../../_hooks/results-list/use-results-view-param';
 
-type ResultsViewToggleButtonProps = {
+interface ResultsViewToggleButtonProps {
   target: ResultsView;
   icon: LucideIcon;
   label: string;
-};
+}
 
 export function ResultsViewToggleButton({
   target,

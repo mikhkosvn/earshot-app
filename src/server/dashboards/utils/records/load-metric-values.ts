@@ -3,11 +3,11 @@ import 'server-only';
 import { MetricEvaluationStatus } from '@/generated/prisma/enums';
 import { prisma } from '@/lib/prisma';
 
-export type MetricValue = {
+export interface MetricValue {
   number: number | null;
   boolean: boolean | null;
   text: string | null;
-};
+}
 
 export const loadMetricValues = async (
   metricId: number,

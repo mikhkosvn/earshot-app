@@ -20,12 +20,12 @@ import { RubricValueKind } from '@/server/metrics/constants/rubric/rubric-value-
 import type { RubricRuleValue } from '@/server/rubric/types';
 import { rubricValueKind } from '@/server/rubric/utils/rubric-kind';
 
-export type StoredPass = {
+export interface StoredPass {
   passOperator: ComparisonOperator;
   passNumberValue: number | null;
   passBooleanValue: boolean | null;
   passTextValues: string[];
-};
+}
 
 export const passKindOf = (metric: {
   evalType: MetricEvalType;

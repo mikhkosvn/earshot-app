@@ -1,8 +1,8 @@
 import type { ReactNode } from 'react';
 
-type ResultCountChipProps = {
+interface ResultCountChipProps {
   children: ReactNode;
-};
+}
 
 export function ResultCountChip({ children }: ResultCountChipProps) {
   return (

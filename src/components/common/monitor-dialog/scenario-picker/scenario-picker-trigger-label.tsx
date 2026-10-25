@@ -3,9 +3,9 @@
 import { useMonitorScenarios } from '../_hooks/use-monitor-scenarios';
 import { SelectionChips } from '../form/selection-chips';
 
-type ScenarioPickerTriggerLabelProps = {
-  value: number[];
-};
+interface ScenarioPickerTriggerLabelProps {
+  value: readonly number[];
+}
 
 export function ScenarioPickerTriggerLabel({
   value,

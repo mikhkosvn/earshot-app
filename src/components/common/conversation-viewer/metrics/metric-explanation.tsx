@@ -1,8 +1,8 @@
 import type { ConversationMetricItem } from '@/server/conversations/types';
 
-type MetricExplanationProps = {
+interface MetricExplanationProps {
   metric: ConversationMetricItem;
-};
+}
 
 export function MetricExplanation({ metric }: MetricExplanationProps) {
   if (metric.explanation.length === 0) {

@@ -16,9 +16,9 @@ import type { DashboardBoardState } from '../_utils/board-types';
 
 const ALL_AGENTS = 'all';
 
-type AgentFilterSelectProps = {
+interface AgentFilterSelectProps {
   board: DashboardBoardState;
-};
+}
 
 const agentIdOf = (value: string) => {
   if (value === ALL_AGENTS) return null;

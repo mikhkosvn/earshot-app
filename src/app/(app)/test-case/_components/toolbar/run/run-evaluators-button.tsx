@@ -7,9 +7,9 @@ import { ConfigureRunDialog } from '@/components/common/run-dialogs/configure-ru
 import { RunStatusDialog } from '@/components/common/run-dialogs/run-status/run-status-dialog';
 import { Button } from '@/components/ui/button';
 
-type RunEvaluatorsButtonProps = {
+interface RunEvaluatorsButtonProps {
   selectedIds: number[];
-};
+}
 
 export function RunEvaluatorsButton({ selectedIds }: RunEvaluatorsButtonProps) {
   const [isConfigureOpen, setConfigureOpen] = useState(false);

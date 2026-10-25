@@ -8,9 +8,9 @@ import { CallDetailActions } from './call-detail-actions';
 import { CallProcessingState } from './call-processing-state';
 import { CallDetailHeader } from './header/call-detail-header';
 
-type CallDetailBodyProps = {
+interface CallDetailBodyProps {
   callLogId: number;
-};
+}
 
 export function CallDetailBody({ callLogId }: CallDetailBodyProps) {
   const { data: call } = useCallDetailQuery(callLogId);

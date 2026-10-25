@@ -13,9 +13,9 @@ import type { FolderView } from '@/server/folders/types';
 
 import { useDuplicateFolderMutation } from '../../_hooks/mutations/folders/use-duplicate-folder-mutation';
 
-type DuplicateFolderButtonProps = {
+interface DuplicateFolderButtonProps {
   folder: FolderView;
-};
+}
 
 export function DuplicateFolderButton({ folder }: DuplicateFolderButtonProps) {
   const projectId = useCurrentProjectId();

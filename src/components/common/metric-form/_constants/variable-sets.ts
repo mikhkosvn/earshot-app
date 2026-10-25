@@ -6,12 +6,12 @@ import {
   PYTHON_VARIABLES,
 } from '@/server/metrics/constants/definition/metric-variables';
 
-export type VariableSet = {
+export interface VariableSet {
   chips: string[];
   variables: MetricVariable[];
   transcriptCode: string;
   hintCodes: [string, string, string];
-};
+}
 
 export const JUDGE_VARIABLE_SET: VariableSet = {
   chips: JUDGE_VARIABLE_CHIPS,

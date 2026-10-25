@@ -15,21 +15,21 @@ export type SaveRubricInput = z.input<typeof saveRubricSchema>;
 
 export type RubricRuleValue = boolean | number | string[] | null;
 
-export type RubricRuleView = {
+export interface RubricRuleView {
   metricId: number;
   operator: ComparisonOperator;
   value: RubricRuleValue;
-};
+}
 
-export type RubricMetricOption = {
+export interface RubricMetricOption {
   id: number;
   name: string;
   evalType: MetricEvalType;
   kind: RubricValueKind;
   enumValues: string[];
-};
+}
 
-export type RubricView = {
+export interface RubricView {
   rules: RubricRuleView[];
   metrics: RubricMetricOption[];
-};
+}

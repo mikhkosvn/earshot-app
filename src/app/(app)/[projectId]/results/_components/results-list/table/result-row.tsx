@@ -19,12 +19,12 @@ import { ResultScoreCell } from './cells/result-score-cell';
 import { ResultStatusBadge } from './cells/result-status-badge';
 import { ResultRowMenu } from './result-row-menu';
 
-type ResultRowProps = {
+interface ResultRowProps {
   result: ResultListRow;
   selected: boolean;
   onSelectedChange: (checked: boolean) => void;
   onDeleted: (resultId: number) => void;
-};
+}
 
 export function ResultRow({
   result,

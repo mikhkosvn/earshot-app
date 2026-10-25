@@ -1,8 +1,8 @@
 import type { TestProfileView } from '@/server/test-profiles/types';
 
-type TestProfileDialogTitleProps = {
+interface TestProfileDialogTitleProps {
   profile: TestProfileView | null;
-};
+}
 
 export function TestProfileDialogTitle({
   profile,

@@ -6,11 +6,11 @@ import type { FolderView } from '@/server/folders/types';
 
 import { useDeleteFolderMutation } from '../../../_hooks/mutations/folders/use-delete-folder-mutation';
 
-type DeleteFolderDialogProps = {
+interface DeleteFolderDialogProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   folder: FolderView;
-};
+}
 
 export function DeleteFolderDialog({
   open,

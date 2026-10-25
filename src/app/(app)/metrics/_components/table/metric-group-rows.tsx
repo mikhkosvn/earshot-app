@@ -11,10 +11,10 @@ import { toggleItem } from '../../_utils/toggle-item';
 import type { MetricSelection } from '../metrics-view';
 import { MetricRow } from '../row/metric-row';
 
-type MetricGroupRowsProps = MetricSelection & {
-  metrics: MetricListItem[];
+interface MetricGroupRowsProps extends MetricSelection {
+  metrics: readonly MetricListItem[];
   collapsed: boolean;
-};
+}
 
 export function MetricGroupRows({
   metrics,

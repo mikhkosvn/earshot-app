@@ -1,8 +1,8 @@
 import type { ReactNode } from 'react';
 
-type PageHeaderDescriptionProps = {
+interface PageHeaderDescriptionProps {
   description?: ReactNode;
-};
+}
 
 export function PageHeaderDescription({
   description,

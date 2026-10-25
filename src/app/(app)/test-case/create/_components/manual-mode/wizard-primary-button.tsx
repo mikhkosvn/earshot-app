@@ -4,11 +4,11 @@ import { ChevronRightIcon } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
 
-type WizardPrimaryButtonProps = {
+interface WizardPrimaryButtonProps {
   isLastStep: boolean;
   isPending: boolean;
   onNext: () => void;
-};
+}
 
 export function WizardPrimaryButton({
   isLastStep,

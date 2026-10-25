@@ -9,10 +9,10 @@ import { useResultRunRef } from '../../../_hooks/use-result-run-ref';
 import { runTimeText } from '../../../_utils/date-format';
 import { MetricRunScore } from './metric-run-score';
 
-type MetricRunItemProps = {
+interface MetricRunItemProps {
   run: TileRun;
   onOpenRun: (runId: number) => void;
-};
+}
 
 export function MetricRunItem({ run, onOpenRun }: MetricRunItemProps) {
   const runRef = useResultRunRef(run.runId);

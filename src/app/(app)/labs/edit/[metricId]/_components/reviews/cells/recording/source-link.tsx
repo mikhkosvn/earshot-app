@@ -11,9 +11,9 @@ import {
 import type { LabRowSource } from '@/server/labs/types';
 import { SampleSourceLabel } from '@/server/metrics/constants/pattern-review/sample-source';
 
-type SourceLinkProps = {
+interface SourceLinkProps {
   source: LabRowSource;
-};
+}
 
 export function SourceLink({ source }: SourceLinkProps) {
   if (!source.href) return null;
@@ -33,7 +33,9 @@ export function SourceLink({ source }: SourceLinkProps) {
       >
         <ArrowUpRightIcon />
       </TooltipTrigger>
-      <TooltipContent>Open the source {SampleSourceLabel[source.kind]}</TooltipContent>
+      <TooltipContent>
+        Open the source {SampleSourceLabel[source.kind]}
+      </TooltipContent>
     </Tooltip>
   );
 }

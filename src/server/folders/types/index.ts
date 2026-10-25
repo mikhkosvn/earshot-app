@@ -15,7 +15,7 @@ export type RenameFolderInput = z.input<typeof renameFolderSchema>;
 export type FolderTargetInput = z.input<typeof folderTargetSchema>;
 export type FolderNameFormValues = z.input<typeof folderNameFormSchema>;
 
-export type FolderView = {
+export interface FolderView {
   id: number;
   name: string;
   path: string;
@@ -26,4 +26,4 @@ export type FolderView = {
   isRenamable: boolean;
   evaluatorCount: number;
   createdAt: Date;
-};
+}

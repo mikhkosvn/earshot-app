@@ -11,9 +11,9 @@ import { TEST_SUITE_SPEC_MAX_BYTES } from '@/server/runs/constants/run-limits';
 import type { RunFromFileForm } from '../../_hooks/use-run-from-file-form';
 import { SpecFileName } from './spec-file-name';
 
-type SpecFileDropZoneProps = {
+interface SpecFileDropZoneProps {
   form: RunFromFileForm;
-};
+}
 
 const JSON_EXTENSION = '.json';
 

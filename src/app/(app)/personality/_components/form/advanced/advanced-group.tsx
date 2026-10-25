@@ -1,10 +1,10 @@
 import type { ReactNode } from 'react';
 
-type AdvancedGroupProps = {
+interface AdvancedGroupProps {
   title: string;
   description: string;
   children: ReactNode;
-};
+}
 
 export function AdvancedGroup({
   title,

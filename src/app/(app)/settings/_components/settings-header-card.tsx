@@ -1,10 +1,10 @@
 import type { ReactNode } from 'react';
 
-type SettingsHeaderCardProps = {
+interface SettingsHeaderCardProps {
   title: string;
   description: string;
   children?: ReactNode;
-};
+}
 
 export function SettingsHeaderCard({
   title,

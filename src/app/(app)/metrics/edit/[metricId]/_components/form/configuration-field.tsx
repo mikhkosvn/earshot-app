@@ -9,9 +9,9 @@ import { Input } from '@/components/ui/input';
 import type { EditMetricFormInput } from '../../_schemas/edit-metric-form-schema';
 import { numberInputValue } from '../../_utils/number-input-value';
 
-type ConfigurationFieldProps = {
+interface ConfigurationFieldProps {
   configKey: string;
-};
+}
 
 export function ConfigurationField({ configKey }: ConfigurationFieldProps) {
   const { control } = useFormContext<EditMetricFormInput>();

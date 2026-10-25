@@ -4,10 +4,10 @@ import { PencilIcon } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
 
-type RunFeedbackTextProps = {
+interface RunFeedbackTextProps {
   feedback: string | null;
   onEdit: () => void;
-};
+}
 
 export function RunFeedbackText({ feedback, onEdit }: RunFeedbackTextProps) {
   return (

@@ -10,10 +10,10 @@ import { RunDialogService } from '../../_service';
 import { LabeledField } from '../../fields/labeled-field';
 import { OptionMultiSelect } from '../../fields/option-multi-select';
 
-type RunTestProfilesFieldProps = {
+interface RunTestProfilesFieldProps {
   control: RunSettingsForm['control'];
   agentId: number;
-};
+}
 
 export function RunTestProfilesField({
   control,

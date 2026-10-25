@@ -3,10 +3,10 @@ import Link from 'next/link';
 
 import { UrlGenerator } from '@/lib/url-generator/url-generator';
 
-type AgentChipProps = {
+interface AgentChipProps {
   agentId: number | null;
   agentName: string | null;
-};
+}
 
 export function AgentChip({ agentId, agentName }: AgentChipProps) {
   if (agentId === null || !agentName) return '-';

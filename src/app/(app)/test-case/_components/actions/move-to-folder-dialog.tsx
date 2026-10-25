@@ -12,12 +12,12 @@ import { Skeleton } from '@/components/ui/skeleton';
 
 import { MoveToFolderForm } from './move-to-folder-form';
 
-type MoveToFolderDialogProps = {
+interface MoveToFolderDialogProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   evaluatorIds: number[];
   onMoved: () => void;
-};
+}
 
 export function MoveToFolderDialog({
   open,

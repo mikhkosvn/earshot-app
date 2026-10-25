@@ -11,12 +11,12 @@ import type { PlotRecord } from '@/server/dashboards/utils/records/load-plot-rec
 
 import { median, roundValue } from './aggregate';
 
-export type StatFacts = {
+export interface StatFacts {
   count: number;
   successRatio: number | null;
   totalSeconds: number;
   medianLatency: number | null;
-};
+}
 
 const successRatioOf = (records: PlotRecord[]) => {
   const evaluated = records.filter((record) => record.success !== null);

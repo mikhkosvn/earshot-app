@@ -11,9 +11,9 @@ import { Textarea } from '@/components/ui/textarea';
 import { AiComposerOptions } from './ai-composer-options';
 import { AiMoreOptions } from './ai-more-options';
 
-type AiComposerProps = {
+interface AiComposerProps {
   isPending: boolean;
-};
+}
 
 export function AiComposer({ isPending }: AiComposerProps) {
   const [isMoreOpen, setMoreOpen] = useState(false);

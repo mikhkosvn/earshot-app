@@ -5,9 +5,9 @@ import type { CallLogDetail } from '@/server/call-logs/types';
 import { callStartedText } from '../../../_utils/call-format';
 import { CallAgentChip } from './call-agent-chip';
 
-type CallDetailChipsProps = {
+interface CallDetailChipsProps {
   call: CallLogDetail;
-};
+}
 
 export function CallDetailChips({ call }: CallDetailChipsProps) {
   return (

@@ -3,9 +3,9 @@ import type { StatPlotData } from '@/server/dashboards/types';
 import { changeText } from '../../_utils/chart-format';
 import { StatUnit } from './stat-unit';
 
-type StatCellsProps = {
+interface StatCellsProps {
   data: StatPlotData;
-};
+}
 
 export function StatCells({ data }: StatCellsProps) {
   return (

@@ -1,8 +1,8 @@
 import { TableCell, TableRow } from '@/components/ui/table';
 
-type TestProfileEmptyRowProps = {
+interface TestProfileEmptyRowProps {
   count: number;
-};
+}
 
 export function TestProfileEmptyRow({ count }: TestProfileEmptyRowProps) {
   if (count > 0) return null;

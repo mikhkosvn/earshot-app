@@ -19,10 +19,10 @@ import { DashboardSelectList } from './dashboard-select-list';
 import { DeleteDashboardDialog } from './delete-dashboard-dialog';
 import { RenameDashboardDialog } from './rename-dashboard-dialog';
 
-type DashboardSelectProps = {
+interface DashboardSelectProps {
   dashboardId: number;
   source: DashboardSource;
-};
+}
 
 export function DashboardSelect({ dashboardId, source }: DashboardSelectProps) {
   const { data: dashboard } = useDashboardDetailQuery(dashboardId);

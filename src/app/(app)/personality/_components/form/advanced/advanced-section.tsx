@@ -18,9 +18,9 @@ import { SliderField } from '../fields/slider-field';
 import { AdvancedGroup } from './advanced-group';
 import { BackgroundVolumeGroup } from './background-volume-group';
 
-type AdvancedSectionProps = {
+interface AdvancedSectionProps {
   defaultOpen: boolean;
-};
+}
 
 export function AdvancedSection({ defaultOpen }: AdvancedSectionProps) {
   return (

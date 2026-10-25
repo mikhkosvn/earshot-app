@@ -4,12 +4,12 @@ import type { ReactNode } from 'react';
 
 import { Button } from '@/components/ui/button';
 
-type RunTestCallButtonProps = {
+interface RunTestCallButtonProps {
   testable: boolean;
   disabled: boolean;
   onClick: () => void;
   children: ReactNode;
-};
+}
 
 export function RunTestCallButton({
   testable,

@@ -11,9 +11,9 @@ import {
 import { PAGE_SIZE_OPTIONS } from './pagination-config';
 import { usePaginationParams } from './use-pagination-params';
 
-type RowsPerPageSelectProps = {
+interface RowsPerPageSelectProps {
   pageParamKey: string;
-};
+}
 
 export function RowsPerPageSelect({ pageParamKey }: RowsPerPageSelectProps) {
   const { pageSize, setPageSize } = usePaginationParams(pageParamKey);

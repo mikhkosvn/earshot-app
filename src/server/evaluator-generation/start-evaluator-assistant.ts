@@ -1,6 +1,5 @@
 import 'server-only';
 
-import type { Prisma } from '@/generated/prisma/client';
 import { ChatRole, JobKind } from '@/generated/prisma/enums';
 import { prisma } from '@/lib/prisma';
 import { withValidation } from '@/server/common/run-action';
@@ -56,7 +55,7 @@ export const startEvaluatorAssistant = withValidation(
           projectId,
           agentId: options.agentId,
           title: sessionTitle(message),
-          options: options as unknown as Prisma.InputJsonObject,
+          options,
           createdById: user.id,
         },
         select: { id: true },

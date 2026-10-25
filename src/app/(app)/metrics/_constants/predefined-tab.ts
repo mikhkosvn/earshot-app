@@ -27,3 +27,8 @@ export const PREDEFINED_TABS: { value: PredefinedTab; label: string }[] = [
     label: MetricCategoryLabel[MetricCategory.speech_quality],
   },
 ];
+
+const predefinedTabValues: readonly string[] = Object.values(PredefinedTab);
+
+export const isPredefinedTab = (value: unknown): value is PredefinedTab =>
+  typeof value === 'string' && predefinedTabValues.includes(value);

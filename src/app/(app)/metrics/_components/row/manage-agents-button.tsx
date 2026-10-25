@@ -8,9 +8,9 @@ import type { MetricListItem } from '@/server/metrics/types';
 
 import { ManageMetricDialog } from '../manage-agents/manage-metric-dialog';
 
-type ManageAgentsButtonProps = {
+interface ManageAgentsButtonProps {
   metric: MetricListItem;
-};
+}
 
 export function ManageAgentsButton({ metric }: ManageAgentsButtonProps) {
   const [open, setOpen] = useState(false);

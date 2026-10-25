@@ -1,10 +1,10 @@
 import { CallEvaluationStatus, RunStatus } from '@/generated/prisma/enums';
 import { isTerminalRunStatus } from '@/server/runs/constants/run-status-groups';
 
-type CountedRun = {
+interface CountedRun {
   status: RunStatus;
   evaluationStatus: CallEvaluationStatus | null;
-};
+}
 
 const SUCCESS_EVALUATIONS: CallEvaluationStatus[] = [
   CallEvaluationStatus.success,

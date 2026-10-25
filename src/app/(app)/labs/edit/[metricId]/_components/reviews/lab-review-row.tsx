@@ -11,12 +11,12 @@ import { ExplanationCell } from './cells/explanation-cell';
 import { NotesCell } from './cells/notes-cell';
 import { RecordingCell } from './cells/recording/recording-cell';
 
-type LabReviewRowProps = {
+interface LabReviewRowProps {
   row: LabRowView;
   position: number;
   isSelected: boolean;
   onSelectedChange: (checked: boolean) => void;
-};
+}
 
 const CELL_CLASS = 'border-r align-middle whitespace-normal last:border-r-0';
 
@@ -35,7 +35,9 @@ export function LabReviewRow({
           onCheckedChange={(checked) => onSelectedChange(checked === true)}
         />
       </TableCell>
-      <TableCell className={cn(CELL_CLASS, 'font-medium')}>{position}</TableCell>
+      <TableCell className={cn(CELL_CLASS, 'font-medium')}>
+        {position}
+      </TableCell>
       <TableCell className={CELL_CLASS}>
         <RecordingCell row={row} />
       </TableCell>

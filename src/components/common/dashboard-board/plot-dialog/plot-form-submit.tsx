@@ -6,9 +6,9 @@ import { Button } from '@/components/ui/button';
 
 import type { PlotFormValues } from '../_schemas/plot-form-schema';
 
-type PlotFormSubmitProps = {
+interface PlotFormSubmitProps {
   label: string;
-};
+}
 
 export function PlotFormSubmit({ label }: PlotFormSubmitProps) {
   const field = useWatch<PlotFormValues, 'field'>({ name: 'field' });

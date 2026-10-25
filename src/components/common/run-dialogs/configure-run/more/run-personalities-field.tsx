@@ -10,9 +10,9 @@ import { RunDialogService } from '../../_service';
 import { LabeledField } from '../../fields/labeled-field';
 import { OptionMultiSelect } from '../../fields/option-multi-select';
 
-type RunPersonalitiesFieldProps = {
+interface RunPersonalitiesFieldProps {
   control: RunSettingsForm['control'];
-};
+}
 
 export function RunPersonalitiesField({ control }: RunPersonalitiesFieldProps) {
   const projectId = useCurrentProjectId();

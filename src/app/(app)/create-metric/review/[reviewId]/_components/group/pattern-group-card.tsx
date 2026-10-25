@@ -9,9 +9,9 @@ import { RepresentativeCallBox } from './representative-call-box';
 import { CorrectionNoteField } from './score/correction-note-field';
 import { GroupScoreControls } from './score/group-score-controls';
 
-type PatternGroupCardProps = {
+interface PatternGroupCardProps {
   groupKey: string;
-};
+}
 
 export function PatternGroupCard({ groupKey }: PatternGroupCardProps) {
   const group = usePatternGroup(groupKey);

@@ -8,9 +8,9 @@ import { EvaluatorService } from '../../_service';
 import { AllEvaluatorsRow } from './all-evaluators-row';
 import { FolderRow } from './folder-row';
 
-type FolderListProps = {
+interface FolderListProps {
   search: string;
-};
+}
 
 export function FolderList({ search }: FolderListProps) {
   const projectId = useCurrentProjectId();

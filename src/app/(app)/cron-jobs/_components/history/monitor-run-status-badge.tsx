@@ -11,9 +11,9 @@ const STATUS_CLASS: Record<MonitorRunStatus, string> = {
   [MonitorRunStatus.skipped]: 'text-muted-foreground',
 };
 
-type MonitorRunStatusBadgeProps = {
+interface MonitorRunStatusBadgeProps {
   status: MonitorRunStatus;
-};
+}
 
 export function MonitorRunStatusBadge({ status }: MonitorRunStatusBadgeProps) {
   return (

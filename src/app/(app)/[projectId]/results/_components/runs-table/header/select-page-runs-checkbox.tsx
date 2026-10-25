@@ -6,11 +6,11 @@ import type { RunRow } from '@/server/results/types';
 import { RunColumn } from '../../../_utils/runs/run-columns';
 import type { RunSelection } from '../runs-table';
 
-type SelectPageRunsCheckboxProps = {
+interface SelectPageRunsCheckboxProps {
   column: RunColumn;
-  rows: RunRow[];
+  rows: readonly RunRow[];
   selection?: RunSelection;
-};
+}
 
 export function SelectPageRunsCheckbox({
   column,

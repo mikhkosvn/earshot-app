@@ -7,13 +7,13 @@ import { computeRubricVerdict } from '@/server/metric-scoring/compute-rubric-ver
 import { scoreConversation } from '@/server/metric-scoring/score-conversation';
 import { readSnapshotMetricIds } from '@/server/runs/utils/evaluator-snapshot';
 
-type ScoreRunArgs = {
+interface ScoreRunArgs {
   projectId: number;
   conversationId: number;
   evaluatorId: number | null;
   evaluatorSnapshot: Prisma.JsonValue;
   metricIds?: number[];
-};
+}
 
 const specMetricIds = async (
   projectId: number,

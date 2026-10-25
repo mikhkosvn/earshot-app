@@ -1,18 +1,18 @@
-export type ByteRange = {
+export interface ByteRange {
   start: number;
   end: number;
-};
+}
 
-export type SaveFileArgs = {
+export interface SaveFileArgs {
   projectId: number;
   fileName: string;
   contentType: string;
   data: Uint8Array;
-};
+}
 
-export type FileStream = {
+export interface FileStream {
   stream: ReadableStream<Uint8Array>;
   start: number;
   end: number;
   size: number;
-};
+}

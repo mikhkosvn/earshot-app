@@ -2,10 +2,10 @@ import type { MetricListItem } from '@/server/metrics/types';
 
 import { MetricDependencies } from './metric-dependencies';
 
-type MetricRowDetailsProps = {
+interface MetricRowDetailsProps {
   metric: MetricListItem;
   expanded: boolean;
-};
+}
 
 export function MetricRowDetails({ metric, expanded }: MetricRowDetailsProps) {
   if (!expanded) return null;

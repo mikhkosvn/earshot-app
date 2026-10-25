@@ -11,9 +11,9 @@ import {
   expectedKeyOf,
 } from '../../../_utils/expected-options';
 
-type ExpectedOptionFieldProps = {
-  options: ExpectedOption[];
-};
+interface ExpectedOptionFieldProps {
+  options: readonly ExpectedOption[];
+}
 
 export function ExpectedOptionField({ options }: ExpectedOptionFieldProps) {
   const { control } = useFormContext<ExpectedValueFormInput>();

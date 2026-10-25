@@ -1,9 +1,9 @@
 import type { ReactNode } from 'react';
 
-type StatCardProps = {
+interface StatCardProps {
   label: string;
   children: ReactNode;
-};
+}
 
 export function StatCard({ label, children }: StatCardProps) {
   return (

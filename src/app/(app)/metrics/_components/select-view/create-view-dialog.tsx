@@ -10,10 +10,10 @@ import {
 
 import { CreateViewForm } from './create-view-form';
 
-type CreateViewDialogProps = {
+interface CreateViewDialogProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
-};
+}
 
 export function CreateViewDialog({
   open,

@@ -13,7 +13,7 @@ import {
 
 const jsonInput = (value: Prisma.JsonValue) => {
   if (value === null) return Prisma.DbNull;
-  return value as Prisma.InputJsonValue;
+  return value;
 };
 
 export const duplicateDashboard = withValidation(

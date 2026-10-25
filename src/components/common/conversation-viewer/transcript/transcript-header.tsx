@@ -6,9 +6,9 @@ import { useConversation } from '../_hooks/use-conversation';
 import type { ConversationQueryArgs } from '../_service';
 import { transcriptText } from '../_utils/transcript-text';
 
-type TranscriptHeaderProps = {
+interface TranscriptHeaderProps {
   query: ConversationQueryArgs;
-};
+}
 
 export function TranscriptHeader({ query }: TranscriptHeaderProps) {
   const { turns, source } = useConversation(query);

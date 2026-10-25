@@ -9,9 +9,9 @@ import { Input } from '@/components/ui/input';
 import type { VariableListName } from '../../../../_constants/variable-editor-mode';
 import type { TestProfileFormValues } from '../../../../_schemas/test-profile-form-schema';
 
-type VariableTableEditorProps = {
+interface VariableTableEditorProps {
   name: VariableListName;
-};
+}
 
 export function VariableTableEditor({ name }: VariableTableEditorProps) {
   const { control, register } = useFormContext<TestProfileFormValues>();

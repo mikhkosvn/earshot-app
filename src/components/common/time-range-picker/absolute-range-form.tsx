@@ -9,9 +9,9 @@ import { isTimeExpression } from '@/lib/time-range/parse-time-expression';
 
 import type { TimeRange } from './time-range';
 
-type AbsoluteRangeFormProps = TimeRange & {
+interface AbsoluteRangeFormProps extends TimeRange {
   onApply: (range: TimeRange) => void;
-};
+}
 
 const INVALID_TIME = 'Enter a time such as now-30d or 2026-10-01 00:00:00.';
 

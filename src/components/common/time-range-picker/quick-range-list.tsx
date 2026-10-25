@@ -9,9 +9,9 @@ import { ALL_QUICK_RANGES } from '@/lib/time-range/constants';
 
 import type { TimeRange } from './time-range';
 
-type QuickRangeListProps = TimeRange & {
+interface QuickRangeListProps extends TimeRange {
   onApply: (range: TimeRange) => void;
-};
+}
 
 export function QuickRangeList({ from, to, onApply }: QuickRangeListProps) {
   const [query, setQuery] = useState('');

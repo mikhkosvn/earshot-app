@@ -1,6 +1,6 @@
-type FirstMessageQuoteProps = {
+interface FirstMessageQuoteProps {
   message: string | null;
-};
+}
 
 export function FirstMessageQuote({ message }: FirstMessageQuoteProps) {
   if (!message) return null;

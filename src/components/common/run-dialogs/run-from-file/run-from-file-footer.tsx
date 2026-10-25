@@ -11,9 +11,9 @@ import { useIsRunningSpec } from '../_hooks/use-is-running-spec';
 import type { RunFromFileForm } from '../_hooks/use-run-from-file-form';
 import { RunSpecLabel } from './run-spec-label';
 
-type RunFromFileFooterProps = {
+interface RunFromFileFooterProps {
   form: RunFromFileForm;
-};
+}
 
 export function RunFromFileFooter({ form }: RunFromFileFooterProps) {
   const specText = useWatch({ control: form.control, name: 'specText' });

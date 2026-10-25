@@ -26,34 +26,34 @@ export type UpdateLabExpectedInput = z.input<typeof updateLabExpectedSchema>;
 export type UpdateLabFeedbackInput = z.input<typeof updateLabFeedbackSchema>;
 export type DeleteLabTestSetsInput = z.input<typeof deleteLabTestSetsSchema>;
 
-export type LabScore = {
+export interface LabScore {
   matched: number;
   total: number;
-};
+}
 
-export type LabMetricListItem = {
+export interface LabMetricListItem {
   id: number;
   name: string;
   type: MetricType;
   evalType: MetricEvalType;
   description: string;
   score: LabScore;
-};
+}
 
-export type LabRowSource = {
+export interface LabRowSource {
   kind: SampleSource;
   id: number | null;
   href: string | null;
-};
+}
 
-export type LabRowVariables = {
+export interface LabRowVariables {
   callEndReason: string | null;
   metadata: Record<string, unknown>;
   dynamicVariables: Record<string, unknown>;
   providerCallData: Record<string, unknown>;
-};
+}
 
-export type LabRowView = {
+export interface LabRowView {
   reviewId: number;
   testSetId: number;
   source: LabRowSource;
@@ -67,9 +67,9 @@ export type LabRowView = {
   explanation: string[];
   feedback: string | null;
   matched: boolean;
-};
+}
 
-export type LabRunView = {
+export interface LabRunView {
   jobId: string;
   status: JobStatus;
   step: string | null;
@@ -77,22 +77,22 @@ export type LabRunView = {
   score: LabScore | null;
   changedReviewIds: number[];
   createdAt: Date;
-};
+}
 
-export type LabView = {
+export interface LabView {
   metricId: number;
   rows: LabRowView[];
   score: LabScore;
   run: LabRunView | null;
   optimization: OptimizationView | null;
-};
+}
 
-export type LabRowOutcome = {
+export interface LabRowOutcome {
   reviewId: number;
   value: MetricValue;
   explanation: string[];
   matched: boolean;
-};
+}
 
 export type LabRunJobResult = {
   summary: string;
@@ -103,7 +103,7 @@ export type LabRunJobResult = {
   changedReviewIds: number[];
 };
 
-export type LabReviewChange = {
+export interface LabReviewChange {
   reviewId: number;
   metricId: number;
-};
+}

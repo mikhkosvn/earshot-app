@@ -15,9 +15,9 @@ import type { AgentVersionItem } from '@/server/agents/types';
 import { useRestoreAgentVersionMutation } from '../../_hooks/mutations/versions/use-restore-agent-version-mutation';
 import { RenameVersionDialog } from './rename-version-dialog';
 
-type VersionMenuProps = {
+interface VersionMenuProps {
   version: AgentVersionItem;
-};
+}
 
 export function VersionMenu({ version }: VersionMenuProps) {
   const [renameOpen, setRenameOpen] = useState(false);

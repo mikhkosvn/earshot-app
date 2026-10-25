@@ -4,7 +4,7 @@ import {
 } from '@/server/metric-optimizer/constants/proposal-field';
 import type { ProposalChange } from '@/server/metric-optimizer/types';
 
-export type ProposalDefinition = {
+export interface ProposalDefinition {
   type: string;
   description: string | null;
   customCode: string | null;
@@ -12,7 +12,7 @@ export type ProposalDefinition = {
   triggerType: string;
   evaluationTriggerPrompt: string | null;
   evaluationTriggerCustomCode: string | null;
-};
+}
 
 const FIELDS: ProposalField[] = Object.values(ProposalField);
 

@@ -18,10 +18,10 @@ import { renderTemplate } from '@/server/metric-scoring/utils/render-template';
 import { stableRandom } from '@/server/metric-scoring/utils/stable-random';
 import { MetricEvalType } from '@/generated/prisma/enums';
 
-export type TriggerDecision = {
+export interface TriggerDecision {
   runs: boolean;
   explanation: string[];
-};
+}
 
 const RELEVANT_SHARE = 0.8;
 

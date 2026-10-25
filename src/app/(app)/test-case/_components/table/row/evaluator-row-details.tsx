@@ -3,10 +3,10 @@ import type { EvaluatorListRow } from '@/server/evaluators/types';
 
 const COLUMN_COUNT = 13;
 
-type EvaluatorRowDetailsProps = {
+interface EvaluatorRowDetailsProps {
   row: EvaluatorListRow;
   isExpanded: boolean;
-};
+}
 
 export function EvaluatorRowDetails({
   row,

@@ -12,9 +12,9 @@ import type { TestSuitePlan } from '@/server/runs/types';
 
 import { runCountText, testCaseCountText } from '../../_utils/run-dialog-text';
 
-type SpecPlanProps = {
+interface SpecPlanProps {
   plan: TestSuitePlan;
-};
+}
 
 export function SpecPlan({ plan }: SpecPlanProps) {
   return (

@@ -4,13 +4,13 @@ import type {
   StartRunInput,
 } from '@/server/runs/types';
 
-type RunSelectedInputArgs = {
+interface RunSelectedInputArgs {
   projectId: number;
   agentId: number;
   evaluatorIds: number[];
   defaults: RunDefaults;
   agent: RunAgentConfiguration | null;
-};
+}
 
 const mockToolIdsOf = (agent: RunAgentConfiguration | null) => {
   if (!agent?.mockToolsEnabled) return [];

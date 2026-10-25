@@ -3,9 +3,9 @@
 import { GroupScoreInput } from './group-score-input';
 import { NaScoreToggle } from './na-score-toggle';
 
-type GroupScoreControlsProps = {
+interface GroupScoreControlsProps {
   groupKey: string;
-};
+}
 
 export function GroupScoreControls({ groupKey }: GroupScoreControlsProps) {
   return (

@@ -14,11 +14,11 @@ import { Skeleton } from '@/components/ui/skeleton';
 
 import { EnableInsightsForm } from './enable-insights-form';
 
-type EnableInsightsDialogProps = {
+interface EnableInsightsDialogProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   initialMetricId: number | null;
-};
+}
 
 export function EnableInsightsDialog({
   open,

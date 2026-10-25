@@ -8,11 +8,11 @@ import { PlotBody } from '../charts/plot-body';
 import { NewPlotBadge } from './plot-header/new-plot-badge';
 import { PlotMenu } from './plot-header/plot-menu';
 
-type StatCardProps = {
+interface StatCardProps {
   board: DashboardBoardState;
   plot: DraftPlot;
   dragHandle: ReactNode;
-};
+}
 
 export function StatCard({ board, plot, dragHandle }: StatCardProps) {
   return (

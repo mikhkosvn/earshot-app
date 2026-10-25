@@ -8,13 +8,13 @@ import { metricHeaderText } from '../../_utils/runs/run-format';
 import { RunColumnHead } from './header/run-column-head';
 import type { RunSelection } from './runs-table';
 
-type RunsTableHeaderProps = {
-  columns: RunColumn[];
-  metricColumns: MetricColumn[];
-  rows: RunRow[];
+interface RunsTableHeaderProps {
+  columns: readonly RunColumn[];
+  metricColumns: readonly MetricColumn[];
+  rows: readonly RunRow[];
   pageParamKey: string;
   selection?: RunSelection;
-};
+}
 
 export function RunsTableHeader({
   columns,

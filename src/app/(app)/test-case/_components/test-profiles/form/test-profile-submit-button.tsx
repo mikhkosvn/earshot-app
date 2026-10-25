@@ -8,10 +8,10 @@ import type { TestProfileView } from '@/server/test-profiles/types';
 import type { TestProfileFormValues } from '../../../_schemas/test-profile-form-schema';
 import { TestProfileSubmitLabel } from './test-profile-submit-label';
 
-type TestProfileSubmitButtonProps = {
+interface TestProfileSubmitButtonProps {
   profile: TestProfileView | null;
   isPending: boolean;
-};
+}
 
 export function TestProfileSubmitButton({
   profile,

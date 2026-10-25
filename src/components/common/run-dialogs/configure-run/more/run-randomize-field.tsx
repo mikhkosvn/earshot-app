@@ -8,9 +8,9 @@ import { Switch } from '@/components/ui/switch';
 import type { RunSettingsForm } from '../../_hooks/use-configure-run-form';
 import { FieldHelp } from '../../fields/field-help';
 
-type RunRandomizeFieldProps = {
+interface RunRandomizeFieldProps {
   control: RunSettingsForm['control'];
-};
+}
 
 export function RunRandomizeField({ control }: RunRandomizeFieldProps) {
   return (

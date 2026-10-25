@@ -2,9 +2,9 @@ import { FolderIcon, ShieldCheckIcon } from 'lucide-react';
 
 import type { FolderView } from '@/server/folders/types';
 
-type FolderRowIconProps = {
+interface FolderRowIconProps {
   folder: FolderView;
-};
+}
 
 export function FolderRowIcon({ folder }: FolderRowIconProps) {
   if (folder.isRegressionSuite) {

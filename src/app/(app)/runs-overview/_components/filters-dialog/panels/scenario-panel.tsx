@@ -11,12 +11,12 @@ import { matchesSearch } from '../../../_utils/matches-search';
 import { toggledIds } from '../../../_utils/toggle-ids';
 import { CheckboxPanel } from './checkbox-panel';
 
-type ScenarioPanelProps = {
+interface ScenarioPanelProps {
   draft: RunsOverviewFilters;
   search: string;
-  options: FilterOption[];
+  options: readonly FilterOption[];
   onChange: (draft: RunsOverviewFilters) => void;
-};
+}
 
 const SELECT_ALL_ID = 'overview-scenarios-all';
 

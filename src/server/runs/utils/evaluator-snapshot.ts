@@ -42,7 +42,7 @@ export const toEvaluatorSnapshot = (
 
 const asRecord = (value: Prisma.JsonValue): Record<string, unknown> => {
   if (!value || typeof value !== 'object' || Array.isArray(value)) return {};
-  return value as Record<string, unknown>;
+  return value;
 };
 
 const textOf = (record: Record<string, unknown>, key: string) => {

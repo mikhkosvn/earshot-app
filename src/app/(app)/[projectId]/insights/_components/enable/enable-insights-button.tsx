@@ -7,10 +7,10 @@ import { Button } from '@/components/ui/button';
 
 import { EnableInsightsDialog } from './enable-insights-dialog';
 
-type EnableInsightsButtonProps = {
+interface EnableInsightsButtonProps {
   label?: string;
   variant?: 'outline' | 'default';
-};
+}
 
 export function EnableInsightsButton({
   label = 'Enable insights',

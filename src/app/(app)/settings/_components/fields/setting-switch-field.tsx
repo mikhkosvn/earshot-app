@@ -13,11 +13,11 @@ import { Switch } from '@/components/ui/switch';
 
 import { SettingFieldDescription } from './setting-field-description';
 
-type SettingSwitchFieldProps<Values extends FieldValues> = {
+interface SettingSwitchFieldProps<Values extends FieldValues> {
   name: Path<Values>;
   label: string;
   description?: ReactNode;
-};
+}
 
 export function SettingSwitchField<Values extends FieldValues>({
   name,

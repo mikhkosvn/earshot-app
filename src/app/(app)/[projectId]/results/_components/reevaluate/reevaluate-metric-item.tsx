@@ -4,11 +4,11 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { Label } from '@/components/ui/label';
 import type { MetricOption } from '@/server/metrics/types';
 
-type ReevaluateMetricItemProps = {
+interface ReevaluateMetricItemProps {
   metric: MetricOption;
   checked: boolean;
   onCheckedChange: (checked: boolean) => void;
-};
+}
 
 export function ReevaluateMetricItem({
   metric,

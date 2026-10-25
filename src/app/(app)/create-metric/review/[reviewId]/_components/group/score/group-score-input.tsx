@@ -7,9 +7,9 @@ import { BooleanScoreToggles } from './boolean-score-toggles';
 import { EnumScoreSelect } from './enum-score-select';
 import { NumberScoreInput } from './number-score-input';
 
-type GroupScoreInputProps = {
+interface GroupScoreInputProps {
   groupKey: string;
-};
+}
 
 export function GroupScoreInput({ groupKey }: GroupScoreInputProps) {
   const review = usePatternReview();

@@ -1,7 +1,7 @@
-type ImproveTextPanelProps = {
+interface ImproveTextPanelProps {
   title: string;
   text: string;
-};
+}
 
 export function ImproveTextPanel({ title, text }: ImproveTextPanelProps) {
   return (

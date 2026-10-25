@@ -94,13 +94,16 @@ const toSnapshotObject = (
   return {};
 };
 
+const isSnapshotKey = (key: string): key is keyof AgentSnapshot =>
+  key in SNAPSHOT_FIELD_LABEL;
+
 export const describeSnapshotChange = (
   previous: Prisma.JsonValue | null,
   next: AgentSnapshot,
   extraLabels: string[],
 ) => {
   const before = toSnapshotObject(previous);
-  const keys = Object.keys(SNAPSHOT_FIELD_LABEL) as (keyof AgentSnapshot)[];
+  const keys = Object.keys(SNAPSHOT_FIELD_LABEL).filter(isSnapshotKey);
   const changed = keys
     .filter(
       (key) =>

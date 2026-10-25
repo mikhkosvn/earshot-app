@@ -1,6 +1,6 @@
-type FilterEmptyProps = {
+interface FilterEmptyProps {
   count: number;
-};
+}
 
 export function FilterEmpty({ count }: FilterEmptyProps) {
   if (count > 0) return null;

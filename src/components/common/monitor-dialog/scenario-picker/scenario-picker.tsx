@@ -19,12 +19,12 @@ import { ScenarioClearButton } from './scenario-clear-button';
 import { ScenarioFolderList } from './scenario-folder-list';
 import { ScenarioPickerTriggerLabel } from './scenario-picker-trigger-label';
 
-type ScenarioPickerProps = {
+interface ScenarioPickerProps {
   id: string;
-  value: number[];
+  value: readonly number[];
   onValueChange: (evaluatorIds: number[]) => void;
   invalid?: boolean;
-};
+}
 
 export function ScenarioPicker({
   id,

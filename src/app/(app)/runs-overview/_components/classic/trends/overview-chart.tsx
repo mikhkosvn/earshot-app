@@ -25,12 +25,12 @@ import type { OverviewPoint } from '@/server/runs-overview/types';
 
 import { OverviewChartEmpty } from './overview-chart-empty';
 
-type OverviewChartProps = {
-  points: OverviewPoint[];
+interface OverviewChartProps {
+  points: readonly OverviewPoint[];
   chartType: OverviewChartType;
   percent: boolean;
   name: string;
-};
+}
 
 const VALUE_KEY = 'value';
 

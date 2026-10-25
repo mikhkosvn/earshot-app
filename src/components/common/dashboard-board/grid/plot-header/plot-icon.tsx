@@ -19,10 +19,10 @@ const DISPLAY_ICON: Record<PlotDisplayType, LucideIcon> = {
   [PlotDisplayType.stat]: ActivityIcon,
 };
 
-type PlotIconProps = {
+interface PlotIconProps {
   displayType: PlotDisplayType;
   className?: string;
-};
+}
 
 export function PlotIcon({ displayType, className }: PlotIconProps) {
   const Icon = DISPLAY_ICON[displayType];

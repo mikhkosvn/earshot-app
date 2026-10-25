@@ -12,9 +12,9 @@ import type { PlotFormValues } from '../../_schemas/plot-form-schema';
 import { changePlotField } from '../../_utils/plot-form-transitions';
 import { PlotSelect } from './plot-select';
 
-type DataFieldSelectProps = {
+interface DataFieldSelectProps {
   source: DashboardSource;
-};
+}
 
 const fieldSchema = z.enum(WidgetField);
 

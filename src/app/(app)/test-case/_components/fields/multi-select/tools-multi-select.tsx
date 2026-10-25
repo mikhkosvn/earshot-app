@@ -11,12 +11,12 @@ const TOOL_OPTIONS = SCENARIO_TOOL_ORDER.map((tool) => ({
   label: ScenarioToolLabel[tool],
 }));
 
-type ToolsMultiSelectProps = {
+interface ToolsMultiSelectProps {
   id?: string;
-  value: ScenarioTool[];
+  value: readonly ScenarioTool[];
   onValueChange: (tools: ScenarioTool[]) => void;
   placeholder: string;
-};
+}
 
 export function ToolsMultiSelect({
   id,

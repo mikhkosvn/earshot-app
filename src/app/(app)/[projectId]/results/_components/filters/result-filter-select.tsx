@@ -9,19 +9,19 @@ import {
 } from '@/components/ui/select';
 import { cn } from '@/lib/utils';
 
-export type ResultFilterSelectItem = {
+export interface ResultFilterSelectItem {
   value: string;
   label: string;
-};
+}
 
-type ResultFilterSelectProps = {
-  items: ResultFilterSelectItem[];
+interface ResultFilterSelectProps {
+  items: readonly ResultFilterSelectItem[];
   value: string;
   label: string;
   placeholder?: string;
   className?: string;
   onValueChange: (value: string) => void;
-};
+}
 
 const selectedValue = (value: string) => {
   if (value) return value;

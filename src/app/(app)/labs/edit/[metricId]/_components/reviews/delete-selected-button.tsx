@@ -7,10 +7,10 @@ import { Button } from '@/components/ui/button';
 import { useLabMetricId } from '../../_hooks/lab/use-lab-metric-id';
 import { useDeleteLabRowsMutation } from '../../_hooks/mutations/use-delete-lab-rows-mutation';
 
-type DeleteSelectedButtonProps = {
+interface DeleteSelectedButtonProps {
   selected: number[];
   onDeleted: () => void;
-};
+}
 
 export function DeleteSelectedButton({
   selected,

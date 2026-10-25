@@ -9,6 +9,7 @@ import { Input } from '@/components/ui/input';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
 import {
+  isPredefinedTab,
   PREDEFINED_TABS,
   PredefinedTab,
 } from '../../_constants/predefined-tab';
@@ -19,9 +20,9 @@ import { PredefinedCardList } from './cards/predefined-card-list';
 import { CreatePredefinedButton } from './create-predefined-button';
 import { PredefinedSelectAll } from './predefined-select-all';
 
-type PredefinedMetricsContentProps = {
+interface PredefinedMetricsContentProps {
   onCreated: () => void;
-};
+}
 
 export function PredefinedMetricsContent({
   onCreated,
@@ -53,7 +54,9 @@ export function PredefinedMetricsContent({
       </div>
       <Tabs
         value={tab}
-        onValueChange={(value) => setTab(value as PredefinedTab)}
+        onValueChange={(value) => {
+          if (isPredefinedTab(value)) setTab(value);
+        }}
         className="border-y px-3 py-1.5"
       >
         <TabsList variant="line" className="h-7">

@@ -14,9 +14,9 @@ import { metricsOfGroup } from '../../_utils/metric-groups';
 import type { MetricSelection } from '../metrics-view';
 import { MetricGroupRows } from './metric-group-rows';
 
-type MetricGroupSectionProps = MetricSelection & {
+interface MetricGroupSectionProps extends MetricSelection {
   group: MetricGroup;
-};
+}
 
 export function MetricGroupSection({
   group,

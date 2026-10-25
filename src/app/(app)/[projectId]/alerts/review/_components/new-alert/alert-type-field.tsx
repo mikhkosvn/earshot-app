@@ -24,9 +24,9 @@ import { changeAlertType } from '../../_utils/alert-form-transitions';
 
 const FIELD_ID = 'alert-type';
 
-type AlertTypeFieldProps = {
+interface AlertTypeFieldProps {
   metric: AlertMetricOption;
-};
+}
 
 export function AlertTypeField({ metric }: AlertTypeFieldProps) {
   const form = useFormContext<CreateAlertInput>();

@@ -3,9 +3,9 @@ import type { PatternSampleView } from '@/server/metrics/types';
 import { SampleSourceButton } from '../sample-source-button';
 import { SampleVerdict } from '../sample-verdict';
 
-type OtherCallRowProps = {
+interface OtherCallRowProps {
   sample: PatternSampleView;
-};
+}
 
 export function OtherCallRow({ sample }: OtherCallRowProps) {
   return (

@@ -11,11 +11,11 @@ import type { DashboardSource } from '@/generated/prisma/enums';
 
 import { CreateDashboardForm } from './name-form/create-dashboard-form';
 
-type CreateDashboardDialogProps = {
+interface CreateDashboardDialogProps {
   open: boolean;
   source: DashboardSource;
   onClose: () => void;
-};
+}
 
 export function CreateDashboardDialog({
   open,

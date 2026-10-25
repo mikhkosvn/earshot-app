@@ -14,12 +14,12 @@ import { Skeleton } from '@/components/ui/skeleton';
 
 import { ConfigureRunForm } from './configure-run-form';
 
-type ConfigureRunDialogProps = {
+interface ConfigureRunDialogProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   evaluatorIds: number[];
   onStarted: (resultId: number) => void;
-};
+}
 
 export function ConfigureRunDialog({
   open,

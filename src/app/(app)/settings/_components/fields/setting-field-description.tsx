@@ -2,9 +2,9 @@ import type { ReactNode } from 'react';
 
 import { FieldDescription } from '@/components/ui/field';
 
-type SettingFieldDescriptionProps = {
+interface SettingFieldDescriptionProps {
   description?: ReactNode;
-};
+}
 
 export function SettingFieldDescription({
   description,

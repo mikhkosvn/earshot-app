@@ -25,12 +25,14 @@ import type { PlotFormValues } from '../_schemas/plot-form-schema';
 
 type PlotForm = UseFormReturn<PlotFormValues>;
 
-const metricOf = (metrics: PlotMetricOption[], metricId: number | null) =>
-  metrics.find((metric) => metric.id === metricId);
+const metricOf = (
+  metrics: readonly PlotMetricOption[],
+  metricId: number | null,
+) => metrics.find((metric) => metric.id === metricId);
 
 export const plotKindOf = (
   values: Pick<PlotFormValues, 'field' | 'metricId' | 'metadataFieldType'>,
-  metrics: PlotMetricOption[],
+  metrics: readonly PlotMetricOption[],
 ) => {
   const metric = metricOf(metrics, values.metricId);
   return {
@@ -55,7 +57,7 @@ const fieldName = (field: WidgetField) => {
 
 const syncShape = (
   form: PlotForm,
-  metrics: PlotMetricOption[],
+  metrics: readonly PlotMetricOption[],
   resetDisplay: boolean,
 ) => {
   const values = form.getValues();
@@ -77,7 +79,7 @@ const metadataTypeFor = (field: WidgetField, form: PlotForm) => {
 export const changePlotField = (
   form: PlotForm,
   field: WidgetField,
-  metrics: PlotMetricOption[],
+  metrics: readonly PlotMetricOption[],
 ) => {
   form.setValue('field', field, { shouldValidate: true });
   form.setValue('metricId', null);
@@ -92,7 +94,7 @@ export const changePlotField = (
 export const changePlotMetric = (
   form: PlotForm,
   metricId: number,
-  metrics: PlotMetricOption[],
+  metrics: readonly PlotMetricOption[],
 ) => {
   form.setValue('metricId', metricId, { shouldValidate: true });
   setName(form, metricOf(metrics, metricId)?.name ?? '');
@@ -102,7 +104,7 @@ export const changePlotMetric = (
 export const changeMetadataType = (
   form: PlotForm,
   type: MetadataFieldType,
-  metrics: PlotMetricOption[],
+  metrics: readonly PlotMetricOption[],
 ) => {
   form.setValue('metadataFieldType', type);
   syncShape(form, metrics, false);
@@ -111,7 +113,7 @@ export const changeMetadataType = (
 export const changeDisplayType = (
   form: PlotForm,
   displayType: PlotDisplayType,
-  metrics: PlotMetricOption[],
+  metrics: readonly PlotMetricOption[],
 ) => {
   form.setValue('displayType', displayType);
   if (!TIME_SERIES_DISPLAY_TYPES.includes(displayType)) return;

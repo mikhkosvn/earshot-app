@@ -6,12 +6,12 @@ import { TranscriptEndedFooter } from './transcript-ended-footer';
 import { TranscriptHeader } from './transcript-header';
 import { TranscriptMessages } from './transcript-messages';
 
-type ConversationTranscriptProps = {
+interface ConversationTranscriptProps {
   conversationId: number;
   shareToken?: string | null;
   audioRef: RefObject<HTMLAudioElement | null>;
   currentTime: number;
-};
+}
 
 export function ConversationTranscript({
   conversationId,

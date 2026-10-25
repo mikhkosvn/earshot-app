@@ -14,10 +14,10 @@ import { TestCallHeadline } from './test-call-headline';
 import { TestCallProgressFooter } from './test-call-progress-footer';
 import { TestCallTitle } from './test-call-title';
 
-type TestCallProgressViewProps = {
+interface TestCallProgressViewProps {
   jobId: string;
   onClose: () => void;
-};
+}
 
 export function TestCallProgressView({
   jobId,

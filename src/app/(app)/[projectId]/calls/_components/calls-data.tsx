@@ -13,10 +13,10 @@ import { CallDetailPanel } from './call-detail/call-detail-panel';
 import { CallsContent } from './calls-content';
 import { CallsPageSkeleton } from './calls-page-skeleton';
 
-type CallsDataProps = {
+interface CallsDataProps {
   params: Promise<{ projectId: string }>;
   searchParams: Promise<Record<string, string | string[] | undefined>>;
-};
+}
 
 export async function CallsData({ params, searchParams }: CallsDataProps) {
   await io();

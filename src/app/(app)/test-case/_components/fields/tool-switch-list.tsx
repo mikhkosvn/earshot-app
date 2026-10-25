@@ -9,13 +9,17 @@ import {
 } from '@/server/evaluators/constants/scenario-tool-descriptions';
 import { ScenarioToolLabel } from '@/server/evaluators/constants/scenario-tool-labels';
 
-type ToolSwitchListProps = {
+interface ToolSwitchListProps {
   idPrefix: string;
-  value: ScenarioTool[];
+  value: readonly ScenarioTool[];
   onValueChange: (tools: ScenarioTool[]) => void;
-};
+}
 
-const setTool = (tools: ScenarioTool[], tool: ScenarioTool, on: boolean) => {
+const setTool = (
+  tools: readonly ScenarioTool[],
+  tool: ScenarioTool,
+  on: boolean,
+) => {
   const rest = tools.filter((item) => item !== tool);
   if (!on) return rest;
   return [...rest, tool];

@@ -11,9 +11,9 @@ import type { WebhookFormValues } from '../../_schemas/webhook-form-schema';
 import { toggleListValue } from '../../_utils/webhook-form-values';
 import { WebhookTestButton } from './webhook-test-button';
 
-type WebhookNotificationRowProps = {
+interface WebhookNotificationRowProps {
   row: WebhookNotificationRowConfig;
-};
+}
 
 export function WebhookNotificationRow({ row }: WebhookNotificationRowProps) {
   const { control } = useFormContext<WebhookFormValues>();

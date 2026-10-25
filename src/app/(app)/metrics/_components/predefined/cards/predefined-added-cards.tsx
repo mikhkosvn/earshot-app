@@ -5,9 +5,9 @@ import type { PredefinedMetricCard } from '@/server/metrics/types';
 import { sectionsBySubCategory } from '../../../_utils/predefined-cards';
 import { PredefinedCardSection } from './predefined-card-section';
 
-type PredefinedAddedCardsProps = {
-  cards: PredefinedMetricCard[];
-};
+interface PredefinedAddedCardsProps {
+  cards: readonly PredefinedMetricCard[];
+}
 
 const ignoreToggle = () => undefined;
 

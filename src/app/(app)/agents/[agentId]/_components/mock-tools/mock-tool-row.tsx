@@ -21,9 +21,9 @@ import { useDeleteMockToolMutation } from '../../_hooks/mutations/mock-tools/use
 import { FailureBadge } from './failure-badge';
 import { MockToolDialog } from './mock-tool-dialog';
 
-type MockToolRowProps = {
+interface MockToolRowProps {
   tool: MockToolItem;
-};
+}
 
 export function MockToolRow({ tool }: MockToolRowProps) {
   const [editOpen, setEditOpen] = useState(false);

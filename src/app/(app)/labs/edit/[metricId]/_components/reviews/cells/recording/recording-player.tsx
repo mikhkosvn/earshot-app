@@ -1,13 +1,11 @@
-type RecordingPlayerProps = {
+interface RecordingPlayerProps {
   url: string | null;
-};
+}
 
 export function RecordingPlayer({ url }: RecordingPlayerProps) {
   if (!url) {
     return (
-      <span className="flex-1 text-xs text-muted-foreground">
-        No recording
-      </span>
+      <span className="flex-1 text-xs text-muted-foreground">No recording</span>
     );
   }
 

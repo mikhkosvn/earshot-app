@@ -9,12 +9,12 @@ import {
 import { VariableEditor } from './variable-editor';
 import { VariableModeToggle } from './variable-mode-toggle';
 
-type VariableSectionProps = {
+interface VariableSectionProps {
   name: VariableListName;
   title: string;
   subtitle: string;
   icon: ReactNode;
-};
+}
 
 export function VariableSection({
   name,

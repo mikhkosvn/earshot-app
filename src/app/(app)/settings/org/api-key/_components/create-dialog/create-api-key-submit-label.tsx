@@ -1,6 +1,6 @@
-type CreateApiKeySubmitLabelProps = {
+interface CreateApiKeySubmitLabelProps {
   isPending: boolean;
-};
+}
 
 export function CreateApiKeySubmitLabel({
   isPending,

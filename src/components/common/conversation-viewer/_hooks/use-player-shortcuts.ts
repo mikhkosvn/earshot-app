@@ -21,7 +21,7 @@ const isTypingTarget = (target: EventTarget | null) => {
 
 export const usePlayerShortcuts = (
   audioRef: RefObject<HTMLAudioElement | null>,
-  turns: ConversationTurnItem[],
+  turns: readonly ConversationTurnItem[],
 ) => {
   const onKeyDown = useEffectEvent((event: KeyboardEvent) => {
     if (isTypingTarget(event.target) || event.metaKey || event.ctrlKey) return;

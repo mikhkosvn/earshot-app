@@ -11,13 +11,13 @@ import { PlayerEmpty } from './player-empty';
 import { PlayerWaveform } from './waveform/player-waveform';
 import { WaveformLegend } from './waveform/waveform-legend';
 
-type ConversationAudioPlayerProps = {
+interface ConversationAudioPlayerProps {
   conversationId: number;
   shareToken?: string | null;
   audioRef: RefObject<HTMLAudioElement | null>;
   currentTime: number;
   onTimeChange: (time: number) => void;
-};
+}
 
 export function ConversationAudioPlayer({
   conversationId,

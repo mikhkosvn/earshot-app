@@ -8,10 +8,10 @@ import { UrlGenerator } from '@/lib/url-generator/url-generator';
 
 import { AgentService } from '../../../_service';
 
-type AgentSwitcherItemsProps = {
+interface AgentSwitcherItemsProps {
   projectId: number;
   currentAgentId: number;
-};
+}
 
 export function AgentSwitcherItems({
   projectId,

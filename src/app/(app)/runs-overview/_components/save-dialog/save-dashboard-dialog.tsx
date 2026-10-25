@@ -14,10 +14,10 @@ import { Skeleton } from '@/components/ui/skeleton';
 
 import { SaveDashboardForm } from './save-dashboard-form';
 
-type SaveDashboardDialogProps = {
+interface SaveDashboardDialogProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
-};
+}
 
 export function SaveDashboardDialog({
   open,

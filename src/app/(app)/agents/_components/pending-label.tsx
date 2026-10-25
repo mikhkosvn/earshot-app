@@ -1,10 +1,10 @@
 import type { ReactNode } from 'react';
 
-type PendingLabelProps = {
+interface PendingLabelProps {
   pending: boolean;
   pendingText: string;
   children: ReactNode;
-};
+}
 
 export function PendingLabel({
   pending,

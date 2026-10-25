@@ -10,9 +10,9 @@ import type { MemberRow } from '@/server/members/types';
 import { useRemoveMemberMutation } from '../../_hooks/mutations/use-remove-member-mutation';
 import { useIsOrganizationAdmin } from '../../_hooks/use-is-organization-admin';
 
-type RemoveMemberButtonProps = {
+interface RemoveMemberButtonProps {
   member: MemberRow;
-};
+}
 
 export function RemoveMemberButton({ member }: RemoveMemberButtonProps) {
   const isAdmin = useIsOrganizationAdmin();

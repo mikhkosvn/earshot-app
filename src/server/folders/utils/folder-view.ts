@@ -8,13 +8,13 @@ import {
 } from '@/server/folders/utils/folder-path';
 import type { FolderView } from '@/server/folders/types';
 
-type FolderRow = {
+interface FolderRow {
   id: number;
   path: string;
   systemRole: FolderSystemRole | null;
   createdAt: Date;
   _count: { evaluators: number };
-};
+}
 
 const toFolderView = (row: FolderRow): FolderView => ({
   id: row.id,

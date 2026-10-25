@@ -2,10 +2,10 @@ import type { LabScore } from '@/server/labs/types';
 
 import { optionalScoreText } from '../../_utils/value-text';
 
-type ProposalFiguresProps = {
+interface ProposalFiguresProps {
   oldScore: LabScore | null;
   newScore: LabScore | null;
-};
+}
 
 export function ProposalFigures({ oldScore, newScore }: ProposalFiguresProps) {
   return (

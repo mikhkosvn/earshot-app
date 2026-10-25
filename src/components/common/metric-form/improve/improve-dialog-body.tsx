@@ -9,10 +9,10 @@ import type { MetricDefinitionValues } from '@/server/metrics/types';
 
 import { ImproveRunner } from './improve-runner';
 
-type ImproveDialogBodyProps = {
+interface ImproveDialogBodyProps {
   type: MetricFormType;
   onApplied: () => void;
-};
+}
 
 export function ImproveDialogBody({ type, onApplied }: ImproveDialogBodyProps) {
   const evalType = useWatch<MetricDefinitionValues, 'evalType'>({

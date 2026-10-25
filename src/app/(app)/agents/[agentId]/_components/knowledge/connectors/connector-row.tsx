@@ -11,9 +11,9 @@ import type { KnowledgeConnectorItem } from '@/server/agents/types';
 import { useDeleteKnowledgeConnectorMutation } from '../../../_hooks/mutations/knowledge/use-delete-knowledge-connector-mutation';
 import { connectorSyncText } from '../../../_utils/connector-sync-text';
 
-type ConnectorRowProps = {
+interface ConnectorRowProps {
   connector: KnowledgeConnectorItem;
-};
+}
 
 export function ConnectorRow({ connector }: ConnectorRowProps) {
   const [confirmOpen, setConfirmOpen] = useState(false);

@@ -6,9 +6,9 @@ import { EnvironmentSection } from './groups/environment-section';
 import { IdentitySection } from './groups/identity-section';
 import { VoiceSection } from './voice/voice-section';
 
-type PersonalityFormBodyProps = {
+interface PersonalityFormBodyProps {
   advancedOpen: boolean;
-};
+}
 
 export function PersonalityFormBody({
   advancedOpen,

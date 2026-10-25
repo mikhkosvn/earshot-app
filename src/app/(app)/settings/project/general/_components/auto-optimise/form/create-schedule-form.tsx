@@ -6,9 +6,9 @@ import { useCreateScheduleForm } from '../../../_hooks/auto-optimise/use-create-
 import { ScheduleFormFields } from './schedule-form-fields';
 import { ScheduleFormFooter } from './schedule-form-footer';
 
-type CreateScheduleFormProps = {
+interface CreateScheduleFormProps {
   onSaved: () => void;
-};
+}
 
 export function CreateScheduleForm({ onSaved }: CreateScheduleFormProps) {
   const { form, onSubmit, isSaving } = useCreateScheduleForm(onSaved);

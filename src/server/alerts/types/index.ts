@@ -26,14 +26,14 @@ export type CreateAlertInput = z.infer<typeof createAlertSchema>;
 export type UpdateAlertInput = z.infer<typeof updateAlertSchema>;
 export type AlertIdInput = z.infer<typeof alertIdSchema>;
 
-export type AlertMetricOption = {
+export interface AlertMetricOption {
   id: number;
   name: string;
   evalType: MetricEvalType;
   agentIds: number[];
-};
+}
 
-export type AlertRow = {
+export interface AlertRow {
   id: number;
   name: string;
   enabled: boolean;
@@ -54,19 +54,19 @@ export type AlertRow = {
   windowHours: number | null;
   baselineHours: number | null;
   createdAt: Date;
-};
+}
 
 export type AlertFireCounts = Record<number, number>;
 
-export type AlertFireRef = {
+export interface AlertFireRef {
   id: number;
   triggeredAt: Date;
   message: string | null;
   observedValue: number | null;
   callLogId: number | null;
-};
+}
 
-export type FiredAlertSummary = {
+export interface FiredAlertSummary {
   id: number;
   name: string;
   metricName: string;
@@ -74,20 +74,20 @@ export type FiredAlertSummary = {
   count: number;
   lastTriggeredAt: Date;
   recent: AlertFireRef[];
-};
+}
 
-export type AlertTimelineBucket = {
+export interface AlertTimelineBucket {
   bucketStart: Date;
   total: number;
   counts: Record<string, number>;
-};
+}
 
-export type AlertSeries = {
+export interface AlertSeries {
   key: string;
   label: string;
-};
+}
 
-export type AlertReview = {
+export interface AlertReview {
   generatedAt: Date;
   summary: {
     totalFires: number;
@@ -97,4 +97,4 @@ export type AlertReview = {
   series: AlertSeries[];
   timeline: AlertTimelineBucket[];
   alerts: FiredAlertSummary[];
-};
+}

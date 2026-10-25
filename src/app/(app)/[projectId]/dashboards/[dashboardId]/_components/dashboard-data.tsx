@@ -13,9 +13,9 @@ import getQueryClient from '@/lib/query-client/get-query-client';
 
 import { DashboardView } from './dashboard-view';
 
-type DashboardDataProps = {
+interface DashboardDataProps {
   params: Promise<{ projectId: string; dashboardId: string }>;
-};
+}
 
 export async function DashboardData({ params }: DashboardDataProps) {
   await io();

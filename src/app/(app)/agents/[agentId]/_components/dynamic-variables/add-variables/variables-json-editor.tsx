@@ -3,11 +3,11 @@
 import { Field, FieldDescription, FieldError } from '@/components/ui/field';
 import { Textarea } from '@/components/ui/textarea';
 
-type VariablesJsonEditorProps = {
+interface VariablesJsonEditorProps {
   value: string;
   error: string | null;
   onChange: (value: string) => void;
-};
+}
 
 export function VariablesJsonEditor({
   value,

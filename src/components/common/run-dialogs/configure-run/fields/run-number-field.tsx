@@ -8,7 +8,7 @@ import { NullableNumberInput } from '../../fields/nullable-number-input';
 
 type RunNumberFieldName = 'frequency' | 'concurrencyLimit' | 'callsPerSecond';
 
-type RunNumberFieldProps = {
+interface RunNumberFieldProps {
   control: RunSettingsForm['control'];
   name: RunNumberFieldName;
   label: string;
@@ -17,7 +17,7 @@ type RunNumberFieldProps = {
   min?: number;
   max?: number;
   step?: number;
-};
+}
 
 export function RunNumberField({
   control,

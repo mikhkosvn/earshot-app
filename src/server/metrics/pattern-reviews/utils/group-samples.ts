@@ -7,14 +7,14 @@ import { generateObject } from '@/server/ai/generate-object';
 import { PATTERN_REVIEW_EVIDENCE_LINES } from '@/server/metrics/constants/pattern-review/pattern-review-limits';
 import type { MetricValue } from '@/server/metrics/types';
 
-export type ReviewSample = {
+export interface ReviewSample {
   conversationId: number;
   verdict: MetricValue;
   skipped: boolean;
   error: string | null;
   explanation: string[];
   turns: { role: TranscriptRole; content: string; startTime: number | null }[];
-};
+}
 
 const groupsSchema = z.object({
   groups: z.array(
@@ -76,8 +76,9 @@ const describeBucket = (key: string, metricName: string) => {
       summary: `The situation arose, and the main agent did not show the behavior that "${metricName}" expects.`,
     };
   }
+  const scored: unknown = JSON.parse(key);
   return {
-    label: `Calls scored ${JSON.parse(key) as string | number}`,
+    label: `Calls scored ${String(scored)}`,
     summary: `The judge gave these calls the same "${metricName}" result for similar reasons.`,
   };
 };

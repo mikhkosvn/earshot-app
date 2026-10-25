@@ -14,9 +14,9 @@ const FORMAT_OPTIONS = Object.values(ScenarioType).map((type) => ({
   label: EvaluatorFormatLabel[type],
 }));
 
-type AiMoreOptionsProps = {
+interface AiMoreOptionsProps {
   isOpen: boolean;
-};
+}
 
 export function AiMoreOptions({ isOpen }: AiMoreOptionsProps) {
   const { control } = useFormContext<GenerateEvaluatorsFormValues>();

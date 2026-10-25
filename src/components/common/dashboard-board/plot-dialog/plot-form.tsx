@@ -13,13 +13,13 @@ import { DataFieldSelect } from './fields/data-field-select';
 import { PlotFormDetails } from './plot-form-details';
 import { PlotFormSubmit } from './plot-form-submit';
 
-type PlotFormProps = {
+interface PlotFormProps {
   board: DashboardBoardState;
   target: { key: string; config: PlotConfig } | null;
   submitLabel: string;
   onDone: () => void;
   children?: ReactNode;
-};
+}
 
 export function PlotForm({
   board,

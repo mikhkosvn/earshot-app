@@ -4,10 +4,10 @@ import {
   type MutationCache,
 } from '@tanstack/react-query';
 
-type MakeQueryClientArgs = {
+interface MakeQueryClientArgs {
   mutationCache?: MutationCache;
   queryRetry?: number;
-};
+}
 
 export const makeQueryClient = ({
   mutationCache,

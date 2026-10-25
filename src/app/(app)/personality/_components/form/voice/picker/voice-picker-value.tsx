@@ -1,6 +1,6 @@
-type VoicePickerValueProps = {
+interface VoicePickerValueProps {
   value: string;
-};
+}
 
 export function VoicePickerValue({ value }: VoicePickerValueProps) {
   if (!value) {
