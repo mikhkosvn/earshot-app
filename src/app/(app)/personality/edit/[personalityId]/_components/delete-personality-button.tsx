@@ -33,7 +33,6 @@ export function DeletePersonalityButton() {
         open={open}
         onOpenChange={setOpen}
         isPending={deletePersonality.isPending}
-        description="This action cannot be undone. This will permanently delete the personality."
         onConfirm={() =>
           deletePersonality.mutate(
             { personalityId: personality.id },
