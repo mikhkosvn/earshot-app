@@ -20,7 +20,7 @@ const eslintConfig = defineConfig([
       },
     },
     rules: {
-      'better-tailwindcss/no-unknown-classes': 'error',
+      'better-tailwindcss/no-unknown-classes': ['error', { ignore: ['^toaster$'] }],
       'better-tailwindcss/no-conflicting-classes': 'error',
       'better-tailwindcss/no-duplicate-classes': 'error',
       'better-tailwindcss/no-concatenated-classes': 'error',
