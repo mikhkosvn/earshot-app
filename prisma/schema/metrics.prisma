@@ -1,0 +1,207 @@
+enum MetricType {
+  basic
+  custom_prompt
+  custom_code
+  llm_judge
+}
+
+enum MetricEvalType {
+  binary
+  continuous_qualitative
+  numeric
+  enum
+}
+
+enum EvaluationTrigger {
+  always
+  automatic
+  custom
+}
+
+enum TriggerType {
+  llm_judge
+  custom_code
+}
+
+enum MetricCategory {
+  speech_quality       @map("Speech Quality")
+  conversation_quality @map("Conversation Quality")
+  accuracy             @map("Accuracy")
+  customer_experience  @map("Customer Experience")
+}
+
+enum MetricSubCategory {
+  latency      @map("Latency")
+  interruption @map("Interruption")
+  silence      @map("Silence")
+  termination  @map("Termination")
+  repetition   @map("Repetition")
+}
+
+enum MetricPriority {
+  critical
+  non_critical @map("non-critical")
+  not_a_bug
+}
+
+enum PredefinedMetricBadge {
+  needs_configuration
+  beta
+}
+
+enum ComparisonOperator {
+  eq
+  neq
+  gt
+  gte
+  lt
+  lte
+  in
+}
+
+model PredefinedMetric {
+  id                   Int                          @id @default(autoincrement())
+  code                 String                       @unique
+  slug                 String?                      @unique
+  name                 String
+  description          String
+  type                 MetricType
+  evalType             MetricEvalType
+  functionName         String?
+  customCode           String?
+  category             MetricCategory
+  subCategory          MetricSubCategory?
+  badge                PredefinedMetricBadge?
+  audioEnabled         Boolean                      @default(false)
+  simulationEnabled    Boolean                      @default(true)
+  observabilityEnabled Boolean                      @default(true)
+  configuration        Json?
+  editable             Boolean                      @default(true)
+  addToNewProjects     Boolean                      @default(false)
+  defaultDisplayOrder  Int?
+  rubricOperator       ComparisonOperator?
+  rubricNumberValue    Float?
+  rubricBooleanValue   Boolean?
+  enumOptions          PredefinedMetricEnumOption[]
+  projectMetrics       Metric[]
+}
+
+model PredefinedMetricEnumOption {
+  predefinedMetricId Int
+  position           Int
+  value              String
+  predefinedMetric   PredefinedMetric @relation(fields: [predefinedMetricId], references: [id], onDelete: Cascade)
+
+  @@id([predefinedMetricId, position])
+  @@unique([predefinedMetricId, value])
+}
+
+model Metric {
+  id                          Int                         @id @default(autoincrement())
+  projectId                   Int
+  predefinedMetricId          Int?
+  name                        String
+  slug                        String?
+  description                 String                      @default("")
+  type                        MetricType                  @default(llm_judge)
+  evalType                    MetricEvalType
+  audioEnabled                Boolean                     @default(false)
+  customCode                  String?
+  evaluationTrigger           EvaluationTrigger           @default(always)
+  triggerType                 TriggerType                 @default(llm_judge)
+  evaluationTriggerPrompt     String?
+  evaluationTriggerCustomCode String?
+  configuration               Json?
+  priority                    MetricPriority?
+  displayOrder                Int
+  observabilityEnabled        Boolean                     @default(true)
+  simulationEnabled           Boolean                     @default(true)
+  samplingEnabled             Boolean                     @default(false)
+  sampleRate                  Float?
+  addToNewAgents              Boolean                     @default(true)
+  createdAt                   DateTime                    @default(now())
+  updatedAt                   DateTime                    @updatedAt
+  project                     Project                     @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  predefinedMetric            PredefinedMetric?           @relation(fields: [predefinedMetricId], references: [id], onDelete: SetNull)
+  enumOptions                 MetricEnumOption[]
+  agents                      MetricAgent[]
+  dependencies                MetricDependency[]          @relation("MetricDependencyDependent")
+  dependents                  MetricDependency[]          @relation("MetricDependencyPrerequisite")
+  versions                    MetricVersion[]
+  rubricRule                  RubricRule?
+  evaluators                  EvaluatorMetric[]
+  evaluations                 MetricEvaluation[]
+  resultSummaries             ResultMetricSummary[]
+  labReviews                  LabReview[]
+  patternReviews              MetricPatternReview[]
+  optimizationSessions        MetricOptimizationSession[]
+  insightConfig               MetricInsightConfig?
+  failureModeInsights         FailureModeInsight[]
+  failureCategories           FailureCategory[]
+  alertRules                  AlertRule[]
+  widgets                     Widget[]
+  hiddenInConfigurations      RunsOverviewHiddenMetric[]
+
+  @@unique([projectId, slug])
+  @@unique([projectId, predefinedMetricId])
+  @@index([projectId, displayOrder])
+}
+
+model MetricEnumOption {
+  metricId Int
+  position Int
+  value    String
+  metric   Metric @relation(fields: [metricId], references: [id], onDelete: Cascade)
+
+  @@id([metricId, position])
+  @@unique([metricId, value])
+}
+
+model MetricAgent {
+  metricId Int
+  agentId  Int
+  metric   Metric @relation(fields: [metricId], references: [id], onDelete: Cascade)
+  agent    Agent  @relation(fields: [agentId], references: [id], onDelete: Cascade)
+
+  @@id([metricId, agentId])
+  @@index([agentId])
+}
+
+model MetricDependency {
+  metricId          Int
+  dependsOnMetricId Int
+  metric            Metric @relation("MetricDependencyDependent", fields: [metricId], references: [id], onDelete: Cascade)
+  dependsOn         Metric @relation("MetricDependencyPrerequisite", fields: [dependsOnMetricId], references: [id], onDelete: Cascade)
+
+  @@id([metricId, dependsOnMetricId])
+  @@index([dependsOnMetricId])
+}
+
+model MetricVersion {
+  id           Int               @id @default(autoincrement())
+  metricId     Int
+  version      Int
+  name         String?
+  changeType   HistoryChangeType
+  changeReason String?
+  snapshot     Json
+  createdById  Int?
+  createdAt    DateTime          @default(now())
+  metric       Metric            @relation(fields: [metricId], references: [id], onDelete: Cascade)
+  createdBy    User?             @relation("MetricVersionCreatedBy", fields: [createdById], references: [id], onDelete: SetNull)
+
+  @@unique([metricId, version])
+}
+
+model RubricRule {
+  id           Int                @id @default(autoincrement())
+  metricId     Int                @unique
+  position     Int
+  operator     ComparisonOperator
+  numberValue  Float?
+  booleanValue Boolean?
+  textValues   String[]
+  createdAt    DateTime           @default(now())
+  updatedAt    DateTime           @updatedAt
+  metric       Metric             @relation(fields: [metricId], references: [id], onDelete: Cascade)
+}

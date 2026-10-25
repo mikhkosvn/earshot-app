@@ -1,0 +1,222 @@
+enum PatternReviewStatus {
+  pending
+  running
+  ready
+  rebuilding
+  completed
+  failed
+}
+
+enum PatternReviewStage {
+  sampling
+  grouping
+  reading_fixes
+  optimizing
+}
+
+enum OptimizationStatus {
+  queued
+  running
+  awaiting_review
+  applied
+  dismissed
+  failed
+}
+
+model LabTestSet {
+  id             Int                          @id @default(autoincrement())
+  conversationId Int                          @unique
+  createdAt      DateTime                     @default(now())
+  conversation   Conversation                 @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+  reviews        LabReview[]
+  optimizations  OptimizationSessionTestSet[]
+}
+
+model LabReview {
+  id                Int                    @id @default(autoincrement())
+  testSetId         Int
+  metricId          Int
+  expectedNumber    Float?
+  expectedBoolean   Boolean?
+  expectedText      String?
+  actualNumber      Float?
+  actualBoolean     Boolean?
+  actualText        String?
+  actualExplanation String[]
+  actualEvaluatedAt DateTime?
+  feedback          String?
+  createdAt         DateTime               @default(now())
+  updatedAt         DateTime               @updatedAt
+  testSet           LabTestSet             @relation(fields: [testSetId], references: [id], onDelete: Cascade)
+  metric            Metric                 @relation(fields: [metricId], references: [id], onDelete: Cascade)
+  proposalResults   ProposalReviewResult[]
+
+  @@unique([testSetId, metricId])
+  @@index([metricId])
+}
+
+model MetricPatternReview {
+  id                    Int                        @id @default(autoincrement())
+  metricId              Int
+  jobId                 String?
+  optimizationSessionId Int?                       @unique
+  status                PatternReviewStatus        @default(pending)
+  stage                 PatternReviewStage?
+  roundIndex            Int                        @default(0)
+  insufficientHistory   Boolean                    @default(false)
+  error                 String?
+  rebuiltAt             DateTime?
+  createdAt             DateTime                   @default(now())
+  updatedAt             DateTime                   @updatedAt
+  metric                Metric                     @relation(fields: [metricId], references: [id], onDelete: Cascade)
+  job                   BackgroundJob?             @relation(fields: [jobId], references: [id], onDelete: SetNull)
+  optimizationSession   MetricOptimizationSession? @relation(fields: [optimizationSessionId], references: [id], onDelete: SetNull)
+  groups                PatternReviewGroup[]
+
+  @@index([metricId, createdAt])
+}
+
+model PatternReviewGroup {
+  id                     Int                     @id @default(autoincrement())
+  reviewId               Int
+  key                    String
+  position               Int
+  label                  String
+  summary                String
+  verdictNumber          Float?
+  verdictBoolean         Boolean?
+  verdictText            String?
+  inconsistent           Boolean                 @default(false)
+  degraded               Boolean                 @default(false)
+  overflow               Boolean                 @default(false)
+  representativeSampleId Int?                    @unique
+  correctionNumber       Float?
+  correctionBoolean      Boolean?
+  correctionText         String?
+  correctionNote         String?
+  correctedAt            DateTime?
+  review                 MetricPatternReview     @relation(fields: [reviewId], references: [id], onDelete: Cascade)
+  representativeSample   PatternReviewSample?    @relation("PatternReviewRepresentative", fields: [representativeSampleId], references: [id], onDelete: SetNull)
+  samples                PatternReviewSample[]   @relation("PatternReviewGroupSamples")
+  evidence               PatternReviewEvidence[]
+
+  @@unique([reviewId, key])
+}
+
+model PatternReviewEvidence {
+  id          Int                @id @default(autoincrement())
+  groupId     Int
+  position    Int
+  speaker     TranscriptRole
+  timeSeconds Float?
+  text        String
+  isKey       Boolean            @default(false)
+  group       PatternReviewGroup @relation(fields: [groupId], references: [id], onDelete: Cascade)
+
+  @@unique([groupId, position])
+}
+
+model PatternReviewSample {
+  id               Int                 @id @default(autoincrement())
+  groupId          Int
+  conversationId   Int
+  verdictNumber    Float?
+  verdictBoolean   Boolean?
+  verdictText      String?
+  skipped          Boolean             @default(false)
+  error            String?
+  explanation      String[]
+  group            PatternReviewGroup  @relation("PatternReviewGroupSamples", fields: [groupId], references: [id], onDelete: Cascade)
+  representativeOf PatternReviewGroup? @relation("PatternReviewRepresentative")
+  conversation     Conversation        @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+
+  @@unique([groupId, conversationId])
+  @@index([conversationId])
+}
+
+model MetricOptimizationSession {
+  id               Int                          @id @default(autoincrement())
+  metricId         Int
+  jobId            String?
+  status           OptimizationStatus           @default(queued)
+  simplifiedPrompt String?
+  summary          String?
+  oldCorrectCount  Int?
+  oldTotalCount    Int?
+  newCorrectCount  Int?
+  newTotalCount    Int?
+  appliedAt        DateTime?
+  appliedById      Int?
+  dismissedAt      DateTime?
+  createdById      Int?
+  createdAt        DateTime                     @default(now())
+  updatedAt        DateTime                     @updatedAt
+  metric           Metric                       @relation(fields: [metricId], references: [id], onDelete: Cascade)
+  job              BackgroundJob?               @relation(fields: [jobId], references: [id], onDelete: SetNull)
+  appliedBy        User?                        @relation("OptimizationAppliedBy", fields: [appliedById], references: [id], onDelete: SetNull)
+  createdBy        User?                        @relation("OptimizationCreatedBy", fields: [createdById], references: [id], onDelete: SetNull)
+  testSets         OptimizationSessionTestSet[]
+  proposals        MetricOptimizationProposal[]
+  patternReview    MetricPatternReview?
+
+  @@index([metricId, createdAt])
+}
+
+model OptimizationSessionTestSet {
+  sessionId Int
+  testSetId Int
+  session   MetricOptimizationSession @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+  testSet   LabTestSet                @relation(fields: [testSetId], references: [id], onDelete: Cascade)
+
+  @@id([sessionId, testSetId])
+  @@index([testSetId])
+}
+
+model MetricOptimizationProposal {
+  id                          Int                       @id @default(autoincrement())
+  sessionId                   Int
+  version                     Int
+  type                        MetricType
+  description                 String?
+  customCode                  String?
+  evaluationTrigger           EvaluationTrigger
+  triggerType                 TriggerType
+  evaluationTriggerPrompt     String?
+  evaluationTriggerCustomCode String?
+  createdAt                   DateTime                  @default(now())
+  session                     MetricOptimizationSession @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+  reviewResults               ProposalReviewResult[]
+
+  @@unique([sessionId, version])
+}
+
+model ProposalReviewResult {
+  proposalId    Int
+  labReviewId   Int
+  actualNumber  Float?
+  actualBoolean Boolean?
+  actualText    String?
+  explanation   String[]
+  matched       Boolean
+  proposal      MetricOptimizationProposal @relation(fields: [proposalId], references: [id], onDelete: Cascade)
+  labReview     LabReview                  @relation(fields: [labReviewId], references: [id], onDelete: Cascade)
+
+  @@id([proposalId, labReviewId])
+  @@index([labReviewId])
+}
+
+model MetricOptimizerSchedule {
+  id             Int       @id @default(autoincrement())
+  projectId      Int
+  name           String
+  cronExpression String
+  timezone       Timezone  @default(UTC)
+  isActive       Boolean   @default(true)
+  nextRunAt      DateTime?
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+  project        Project   @relation(fields: [projectId], references: [id], onDelete: Cascade)
+
+  @@index([projectId])
+  @@index([isActive, nextRunAt])
+}

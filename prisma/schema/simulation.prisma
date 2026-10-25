@@ -1,0 +1,175 @@
+enum RunStatus {
+  pending
+  in_queue
+  scaling_up
+  running
+  in_progress
+  evaluating
+  completed
+  failed
+  timeout
+  cancelled
+}
+
+enum CallEvaluationStatus {
+  success
+  failure
+  reviewed_success
+  reviewed_failure
+}
+
+enum ResultSource {
+  user
+  api
+  schedule
+}
+
+enum CallerNumberMode {
+  same_number
+  different_numbers
+}
+
+enum AiSummaryStatus {
+  pending
+  completed
+  skipped_no_failures
+}
+
+model Result {
+  id                      Int                   @id @default(autoincrement())
+  projectId               Int
+  agentId                 Int?
+  agentVersionId          Int?
+  name                    String                @default("")
+  status                  RunStatus             @default(pending)
+  createdVia              ResultSource          @default(user)
+  createdById             Int?
+  apiKeyId                Int?
+  frequency               Int                   @default(1)
+  concurrencyLimit        Int?
+  callsPerSecond          Float?
+  callerNumberMode        CallerNumberMode      @default(same_number)
+  agentNumber             String?
+  aiSummaryStatus         AiSummaryStatus?
+  aiSummaryWhatHappened   String?
+  aiSummaryWhyItHappened  String?
+  aiSummaryHowToFix       String?
+  aiSummaryGeneratedAt    DateTime?
+  pathCoverageGeneratedAt DateTime?
+  completedAt             DateTime?
+  createdAt               DateTime              @default(now())
+  updatedAt               DateTime              @updatedAt
+  project                 Project               @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  agent                   Agent?                @relation(fields: [agentId], references: [id], onDelete: SetNull)
+  agentVersion            AgentVersion?         @relation(fields: [agentVersionId], references: [id], onDelete: SetNull)
+  createdBy               User?                 @relation("ResultCreatedBy", fields: [createdById], references: [id], onDelete: SetNull)
+  apiKey                  ApiKey?               @relation(fields: [apiKeyId], references: [id], onDelete: SetNull)
+  runs                    Run[]
+  mockTools               ResultMockTool[]
+  nextSteps               ResultNextStep[]
+  workflowPaths           ResultWorkflowPath[]
+  failureReasons          ResultFailureReason[]
+  metricSummaries         ResultMetricSummary[]
+  monitorRun              MonitorRun?
+  shareLinks              ShareLink[]
+
+  @@index([projectId, createdAt])
+  @@index([agentId])
+  @@index([status])
+}
+
+model ResultMockTool {
+  resultId   Int
+  mockToolId Int
+  result     Result   @relation(fields: [resultId], references: [id], onDelete: Cascade)
+  mockTool   MockTool @relation(fields: [mockToolId], references: [id], onDelete: Cascade)
+
+  @@id([resultId, mockToolId])
+}
+
+model ResultNextStep {
+  id          Int    @id @default(autoincrement())
+  resultId    Int
+  position    Int
+  title       String
+  description String
+  result      Result @relation(fields: [resultId], references: [id], onDelete: Cascade)
+
+  @@unique([resultId, position])
+}
+
+model ResultWorkflowPath {
+  id       Int     @id @default(autoincrement())
+  resultId Int
+  position Int
+  label    String
+  covered  Boolean
+  result   Result  @relation(fields: [resultId], references: [id], onDelete: Cascade)
+
+  @@unique([resultId, position])
+}
+
+model ResultFailureReason {
+  id          Int                      @id @default(autoincrement())
+  resultId    Int
+  rank        Int
+  description String
+  result      Result                   @relation(fields: [resultId], references: [id], onDelete: Cascade)
+  runs        ResultFailureReasonRun[]
+
+  @@unique([resultId, rank])
+}
+
+model ResultFailureReasonRun {
+  failureReasonId Int
+  runId           Int
+  failureReason   ResultFailureReason @relation(fields: [failureReasonId], references: [id], onDelete: Cascade)
+  run             Run                 @relation(fields: [runId], references: [id], onDelete: Cascade)
+
+  @@id([failureReasonId, runId])
+  @@index([runId])
+}
+
+model ResultMetricSummary {
+  resultId    Int
+  metricId    Int
+  explanation String[]
+  result      Result   @relation(fields: [resultId], references: [id], onDelete: Cascade)
+  metric      Metric   @relation(fields: [metricId], references: [id], onDelete: Cascade)
+
+  @@id([resultId, metricId])
+  @@index([metricId])
+}
+
+model Run {
+  id                         Int                      @id @default(autoincrement())
+  resultId                   Int
+  conversationId             Int                      @unique
+  evaluatorId                Int?
+  personalityId              Int?
+  testProfileId              Int?
+  status                     RunStatus                @default(pending)
+  evaluationStatus           CallEvaluationStatus?
+  feedback                   String?
+  errorMessage               String?
+  callerNumber               String?
+  evaluatorSnapshot          Json
+  testProfileSnapshot        Json?
+  outboundDialWindowOpensAt  DateTime?
+  outboundDialWindowClosesAt DateTime?
+  executedAt                 DateTime?
+  createdAt                  DateTime                 @default(now())
+  updatedAt                  DateTime                 @updatedAt
+  result                     Result                   @relation(fields: [resultId], references: [id], onDelete: Cascade)
+  conversation               Conversation             @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+  evaluator                  Evaluator?               @relation(fields: [evaluatorId], references: [id], onDelete: SetNull)
+  personality                Personality?             @relation(fields: [personalityId], references: [id], onDelete: SetNull)
+  testProfile                TestProfile?             @relation(fields: [testProfileId], references: [id], onDelete: SetNull)
+  failureReasons             ResultFailureReasonRun[]
+  shareLinks                 ShareLink[]
+
+  @@index([resultId, createdAt])
+  @@index([evaluatorId])
+  @@index([personalityId])
+  @@index([status])
+}
