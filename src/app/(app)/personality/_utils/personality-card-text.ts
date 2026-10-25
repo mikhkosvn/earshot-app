@@ -26,7 +26,10 @@ export const backgroundNoiseText = (noise: BackgroundNoise) => {
   return 'enabled';
 };
 
-export const accentText = (accent: string | null) => accent ?? NOT_AVAILABLE;
+export const accentText = (accent: string | null) => {
+  if (!accent) return NOT_AVAILABLE;
+  return `${accent.charAt(0).toUpperCase()}${accent.slice(1)}`;
+};
 
 export const personalityTitle = (item: PersonalityListItem) => {
   if (item.forkedFromId === null) return item.name;
