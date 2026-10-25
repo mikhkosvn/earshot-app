@@ -28,7 +28,9 @@ import type {
   agentScopeSchema,
   createEvaluatorSchema,
   projectScopeSchema,
+  evaluatorExpectedToolCallViewSchema,
   evaluatorFieldsSchema,
+  evaluatorSnapshotSchema,
   expectedToolCallSchema,
   getEvaluatorSchema,
   restoreEvaluatorVersionSchema,
@@ -102,12 +104,9 @@ export interface EvaluatorListPage {
   rows: EvaluatorListRow[];
 }
 
-export interface EvaluatorExpectedToolCallView {
-  mockToolId: number;
-  mockToolName: string;
-  input: string;
-  output: string;
-}
+export type EvaluatorExpectedToolCallView = z.output<
+  typeof evaluatorExpectedToolCallViewSchema
+>;
 
 export interface EvaluatorDetail {
   id: number;
@@ -140,29 +139,7 @@ export interface EvaluatorDetail {
   updatedByName: string | null;
 }
 
-export interface EvaluatorSnapshot {
-  name: string;
-  agentId: number | null;
-  agentName: string | null;
-  folderPath: string | null;
-  tags: string[];
-  scenarioType: ScenarioType;
-  testProfileId: number | null;
-  testProfileName: string | null;
-  firstMessage: string;
-  instructions: string;
-  personalityId: number | null;
-  personalityName: string | null;
-  language: Language;
-  expectedOutcomePrompt: string;
-  metricIds: number[];
-  metricNames: string[];
-  expectedToolCalls: EvaluatorExpectedToolCallView[];
-  phoneNumberId: number | null;
-  phoneNumber: string | null;
-  tools: ScenarioTool[];
-  maxDurationSeconds: number | null;
-}
+export type EvaluatorSnapshot = z.output<typeof evaluatorSnapshotSchema>;
 
 export interface EvaluatorVersionView {
   id: number;

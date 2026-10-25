@@ -3,9 +3,6 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useState } from 'react';
 import { useFieldArray, useForm } from 'react-hook-form';
-import { z } from 'zod';
-
-import { dynamicVariableValuesSchema } from '@/server/agents/schemas';
 
 import {
   EMPTY_VARIABLE,
@@ -19,7 +16,7 @@ import { firstIssueMessage } from '../_utils/first-issue-message';
 import { useAddDynamicVariablesMutation } from './mutations/dynamic-variables/use-add-dynamic-variables-mutation';
 import { useAgentId } from './use-agent-id';
 
-const jsonVariablesSchema = z.array(dynamicVariableValuesSchema).min(1);
+const jsonVariablesSchema = addVariablesFormSchema.shape.variables;
 
 const parseVariablesJson = (text: string) => {
   try {

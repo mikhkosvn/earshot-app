@@ -1,5 +1,6 @@
 import { z } from 'zod';
 
+import { ScenarioType } from '@/generated/prisma/enums';
 import { RunChannel } from '@/server/runs/constants/run-channel';
 import {
   CALLS_PER_SECOND_MAX,
@@ -41,11 +42,13 @@ export const callsPerSecondSchema = z
   .max(CALLS_PER_SECOND_MAX, `Enter ${CALLS_PER_SECOND_MAX} or less.`)
   .nullable();
 
+const agentIdSchema = z
+  .number({ error: 'Select an agent.' })
+  .int()
+  .positive('Select an agent.');
+
 export const runSettingsSchema = z.object({
-  agentId: z
-    .number({ error: 'Select an agent.' })
-    .int()
-    .positive('Select an agent.'),
+  agentId: agentIdSchema,
   name: runNameSchema,
   frequency: frequencySchema,
   agentNumber: z.string().trim(),
@@ -64,10 +67,7 @@ export const startRunSchema = runSettingsSchema.extend({
 
 export const testSuiteRequestSchema = z.object({
   projectId: projectIdSchema,
-  agentId: z
-    .number({ error: 'Select an agent.' })
-    .int()
-    .positive('Select an agent.'),
+  agentId: agentIdSchema,
   channel: z.enum(RunChannel),
   specText: z
     .string()
@@ -101,3 +101,56 @@ export const runAgentSchema = z.object({
   agentId: recordIdSchema,
   evaluatorIds: z.array(recordIdSchema),
 });
+
+export const evaluatorSnapshotSchema = z.object({
+  id: z.number().nullable(),
+  key: z.string().nullable(),
+  name: z.string(),
+  scenarioType: z.enum(ScenarioType),
+  instructions: z.string(),
+  expectedOutcomePrompt: z.string().nullable(),
+  firstMessage: z.string().nullable(),
+  language: z.string(),
+  maxDurationSeconds: z.number().nullable(),
+  tools: z.array(z.string()),
+  tags: z.array(z.string()),
+  metricIds: z.array(z.number()),
+});
+
+export const testProfileSnapshotSchema = z.object({
+  id: z.number(),
+  name: z.string(),
+  mainAgentVariables: z.record(z.string(), z.string()),
+  testingAgentVariables: z.record(z.string(), z.string()),
+});
+
+const storedObjectSchema = z.record(z.string(), z.unknown()).catch({});
+
+const storedNumbersSchema = z
+  .array(z.unknown())
+  .transform((items) =>
+    items.filter((item): item is number => typeof item === 'number'),
+  )
+  .catch([]);
+
+export const evaluatorSnapshotReaderSchema = storedObjectSchema.pipe(
+  z.object({
+    name: evaluatorSnapshotSchema.shape.name.catch(''),
+    instructions: evaluatorSnapshotSchema.shape.instructions.catch(''),
+    expectedOutcomePrompt:
+      evaluatorSnapshotSchema.shape.expectedOutcomePrompt.catch(null),
+    firstMessage: evaluatorSnapshotSchema.shape.firstMessage.catch(null),
+    maxDurationSeconds:
+      evaluatorSnapshotSchema.shape.maxDurationSeconds.catch(null),
+    metricIds: storedNumbersSchema,
+  }),
+);
+
+const storedVariablesSchema = z.record(z.string(), z.coerce.string()).catch({});
+
+export const testProfileVariablesReaderSchema = storedObjectSchema.pipe(
+  z.object({
+    mainAgentVariables: storedVariablesSchema,
+    testingAgentVariables: storedVariablesSchema,
+  }),
+);

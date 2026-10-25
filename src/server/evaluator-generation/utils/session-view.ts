@@ -1,12 +1,16 @@
 import 'server-only';
 
+import type { z } from 'zod';
+
 import { Prisma } from '@/generated/prisma/client';
 import { JobKind } from '@/generated/prisma/enums';
 import { prisma } from '@/lib/prisma';
-import { GENERATION_MIN_SCENARIOS } from '@/server/evaluator-generation/constants';
+import {
+  assistantJobResultSchema,
+  generationJobResultSchema,
+  sessionOptionsSchema,
+} from '@/server/evaluator-generation/schemas';
 import type {
-  AssistantJobResult,
-  GenerationJobResult,
   GenerationJobView,
   GenerationSessionView,
 } from '@/server/evaluator-generation/types';
@@ -14,18 +18,25 @@ import { latestSessionJob } from '@/server/evaluator-generation/utils/session-re
 
 type JobRow = Awaited<ReturnType<typeof latestSessionJob>>;
 
-interface SessionOptionsShape {
-  folderPath?: string;
-  numScenarios?: number;
-}
+const resultOf = <TResult>(
+  row: NonNullable<JobRow>,
+  schema: z.ZodType<TResult>,
+) => {
+  const parsed = schema.safeParse(row.result);
+  if (!parsed.success) return null;
+  return parsed.data;
+};
 
-const toJobView = <TResult>(row: JobRow): GenerationJobView<TResult> | null => {
+const toJobView = <TResult>(
+  row: JobRow,
+  schema: z.ZodType<TResult>,
+): GenerationJobView<TResult> | null => {
   if (!row) return null;
   return {
     id: row.id,
     status: row.status,
     currentStep: row.currentStep,
-    result: row.result as TResult | null,
+    result: resultOf(row, schema),
     error: row.error,
   };
 };
@@ -65,7 +76,7 @@ export const loadSessionView = async (
     where,
     select: sessionSelect,
   });
-  const options = (session.options ?? {}) as SessionOptionsShape;
+  const options = sessionOptionsSchema.parse(session.options);
   const [assistantJob, generationJob] = await Promise.all([
     latestSessionJob(
       session.projectId,
@@ -84,8 +95,8 @@ export const loadSessionView = async (
     status: session.status,
     agentId: session.agentId,
     agentName: session.agent?.name ?? null,
-    folderPath: options.folderPath ?? '',
-    numScenarios: options.numScenarios ?? GENERATION_MIN_SCENARIOS,
+    folderPath: options.folderPath,
+    numScenarios: options.numScenarios,
     messages: session.messages,
     evaluators: session.evaluators.map((evaluator) => ({
       id: evaluator.id,
@@ -97,8 +108,8 @@ export const loadSessionView = async (
       testProfileName: evaluator.testProfile?.name ?? null,
       tools: evaluator.tools.map((entry) => entry.tool),
     })),
-    assistantJob: toJobView<AssistantJobResult>(assistantJob),
-    generationJob: toJobView<GenerationJobResult>(generationJob),
+    assistantJob: toJobView(assistantJob, assistantJobResultSchema),
+    generationJob: toJobView(generationJob, generationJobResultSchema),
     createdAt: session.createdAt,
   };
 };

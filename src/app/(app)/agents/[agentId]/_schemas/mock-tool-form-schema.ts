@@ -9,7 +9,8 @@ import { firstIssueMessage } from '../_utils/first-issue-message';
 
 const parseJson = (value: string) => {
   try {
-    return { ok: true as const, value: JSON.parse(value) as unknown };
+    const parsed: unknown = JSON.parse(value);
+    return { ok: true as const, value: parsed };
   } catch {
     return { ok: false as const };
   }

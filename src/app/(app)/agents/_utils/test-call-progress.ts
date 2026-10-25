@@ -1,15 +1,11 @@
 import type { JobView } from '@/server/jobs/types';
-import type { TestCallProgress } from '@/server/agents/types';
-
-const isProgress = (value: unknown): value is TestCallProgress =>
-  typeof value === 'object' &&
-  value !== null &&
-  'connections' in value &&
-  Array.isArray(value.connections);
+import { testCallProgressSchema } from '@/server/agents/schemas';
 
 export const testCallProgressOf = (job: JobView | undefined) => {
-  if (!job || !isProgress(job.result)) return null;
-  return job.result;
+  if (!job) return null;
+  const parsed = testCallProgressSchema.safeParse(job.result);
+  if (!parsed.success) return null;
+  return parsed.data;
 };
 
 export const connectionCountText = (count: number) => {

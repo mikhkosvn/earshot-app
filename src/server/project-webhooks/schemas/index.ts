@@ -9,7 +9,7 @@ export const webhookUrlSchema = z
   .trim()
   .max(2000, 'The URL must have 2000 or fewer characters.')
   .refine((value) => value === '' || /^https?:\/\/\S+$/i.test(value), {
-    message: 'Enter a URL that starts with http:// or https://.',
+    error: 'Enter a URL that starts with http:// or https://.',
   });
 
 export const webhookSettingsSchema = z.object({

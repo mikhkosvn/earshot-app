@@ -49,3 +49,11 @@ export const optimizerScheduleIdSchema = z.object({
 export const listOptimizerSchedulesSchema = z.object({
   projectId: idSchema,
 });
+
+export const proposalSummarySchema = z.object({
+  whatChanged: z.array(z.string()),
+  whatItChecks: z.string(),
+  returnsFalseWhen: z.string(),
+  returnsTrueWhen: z.string(),
+  notApplicableWhen: z.string(),
+});

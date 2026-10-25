@@ -1,10 +1,14 @@
+import { z } from 'zod';
+
+const bulletListSchema = z.array(z.unknown().transform(String));
+
 const parseArray = (item: string): string[] => {
   const text = item.trim();
   if (!text.startsWith('[')) return [text];
   try {
-    const parsed: unknown = JSON.parse(text);
-    if (!Array.isArray(parsed)) return [text];
-    return parsed.map((entry) => String(entry));
+    const parsed = bulletListSchema.safeParse(JSON.parse(text));
+    if (!parsed.success) return [text];
+    return parsed.data;
   } catch {
     return [text];
   }

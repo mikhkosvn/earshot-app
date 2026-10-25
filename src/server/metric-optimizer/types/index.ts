@@ -9,6 +9,7 @@ import type {
   optimizationSessionSchema,
   optimizerScheduleFieldsSchema,
   optimizerScheduleIdSchema,
+  proposalSummarySchema,
   startMetricOptimizationSchema,
   updateOptimizerScheduleSchema,
 } from '@/server/metric-optimizer/schemas';
@@ -76,10 +77,4 @@ export interface QueuedOptimization {
   jobId: string;
 }
 
-export interface ProposalSummary {
-  whatChanged: string[];
-  whatItChecks: string;
-  returnsFalseWhen: string;
-  returnsTrueWhen: string;
-  notApplicableWhen: string;
-}
+export type ProposalSummary = z.output<typeof proposalSummarySchema>;

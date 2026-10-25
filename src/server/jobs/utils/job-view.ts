@@ -1,6 +1,7 @@
 import 'server-only';
 
 import type { Prisma } from '@/generated/prisma/client';
+import { jobResultSchema } from '@/server/jobs/schemas';
 import type { JobResult, JobView } from '@/server/jobs/types';
 
 export const jobViewSelect = {
@@ -20,8 +21,9 @@ export const jobViewSelect = {
 type JobRow = Prisma.BackgroundJobGetPayload<{ select: typeof jobViewSelect }>;
 
 const toJobResult = (value: Prisma.JsonValue): JobResult | null => {
-  if (!value || typeof value !== 'object' || Array.isArray(value)) return null;
-  return value as JobResult;
+  const parsed = jobResultSchema.safeParse(value);
+  if (!parsed.success) return null;
+  return parsed.data;
 };
 
 export const toJobView = (row: JobRow): JobView => ({

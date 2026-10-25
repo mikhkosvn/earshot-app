@@ -1,6 +1,7 @@
 import 'server-only';
 
 import { Prisma } from '@/generated/prisma/client';
+import { metricExtraSchema } from '@/server/call-logs/schemas';
 import type { CallLogRow, CallMetricCell } from '@/server/call-logs/types';
 import { valueFromParts } from '@/server/metric-scoring/utils/value-parts';
 
@@ -44,22 +45,8 @@ export type CallLogRowRecord = Prisma.CallLogGetPayload<{
 type EvaluationRecord =
   CallLogRowRecord['conversation']['metricEvaluations'][number];
 
-const isRecord = (value: unknown): value is Record<string, unknown> =>
-  typeof value === 'object' && value !== null && !Array.isArray(value);
-
-const asRecord = (value: unknown): Record<string, unknown> => {
-  if (!isRecord(value)) return {};
-  return value;
-};
-
-const numberOrNull = (value: unknown) => {
-  if (typeof value === 'number' && Number.isFinite(value)) return value;
-  return null;
-};
-
 const toMetricCell = (evaluation: EvaluationRecord): CallMetricCell => {
-  const extra = asRecord(evaluation.extra);
-  const percentiles = asRecord(extra.percentiles);
+  const extra = metricExtraSchema.parse(evaluation.extra);
   return {
     metricId: evaluation.metricId,
     status: evaluation.status,
@@ -69,9 +56,9 @@ const toMetricCell = (evaluation: EvaluationRecord): CallMetricCell => {
       text: evaluation.valueText,
     }),
     normalizedScore: evaluation.normalizedScore,
-    firstTurn: numberOrNull(extra.first_turn),
-    p50: numberOrNull(percentiles.p50),
-    p99: numberOrNull(percentiles.p99),
+    firstTurn: extra.first_turn,
+    p50: extra.percentiles.p50,
+    p99: extra.percentiles.p99,
   };
 };
 

@@ -3,6 +3,7 @@ import 'server-only';
 import { Prisma } from '@/generated/prisma/client';
 import { TestProfileVariableSide } from '@/generated/prisma/enums';
 import { prisma } from '@/lib/prisma';
+import { testProfileVariablesReaderSchema } from '@/server/runs/schemas';
 import type { TestProfileSnapshot } from '@/server/runs/types';
 
 const testProfileSnapshotSelect = {
@@ -53,22 +54,5 @@ export const loadTestProfileSnapshots = async (
   return new Map(rows.map((row) => [row.id, toTestProfileSnapshot(row)]));
 };
 
-const asRecord = (value: Prisma.JsonValue | null): Record<string, unknown> => {
-  if (!value || typeof value !== 'object' || Array.isArray(value)) return {};
-  return value;
-};
-
-const stringRecord = (value: unknown): Record<string, string> => {
-  if (!value || typeof value !== 'object' || Array.isArray(value)) return {};
-  return Object.fromEntries(
-    Object.entries(value).map(([key, item]) => [key, String(item)]),
-  );
-};
-
-export const readTestProfileVariables = (snapshot: Prisma.JsonValue | null) => {
-  const record = asRecord(snapshot);
-  return {
-    mainAgentVariables: stringRecord(record.mainAgentVariables),
-    testingAgentVariables: stringRecord(record.testingAgentVariables),
-  };
-};
+export const readTestProfileVariables = (snapshot: Prisma.JsonValue | null) =>
+  testProfileVariablesReaderSchema.parse(snapshot);

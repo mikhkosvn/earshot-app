@@ -2,13 +2,13 @@
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
-import type { z } from 'zod';
 
 import { useUpdateProjectMutation } from '@/app/(app)/_hooks/mutations/use-update-project-mutation';
 import { useCurrentProject } from '@/app/(app)/_hooks/use-current-project';
-import { projectNameFormSchema } from '@/app/(app)/_schemas/project-name-form-schema';
-
-type ProjectNameFormValues = z.input<typeof projectNameFormSchema>;
+import {
+  projectNameFormSchema,
+  type ProjectNameFormValues,
+} from '@/app/(app)/_schemas/project-name-form-schema';
 
 export const useEditProjectForm = (onSaved: () => void) => {
   const project = useCurrentProject();

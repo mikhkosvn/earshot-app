@@ -9,9 +9,21 @@ import type { ThirdPartyNotice } from '@/server/third-party-notices/types';
 
 import { normalizeRepositoryUrl } from './normalize-repository-url';
 
+const UNKNOWN_LICENSE = 'Unknown';
+
+const licenseNameSchema = z
+  .union([
+    z.string(),
+    z
+      .looseObject({ type: z.unknown() })
+      .refine((license) => 'type' in license)
+      .transform((license) => String(license.type)),
+  ])
+  .catch(UNKNOWN_LICENSE);
+
 const packageManifestSchema = z.object({
   version: z.string().optional(),
-  license: z.unknown(),
+  license: licenseNameSchema,
   repository: z.unknown(),
 });
 
@@ -36,14 +48,6 @@ const findCopyright = (licenseText: string | null) => {
   return line ?? null;
 };
 
-const readLicenseName = (license: unknown) => {
-  if (typeof license === 'string') return license;
-  if (license && typeof license === 'object' && 'type' in license) {
-    return String(license.type);
-  }
-  return 'Unknown';
-};
-
 export const readPackageNotice = async (
   nodeModulesDirectory: string,
   name: string,
@@ -59,7 +63,7 @@ export const readPackageNotice = async (
     return {
       name,
       version: manifest.version ?? '',
-      license: readLicenseName(manifest.license),
+      license: manifest.license,
       copyright: findCopyright(licenseText),
       licenseText,
       repositoryUrl: normalizeRepositoryUrl(manifest.repository),

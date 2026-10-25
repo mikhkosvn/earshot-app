@@ -53,7 +53,7 @@ export const observeCallSchema = z
   .refine(
     (body) => body.voice_recording_url || body.transcript_json.length > 0,
     {
-      message: 'Send a transcript_json or a voice_recording_url.',
+      error: 'Send a transcript_json or a voice_recording_url.',
       path: ['transcript_json'],
     },
   );

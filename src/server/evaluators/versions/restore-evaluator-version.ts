@@ -6,6 +6,7 @@ import { requireUser } from '@/server/auth';
 import { ActionError, withValidation } from '@/server/common/run-action';
 import {
   evaluatorFieldsSchema,
+  evaluatorSnapshotSchema,
   restoreEvaluatorVersionSchema,
 } from '@/server/evaluators/schemas/evaluator-fields';
 import type { EvaluatorSnapshot } from '@/server/evaluators/types';
@@ -65,7 +66,7 @@ export const restoreEvaluatorVersion = withValidation(
         where: { id: versionId, evaluatorId },
         select: { version: true, snapshot: true },
       });
-      const snapshot = version.snapshot as unknown as EvaluatorSnapshot;
+      const snapshot = evaluatorSnapshotSchema.parse(version.snapshot);
       if (!snapshot.agentId || !snapshot.personalityId) {
         throw new ActionError(
           'This version has no agent or personality. It cannot be restored.',

@@ -9,6 +9,8 @@ import {
   MAX_JUDGE_ROUNDS,
 } from '@/server/metric-scoring/constants';
 import type { JudgeResult } from '@/server/metric-scoring/judge/judge-mock';
+import { metricValueSchema } from '@/server/metrics/schemas';
+import type { MetricValue } from '@/server/metrics/types';
 
 const judgeRequestSchema = z.object({
   key: z.string(),
@@ -18,7 +20,7 @@ const judgeRequestSchema = z.object({
 
 const runnerResponseSchema = z.object({
   ok: z.boolean(),
-  result: z.union([z.boolean(), z.number(), z.string(), z.null()]).optional(),
+  result: metricValueSchema.optional(),
   explanation: z.unknown().optional(),
   error: z.string().nullable().optional(),
   judge_request: judgeRequestSchema.nullable().optional(),
@@ -28,7 +30,7 @@ export type JudgeRequest = z.output<typeof judgeRequestSchema>;
 
 export interface PythonRun {
   ok: boolean;
-  result: boolean | number | string | null;
+  result: MetricValue;
   explanation: unknown;
   error: string | null;
 }

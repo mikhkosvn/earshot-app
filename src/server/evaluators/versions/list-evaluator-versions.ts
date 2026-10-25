@@ -4,11 +4,11 @@ import { Prisma } from '@/generated/prisma/client';
 import { prisma } from '@/lib/prisma';
 import { requireUser } from '@/server/auth';
 import { withValidation } from '@/server/common/run-action';
-import { getEvaluatorSchema } from '@/server/evaluators/schemas/evaluator-fields';
-import type {
-  EvaluatorSnapshot,
-  EvaluatorVersionView,
-} from '@/server/evaluators/types';
+import {
+  evaluatorSnapshotSchema,
+  getEvaluatorSchema,
+} from '@/server/evaluators/schemas/evaluator-fields';
+import type { EvaluatorVersionView } from '@/server/evaluators/types';
 import { evaluatorAccessWhere } from '@/server/evaluators/utils/evaluator-access-where';
 
 export const listEvaluatorVersions = withValidation(
@@ -40,7 +40,7 @@ export const listEvaluatorVersions = withValidation(
       createdAt: row.createdAt,
       createdByName: row.createdBy?.name ?? null,
       isCurrent: index === 0,
-      snapshot: row.snapshot as unknown as EvaluatorSnapshot,
+      snapshot: evaluatorSnapshotSchema.parse(row.snapshot),
     }));
   },
 );

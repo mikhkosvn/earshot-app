@@ -1,7 +1,6 @@
 import 'server-only';
 
 import { subDays } from 'date-fns';
-import { z } from 'zod';
 
 import { Prisma } from '@/generated/prisma/client';
 import {
@@ -23,21 +22,11 @@ import {
   mockResearch,
   type ResearchCall,
 } from '@/server/insights/deep-research/research-mock';
+import { researchResultSchema } from '@/server/insights/schemas';
 
 const MILLISECONDS_PER_SECOND = 1000;
 const TURNS_PER_CALL = 12;
 const EXAMPLES_PER_MODE = 5;
-
-const researchSchema = z.object({
-  headline: z.string(),
-  failureModes: z.array(
-    z.object({
-      title: z.string(),
-      description: z.string(),
-      callLogIds: z.array(z.number().int()),
-    }),
-  ),
-});
 
 const SYSTEM = [
   'You audit recent production calls of a voice AI agent.',
@@ -107,7 +96,7 @@ const analyse = async (insightId: number, calls: ResearchCall[]) => {
         }),
       )
       .join('\n'),
-    schema: researchSchema,
+    schema: researchResultSchema,
     mock: () => mockResearch(calls),
   });
   const modes = result.failureModes.slice(0, DEEP_RESEARCH_MODES_MAX);
