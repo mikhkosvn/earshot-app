@@ -18,7 +18,7 @@ export function RepresentativeSampleHeader({
   return (
     <div className="flex items-center gap-2">
       <SampleVerdict value={representative.verdict} />
-      <SampleSourceButton label={representative.label} />
+      <SampleSourceButton sample={representative} />
     </div>
   );
 }

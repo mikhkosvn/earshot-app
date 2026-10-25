@@ -202,6 +202,7 @@ export type PatternSampleView = {
   error: string | null;
   explanation: string[];
   callEndReason: string | null;
+  href: string | null;
 };
 
 export type PatternCorrectionView = {

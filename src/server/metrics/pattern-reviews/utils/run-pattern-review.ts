@@ -43,6 +43,7 @@ const recentConversationIds = async (projectId: number) => {
       projectId,
       createdAt: { gte: subDays(new Date(), PATTERN_REVIEW_HISTORY_DAYS) },
       turns: { some: {} },
+      OR: [{ run: { isNot: null } }, { callLog: { isNot: null } }],
     },
     orderBy: { createdAt: Prisma.SortOrder.desc },
     take: PATTERN_REVIEW_MAX_SAMPLES,
