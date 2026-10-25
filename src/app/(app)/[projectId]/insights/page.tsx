@@ -1,14 +1,17 @@
-import { PageHeader } from '@/components/common/page-header/page-header';
+import { Suspense } from 'react';
 
-export default function InsightsPage() {
+import { InsightsData } from './_components/insights-data';
+import { InsightsSkeleton } from './_components/insights-skeleton';
+
+export default function InsightsPage({
+  params,
+  searchParams,
+}: PageProps<'/[projectId]/insights'>) {
   return (
-    <div className="flex flex-col gap-2 p-3">
-      <PageHeader
-        title="Insights"
-        description={
-          "Groups the calls that fail each enabled metric into recurring failure modes, updated as new calls come in. Only the metrics enabled here are analysed, up to each metric's daily failure limit."
-        }
-      />
+    <div className="flex flex-col gap-3 p-3">
+      <Suspense fallback={<InsightsSkeleton />}>
+        <InsightsData params={params} searchParams={searchParams} />
+      </Suspense>
     </div>
   );
 }
