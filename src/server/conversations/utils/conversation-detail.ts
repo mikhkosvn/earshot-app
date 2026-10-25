@@ -1,6 +1,7 @@
 import 'server-only';
 
 import { Prisma } from '@/generated/prisma/client';
+import { ConversationSource } from '@/server/conversations/constants/conversation-source';
 import { MetadataKey } from '@/server/conversations/constants/metadata-keys';
 import type {
   ConversationDetail,
@@ -157,11 +158,28 @@ const isoOf = (date: Date | null) => {
   return date.toISOString();
 };
 
+const storedMetadataTiles = (
+  row: ConversationDetailRow,
+): ConversationMetadataTile[] =>
+  Object.entries(asRecord(row.metadata) ?? {}).map(([key, value]) => ({
+    key,
+    value: textOf(value),
+  }));
+
+const sourceOf = (row: ConversationDetailRow) => {
+  if (row.run) return ConversationSource.run;
+  return ConversationSource.call;
+};
+
 const metadataTiles = (
   row: ConversationDetailRow,
 ): ConversationMetadataTile[] => {
+  if (!row.run) return storedMetadataTiles(row);
   const base: ConversationMetadataTile[] = [
-    { key: MetadataKey.endedReason, value: endedReasonLabel(row.endedReason) ?? '' },
+    {
+      key: MetadataKey.endedReason,
+      value: endedReasonLabel(row.endedReason) ?? '',
+    },
     { key: MetadataKey.callEndedAt, value: isoOf(row.endedAt) },
     { key: MetadataKey.callCreatedAt, value: isoOf(row.createdAt) },
     { key: MetadataKey.callStartedAt, value: isoOf(row.startedAt) },
@@ -203,6 +221,7 @@ export const toConversationDetail = (
 ): ConversationDetail => ({
   id: row.id,
   projectId: row.projectId,
+  source: sourceOf(row),
   recordingUrl: urls.recordingUrl,
   recordingDownloadUrl: urls.recordingDownloadUrl,
   waveform: waveformOf(row),

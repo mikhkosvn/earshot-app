@@ -9,6 +9,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import type { TestProfileView } from '@/server/test-profiles/types';
 
+import { useLinkedTestProfileParam } from '../../../_hooks/test-profiles/use-linked-test-profile-param';
 import { EvaluatorService } from '../../../_service';
 import { TestProfileFormDialog } from '../form/test-profile-form-dialog';
 import { TestProfileTable } from './test-profile-table';
@@ -20,17 +21,23 @@ const matches = (profile: TestProfileView, needle: string) =>
   String(profile.id).includes(needle) ||
   profile.name.toLowerCase().includes(needle);
 
+const isLinked = (profile: TestProfileView, linkedProfileId: number | null) =>
+  linkedProfileId === null || profile.id === linkedProfileId;
+
 export function TestProfilesBrowser() {
   const projectId = useCurrentProjectId();
   const { data: profiles } = useSuspenseQuery(
     EvaluatorService.getTestProfilesQuery({ projectId, agentId: null }),
   );
+  const [linkedProfileId] = useLinkedTestProfileParam();
   const [search, setSearch] = useState('');
   const [page, setPage] = useState(1);
   const [isFormOpen, setFormOpen] = useState(false);
   const [editing, setEditing] = useState<TestProfileView | null>(null);
   const needle = search.trim().toLowerCase();
-  const filtered = profiles.filter((profile) => matches(profile, needle));
+  const filtered = profiles.filter(
+    (profile) => isLinked(profile, linkedProfileId) && matches(profile, needle),
+  );
   const pageRows = filtered.slice(
     (page - 1) * PROFILE_PAGE_SIZE,
     page * PROFILE_PAGE_SIZE,

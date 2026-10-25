@@ -9,6 +9,7 @@ import { WIZARD_COLLAPSED_TILE_COUNT } from '../../../_constants/provider-displa
 import { ConnectionsBlock } from '../../../_components/connections/connections-block';
 import { IntegrationSettings } from '../../../_components/integration/integration-settings';
 import { ProviderGrid } from '../../../_components/provider/provider-grid';
+import { CONNECTION_STEP_FIELDS } from '../../_constants/wizard-step';
 
 type ConnectionStepProps = {
   onNext: () => void;
@@ -34,11 +35,7 @@ export function ConnectionStep({ onNext }: ConnectionStepProps) {
         type="button"
         className="w-full"
         onClick={async () => {
-          const valid = await trigger([
-            'phoneNumber',
-            'providerAgentId',
-            'providerApiKey',
-          ]);
+          const valid = await trigger(CONNECTION_STEP_FIELDS);
           if (!valid) return;
           onNext();
         }}

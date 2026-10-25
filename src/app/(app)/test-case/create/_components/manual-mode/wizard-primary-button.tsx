@@ -17,13 +17,13 @@ export function WizardPrimaryButton({
 }: WizardPrimaryButtonProps) {
   if (isLastStep) {
     return (
-      <Button type="submit" disabled={isPending}>
+      <Button key="submit" type="submit" disabled={isPending}>
         Create Evaluator
       </Button>
     );
   }
   return (
-    <Button type="button" onClick={onNext}>
+    <Button key="next" type="button" onClick={onNext}>
       Next
       <ChevronRightIcon />
     </Button>

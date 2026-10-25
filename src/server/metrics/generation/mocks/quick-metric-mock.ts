@@ -13,12 +13,38 @@ export type QuickMetricDraft = {
 const NAME_REQUEST_PATTERN =
   /name (?:this|the) metric\s+["'“]?([^."'”\n]+?)["'”]?(?:\.|\n|$)/i;
 const MAX_NAME_WORDS = 7;
+const TRAILING_STOP_WORDS = new Set([
+  'a',
+  'an',
+  'and',
+  'before',
+  'for',
+  'from',
+  'in',
+  'of',
+  'on',
+  'or',
+  'the',
+  'to',
+  'with',
+]);
 
 const requestedName = (text: string) =>
   NAME_REQUEST_PATTERN.exec(text)?.[1]?.trim() ?? null;
 
 const withoutNameRequest = (text: string) =>
   text.replace(NAME_REQUEST_PATTERN, '').trim();
+
+const withoutTrailingStopWords = (words: string[]) => {
+  const kept = [...words];
+  while (
+    kept.length > 1 &&
+    TRAILING_STOP_WORDS.has(kept.at(-1)!.toLowerCase())
+  ) {
+    kept.pop();
+  }
+  return kept;
+};
 
 const titleCase = (words: string[]) =>
   words
@@ -34,7 +60,7 @@ const derivedName = (text: string) => {
     .filter(Boolean)
     .slice(0, MAX_NAME_WORDS);
   if (words.length === 0) return 'Custom Quick Metric';
-  return titleCase(words);
+  return titleCase(withoutTrailingStopWords(words));
 };
 
 export const quickMetricMock = (description: string): QuickMetricDraft => {

@@ -1,6 +1,7 @@
 import 'server-only';
 
 import { Prisma } from '@/generated/prisma/client';
+import { UrlGenerator } from '@/lib/url-generator/url-generator';
 import { valueFromParts } from '@/server/metric-scoring/utils/value-parts';
 import { SampleSource } from '@/server/metrics/constants/pattern-review/sample-source';
 import type {
@@ -67,7 +68,8 @@ export const patternReviewSelect = {
           conversation: {
             select: {
               endedReason: true,
-              run: { select: { id: true } },
+              projectId: true,
+              run: { select: { id: true, resultId: true } },
               callLog: { select: { id: true } },
             },
           },
@@ -109,6 +111,21 @@ const sampleSource = (sample: SampleRow) => {
   return { source: SampleSource.conversation, sourceId: sample.conversationId };
 };
 
+const sampleHref = (sample: SampleRow) => {
+  const { projectId, run, callLog } = sample.conversation;
+  if (run) {
+    return UrlGenerator.result({
+      projectId,
+      resultId: run.resultId,
+      values: { call_id: run.id },
+    });
+  }
+  if (callLog) {
+    return UrlGenerator.calls({ projectId, values: { callId: callLog.id } });
+  }
+  return null;
+};
+
 const toSampleView = (sample: SampleRow): PatternSampleView => {
   const { source, sourceId } = sampleSource(sample);
   return {
@@ -125,6 +142,7 @@ const toSampleView = (sample: SampleRow): PatternSampleView => {
     error: sample.error,
     explanation: sample.explanation,
     callEndReason: sample.conversation.endedReason,
+    href: sampleHref(sample),
   };
 };
 

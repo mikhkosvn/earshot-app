@@ -63,3 +63,31 @@ model AlertTrigger {
   @@index([alertRuleId, triggeredAt])
   @@index([triggeredAt])
 }
+
+enum EvaluationConsumer {
+  alerts
+  insight_triage
+}
+
+model EvaluationCursor {
+  consumer         EvaluationConsumer @id
+  lastEvaluationId Int                @default(0)
+  updatedAt        DateTime           @updatedAt
+}
+
+enum ObservabilityNotificationKind {
+  no_calls
+  frequent_calls
+}
+
+model ObservabilityNotificationLog {
+  id             Int                           @id @default(autoincrement())
+  projectId      Int
+  kind           ObservabilityNotificationKind
+  customerNumber String?
+  callCount      Int                           @default(0)
+  sentAt         DateTime                      @default(now())
+  project        Project                       @relation(fields: [projectId], references: [id], onDelete: Cascade)
+
+  @@index([projectId, kind, sentAt])
+}

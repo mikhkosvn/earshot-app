@@ -25,7 +25,8 @@ export function DeleteFolderDialog({
       open={open}
       onOpenChange={onOpenChange}
       isPending={deleteFolder.isPending}
-      description={`This action cannot be undone. The folder "${folder.name}", its subfolders, and all ${folder.evaluatorCount} evaluator(s) in it will be deleted.`}
+      title={`Delete folder "${folder.name}"?`}
+      description="This action cannot be undone. This will permanently delete the folder and all scenarios inside it."
       onConfirm={() =>
         deleteFolder.mutate(
           { projectId, path: folder.path },

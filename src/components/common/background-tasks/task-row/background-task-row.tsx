@@ -24,9 +24,13 @@ export function BackgroundTaskRow({ job, onDismiss }: BackgroundTaskRowProps) {
             {relativeTime(job.createdAt)}
           </p>
         </div>
-        <RemoveTaskButton jobId={job.id} onDismiss={onDismiss} />
+        <RemoveTaskButton
+          jobId={job.id}
+          kind={job.kind}
+          onDismiss={onDismiss}
+        />
       </div>
-      <ViewTaskButton deepLink={job.result?.deepLink} />
+      <ViewTaskButton deepLink={job.result?.deepLink} kind={job.kind} />
     </li>
   );
 }

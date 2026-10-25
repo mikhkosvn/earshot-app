@@ -1,9 +1,17 @@
-import { PageHeader } from '@/components/common/page-header/page-header';
+import { Suspense } from 'react';
 
-export default function DashboardPage() {
+import { DashboardBoardSkeleton } from '@/components/common/dashboard-board/dashboard-board-skeleton';
+
+import { DashboardData } from './_components/dashboard-data';
+
+export default function DashboardPage({
+  params,
+}: PageProps<'/[projectId]/dashboards/[dashboardId]'>) {
   return (
-    <div className="flex flex-col gap-2 p-3">
-      <PageHeader title="Overview" />
+    <div className="flex flex-col gap-3 p-3">
+      <Suspense fallback={<DashboardBoardSkeleton />}>
+        <DashboardData params={params} />
+      </Suspense>
     </div>
   );
 }

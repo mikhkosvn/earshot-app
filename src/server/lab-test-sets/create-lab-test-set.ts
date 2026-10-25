@@ -1,5 +1,6 @@
 import 'server-only';
 
+import { Prisma } from '@/generated/prisma/client';
 import { prisma } from '@/lib/prisma';
 import { createLabTestSetSchema } from '@/server/lab-test-sets/schemas';
 import type {
@@ -54,6 +55,62 @@ const reviewData = (
   };
 };
 
+type SourceTestSet = {
+  id: number;
+  conversationId: number;
+};
+
+const findSourceTestSet = (projectId: number, conversationId: number) =>
+  prisma.labTestSet.findFirst({
+    where: {
+      conversation: {
+        projectId,
+        OR: [{ id: conversationId }, { copiedFromId: conversationId }],
+      },
+    },
+    orderBy: { id: Prisma.SortOrder.asc },
+    select: { id: true, conversationId: true },
+  });
+
+const correctionUpdate = (
+  correction: LabCorrection | undefined,
+  expected: ReturnType<typeof valueParts>,
+) => {
+  if (!correction) return {};
+  return {
+    expectedNumber: expected.number,
+    expectedBoolean: expected.boolean,
+    expectedText: expected.text,
+    feedback: correction.feedback || null,
+  };
+};
+
+const extendTestSet = async (
+  testSet: SourceTestSet,
+  evaluations: ScoredEvaluation[],
+  correctionOf: Map<number, LabCorrection>,
+): Promise<LabTestSetSummary> => {
+  for (const evaluation of evaluations) {
+    const correction = correctionOf.get(evaluation.metricId);
+    const data = reviewData(evaluation, correction);
+    const expected = valueParts(expectedOf(evaluation, correction));
+    await prisma.labReview.upsert({
+      where: {
+        testSetId_metricId: {
+          testSetId: testSet.id,
+          metricId: evaluation.metricId,
+        },
+      },
+      create: { testSetId: testSet.id, ...data },
+      update: correctionUpdate(correction, expected),
+    });
+  }
+  const reviewCount = await prisma.labReview.count({
+    where: { testSetId: testSet.id },
+  });
+  return { id: testSet.id, conversationId: testSet.conversationId, reviewCount };
+};
+
 export const createLabTestSet = async (
   input: CreateLabTestSetInput,
 ): Promise<LabTestSetSummary> => {
@@ -70,10 +127,14 @@ export const createLabTestSet = async (
       evaluatedAt: true,
     },
   });
-  const copy = await copyConversation(projectId, conversationId);
   const correctionOf = new Map(
     corrections.map((correction) => [correction.metricId, correction]),
   );
+  const existing = await findSourceTestSet(projectId, conversationId);
+  if (existing) {
+    return extendTestSet(existing, evaluations, correctionOf);
+  }
+  const copy = await copyConversation(projectId, conversationId);
   const testSet = await prisma.labTestSet.create({
     data: {
       conversationId: copy.id,

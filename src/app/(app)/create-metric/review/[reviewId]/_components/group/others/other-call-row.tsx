@@ -10,7 +10,7 @@ type OtherCallRowProps = {
 export function OtherCallRow({ sample }: OtherCallRowProps) {
   return (
     <li className="flex items-center justify-between gap-2 px-3 py-2">
-      <SampleSourceButton label={sample.label} />
+      <SampleSourceButton sample={sample} />
       <SampleVerdict value={sample.verdict} />
     </li>
   );

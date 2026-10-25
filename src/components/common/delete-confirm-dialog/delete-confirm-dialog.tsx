@@ -13,6 +13,8 @@ import {
 
 import { DeleteConfirmLabel } from './delete-confirm-label';
 
+const DEFAULT_TITLE = 'Are you sure you want to delete?';
+
 const DEFAULT_DESCRIPTION =
   'This action cannot be undone. This will permanently delete the selected item.';
 
@@ -21,6 +23,7 @@ type DeleteConfirmDialogProps = {
   onOpenChange: (open: boolean) => void;
   onConfirm: () => void;
   isPending: boolean;
+  title?: string;
   description?: string;
 };
 
@@ -29,13 +32,14 @@ export function DeleteConfirmDialog({
   onOpenChange,
   onConfirm,
   isPending,
+  title = DEFAULT_TITLE,
   description = DEFAULT_DESCRIPTION,
 }: DeleteConfirmDialogProps) {
   return (
     <AlertDialog open={open} onOpenChange={onOpenChange}>
       <AlertDialogContent>
         <AlertDialogHeader>
-          <AlertDialogTitle>Are you sure you want to delete?</AlertDialogTitle>
+          <AlertDialogTitle>{title}</AlertDialogTitle>
           <AlertDialogDescription>{description}</AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>

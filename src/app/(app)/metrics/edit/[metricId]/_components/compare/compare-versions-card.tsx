@@ -5,8 +5,8 @@ import { useState } from 'react';
 
 import { Button } from '@/components/ui/button';
 
-import { useMetricVersions } from '../../_hooks/use-metric-versions';
-import { versionLabel } from '../../_utils/version-text';
+import { useMetricVersions } from '@/components/common/metric-history/_hooks/use-metric-versions';
+import { versionLabel } from '@/components/common/metric-history/_utils/version-text';
 import { CompareResult, type ComparedPair } from './compare-result';
 import { VersionSelect } from './version-select';
 

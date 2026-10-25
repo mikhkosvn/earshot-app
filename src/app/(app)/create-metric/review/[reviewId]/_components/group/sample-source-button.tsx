@@ -1,33 +1,33 @@
 import { ExternalLinkIcon } from 'lucide-react';
+import type { Route } from 'next';
+import Link from 'next/link';
 
 import { Button } from '@/components/ui/button';
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipTrigger,
-} from '@/components/ui/tooltip';
+import type { PatternSampleView } from '@/server/metrics/types';
 
 type SampleSourceButtonProps = {
-  label: string;
+  sample: PatternSampleView;
 };
 
-export function SampleSourceButton({ label }: SampleSourceButtonProps) {
+export function SampleSourceButton({ sample }: SampleSourceButtonProps) {
+  if (!sample.href) {
+    return (
+      <span className="rounded-md border bg-background px-2.5 py-1 text-sm">
+        {sample.label}
+      </span>
+    );
+  }
+
   return (
-    <Tooltip>
-      <TooltipTrigger
-        render={
-          <Button
-            type="button"
-            variant="outline"
-            size="sm"
-            className="bg-background"
-          />
-        }
-      >
-        {label}
-        <ExternalLinkIcon />
-      </TooltipTrigger>
-      <TooltipContent>Opens when the call viewer is available</TooltipContent>
-    </Tooltip>
+    <Button
+      variant="outline"
+      size="sm"
+      className="bg-background"
+      nativeButton={false}
+      render={<Link href={sample.href as Route} target="_blank" />}
+    >
+      {sample.label}
+      <ExternalLinkIcon />
+    </Button>
   );
 }

@@ -1,14 +1,17 @@
-import { PageHeader } from '@/components/common/page-header/page-header';
+import { Suspense } from 'react';
 
-export default function AlertsPage() {
+import { AlertsData } from './_components/alerts-data';
+import { AlertsPageSkeleton } from './_components/alerts-page-skeleton';
+
+export default function AlertsPage({
+  params,
+  searchParams,
+}: PageProps<'/[projectId]/alerts/review'>) {
   return (
-    <div className="flex flex-col gap-2 p-3">
-      <PageHeader
-        title="Alerts"
-        description={
-          'See which alerts fired, when, and why. Configure new ones below.'
-        }
-      />
+    <div className="flex flex-col gap-3 p-3">
+      <Suspense fallback={<AlertsPageSkeleton />}>
+        <AlertsData params={params} searchParams={searchParams} />
+      </Suspense>
     </div>
   );
 }

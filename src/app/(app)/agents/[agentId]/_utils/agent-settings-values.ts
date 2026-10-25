@@ -1,5 +1,7 @@
 import type { AgentDetail, AgentSettingsValues } from '@/server/agents/types';
 
+import { defaultProviderConfig } from '../../_utils/provider-transitions';
+
 export const toAgentSettingsValues = (
   agent: AgentDetail,
 ): AgentSettingsValues => ({
@@ -12,7 +14,10 @@ export const toAgentSettingsValues = (
   inbound: agent.inbound,
   providerAgentId: agent.providerAgentId ?? '',
   providerApiKey: '',
-  providerConfig: agent.providerConfig,
+  providerConfig: {
+    ...defaultProviderConfig(agent.provider),
+    ...agent.providerConfig,
+  },
   autoImportCalls: agent.autoImportCalls,
   autoSyncPrompt: agent.autoSyncPrompt,
   sendPostConversationMetadata: agent.sendPostConversationMetadata,

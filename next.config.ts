@@ -6,6 +6,7 @@ const nextConfig: NextConfig = {
   cacheComponents: true,
   partialPrefetching: true,
   reactCompiler: true,
+  skipTrailingSlashRedirect: true,
   experimental: {
     serverActions: {
       bodySizeLimit: '510mb',

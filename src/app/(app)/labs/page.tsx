@@ -1,14 +1,14 @@
-import { PageHeader } from '@/components/common/page-header/page-header';
+import { Suspense } from 'react';
+
+import { LabsData } from './_components/labs-data';
+import { LabsSkeleton } from './_components/labs-skeleton';
 
 export default function LabsPage() {
   return (
-    <div className="flex flex-col gap-2 p-3">
-      <PageHeader
-        title="Labs"
-        description={
-          "Optimization Labs let you iteratively refine a metric's definition against real results, tuning its description and triggers until it scores conversations the way you intend."
-        }
-      />
+    <div className="flex flex-col gap-3 p-3">
+      <Suspense fallback={<LabsSkeleton />}>
+        <LabsData />
+      </Suspense>
     </div>
   );
 }

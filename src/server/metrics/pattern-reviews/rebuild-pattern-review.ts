@@ -1,6 +1,6 @@
 import 'server-only';
 
-import type { Prisma } from '@/generated/prisma/client';
+import { Prisma } from '@/generated/prisma/client';
 import {
   JobKind,
   PatternReviewStage,
@@ -10,6 +10,7 @@ import { prisma } from '@/lib/prisma';
 import { UrlGenerator } from '@/lib/url-generator/url-generator';
 import { ActionError, withValidation } from '@/server/common/run-action';
 import { startJob } from '@/server/jobs/start-job';
+import { startReviewOptimization } from '@/server/metric-optimizer/utils/start-review-optimization';
 import { valueParts } from '@/server/metric-scoring/utils/value-parts';
 import {
   patternReviewSelect,
@@ -56,12 +57,19 @@ const saveLabEntry = async (
   metricId: number,
   entry: LabEntry,
 ) => {
-  const testSet = await tx.labTestSet.upsert({
-    where: { conversationId: entry.sample.conversationId },
-    create: { conversationId: entry.sample.conversationId },
-    update: {},
+  const copiedTestSet = await tx.labTestSet.findFirst({
+    where: { conversation: { copiedFromId: entry.sample.conversationId } },
+    orderBy: { id: Prisma.SortOrder.asc },
     select: { id: true },
   });
+  const testSet =
+    copiedTestSet ??
+    (await tx.labTestSet.upsert({
+      where: { conversationId: entry.sample.conversationId },
+      create: { conversationId: entry.sample.conversationId },
+      update: {},
+      select: { id: true },
+    }));
   const expected = valueParts(entry.expected);
   const actual = valueParts(entry.sample.verdict);
   const values = {
@@ -139,6 +147,7 @@ export const rebuildPatternReview = withValidation(
             throw error;
           },
         );
+        await startReviewOptimization(reviewId, review.metricId, user.id);
         await context.setStep('Metric review completed.');
         await context.setResult({
           summary: 'Metric review completed.',

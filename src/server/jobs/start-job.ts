@@ -10,7 +10,7 @@ import {
   NotificationSeverity,
 } from '@/generated/prisma/enums';
 import { prisma } from '@/lib/prisma';
-import { JOB_KIND_TITLE } from '@/server/jobs/constants';
+import { JOB_KIND_NAME } from '@/server/jobs/constants';
 import type { JobContext, StartedJob, StartJobArgs } from '@/server/jobs/types';
 
 const errorText = (error: unknown) => {
@@ -37,7 +37,7 @@ const notifyFailure = async (
       projectId: args.projectId,
       eventType: NotificationEventType.job_failed,
       severity: NotificationSeverity.error,
-      title: `${JOB_KIND_TITLE[args.kind]} failed`,
+      title: `${JOB_KIND_NAME[args.kind]} failed`,
       body: message,
     },
   });

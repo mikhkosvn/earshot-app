@@ -58,7 +58,6 @@ export function TestProfileRowActions({
         open={isDeleteOpen}
         onOpenChange={setDeleteOpen}
         isPending={deleteProfile.isPending}
-        description={`This action cannot be undone. The test profile "${profile.name}" will be deleted. ${profile.evaluatorCount} evaluator(s) that use it will have no test profile.`}
         onConfirm={() =>
           deleteProfile.mutate(
             { testProfileId },

@@ -22,7 +22,6 @@ export function DeleteMonitorDialog({
       open={open}
       onOpenChange={onOpenChange}
       isPending={deleteMonitor.isPending}
-      description="This action cannot be undone. This will permanently delete the monitor and its run history."
       onConfirm={() =>
         deleteMonitor.mutate(
           { monitorId },
