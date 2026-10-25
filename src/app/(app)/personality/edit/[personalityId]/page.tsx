@@ -1,14 +1,19 @@
-import { PageHeader } from '@/components/common/page-header/page-header';
+import { Suspense } from 'react';
 
-export default function EditPersonalityPage() {
+import { Skeleton } from '@/components/ui/skeleton';
+
+import { PersonalityBreadcrumb } from '../../_components/form/personality-breadcrumb';
+import { EditPersonalityData } from './_components/edit-personality-data';
+
+export default function EditPersonalityPage({
+  params,
+}: PageProps<'/personality/edit/[personalityId]'>) {
   return (
-    <div className="flex flex-col gap-2 p-3">
-      <PageHeader
-        title="Edit personality"
-        description={
-          'Configure how the Test Agent (Earshot) should behave and respond to users.'
-        }
-      />
+    <div className="mx-auto flex w-full max-w-3xl flex-col gap-3 p-3">
+      <PersonalityBreadcrumb current="Edit personality" />
+      <Suspense fallback={<Skeleton className="h-150 w-full" />}>
+        <EditPersonalityData params={params} />
+      </Suspense>
     </div>
   );
 }
