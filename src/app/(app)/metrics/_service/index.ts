@@ -1,5 +1,6 @@
 import { queryOptions } from '@tanstack/react-query';
 
+import { deferAction } from '@/lib/query-client/defer-action';
 import {
   listAgentOptionsAction,
   listMetricOptionsAction,
@@ -56,28 +57,30 @@ export class MetricService {
   }) {
     return queryOptions({
       queryKey: [MetricKey.list, projectId, viewId],
-      queryFn: () => listMetricsAction({ projectId, viewId }),
+      queryFn: () =>
+        deferAction(() => listMetricsAction({ projectId, viewId })),
     });
   }
 
   static getAgentOptionsQuery({ projectId }: { projectId: number }) {
     return queryOptions({
       queryKey: [MetricKey.agentOptions, projectId],
-      queryFn: () => listAgentOptionsAction({ projectId }),
+      queryFn: () => deferAction(() => listAgentOptionsAction({ projectId })),
     });
   }
 
   static getMetricOptionsQuery({ projectId }: { projectId: number }) {
     return queryOptions({
       queryKey: [MetricKey.metricOptions, projectId],
-      queryFn: () => listMetricOptionsAction({ projectId }),
+      queryFn: () => deferAction(() => listMetricOptionsAction({ projectId })),
     });
   }
 
   static getPredefinedQuery({ projectId }: { projectId: number }) {
     return queryOptions({
       queryKey: [MetricKey.predefined, projectId],
-      queryFn: () => listPredefinedMetricsAction({ projectId }),
+      queryFn: () =>
+        deferAction(() => listPredefinedMetricsAction({ projectId })),
       staleTime: 0,
     });
   }
@@ -85,7 +88,7 @@ export class MetricService {
   static getSavedViewsQuery({ projectId }: { projectId: number }) {
     return queryOptions({
       queryKey: [MetricKey.savedViews, projectId],
-      queryFn: () => listSavedViewsAction({ projectId }),
+      queryFn: () => deferAction(() => listSavedViewsAction({ projectId })),
     });
   }
 }

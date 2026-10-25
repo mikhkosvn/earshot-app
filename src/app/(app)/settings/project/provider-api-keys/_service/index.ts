@@ -1,5 +1,6 @@
 import { queryOptions } from '@tanstack/react-query';
 
+import { deferAction } from '@/lib/query-client/defer-action';
 import { listProviderApiKeysAction } from '@/server/provider-api-keys/actions';
 
 export const ProviderKeysKey = {
@@ -18,7 +19,7 @@ export class ProviderKeysService {
   static getKeysQuery(args: { projectId: number }) {
     return queryOptions({
       queryKey: [ProviderKeysKey.list, args],
-      queryFn: () => listProviderApiKeysAction(args),
+      queryFn: () => deferAction(() => listProviderApiKeysAction(args)),
     });
   }
 }

@@ -1,5 +1,6 @@
 import { queryOptions } from '@tanstack/react-query';
 
+import { deferAction } from '@/lib/query-client/defer-action';
 import {
   getProjectKnowledgeAction,
   listProjectKnowledgeVersionsAction,
@@ -19,14 +20,15 @@ export class KnowledgeService {
   static getKnowledgeQuery(args: { projectId: number }) {
     return queryOptions({
       queryKey: [KnowledgeKey.current, args],
-      queryFn: () => getProjectKnowledgeAction(args),
+      queryFn: () => deferAction(() => getProjectKnowledgeAction(args)),
     });
   }
 
   static getVersionsQuery(args: { projectId: number }) {
     return queryOptions({
       queryKey: [KnowledgeKey.versions, args],
-      queryFn: () => listProjectKnowledgeVersionsAction(args),
+      queryFn: () =>
+        deferAction(() => listProjectKnowledgeVersionsAction(args)),
     });
   }
 }

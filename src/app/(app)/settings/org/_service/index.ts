@@ -1,5 +1,6 @@
 import { queryOptions } from '@tanstack/react-query';
 
+import { deferAction } from '@/lib/query-client/defer-action';
 import { getOrganizationSettingsAction } from '@/server/organization-settings/actions';
 
 export const OrganizationSettingsKey = {
@@ -16,7 +17,7 @@ export class OrganizationSettingsService {
   static getSettingsQuery(args: { organizationId: number }) {
     return queryOptions({
       queryKey: [OrganizationSettingsKey.settings, args],
-      queryFn: () => getOrganizationSettingsAction(args),
+      queryFn: () => deferAction(() => getOrganizationSettingsAction(args)),
     });
   }
 }

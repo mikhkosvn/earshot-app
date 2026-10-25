@@ -1,5 +1,6 @@
 import { queryOptions } from '@tanstack/react-query';
 
+import { deferAction } from '@/lib/query-client/defer-action';
 import {
   getAgentAction,
   listAgentOptionsAction,
@@ -90,56 +91,56 @@ export class AgentService {
   static getListQuery(args: ListAgentsInput) {
     return queryOptions({
       queryKey: [AgentKey.list, args],
-      queryFn: () => listAgentsAction(args),
+      queryFn: () => deferAction(() => listAgentsAction(args)),
     });
   }
 
   static getOptionsQuery(args: { projectId: number }) {
     return queryOptions({
       queryKey: [AgentKey.options, args],
-      queryFn: () => listAgentOptionsAction(args),
+      queryFn: () => deferAction(() => listAgentOptionsAction(args)),
     });
   }
 
   static getAgentQuery(args: { agentId: number }) {
     return queryOptions({
       queryKey: [AgentKey.detail, args],
-      queryFn: () => getAgentAction(args),
+      queryFn: () => deferAction(() => getAgentAction(args)),
     });
   }
 
   static getKnowledgeFilesQuery(args: { agentId: number }) {
     return queryOptions({
       queryKey: [AgentKey.knowledgeFiles, args],
-      queryFn: () => listKnowledgeFilesAction(args),
+      queryFn: () => deferAction(() => listKnowledgeFilesAction(args)),
     });
   }
 
   static getKnowledgeConnectorsQuery(args: { agentId: number }) {
     return queryOptions({
       queryKey: [AgentKey.knowledgeConnectors, args],
-      queryFn: () => listKnowledgeConnectorsAction(args),
+      queryFn: () => deferAction(() => listKnowledgeConnectorsAction(args)),
     });
   }
 
   static getMockToolsQuery(args: { agentId: number }) {
     return queryOptions({
       queryKey: [AgentKey.mockTools, args],
-      queryFn: () => listMockToolsAction(args),
+      queryFn: () => deferAction(() => listMockToolsAction(args)),
     });
   }
 
   static getDynamicVariablesQuery(args: { agentId: number }) {
     return queryOptions({
       queryKey: [AgentKey.dynamicVariables, args],
-      queryFn: () => listDynamicVariablesAction(args),
+      queryFn: () => deferAction(() => listDynamicVariablesAction(args)),
     });
   }
 
   static getVersionsQuery(args: { agentId: number }) {
     return queryOptions({
       queryKey: [AgentKey.versions, args],
-      queryFn: () => listAgentVersionsAction(args),
+      queryFn: () => deferAction(() => listAgentVersionsAction(args)),
       staleTime: 0,
     });
   }

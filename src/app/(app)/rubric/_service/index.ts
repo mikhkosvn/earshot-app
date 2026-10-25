@@ -1,5 +1,6 @@
 import { queryOptions } from '@tanstack/react-query';
 
+import { deferAction } from '@/lib/query-client/defer-action';
 import { getRubricAction } from '@/server/rubric/actions';
 
 export const RubricKey = {
@@ -15,7 +16,7 @@ export class RubricService {
   static getRubricQuery({ projectId }: { projectId: number }) {
     return queryOptions({
       queryKey: [RubricKey.detail, projectId],
-      queryFn: () => getRubricAction({ projectId }),
+      queryFn: () => deferAction(() => getRubricAction({ projectId })),
     });
   }
 }
