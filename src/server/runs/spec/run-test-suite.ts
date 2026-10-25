@@ -1,6 +1,5 @@
 import 'server-only';
 
-import { Prisma } from '@/generated/prisma/client';
 import {
   CallerNumberMode,
   CreationMethod,
@@ -9,7 +8,6 @@ import {
 } from '@/generated/prisma/enums';
 import { prisma } from '@/lib/prisma';
 import { ActionError, withValidation } from '@/server/common/run-action';
-import { enabledPersonalityWhere } from '@/server/evaluators/utils/evaluator-access-where';
 import { recordEvaluatorVersion } from '@/server/evaluators/utils/record-evaluator-version';
 import { createEvaluatorRecord } from '@/server/evaluators/utils/write-evaluator';
 import { requireProjectAccess } from '@/server/projects/utils/require-project-access';
@@ -53,28 +51,22 @@ const snapshotOf = (
   metricIds: item.metricIds,
 });
 
-const fallbackPersonalityId = async (projectId: number) => {
-  const personality = await prisma.personality.findFirst({
-    where: enabledPersonalityWhere(projectId),
-    orderBy: [{ name: Prisma.SortOrder.asc }, { id: Prisma.SortOrder.asc }],
-    select: { id: true },
-  });
-  if (!personality) throw new ActionError(NO_PERSONALITY_MESSAGE);
-  return personality.id;
+const savedPersonalityId = (item: ResolvedScenario) => {
+  if (!item.personality) throw new ActionError(NO_PERSONALITY_MESSAGE);
+  return item.personality.id;
 };
 
-const saveScenarios = async (args: {
+const saveScenarios = (args: {
   projectId: number;
   userId: number;
   agent: RunAgent;
   folderPath: string;
   scenarios: ResolvedScenario[];
-}): Promise<RunPlanSource[]> => {
-  const defaultPersonalityId = await fallbackPersonalityId(args.projectId);
-  return prisma.$transaction(async (tx) => {
+}): Promise<RunPlanSource[]> =>
+  prisma.$transaction(async (tx) => {
     const sources: RunPlanSource[] = [];
     for (const item of args.scenarios) {
-      const personalityId = item.personality?.id ?? defaultPersonalityId;
+      const personalityId = savedPersonalityId(item);
       const created = await createEvaluatorRecord(tx, {
         projectId: args.projectId,
         userId: args.userId,
@@ -112,7 +104,6 @@ const saveScenarios = async (args: {
     }
     return sources;
   });
-};
 
 const unsavedSources = (
   scenarios: ResolvedScenario[],
