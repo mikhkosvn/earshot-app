@@ -4,7 +4,7 @@ import { useSuspenseQuery } from '@tanstack/react-query';
 
 import { useCurrentProjectId } from '@/app/(app)/_hooks/use-current-project-id';
 import { EvaluatorService } from '@/app/(app)/test-case/_service';
-import { profileKeyToken } from '@/app/(app)/test-case/_utils/variable-tokens';
+import { profileKeyToken } from '@/app/(app)/test-case/_utils/evaluator-form/variable-tokens';
 
 import { VariableChips } from './variable-chips';
 

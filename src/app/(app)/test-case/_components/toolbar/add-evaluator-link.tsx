@@ -8,7 +8,7 @@ import { Button } from '@/components/ui/button';
 import { UrlGenerator } from '@/lib/url-generator/url-generator';
 
 import { useEvaluatorListParams } from '../../_hooks/use-evaluator-list-params';
-import { createFolderParam } from '../../_utils/create-folder-param';
+import { createFolderParam } from '../../_utils/list/create-folder-param';
 
 export function AddEvaluatorLink() {
   const projectId = useCurrentProjectId();

@@ -10,7 +10,7 @@ import { Skeleton } from '@/components/ui/skeleton';
 
 import { useDuplicateEvaluatorsMutation } from '../../_hooks/mutations/evaluator-actions/use-duplicate-evaluators-mutation';
 import { useEvaluatorListParams } from '../../_hooks/use-evaluator-list-params';
-import { createFolderParam } from '../../_utils/create-folder-param';
+import { createFolderParam } from '../../_utils/list/create-folder-param';
 import { AgentSelect } from '../fields/selects/agent-select';
 import { FolderSelect } from '../fields/selects/folder-select';
 import { ProjectSelect } from '../fields/selects/project-select';

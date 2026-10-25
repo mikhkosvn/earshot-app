@@ -7,8 +7,8 @@ import { QueryErrorBoundary } from '@/components/common/query-error-boundary';
 import getQueryClient from '@/lib/query-client/get-query-client';
 
 import { EvaluatorService } from '../_service';
-import { toListEvaluatorsInput } from '../_utils/evaluator-list-input';
-import { loadEvaluatorListParams } from '../_utils/load-evaluator-list-params';
+import { toListEvaluatorsInput } from '../_utils/list/evaluator-list-input';
+import { loadEvaluatorListParams } from '../_utils/list/load-evaluator-list-params';
 import { EvaluatorsLayout } from './evaluators-layout';
 import { EvaluatorsSkeleton } from './evaluators-skeleton';
 

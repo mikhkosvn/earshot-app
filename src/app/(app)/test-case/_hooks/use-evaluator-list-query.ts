@@ -2,7 +2,7 @@
 
 import { useCurrentProjectId } from '@/app/(app)/_hooks/use-current-project-id';
 import { EvaluatorService } from '@/app/(app)/test-case/_service';
-import { toListEvaluatorsInput } from '@/app/(app)/test-case/_utils/evaluator-list-input';
+import { toListEvaluatorsInput } from '@/app/(app)/test-case/_utils/list/evaluator-list-input';
 
 import { useEvaluatorListParams } from './use-evaluator-list-params';
 

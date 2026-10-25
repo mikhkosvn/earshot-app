@@ -8,8 +8,8 @@ import {
   INSTRUCTIONS_PLACEHOLDER,
 } from '@/app/(app)/test-case/_constants/evaluator-help-text';
 import type { EvaluatorFormValues } from '@/app/(app)/test-case/_schemas/evaluator-form-schema';
-import { insertAtCursor } from '@/app/(app)/test-case/_utils/insert-at-cursor';
-import { TEST_PROFILE_TOKEN } from '@/app/(app)/test-case/_utils/variable-tokens';
+import { insertAtCursor } from '@/app/(app)/test-case/_utils/evaluator-form/insert-at-cursor';
+import { TEST_PROFILE_TOKEN } from '@/app/(app)/test-case/_utils/evaluator-form/variable-tokens';
 import { Textarea } from '@/components/ui/textarea';
 import { EvaluatorTextKind } from '@/server/evaluators/constants/evaluator-text-kind';
 

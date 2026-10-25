@@ -1,6 +1,6 @@
 'use client';
 
-import { HINT_TOKENS } from '@/app/(app)/test-case/_utils/variable-tokens';
+import { HINT_TOKENS } from '@/app/(app)/test-case/_utils/evaluator-form/variable-tokens';
 import { Button } from '@/components/ui/button';
 
 type VariableHintProps = {

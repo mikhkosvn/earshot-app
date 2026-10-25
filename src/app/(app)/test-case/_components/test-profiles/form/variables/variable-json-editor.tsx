@@ -10,7 +10,7 @@ import type { TestProfileFormValues } from '../../../../_schemas/test-profile-fo
 import {
   parseVariablesJson,
   variablesToJson,
-} from '../../../../_utils/variables-json';
+} from '../../../../_utils/evaluator-form/variables-json';
 import { JsonErrorText } from './json-error-text';
 
 type VariableJsonEditorProps = {
