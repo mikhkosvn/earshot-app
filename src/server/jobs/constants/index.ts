@@ -48,3 +48,10 @@ export const FINISHED_JOB_STATUSES: JobStatus[] = [
   JobStatus.completed,
   JobStatus.failed,
 ];
+
+export const JobStep = {
+  status_write: 'job.status_write',
+  failure_notification: 'job.failure_notification',
+} as const;
+
+export type JobStep = (typeof JobStep)[keyof typeof JobStep];

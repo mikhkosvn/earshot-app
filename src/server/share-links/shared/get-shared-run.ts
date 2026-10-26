@@ -1,6 +1,7 @@
 import 'server-only';
 
 import { prisma } from '@/lib/prisma';
+import { addEventFields } from '@/server/common/logging/event-fields';
 import { withValidation } from '@/server/common/run-action';
 import type { RunDetail } from '@/server/results/types';
 import { loadRunDetail } from '@/server/results/utils/run-detail';
@@ -14,6 +15,7 @@ export const getSharedRun = withValidation(
   sharedRunSchema,
   async ({ token, runId }): Promise<RunDetail> => {
     const link = await requireShareLink(token);
+    addEventFields({ run: { id: runId } });
     const run = await prisma.run.findUniqueOrThrow({
       where: { id: runId },
       select: { id: true, resultId: true },

@@ -6,6 +6,7 @@ import {
   OptimizationStatus,
 } from '@/generated/prisma/enums';
 import { prisma } from '@/lib/prisma';
+import { addEventFields } from '@/server/common/logging/event-fields';
 import { ActionError, withValidation } from '@/server/common/run-action';
 import { AUTO_IMPROVE_CHANGE_REASON } from '@/server/metric-optimizer/constants/optimizer-text';
 import { optimizationSessionSchema } from '@/server/metric-optimizer/schemas';
@@ -122,6 +123,14 @@ export const applyOptimizationProposal = withValidation(
           appliedById: user.id,
         },
       });
+    });
+    addEventFields({
+      metric: { id: session.metricId, kind: proposal.type },
+      optimization_session: {
+        id: sessionId,
+        status: OptimizationStatus.applied,
+        review_result_count: proposal.reviewResults.length,
+      },
     });
     const row = await prisma.metric.findUniqueOrThrow({
       where: { id: session.metricId },

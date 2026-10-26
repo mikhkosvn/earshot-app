@@ -26,63 +26,85 @@ import type {
   RunInsightInput,
   SaveInsightConfigInput,
 } from '@/server/insights/types';
+import { InsightsActionOperation } from '@/server/insights/actions/action-operation';
+import { withActionEvent } from '@/server/common/logging/with-action-event';
 
 export async function listInsightMetricOptionsAction(
   args: ProjectScopeInput,
 ): Promise<InsightMetricOption[]> {
-  return listInsightMetricOptions(args);
+  return withActionEvent(InsightsActionOperation.listInsightMetricOptions, () =>
+    listInsightMetricOptions(args),
+  );
 }
 
 export async function getInsightsOverviewAction(
   args: InsightRangeInput,
 ): Promise<InsightsOverview> {
-  return getInsightsOverview(args);
+  return withActionEvent(InsightsActionOperation.getInsightsOverview, () =>
+    getInsightsOverview(args),
+  );
 }
 
 export async function getDeepResearchAction(
   args: ProjectScopeInput,
 ): Promise<DeepResearchState> {
-  return getDeepResearch(args);
+  return withActionEvent(InsightsActionOperation.getDeepResearch, () =>
+    getDeepResearch(args),
+  );
 }
 
 export async function saveInsightConfigAction(
   args: SaveInsightConfigInput,
 ): Promise<ActionResult<{ metricId: number }>> {
-  return runAction(() => saveInsightConfig(args));
+  return withActionEvent(InsightsActionOperation.saveInsightConfig, () =>
+    runAction(() => saveInsightConfig(args)),
+  );
 }
 
 export async function turnOffInsightsAction(
   args: InsightMetricInput,
 ): Promise<ActionResult<{ metricId: number }>> {
-  return runAction(() => turnOffInsights(args));
+  return withActionEvent(InsightsActionOperation.turnOffInsights, () =>
+    runAction(() => turnOffInsights(args)),
+  );
 }
 
 export async function setNewCategoryAlertAction(
   args: NewCategoryAlertInput,
 ): Promise<ActionResult<{ metricId: number }>> {
-  return runAction(() => setNewCategoryAlert(args));
+  return withActionEvent(InsightsActionOperation.setNewCategoryAlert, () =>
+    runAction(() => setNewCategoryAlert(args)),
+  );
 }
 
 export async function startInsightRunAction(
   args: RunInsightInput,
 ): Promise<ActionResult<InsightJobStarted>> {
-  return runAction(() => startInsightRun(args));
+  return withActionEvent(InsightsActionOperation.startInsightRun, () =>
+    runAction(() => startInsightRun(args)),
+  );
 }
 
 export async function dismissCategoryAction(
   args: CategoryIdInput,
 ): Promise<ActionResult<{ id: number }>> {
-  return runAction(() => dismissCategory(args));
+  return withActionEvent(InsightsActionOperation.dismissCategory, () =>
+    runAction(() => dismissCategory(args)),
+  );
 }
 
 export async function startDeepResearchAction(
   args: ProjectScopeInput,
 ): Promise<ActionResult<InsightJobStarted>> {
-  return runAction(() => startDeepResearch(args));
+  return withActionEvent(InsightsActionOperation.startDeepResearch, () =>
+    runAction(() => startDeepResearch(args)),
+  );
 }
 
 export async function dismissResearchModeAction(
   args: FailureModeIdInput,
 ): Promise<ActionResult<{ id: number }>> {
-  return runAction(() => dismissResearchMode(args));
+  return withActionEvent(InsightsActionOperation.dismissResearchMode, () =>
+    runAction(() => dismissResearchMode(args)),
+  );
 }

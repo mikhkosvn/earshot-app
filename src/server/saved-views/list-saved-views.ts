@@ -2,6 +2,7 @@ import 'server-only';
 
 import { Prisma } from '@/generated/prisma/client';
 import { prisma } from '@/lib/prisma';
+import { addEventFields } from '@/server/common/logging/event-fields';
 import { withValidation } from '@/server/common/run-action';
 import { requireProjectAccess } from '@/server/projects/utils/require-project-access';
 import { listSavedViewsSchema } from '@/server/saved-views/schemas';
@@ -20,6 +21,7 @@ export const listSavedViews = withValidation(
       orderBy: { name: Prisma.SortOrder.asc },
       select: savedViewSelect,
     });
+    addEventFields({ saved_views: { count: rows.length } });
     return rows.map(toSavedViewItem);
   },
 );

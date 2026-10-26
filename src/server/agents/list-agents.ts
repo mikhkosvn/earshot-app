@@ -4,6 +4,7 @@ import { Prisma } from '@/generated/prisma/client';
 import { prisma } from '@/lib/prisma';
 import { listAgentsSchema } from '@/server/agents/schemas';
 import type { AgentListPage } from '@/server/agents/types';
+import { addEventFields } from '@/server/common/logging/event-fields';
 import { withValidation } from '@/server/common/run-action';
 import { requireProjectAccess } from '@/server/projects/utils/require-project-access';
 
@@ -42,6 +43,15 @@ export const listAgents = withValidation(
         },
       }),
     ]);
+    addEventFields({
+      project: { id: projectId },
+      agents: {
+        count: results.length,
+        total_count: count,
+        page,
+        has_search: Boolean(search),
+      },
+    });
     return { count, results };
   },
 );

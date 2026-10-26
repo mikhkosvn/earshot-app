@@ -3,7 +3,9 @@ import 'server-only';
 import { subSeconds } from 'date-fns';
 
 import { RunStatus } from '@/generated/prisma/enums';
+import { EventOutcome } from '@/lib/logging/constants';
 import { prisma } from '@/lib/prisma';
+import { addEventFields } from '@/server/common/logging/event-fields';
 import {
   closeResultIfDone,
   finishStaleResult,
@@ -53,7 +55,16 @@ const timeoutRuns = async (now: Date) => {
       errorMessage: RunMessage.runTimedOut,
     });
   }
-  return [...new Set(stale.map((run) => run.resultId))];
+  const resultIds = [...new Set(stale.map((run) => run.resultId))];
+  addEventFields({
+    timeout: {
+      candidate_runs: candidates.length,
+      stale_runs: stale.length,
+      stale_run_ids: stale.map((run) => run.id),
+      timed_out_result_ids: resultIds,
+    },
+  });
+  return resultIds;
 };
 
 const closeOrphanResults = async (now: Date) => {
@@ -73,12 +84,22 @@ const closeOrphanResults = async (now: Date) => {
     }
     await closeResultIfDone(result.id);
   }
+  addEventFields({
+    timeout: {
+      orphan_results: results.length,
+      orphan_result_ids: results.map((result) => result.id),
+    },
+  });
+  return results.length;
 };
 
 export const timeoutStaleRuns = async () => {
   const now = new Date();
   const resultIds = await timeoutRuns(now);
   for (const resultId of resultIds) await closeResultIfDone(resultId);
-  await closeOrphanResults(now);
+  const orphanResults = await closeOrphanResults(now);
+  if (resultIds.length === 0 && orphanResults === 0) {
+    addEventFields({ outcome: EventOutcome.skipped });
+  }
   return resultIds.length;
 };

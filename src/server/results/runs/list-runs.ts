@@ -3,6 +3,7 @@ import 'server-only';
 import type { z } from 'zod';
 
 import { prisma } from '@/lib/prisma';
+import { addEventFields } from '@/server/common/logging/event-fields';
 import { withValidation } from '@/server/common/run-action';
 import { requireProjectAccess } from '@/server/projects/utils/require-project-access';
 import { listRunsSchema } from '@/server/results/schemas';
@@ -41,5 +42,15 @@ export const listRunPage = async ({
 
 export const listRuns = withValidation(listRunsSchema, async (input) => {
   await requireProjectAccess(input.projectId);
-  return listRunPage(input);
+  const page = await listRunPage(input);
+  addEventFields({
+    result: { id: input.resultId },
+    runs: {
+      count: page.count,
+      row_count: page.rows.length,
+      page: input.page,
+      page_size: input.pageSize,
+    },
+  });
+  return page;
 });

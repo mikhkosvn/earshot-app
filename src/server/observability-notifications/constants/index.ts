@@ -2,3 +2,11 @@ export const NO_CALLS_PERIOD_SECONDS = 60 * 60;
 export const OBSERVABILITY_NOTIFICATION_INTERVAL_MS = 60_000;
 export const MILLISECONDS_PER_SECOND = 1000;
 export const SECONDS_PER_MINUTE = 60;
+
+export const ObservabilityNotificationStep = {
+  in_app_notification: 'observability_notifications.in_app_notification',
+  email: 'observability_notifications.email',
+} as const;
+
+export type ObservabilityNotificationStep =
+  (typeof ObservabilityNotificationStep)[keyof typeof ObservabilityNotificationStep];

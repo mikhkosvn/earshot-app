@@ -1,6 +1,7 @@
 import 'server-only';
 
 import { prisma } from '@/lib/prisma';
+import { addEventFields } from '@/server/common/logging/event-fields';
 import {
   findShareLink,
   shareAllowsConversation,
@@ -21,6 +22,7 @@ export const findSharedFile = async (token: string, fileId: string) => {
       conversations: { select: { id: true } },
     },
   });
+  addEventFields({ file: { id: fileId, found: file !== null } });
   if (!file || file.projectId !== link.projectId) return null;
   for (const conversation of file.conversations) {
     if (await shareAllowsConversation(link, conversation.id)) return file;

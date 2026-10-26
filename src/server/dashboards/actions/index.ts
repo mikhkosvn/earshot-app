@@ -27,69 +27,94 @@ import type {
   SaveDashboardChangesInput,
   SetDashboardDailyReportInput,
 } from '@/server/dashboards/types';
+import { DashboardsActionOperation } from '@/server/dashboards/actions/action-operation';
+import { withActionEvent } from '@/server/common/logging/with-action-event';
 
 export async function listDashboardsAction(
   args: ProjectSourceInput,
 ): Promise<DashboardItem[]> {
-  return listDashboards(args);
+  return withActionEvent(DashboardsActionOperation.listDashboards, () =>
+    listDashboards(args),
+  );
 }
 
 export async function getFirstDashboardIdAction(
   args: ProjectSourceInput,
 ): Promise<number> {
-  return getFirstDashboardId(args);
+  return withActionEvent(DashboardsActionOperation.getFirstDashboardId, () =>
+    getFirstDashboardId(args),
+  );
 }
 
 export async function getDashboardAction(
   args: DashboardIdInput,
 ): Promise<DashboardDetail> {
-  return getDashboard(args);
+  return withActionEvent(DashboardsActionOperation.getDashboard, () =>
+    getDashboard(args),
+  );
 }
 
 export async function getPlotDataAction(
   args: GetPlotDataInput,
 ): Promise<PlotData> {
-  return getPlotData(args);
+  return withActionEvent(DashboardsActionOperation.getPlotData, () =>
+    getPlotData(args),
+  );
 }
 
 export async function listPlotMetricsAction(
   args: ProjectIdInput,
 ): Promise<PlotMetricOption[]> {
-  return listPlotMetrics(args);
+  return withActionEvent(DashboardsActionOperation.listPlotMetrics, () =>
+    listPlotMetrics(args),
+  );
 }
 
 export async function createDashboardAction(
   args: CreateDashboardInput,
 ): Promise<ActionResult<DashboardItem>> {
-  return runAction(() => createDashboard(args));
+  return withActionEvent(DashboardsActionOperation.createDashboard, () =>
+    runAction(() => createDashboard(args)),
+  );
 }
 
 export async function renameDashboardAction(
   args: RenameDashboardInput,
 ): Promise<ActionResult<DashboardItem>> {
-  return runAction(() => renameDashboard(args));
+  return withActionEvent(DashboardsActionOperation.renameDashboard, () =>
+    runAction(() => renameDashboard(args)),
+  );
 }
 
 export async function duplicateDashboardAction(
   args: DashboardIdInput,
 ): Promise<ActionResult<DashboardItem>> {
-  return runAction(() => duplicateDashboard(args));
+  return withActionEvent(DashboardsActionOperation.duplicateDashboard, () =>
+    runAction(() => duplicateDashboard(args)),
+  );
 }
 
 export async function deleteDashboardAction(
   args: DashboardIdInput,
 ): Promise<ActionResult<{ id: number }>> {
-  return runAction(() => deleteDashboard(args));
+  return withActionEvent(DashboardsActionOperation.deleteDashboard, () =>
+    runAction(() => deleteDashboard(args)),
+  );
 }
 
 export async function setDashboardDailyReportAction(
   args: SetDashboardDailyReportInput,
 ): Promise<ActionResult<DashboardItem>> {
-  return runAction(() => setDashboardDailyReport(args));
+  return withActionEvent(
+    DashboardsActionOperation.setDashboardDailyReport,
+    () => runAction(() => setDashboardDailyReport(args)),
+  );
 }
 
 export async function saveDashboardChangesAction(
   args: SaveDashboardChangesInput,
 ): Promise<ActionResult<DashboardDetail>> {
-  return runAction(() => saveDashboardChanges(args));
+  return withActionEvent(DashboardsActionOperation.saveDashboardChanges, () =>
+    runAction(() => saveDashboardChanges(args)),
+  );
 }

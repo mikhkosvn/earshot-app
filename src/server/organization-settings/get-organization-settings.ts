@@ -1,6 +1,7 @@
 import 'server-only';
 
 import { prisma } from '@/lib/prisma';
+import { addEventFields } from '@/server/common/logging/event-fields';
 import { withValidation } from '@/server/common/run-action';
 import { organizationIdSchema } from '@/server/organization-settings/schemas';
 import type { OrganizationSettings } from '@/server/organization-settings/types';
@@ -24,6 +25,9 @@ export const getOrganizationSettings = withValidation(
           select: { id: true, name: true, createdAt: true },
         },
       },
+    });
+    addEventFields({
+      organization: { project_count: organization.projects.length },
     });
     return { ...organization, role };
   },

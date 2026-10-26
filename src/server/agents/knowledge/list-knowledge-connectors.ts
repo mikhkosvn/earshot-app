@@ -5,13 +5,14 @@ import { prisma } from '@/lib/prisma';
 import { agentIdSchema } from '@/server/agents/schemas';
 import type { KnowledgeConnectorItem } from '@/server/agents/types';
 import { requireAgentAccess } from '@/server/agents/utils/require-agent-access';
+import { addEventFields } from '@/server/common/logging/event-fields';
 import { withValidation } from '@/server/common/run-action';
 
 export const listKnowledgeConnectors = withValidation(
   agentIdSchema,
   async ({ agentId }): Promise<KnowledgeConnectorItem[]> => {
-    await requireAgentAccess(agentId);
-    return prisma.knowledgeBaseConnector.findMany({
+    const { agent } = await requireAgentAccess(agentId);
+    const connectors = await prisma.knowledgeBaseConnector.findMany({
       where: { agentId },
       orderBy: { id: Prisma.SortOrder.asc },
       select: {
@@ -25,5 +26,11 @@ export const listKnowledgeConnectors = withValidation(
         createdAt: true,
       },
     });
+    addEventFields({
+      project: { id: agent.projectId },
+      agent: { id: agentId },
+      knowledge_connectors: { count: connectors.length },
+    });
+    return connectors;
   },
 );

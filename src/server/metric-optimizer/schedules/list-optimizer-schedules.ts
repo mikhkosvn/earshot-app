@@ -2,6 +2,7 @@ import 'server-only';
 
 import { Prisma } from '@/generated/prisma/client';
 import { prisma } from '@/lib/prisma';
+import { addEventFields } from '@/server/common/logging/event-fields';
 import { withValidation } from '@/server/common/run-action';
 import { listOptimizerSchedulesSchema } from '@/server/metric-optimizer/schemas';
 import {
@@ -18,6 +19,10 @@ export const listOptimizerSchedules = withValidation(
       where: { projectId },
       orderBy: { createdAt: Prisma.SortOrder.asc },
       select: scheduleSelect,
+    });
+    addEventFields({
+      project: { id: projectId },
+      optimizer_schedules: { count: rows.length },
     });
     return Promise.all(rows.map(toScheduleView));
   },

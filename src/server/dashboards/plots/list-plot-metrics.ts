@@ -2,6 +2,7 @@ import 'server-only';
 
 import { Prisma } from '@/generated/prisma/client';
 import { prisma } from '@/lib/prisma';
+import { addEventFields } from '@/server/common/logging/event-fields';
 import { withValidation } from '@/server/common/run-action';
 import { projectIdSchema } from '@/server/dashboards/schemas';
 import type { PlotMetricOption } from '@/server/dashboards/types';
@@ -24,6 +25,7 @@ export const listPlotMetrics = withValidation(
         predefinedMetric: { select: { functionName: true } },
       },
     });
+    addEventFields({ metrics: { count: rows.length } });
     return rows.map((row) => ({
       id: row.id,
       name: row.name,

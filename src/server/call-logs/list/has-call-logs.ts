@@ -2,6 +2,7 @@ import 'server-only';
 
 import { prisma } from '@/lib/prisma';
 import { projectScopeSchema } from '@/server/call-logs/schemas';
+import { addEventFields } from '@/server/common/logging/event-fields';
 import { withValidation } from '@/server/common/run-action';
 import { requireProjectAccess } from '@/server/projects/utils/require-project-access';
 
@@ -12,6 +13,10 @@ export const hasCallLogs = withValidation(
     const first = await prisma.callLog.findFirst({
       where: { projectId },
       select: { id: true },
+    });
+    addEventFields({
+      project: { id: projectId },
+      call_logs: { exists: first !== null },
     });
     return first !== null;
   },

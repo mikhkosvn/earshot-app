@@ -6,6 +6,7 @@ import { callLogIdsSchema } from '@/server/call-logs/schemas';
 import type { CallJobStarted } from '@/server/call-logs/types';
 import { scoreCallLog } from '@/server/call-logs/utils/processing/score-call-log';
 import { requestOrigin } from '@/server/call-logs/utils/request-origin';
+import { addEventFields } from '@/server/common/logging/event-fields';
 import { withValidation } from '@/server/common/run-action';
 import { startJob } from '@/server/jobs/start-job';
 import { WebhookEvent } from '@/server/project-webhooks/constants/webhook-event';
@@ -23,6 +24,10 @@ export const recomputeCallMetrics = withValidation(
       select: { id: true },
     });
     const ids = rows.map((row) => row.id);
+    addEventFields({
+      project: { id: projectId },
+      call_logs: { requested: callLogIds.length, found: ids.length },
+    });
     const origin = await requestOrigin();
     return startJob({
       projectId,
@@ -39,6 +44,7 @@ export const recomputeCallMetrics = withValidation(
           });
           await setStep(progressText(index + 1, ids.length));
         }
+        addEventFields({ call_logs: { scored: ids.length } });
         await setResult({ summary: progressText(ids.length, ids.length) });
       },
     });

@@ -1,6 +1,7 @@
 import 'server-only';
 
 import { prisma } from '@/lib/prisma';
+import { addEventFields } from '@/server/common/logging/event-fields';
 import { withValidation } from '@/server/common/run-action';
 import { createMonitorSchema } from '@/server/monitors/schemas';
 import type { MonitorRef } from '@/server/monitors/types';
@@ -18,7 +19,7 @@ export const createMonitor = withValidation(
     const { user } = await requireProjectAccess(projectId);
     const { evaluatorIds, personalityIds, agentNumber } =
       await validateMonitorFields(projectId, fields);
-    return prisma.monitor.create({
+    const monitor = await prisma.monitor.create({
       data: {
         ...monitorScalarData(fields, agentNumber),
         projectId,
@@ -28,5 +29,14 @@ export const createMonitor = withValidation(
       },
       select: { id: true },
     });
+    addEventFields({
+      project: { id: projectId },
+      monitor: {
+        id: monitor.id,
+        evaluator_count: evaluatorIds.length,
+        personality_count: personalityIds.length,
+      },
+    });
+    return monitor;
   },
 );

@@ -1,6 +1,7 @@
 import 'server-only';
 
 import { prisma } from '@/lib/prisma';
+import { addEventFields } from '@/server/common/logging/event-fields';
 import { withValidation } from '@/server/common/run-action';
 import { encryptSecret } from '@/server/crypto/encrypt-secret';
 import { saveProjectWebhookSchema } from '@/server/project-webhooks/schemas';
@@ -33,6 +34,14 @@ export const saveProjectWebhook = withValidation(
         skipDuplicates: true,
       }),
     ]);
+    addEventFields({
+      project: { id: projectId },
+      webhook: {
+        notification_count: notifications.length,
+        redaction_field_count: redactionFields.length,
+        secret_changed: secret !== '',
+      },
+    });
     return { projectId };
   },
 );

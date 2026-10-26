@@ -7,7 +7,9 @@ import { DEFAULT_MAX_TOKENS } from '@/server/ai/constants';
 import { isAiConfigured } from '@/server/ai/is-ai-configured';
 import type { GenerateObjectArgs } from '@/server/ai/types';
 import { assertNotRefused } from '@/server/ai/utils/assert-not-refused';
+import { callAnthropic } from '@/server/ai/utils/call-anthropic';
 import { getAiClient, getAiModel } from '@/server/ai/utils/get-ai-client';
+import { addEventFields } from '@/server/common/logging/event-fields';
 
 export const generateObject = async <TSchema extends z.ZodType>({
   system,
@@ -16,14 +18,19 @@ export const generateObject = async <TSchema extends z.ZodType>({
   maxTokens = DEFAULT_MAX_TOKENS,
   mock,
 }: GenerateObjectArgs<TSchema>): Promise<z.output<TSchema>> => {
-  if (!isAiConfigured()) return mock();
-  const message = await getAiClient().messages.parse({
-    model: getAiModel(),
-    max_tokens: maxTokens,
-    system,
-    messages: [{ role: 'user', content: prompt }],
-    output_config: { format: zodOutputFormat(schema) },
-  });
+  if (!isAiConfigured()) {
+    addEventFields({ ai: { mocked: true } });
+    return mock();
+  }
+  const message = await callAnthropic(() =>
+    getAiClient().messages.parse({
+      model: getAiModel(),
+      max_tokens: maxTokens,
+      system,
+      messages: [{ role: 'user', content: prompt }],
+      output_config: { format: zodOutputFormat(schema) },
+    }),
+  );
   assertNotRefused(message);
   if (message.parsed_output === null || message.parsed_output === undefined) {
     throw new Error(

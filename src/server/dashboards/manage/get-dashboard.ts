@@ -1,6 +1,7 @@
 import 'server-only';
 
 import { prisma } from '@/lib/prisma';
+import { addEventFields } from '@/server/common/logging/event-fields';
 import { withValidation } from '@/server/common/run-action';
 import { dashboardIdSchema } from '@/server/dashboards/schemas';
 import type { DashboardDetail } from '@/server/dashboards/types';
@@ -18,6 +19,13 @@ export const getDashboard = withValidation(
     const row = await prisma.dashboard.findUniqueOrThrow({
       where: { id: dashboardId, ...dashboardAccessWhere(user.id) },
       select: dashboardDetailSelect,
+    });
+    addEventFields({
+      dashboard: {
+        id: row.id,
+        source: row.source,
+        widget_count: row.widgets.length,
+      },
     });
     return toDashboardDetail(row);
   },

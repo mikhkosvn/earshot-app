@@ -2,6 +2,7 @@ import 'server-only';
 
 import { Prisma } from '@/generated/prisma/client';
 import { prisma } from '@/lib/prisma';
+import { addEventFields } from '@/server/common/logging/event-fields';
 import { withValidation } from '@/server/common/run-action';
 import { requireProjectAccess } from '@/server/projects/utils/require-project-access';
 import { listTestProfilesSchema } from '@/server/test-profiles/schemas';
@@ -21,6 +22,11 @@ export const listTestProfiles = withValidation(
         { createdAt: Prisma.SortOrder.desc },
         { id: Prisma.SortOrder.desc },
       ],
+    });
+    addEventFields({
+      project: { id: projectId },
+      agent: { id: agentId },
+      test_profiles: { count: rows.length },
     });
     return rows.map(toTestProfileView);
   },

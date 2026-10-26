@@ -10,15 +10,21 @@ import type {
   ListVoicesInput,
   VoiceCatalog,
 } from '@/server/voices/types';
+import { VoicesActionOperation } from '@/server/voices/actions/action-operation';
+import { withActionEvent } from '@/server/common/logging/with-action-event';
 
 export async function listVoicesAction(
   args: ListVoicesInput,
 ): Promise<VoiceCatalog> {
-  return listVoices(args);
+  return withActionEvent(VoicesActionOperation.listVoices, () =>
+    listVoices(args),
+  );
 }
 
 export async function cloneVoiceAction(
   args: CloneVoiceInput,
 ): Promise<ActionResult<ClonedVoiceResult>> {
-  return runAction(() => cloneVoice(args));
+  return withActionEvent(VoicesActionOperation.cloneVoice, () =>
+    runAction(() => cloneVoice(args)),
+  );
 }

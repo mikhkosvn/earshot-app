@@ -3,6 +3,7 @@ import 'server-only';
 import { Prisma } from '@/generated/prisma/client';
 import { JobKind } from '@/generated/prisma/enums';
 import { prisma } from '@/lib/prisma';
+import { addEventFields } from '@/server/common/logging/event-fields';
 import { startJob } from '@/server/jobs/start-job';
 import { scoreConversation } from '@/server/metric-scoring/score-conversation';
 
@@ -38,6 +39,13 @@ export const scoreScenarioHistory = async ({
         orderBy: { createdAt: Prisma.SortOrder.desc },
         take: MAX_HISTORY_RUNS,
         select: { conversationId: true },
+      });
+      addEventFields({
+        metric: { id: metricId },
+        scenario_history: {
+          scenario_count: evaluatorIds.length,
+          run_count: runs.length,
+        },
       });
       for (const [index, run] of runs.entries()) {
         await context.setStep(`Scoring call ${index + 1} of ${runs.length}...`);

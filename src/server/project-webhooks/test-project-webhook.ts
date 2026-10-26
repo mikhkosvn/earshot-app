@@ -1,5 +1,6 @@
 import 'server-only';
 
+import { addEventFields } from '@/server/common/logging/event-fields';
 import { ActionError, withValidation } from '@/server/common/run-action';
 import { testProjectWebhookSchema } from '@/server/project-webhooks/schemas';
 import type { TestProjectWebhookResult } from '@/server/project-webhooks/types';
@@ -19,6 +20,15 @@ export const testProjectWebhook = withValidation(
     const delivery = await postProjectWebhook({
       webhook,
       ...buildMockWebhookPayload(notification),
+    });
+    addEventFields({
+      project: { id: projectId },
+      webhook: {
+        notification,
+        ok: delivery.ok,
+        status_code: delivery.status,
+        duration_ms: delivery.durationMs,
+      },
     });
     if (delivery.status === null) {
       throw new ActionError(

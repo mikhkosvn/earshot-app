@@ -11,6 +11,7 @@ import { agentIdSchema } from '@/server/agents/schemas';
 import type { AgentOption } from '@/server/agents/types';
 import { createAgentRecord } from '@/server/agents/utils/create-agent-record';
 import { requireAgentAccess } from '@/server/agents/utils/require-agent-access';
+import { addEventFields } from '@/server/common/logging/event-fields';
 import { withValidation } from '@/server/common/run-action';
 import { readFileBytes } from '@/server/files/read-file-bytes';
 import { saveFile } from '@/server/files/save-file';
@@ -53,6 +54,16 @@ export const duplicateAgent = withValidation(
         dynamicVariables: true,
         knowledgeBaseConnectors: true,
         knowledgeBaseFiles: { include: { file: true } },
+      },
+    });
+    addEventFields({
+      project: { id: source.projectId },
+      agent: {
+        id: agentId,
+        provider: source.provider,
+        knowledge_file_count: source.knowledgeBaseFiles.length,
+        mock_tool_count: source.mockTools.length,
+        dynamic_variable_count: source.dynamicVariables.length,
       },
     });
     const copiedFileIds = await copyKnowledgeFiles(
@@ -123,6 +134,7 @@ export const duplicateAgent = withValidation(
             },
           },
         });
+        addEventFields({ agent: { copy_id: agent.id } });
         return { id: agent.id, name: agent.name };
       },
       { timeout: AGENT_TRANSACTION_TIMEOUT_MS },

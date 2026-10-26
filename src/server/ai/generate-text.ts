@@ -4,7 +4,9 @@ import { DEFAULT_MAX_TOKENS } from '@/server/ai/constants';
 import { isAiConfigured } from '@/server/ai/is-ai-configured';
 import type { GenerateTextArgs } from '@/server/ai/types';
 import { assertNotRefused } from '@/server/ai/utils/assert-not-refused';
+import { callAnthropic } from '@/server/ai/utils/call-anthropic';
 import { getAiClient, getAiModel } from '@/server/ai/utils/get-ai-client';
+import { addEventFields } from '@/server/common/logging/event-fields';
 
 export const generateText = async ({
   system,
@@ -12,13 +14,18 @@ export const generateText = async ({
   maxTokens = DEFAULT_MAX_TOKENS,
   mock,
 }: GenerateTextArgs): Promise<string> => {
-  if (!isAiConfigured()) return mock();
-  const message = await getAiClient().messages.create({
-    model: getAiModel(),
-    max_tokens: maxTokens,
-    system,
-    messages: [{ role: 'user', content: prompt }],
-  });
+  if (!isAiConfigured()) {
+    addEventFields({ ai: { mocked: true } });
+    return mock();
+  }
+  const message = await callAnthropic(() =>
+    getAiClient().messages.create({
+      model: getAiModel(),
+      max_tokens: maxTokens,
+      system,
+      messages: [{ role: 'user', content: prompt }],
+    }),
+  );
   assertNotRefused(message);
   const text = message.content
     .filter((block) => block.type === 'text')

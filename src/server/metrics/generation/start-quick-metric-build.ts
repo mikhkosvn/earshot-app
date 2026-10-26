@@ -6,6 +6,7 @@ import { JobKind, MetricEvalType, MetricType } from '@/generated/prisma/enums';
 import { prisma } from '@/lib/prisma';
 import { UrlGenerator } from '@/lib/url-generator/url-generator';
 import { generateObject } from '@/server/ai/generate-object';
+import { addEventFields } from '@/server/common/logging/event-fields';
 import { ActionError, withValidation } from '@/server/common/run-action';
 import { startJob } from '@/server/jobs/start-job';
 import { METRIC_NAME_MAX_LENGTH } from '@/server/metrics/constants/definition/metric-limits';
@@ -48,6 +49,10 @@ export const startQuickMetricBuild = withValidation(
     const contextAgent = await prisma.agent.findUniqueOrThrow({
       where: { id: validAgentIds[0] },
       select: { name: true, description: true },
+    });
+    addEventFields({
+      project: { id: projectId },
+      agents: { count: validAgentIds.length },
     });
     return startJob({
       projectId,

@@ -1,7 +1,12 @@
 import 'server-only';
 
 import { Prisma } from '@/generated/prisma/client';
+import {
+  addEventFields,
+  recordStepFailure,
+} from '@/server/common/logging/event-fields';
 import { SCHEDULE_CLAIM_LIMIT } from '@/server/metric-optimizer/constants/optimizer-limits';
+import { MetricOptimizerStep } from '@/server/metric-optimizer/constants/optimizer-step';
 import { metricsWithNewLabRows } from '@/server/metric-optimizer/scheduler/metrics-with-new-lab-rows';
 import { queueOptimization } from '@/server/metric-optimizer/utils/queue-optimization';
 import { computeNextRunAt } from '@/server/monitors/utils/compute-next-run-at';
@@ -66,10 +71,7 @@ const optimizeMetric = async (schedule: ClaimedSchedule, metricId: number) => {
     });
     return [queued.sessionId];
   } catch (error) {
-    console.error(
-      `[metric-optimizer] The schedule ${schedule.id} did not start an optimisation of metric ${metricId}.`,
-      error,
-    );
+    recordStepFailure(MetricOptimizerStep.schedule_optimization, error);
     return [];
   }
 };
@@ -98,5 +100,14 @@ export const runDueOptimizerSchedules = async (now = new Date()) => {
   });
   const results: ScheduleRunResult[] = [];
   for (const schedule of claimed) results.push(await runSchedule(schedule));
+  addEventFields({
+    optimizer_schedules: {
+      claimed_count: claimed.length,
+      started_session_count: results.reduce(
+        (total, result) => total + result.sessionIds.length,
+        0,
+      ),
+    },
+  });
   return results;
 };

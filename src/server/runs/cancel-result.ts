@@ -3,6 +3,7 @@ import 'server-only';
 import { RunStatus } from '@/generated/prisma/enums';
 import { prisma } from '@/lib/prisma';
 import { requireUser } from '@/server/auth';
+import { addEventFields } from '@/server/common/logging/event-fields';
 import { ActionError, withValidation } from '@/server/common/run-action';
 import { closeResultIfDone } from '@/server/runs/completion/close-result';
 import { RunMessage } from '@/server/runs/constants/run-messages';
@@ -25,6 +26,7 @@ export const cancelResult = withValidation(
       where: { resultId, status: { in: QUEUED_RUN_STATUSES } },
       data: { status: RunStatus.cancelled, errorMessage: CANCELLED_MESSAGE },
     });
+    addEventFields({ result: { id: resultId, cancelled_run_count: count } });
     if (count === 0) throw new ActionError(RunMessage.resultNotCancellable);
     await closeResultIfDone(resultId);
     return { resultId, cancelledCount: count };

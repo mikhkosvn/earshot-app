@@ -2,6 +2,7 @@ import 'server-only';
 
 import { ChatRole, JobKind } from '@/generated/prisma/enums';
 import { prisma } from '@/lib/prisma';
+import { addEventFields } from '@/server/common/logging/event-fields';
 import { withValidation } from '@/server/common/run-action';
 import {
   ASSISTANT_THINKING_STEP,
@@ -70,6 +71,15 @@ export const startEvaluatorAssistant = withValidation(
       input: { sessionId: session.id },
       initialStep: ASSISTANT_THINKING_STEP,
       run: runAssistantJob,
+    });
+    addEventFields({
+      generation_session: { id: session.id },
+      agent: { id: options.agentId },
+      job: { id: jobId },
+      generation: {
+        num_scenarios: options.numScenarios,
+        scenario_type: options.scenarioType,
+      },
     });
     return { jobId, sessionId: session.id };
   },

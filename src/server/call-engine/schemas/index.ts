@@ -65,6 +65,7 @@ export const pubSubPushSchema = z.object({
     attributes: z.record(z.string(), z.string()).optional(),
   }),
   subscription: z.string(),
+  deliveryAttempt: z.number().int().optional(),
 });
 
 export const startCallResponseSchema = z.object({

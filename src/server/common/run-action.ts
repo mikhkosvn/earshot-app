@@ -4,11 +4,13 @@ import { ZodError, type z } from 'zod';
 
 import { Prisma } from '@/generated/prisma/client';
 import type { ActionResult } from '@/lib/action-result';
+import { recordEventError } from '@/server/common/logging/event-fields';
 
 export class ActionError extends Error {
   status: number;
   constructor(message: string, status = 400) {
     super(message);
+    this.name = 'ActionError';
     this.status = status;
   }
 }
@@ -19,6 +21,7 @@ export async function runAction<T>(
   try {
     return { ok: true, data: await fn() };
   } catch (error) {
+    recordEventError(error);
     if (error instanceof ActionError) {
       return { ok: false, error: error.message, status: error.status };
     }

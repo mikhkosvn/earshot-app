@@ -2,6 +2,7 @@ import 'server-only';
 
 import { Prisma } from '@/generated/prisma/client';
 import { prisma } from '@/lib/prisma';
+import { addEventFields } from '@/server/common/logging/event-fields';
 import { withValidation } from '@/server/common/run-action';
 import { requireProjectAccess } from '@/server/projects/utils/require-project-access';
 import { RunStatusLabel } from '@/server/results/constants/run-status-labels';
@@ -74,6 +75,7 @@ export const exportResults = withValidation(
       take: RESULT_EXPORT_ROW_MAX,
     });
     const lines = rows.map(toResultListRow).map(csvLine);
+    addEventFields({ export: { row_count: rows.length } });
     return {
       fileName: RESULT_CSV_FILE_NAME,
       content: [CSV_HEADER.join(','), ...lines].join('\n'),

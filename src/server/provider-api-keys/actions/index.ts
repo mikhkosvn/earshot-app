@@ -12,21 +12,32 @@ import type {
   ProviderApiKeyState,
   SaveProviderApiKeysInput,
 } from '@/server/provider-api-keys/types';
+import { ProviderApiKeysActionOperation } from '@/server/provider-api-keys/actions/action-operation';
+import { withActionEvent } from '@/server/common/logging/with-action-event';
 
 export async function listProviderApiKeysAction(
   args: ListProviderApiKeysInput,
 ): Promise<ProviderApiKeyState[]> {
-  return listProviderApiKeys(args);
+  return withActionEvent(
+    ProviderApiKeysActionOperation.listProviderApiKeys,
+    () => listProviderApiKeys(args),
+  );
 }
 
 export async function saveProviderApiKeysAction(
   args: SaveProviderApiKeysInput,
 ): Promise<ActionResult<{ projectId: number; savedCount: number }>> {
-  return runAction(() => saveProviderApiKeys(args));
+  return withActionEvent(
+    ProviderApiKeysActionOperation.saveProviderApiKeys,
+    () => runAction(() => saveProviderApiKeys(args)),
+  );
 }
 
 export async function deleteProviderApiKeyAction(
   args: DeleteProviderApiKeyInput,
 ): Promise<ActionResult<{ projectId: number; provider: ProviderKeyProvider }>> {
-  return runAction(() => deleteProviderApiKey(args));
+  return withActionEvent(
+    ProviderApiKeysActionOperation.deleteProviderApiKey,
+    () => runAction(() => deleteProviderApiKey(args)),
+  );
 }

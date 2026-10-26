@@ -1,6 +1,7 @@
 import 'server-only';
 
 import { prisma } from '@/lib/prisma';
+import { addEventFields } from '@/server/common/logging/event-fields';
 import { withValidation } from '@/server/common/run-action';
 import { duplicateEvaluatorsSchema } from '@/server/evaluators/schemas/evaluator-bulk';
 import { copyEvaluators } from '@/server/evaluators/utils/copy-evaluator';
@@ -29,6 +30,15 @@ export const duplicateEvaluators = withValidation(
           userId: user.id,
         },
       );
+      addEventFields({
+        project: { id: projectId },
+        target_project: { id: targetProjectId },
+        agent: { id: agentId },
+        evaluators: {
+          requested_count: evaluatorIds.length,
+          created_count: createdIds.length,
+        },
+      });
       return { count: createdIds.length, evaluatorIds: createdIds };
     });
   },

@@ -2,6 +2,7 @@ import 'server-only';
 
 import { prisma } from '@/lib/prisma';
 import { requireUser } from '@/server/auth';
+import { addEventFields } from '@/server/common/logging/event-fields';
 import { withValidation } from '@/server/common/run-action';
 import { projectAccessWhere } from '@/server/projects/utils/project-access-where';
 import { updateRunFeedbackSchema } from '@/server/run-reviews/schemas';
@@ -24,6 +25,9 @@ export const updateRunFeedback = withValidation(
       where: { id: runId },
       data: { feedback: feedbackValue(feedback) },
       select: { id: true, evaluationStatus: true, feedback: true },
+    });
+    addEventFields({
+      run: { id: run.id, has_feedback: run.feedback !== null },
     });
     return {
       runId: run.id,

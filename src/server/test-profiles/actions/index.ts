@@ -14,33 +14,45 @@ import type {
   UpdateTestProfileInput,
 } from '@/server/test-profiles/types';
 import { updateTestProfile } from '@/server/test-profiles/update-test-profile';
+import { TestProfilesActionOperation } from '@/server/test-profiles/actions/action-operation';
+import { withActionEvent } from '@/server/common/logging/with-action-event';
 
 export async function listTestProfilesAction(
   args: ListTestProfilesInput,
 ): Promise<TestProfileView[]> {
-  return listTestProfiles(args);
+  return withActionEvent(TestProfilesActionOperation.listTestProfiles, () =>
+    listTestProfiles(args),
+  );
 }
 
 export async function createTestProfileAction(
   args: CreateTestProfileInput,
 ): Promise<ActionResult<TestProfileView>> {
-  return runAction(() => createTestProfile(args));
+  return withActionEvent(TestProfilesActionOperation.createTestProfile, () =>
+    runAction(() => createTestProfile(args)),
+  );
 }
 
 export async function updateTestProfileAction(
   args: UpdateTestProfileInput,
 ): Promise<ActionResult<TestProfileView>> {
-  return runAction(() => updateTestProfile(args));
+  return withActionEvent(TestProfilesActionOperation.updateTestProfile, () =>
+    runAction(() => updateTestProfile(args)),
+  );
 }
 
 export async function duplicateTestProfileAction(
   args: TestProfileIdInput,
 ): Promise<ActionResult<TestProfileView>> {
-  return runAction(() => duplicateTestProfile(args));
+  return withActionEvent(TestProfilesActionOperation.duplicateTestProfile, () =>
+    runAction(() => duplicateTestProfile(args)),
+  );
 }
 
 export async function deleteTestProfileAction(
   args: TestProfileIdInput,
 ): Promise<ActionResult<{ testProfileId: number }>> {
-  return runAction(() => deleteTestProfile(args));
+  return withActionEvent(TestProfilesActionOperation.deleteTestProfile, () =>
+    runAction(() => deleteTestProfile(args)),
+  );
 }

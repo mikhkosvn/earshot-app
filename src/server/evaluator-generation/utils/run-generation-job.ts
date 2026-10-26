@@ -11,7 +11,12 @@ import {
 } from '@/generated/prisma/enums';
 import { prisma } from '@/lib/prisma';
 import { generateObject } from '@/server/ai/generate-object';
+import {
+  addEventFields,
+  recordStepFailure,
+} from '@/server/common/logging/event-fields';
 import { GenerationStepText } from '@/server/evaluator-generation/constants';
+import { GenerationStep } from '@/server/evaluator-generation/constants/generation-step';
 import { generationOptionsSchema } from '@/server/evaluator-generation/schemas';
 import type {
   GenerationJobInput,
@@ -253,10 +258,7 @@ export const runGenerationJob = async (
       progress.completedScenarios += 1;
       progress.scenarioIds.push(evaluatorId);
     } catch (error) {
-      console.error(
-        `[evaluator-generation] Scenario ${index + 1} failed.`,
-        error,
-      );
+      recordStepFailure(GenerationStep.scenario_create, error);
       progress.failedScenarios += 1;
       progress.errors.push(errorText(error));
     }
@@ -271,6 +273,15 @@ export const runGenerationJob = async (
     projectId: session.projectId,
     folderPath: options.folderPath,
     jobId: context.jobId,
+  });
+  addEventFields({
+    generation_session: { id: session.id },
+    agent: { id: agent.id },
+    scenarios: {
+      total: progress.totalScenarios,
+      completed: progress.completedScenarios,
+      failed: progress.failedScenarios,
+    },
   });
   await notifyDone(session, agent, progress.completedScenarios, deepLink);
   await context.setStep(GenerationStepText.complete);

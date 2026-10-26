@@ -2,6 +2,7 @@ import 'server-only';
 
 import { prisma } from '@/lib/prisma';
 import { requireUser } from '@/server/auth';
+import { addEventFields } from '@/server/common/logging/event-fields';
 import { withValidation } from '@/server/common/run-action';
 import { setMonitorActiveSchema } from '@/server/monitors/schemas';
 import type { MonitorActiveState } from '@/server/monitors/types';
@@ -18,6 +19,7 @@ export const setMonitorActive = withValidation(
       where: { id: monitorId, AND: [monitorAccessWhere(user.id)] },
       select: { id: true, cronExpression: true, timezone: true },
     });
+    addEventFields({ monitor: { id: monitor.id, is_active: isActive } });
     if (!isActive) {
       return prisma.monitor.update({
         where: { id: monitor.id },

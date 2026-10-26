@@ -1,6 +1,7 @@
 import 'server-only';
 
 import { prisma } from '@/lib/prisma';
+import { addEventFields } from '@/server/common/logging/event-fields';
 import { withValidation } from '@/server/common/run-action';
 import { listFoldersSchema } from '@/server/folders/schemas';
 import { toFolderTree } from '@/server/folders/utils/folder-view';
@@ -20,6 +21,7 @@ export const listFolders = withValidation(
         _count: { select: { evaluators: true } },
       },
     });
+    addEventFields({ folders: { count: rows.length } });
     return toFolderTree(rows);
   },
 );

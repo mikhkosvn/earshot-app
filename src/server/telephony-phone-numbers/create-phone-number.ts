@@ -1,6 +1,7 @@
 import 'server-only';
 
 import { prisma } from '@/lib/prisma';
+import { addEventFields } from '@/server/common/logging/event-fields';
 import { withValidation } from '@/server/common/run-action';
 import { encryptSecret } from '@/server/crypto/encrypt-secret';
 import { requireOrganizationAdmin } from '@/server/organization-settings/utils/require-organization-admin';
@@ -29,6 +30,10 @@ export const createPhoneNumber = withValidation(
         importedById: user.id,
       },
       select: phoneNumberRowSelect,
+    });
+    addEventFields({
+      organization: { id: organizationId },
+      phone_number: { id: phoneNumber.id, provider: phoneNumber.provider },
     });
     return toPhoneNumberRow(phoneNumber);
   },

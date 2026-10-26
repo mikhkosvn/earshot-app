@@ -1,6 +1,7 @@
 import 'server-only';
 
 import { generateObject } from '@/server/ai/generate-object';
+import { addEventFields } from '@/server/common/logging/event-fields';
 import { withValidation } from '@/server/common/run-action';
 import {
   generatedTriggerSchema,
@@ -34,6 +35,7 @@ export const generateEvaluationTrigger = withValidation(
   generateEvaluationTriggerSchema,
   async ({ projectId, description }) => {
     await requireProjectAccess(projectId);
+    addEventFields({ project: { id: projectId } });
     return generateObject({
       system: SYSTEM_PROMPT,
       prompt: `Metric description:\n${description}`,

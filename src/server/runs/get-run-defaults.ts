@@ -2,6 +2,7 @@ import 'server-only';
 
 import { Prisma } from '@/generated/prisma/client';
 import { prisma } from '@/lib/prisma';
+import { addEventFields } from '@/server/common/logging/event-fields';
 import { withValidation } from '@/server/common/run-action';
 import { requireProjectAccess } from '@/server/projects/utils/require-project-access';
 import { runDefaultsSchema } from '@/server/runs/schemas';
@@ -51,6 +52,10 @@ export const getRunDefaults = withValidation(
           return [row.agentId];
         }),
       ) ?? (await firstAgentId(projectId));
+    addEventFields({
+      agent: { id: agentId },
+      evaluator: { count: evaluatorIds.length },
+    });
     return {
       agentId,
       maxConcurrentRuns: project.organization.maxConcurrentRuns,

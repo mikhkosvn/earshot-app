@@ -2,6 +2,7 @@ import 'server-only';
 
 import { prisma } from '@/lib/prisma';
 import { requireUser } from '@/server/auth';
+import { addEventFields } from '@/server/common/logging/event-fields';
 import { withValidation } from '@/server/common/run-action';
 import { updateEvaluatorSchema } from '@/server/evaluators/schemas/evaluator-fields';
 import { evaluatorAccessWhere } from '@/server/evaluators/utils/evaluator-access-where';
@@ -17,6 +18,11 @@ export const updateEvaluator = withValidation(
       const evaluator = await tx.evaluator.findUniqueOrThrow({
         where: { id: evaluatorId, ...evaluatorAccessWhere(user.id) },
         select: { projectId: true },
+      });
+      addEventFields({
+        project: { id: evaluator.projectId },
+        agent: { id: fields.agentId },
+        evaluator: { id: evaluatorId, scenario_type: fields.scenarioType },
       });
       await updateEvaluatorRecord(tx, {
         projectId: evaluator.projectId,

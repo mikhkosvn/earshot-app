@@ -2,6 +2,7 @@ import 'server-only';
 
 import { JobKind, OptimizationStatus } from '@/generated/prisma/enums';
 import { prisma } from '@/lib/prisma';
+import { addEventFields } from '@/server/common/logging/event-fields';
 import { ActionError } from '@/server/common/run-action';
 import { startJob } from '@/server/jobs/start-job';
 import type { LabDraft } from '@/server/labs/types';
@@ -89,6 +90,13 @@ export const queueOptimization = async ({
   await prisma.metricOptimizationSession.update({
     where: { id: session.id },
     data: { jobId },
+  });
+  addEventFields({
+    metric: { id: metricId },
+    project: { id: metric.projectId },
+    optimization_session: { id: session.id, review_count: reviews.length },
+    job: { id: jobId },
+    optimizer_schedule: { id: schedule?.id ?? null },
   });
   return { sessionId: session.id, jobId };
 };

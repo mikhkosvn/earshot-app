@@ -15,27 +15,41 @@ import type {
   StartedAssistant,
   StartEvaluatorAssistantInput,
 } from '@/server/evaluator-generation/types';
+import { EvaluatorGenerationActionOperation } from '@/server/evaluator-generation/actions/action-operation';
+import { withActionEvent } from '@/server/common/logging/with-action-event';
 
 export async function getGenerationSessionAction(
   args: GenerationSessionIdInput,
 ): Promise<GenerationSessionView> {
-  return getGenerationSession(args);
+  return withActionEvent(
+    EvaluatorGenerationActionOperation.getGenerationSession,
+    () => getGenerationSession(args),
+  );
 }
 
 export async function listGenerationSessionsAction(
   args: ListGenerationSessionsInput,
 ): Promise<GenerationSessionSummary[]> {
-  return listGenerationSessions(args);
+  return withActionEvent(
+    EvaluatorGenerationActionOperation.listGenerationSessions,
+    () => listGenerationSessions(args),
+  );
 }
 
 export async function startEvaluatorAssistantAction(
   args: StartEvaluatorAssistantInput,
 ): Promise<ActionResult<StartedAssistant>> {
-  return runAction(() => startEvaluatorAssistant(args));
+  return withActionEvent(
+    EvaluatorGenerationActionOperation.startEvaluatorAssistant,
+    () => runAction(() => startEvaluatorAssistant(args)),
+  );
 }
 
 export async function answerEvaluatorAssistantAction(
   args: AnswerEvaluatorAssistantInput,
 ): Promise<ActionResult<StartedAssistant>> {
-  return runAction(() => answerEvaluatorAssistant(args));
+  return withActionEvent(
+    EvaluatorGenerationActionOperation.answerEvaluatorAssistant,
+    () => runAction(() => answerEvaluatorAssistant(args)),
+  );
 }

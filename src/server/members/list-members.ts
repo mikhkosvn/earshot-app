@@ -1,6 +1,7 @@
 import 'server-only';
 
 import { prisma } from '@/lib/prisma';
+import { addEventFields } from '@/server/common/logging/event-fields';
 import { withValidation } from '@/server/common/run-action';
 import { listMembersSchema } from '@/server/members/schemas';
 import type { MemberRow } from '@/server/members/types';
@@ -20,6 +21,7 @@ export const listMembers = withValidation(
         user: { select: { id: true, name: true, email: true } },
       },
     });
+    addEventFields({ members: { count: members.length } });
     return members.map((member) => ({
       id: member.id,
       userId: member.user.id,

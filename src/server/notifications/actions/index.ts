@@ -10,23 +10,36 @@ import type {
   NotificationIdInput,
   NotificationItem,
 } from '@/server/notifications/types';
+import { NotificationsActionOperation } from '@/server/notifications/actions/action-operation';
+import { withActionEvent } from '@/server/common/logging/with-action-event';
 
 export async function listNotificationsAction(): Promise<NotificationItem[]> {
-  return listNotifications();
+  return withActionEvent(NotificationsActionOperation.listNotifications, () =>
+    listNotifications(),
+  );
 }
 
 export async function countUnreadNotificationsAction(): Promise<number> {
-  return countUnreadNotifications();
+  return withActionEvent(
+    NotificationsActionOperation.countUnreadNotifications,
+    () => countUnreadNotifications(),
+  );
 }
 
 export async function markNotificationReadAction(
   args: NotificationIdInput,
 ): Promise<ActionResult<{ id: number }>> {
-  return runAction(() => markNotificationRead(args));
+  return withActionEvent(
+    NotificationsActionOperation.markNotificationRead,
+    () => runAction(() => markNotificationRead(args)),
+  );
 }
 
 export async function markAllNotificationsReadAction(): Promise<
   ActionResult<{ count: number }>
 > {
-  return runAction(() => markAllNotificationsRead());
+  return withActionEvent(
+    NotificationsActionOperation.markAllNotificationsRead,
+    () => runAction(() => markAllNotificationsRead()),
+  );
 }

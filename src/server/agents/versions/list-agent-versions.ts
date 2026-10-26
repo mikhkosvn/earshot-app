@@ -5,12 +5,13 @@ import { prisma } from '@/lib/prisma';
 import { agentIdSchema } from '@/server/agents/schemas';
 import type { AgentVersionList } from '@/server/agents/types';
 import { requireAgentAccess } from '@/server/agents/utils/require-agent-access';
+import { addEventFields } from '@/server/common/logging/event-fields';
 import { withValidation } from '@/server/common/run-action';
 
 export const listAgentVersions = withValidation(
   agentIdSchema,
   async ({ agentId }): Promise<AgentVersionList> => {
-    await requireAgentAccess(agentId);
+    const { agent } = await requireAgentAccess(agentId);
     const versions = await prisma.agentVersion.findMany({
       where: { agentId },
       orderBy: { version: Prisma.SortOrder.desc },
@@ -25,6 +26,14 @@ export const listAgentVersions = withValidation(
       },
     });
     const currentVersion = versions[0]?.version;
+    addEventFields({
+      project: { id: agent.projectId },
+      agent: { id: agentId },
+      agent_versions: {
+        count: versions.length,
+        current_version: currentVersion,
+      },
+    });
     return {
       count: versions.length,
       results: versions.map((version) => ({

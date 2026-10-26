@@ -4,6 +4,7 @@ import { randomUUID } from 'node:crypto';
 import path from 'node:path';
 
 import { prisma } from '@/lib/prisma';
+import { addEventFields } from '@/server/common/logging/event-fields';
 import { getStorageAdapter } from '@/server/files/storage/get-storage-adapter';
 import type { SaveFileArgs } from '@/server/files/types';
 
@@ -24,7 +25,7 @@ export const saveFile = async ({
   const storage = getStorageAdapter();
   await storage.write(storageKey, data);
   try {
-    return await prisma.storedFile.create({
+    const stored = await prisma.storedFile.create({
       data: {
         id,
         projectId,
@@ -34,6 +35,10 @@ export const saveFile = async ({
         sizeBytes: data.byteLength,
       },
     });
+    addEventFields({
+      file: { id, content_type: contentType, size_bytes: data.byteLength },
+    });
+    return stored;
   } catch (error) {
     await storage.remove(storageKey);
     throw error;

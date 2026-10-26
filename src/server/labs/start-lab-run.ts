@@ -3,13 +3,17 @@ import 'server-only';
 import { JobKind } from '@/generated/prisma/enums';
 import { prisma } from '@/lib/prisma';
 import { UrlGenerator } from '@/lib/url-generator/url-generator';
+import { addEventFields } from '@/server/common/logging/event-fields';
 import { ActionError, withValidation } from '@/server/common/run-action';
 import { ACTIVE_JOB_STATUSES } from '@/server/jobs/constants';
 import { startJob } from '@/server/jobs/start-job';
 import { LAB_RUN_INPUT_KEY } from '@/server/labs/constants/lab-run';
 import { startLabRunSchema } from '@/server/labs/schemas';
 import type { LabRowOutcome, LabRunJobResult } from '@/server/labs/types';
-import { applyDraft, loadScoringMetric } from '@/server/labs/utils/draft-metric';
+import {
+  applyDraft,
+  loadScoringMetric,
+} from '@/server/labs/utils/draft-metric';
 import { labRunWhere } from '@/server/labs/utils/lab-run-view';
 import {
   type ConversationCache,
@@ -17,7 +21,10 @@ import {
   scoreLabReview,
 } from '@/server/labs/utils/score-lab-reviews';
 import { valuesMatch } from '@/server/labs/utils/values-match';
-import { valueFromParts, valueParts } from '@/server/metric-scoring/utils/value-parts';
+import {
+  valueFromParts,
+  valueParts,
+} from '@/server/metric-scoring/utils/value-parts';
 import { requireMetricAccess } from '@/server/metrics/utils/require-metric-access';
 
 const previousValueOf = async (reviewId: number) => {
@@ -73,7 +80,7 @@ export const startLabRun = withValidation(
     await assertNoActiveRun(projectId, metricId);
     const reviews = await loadScoringReviews(metricId);
     const scoringMetric = applyDraft(await loadScoringMetric(metricId), draft);
-    return startJob({
+    const job = await startJob({
       projectId,
       userId: user.id,
       kind: JobKind.reevaluation,
@@ -104,8 +111,22 @@ export const startLabRun = withValidation(
           total: reviews.length,
           changedReviewIds,
         };
+        addEventFields({
+          metric: { id: metricId },
+          lab_run: {
+            matched,
+            total: reviews.length,
+            changed: changedReviewIds.length,
+          },
+        });
         await context.setResult(result);
       },
     });
+    addEventFields({
+      metric: { id: metricId },
+      lab_run: { review_count: reviews.length },
+      job: { id: job.jobId },
+    });
+    return job;
   },
 );

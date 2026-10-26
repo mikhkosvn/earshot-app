@@ -1,6 +1,7 @@
 import 'server-only';
 
 import { prisma } from '@/lib/prisma';
+import { addEventFields } from '@/server/common/logging/event-fields';
 import { withValidation } from '@/server/common/run-action';
 import { moveEvaluatorsSchema } from '@/server/evaluators/schemas/evaluator-bulk';
 import { recordEvaluatorVersion } from '@/server/evaluators/utils/record-evaluator-version';
@@ -32,6 +33,14 @@ export const moveEvaluators = withValidation(
           changeReason: `Moved to ${folder.path}`,
         });
       }
+      addEventFields({
+        project: { id: projectId },
+        folder: { id: folder.id },
+        evaluators: {
+          requested_count: evaluatorIds.length,
+          updated_count: evaluators.length,
+        },
+      });
       return { count: evaluators.length, folderPath: folder.path };
     });
   },

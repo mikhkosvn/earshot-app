@@ -13,6 +13,7 @@ import { agentVersionIdSchema } from '@/server/agents/schemas';
 import { agentAccessWhere } from '@/server/agents/utils/require-agent-access';
 import { saveAgentVersion } from '@/server/agents/utils/save-agent-version';
 import { requireUser } from '@/server/auth';
+import { addEventFields } from '@/server/common/logging/event-fields';
 import { withValidation } from '@/server/common/run-action';
 
 const restorableSnapshotSchema = z.object({
@@ -44,6 +45,10 @@ export const restoreAgentVersion = withValidation(
       version.snapshot,
     );
 
+    addEventFields({
+      agent: { id: version.agentId, provider: snapshot.provider },
+      agent_version: { id: agentVersionId, restored_version: version.version },
+    });
     return prisma.$transaction(
       async (tx) => {
         await tx.agentRedactionField.deleteMany({

@@ -1,6 +1,7 @@
 import 'server-only';
 
 import { prisma } from '@/lib/prisma';
+import { addEventFields } from '@/server/common/logging/event-fields';
 import { withValidation } from '@/server/common/run-action';
 import { requireProjectAccess } from '@/server/projects/utils/require-project-access';
 import { deleteResultsSchema } from '@/server/results/schemas';
@@ -17,6 +18,13 @@ export const deleteResults = withValidation(
     });
     await deleteConversations(runs.map((run) => run.conversationId));
     const { count } = await prisma.result.deleteMany({ where });
+    addEventFields({
+      results: {
+        requested_count: resultIds.length,
+        deleted_count: count,
+        deleted_conversation_count: runs.length,
+      },
+    });
     return { count };
   },
 );

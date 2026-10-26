@@ -13,25 +13,33 @@ import type {
   JobView,
   ListRecentJobsInput,
 } from '@/server/jobs/types';
+import { JobsActionOperation } from '@/server/jobs/actions/action-operation';
+import { withActionEvent } from '@/server/common/logging/with-action-event';
 
 export async function getJobAction(args: GetJobInput): Promise<JobView> {
-  return getJob(args);
+  return withActionEvent(JobsActionOperation.getJob, () => getJob(args));
 }
 
 export async function listRecentJobsAction(
   args: ListRecentJobsInput,
 ): Promise<JobView[]> {
-  return listRecentJobs(args);
+  return withActionEvent(JobsActionOperation.listRecentJobs, () =>
+    listRecentJobs(args),
+  );
 }
 
 export async function dismissJobAction(
   args: DismissJobInput,
 ): Promise<ActionResult<{ jobId: string }>> {
-  return runAction(() => dismissJob(args));
+  return withActionEvent(JobsActionOperation.dismissJob, () =>
+    runAction(() => dismissJob(args)),
+  );
 }
 
 export async function dismissAllJobsAction(
   args: DismissAllJobsInput,
 ): Promise<ActionResult<{ count: number }>> {
-  return runAction(() => dismissAllJobs(args));
+  return withActionEvent(JobsActionOperation.dismissAllJobs, () =>
+    runAction(() => dismissAllJobs(args)),
+  );
 }

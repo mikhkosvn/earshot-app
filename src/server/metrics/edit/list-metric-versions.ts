@@ -2,6 +2,7 @@ import 'server-only';
 
 import { Prisma } from '@/generated/prisma/client';
 import { prisma } from '@/lib/prisma';
+import { addEventFields } from '@/server/common/logging/event-fields';
 import { withValidation } from '@/server/common/run-action';
 import { metricIdSchema, metricSnapshotSchema } from '@/server/metrics/schemas';
 import type { MetricVersionView } from '@/server/metrics/types';
@@ -23,6 +24,10 @@ export const listMetricVersions = withValidation(
         snapshot: true,
         createdBy: { select: { id: true, name: true } },
       },
+    });
+    addEventFields({
+      metric: { id: metricId },
+      metric_versions: { count: rows.length },
     });
     return rows.map((row) => ({
       ...row,

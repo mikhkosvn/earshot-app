@@ -1,6 +1,7 @@
 import 'server-only';
 
 import { prisma } from '@/lib/prisma';
+import { addEventFields } from '@/server/common/logging/event-fields';
 import { withValidation } from '@/server/common/run-action';
 import { labMetricSchema } from '@/server/labs/schemas';
 import type { LabView } from '@/server/labs/types';
@@ -28,6 +29,10 @@ export const getLab = withValidation(
       findLatestOptimization(metricId),
     ]);
     const rows = reviews.map(toLabRowView);
+    addEventFields({
+      metric: { id: metricId },
+      lab: { row_count: rows.length, has_run: run !== null },
+    });
     return { metricId, rows, score: scoreOf(rows), run, optimization };
   },
 );

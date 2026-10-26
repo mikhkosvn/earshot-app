@@ -4,6 +4,7 @@ import { randomBytes } from 'node:crypto';
 
 import { ShareLinkTarget } from '@/generated/prisma/enums';
 import { prisma } from '@/lib/prisma';
+import { addEventFields } from '@/server/common/logging/event-fields';
 import { withValidation } from '@/server/common/run-action';
 import { requireProjectAccess } from '@/server/projects/utils/require-project-access';
 import { createShareLinkSchema } from '@/server/share-links/schemas';
@@ -60,6 +61,9 @@ export const createShareLink = withValidation(
     const existing = await prisma.shareLink.findFirst({
       where: { ...where, projectId, target, revokedAt: null, expiresAt: null },
       select: { token: true },
+    });
+    addEventFields({
+      share_link: { target, target_id: targetId, reused: existing !== null },
     });
     if (existing) return existing;
     return prisma.shareLink.create({

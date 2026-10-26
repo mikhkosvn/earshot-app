@@ -13,27 +13,41 @@ import type {
   UpdatePhoneNumberInput,
 } from '@/server/telephony-phone-numbers/types';
 import { updatePhoneNumber } from '@/server/telephony-phone-numbers/update-phone-number';
+import { TelephonyPhoneNumbersActionOperation } from '@/server/telephony-phone-numbers/actions/action-operation';
+import { withActionEvent } from '@/server/common/logging/with-action-event';
 
 export async function listPhoneNumbersAction(
   args: ListPhoneNumbersInput,
 ): Promise<PhoneNumberRow[]> {
-  return listPhoneNumbers(args);
+  return withActionEvent(
+    TelephonyPhoneNumbersActionOperation.listPhoneNumbers,
+    () => listPhoneNumbers(args),
+  );
 }
 
 export async function createPhoneNumberAction(
   args: CreatePhoneNumberInput,
 ): Promise<ActionResult<PhoneNumberRow>> {
-  return runAction(() => createPhoneNumber(args));
+  return withActionEvent(
+    TelephonyPhoneNumbersActionOperation.createPhoneNumber,
+    () => runAction(() => createPhoneNumber(args)),
+  );
 }
 
 export async function updatePhoneNumberAction(
   args: UpdatePhoneNumberInput,
 ): Promise<ActionResult<PhoneNumberRow>> {
-  return runAction(() => updatePhoneNumber(args));
+  return withActionEvent(
+    TelephonyPhoneNumbersActionOperation.updatePhoneNumber,
+    () => runAction(() => updatePhoneNumber(args)),
+  );
 }
 
 export async function deletePhoneNumberAction(
   args: DeletePhoneNumberInput,
 ): Promise<ActionResult<{ id: number }>> {
-  return runAction(() => deletePhoneNumber(args));
+  return withActionEvent(
+    TelephonyPhoneNumbersActionOperation.deletePhoneNumber,
+    () => runAction(() => deletePhoneNumber(args)),
+  );
 }

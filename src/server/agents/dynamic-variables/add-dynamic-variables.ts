@@ -3,6 +3,7 @@ import 'server-only';
 import { prisma } from '@/lib/prisma';
 import { addDynamicVariablesSchema } from '@/server/agents/schemas';
 import { requireAgentAccess } from '@/server/agents/utils/require-agent-access';
+import { addEventFields } from '@/server/common/logging/event-fields';
 import { ActionError, withValidation } from '@/server/common/run-action';
 
 const duplicateNames = (names: string[]) =>
@@ -11,7 +12,7 @@ const duplicateNames = (names: string[]) =>
 export const addDynamicVariables = withValidation(
   addDynamicVariablesSchema,
   async ({ agentId, variables }) => {
-    await requireAgentAccess(agentId);
+    const { agent } = await requireAgentAccess(agentId);
     const names = variables.map((variable) => variable.name);
     const [repeated] = duplicateNames(names);
     if (repeated) {
@@ -29,6 +30,11 @@ export const addDynamicVariables = withValidation(
     }
     await prisma.dynamicVariable.createMany({
       data: variables.map((variable) => ({ agentId, ...variable })),
+    });
+    addEventFields({
+      project: { id: agent.projectId },
+      agent: { id: agentId },
+      dynamic_variables: { created_count: variables.length },
     });
     return { agentId, count: variables.length };
   },

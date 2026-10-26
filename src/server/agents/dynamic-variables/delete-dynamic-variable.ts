@@ -4,6 +4,7 @@ import { prisma } from '@/lib/prisma';
 import { dynamicVariableIdSchema } from '@/server/agents/schemas';
 import { agentAccessWhere } from '@/server/agents/utils/require-agent-access';
 import { requireUser } from '@/server/auth';
+import { addEventFields } from '@/server/common/logging/event-fields';
 import { withValidation } from '@/server/common/run-action';
 
 export const deleteDynamicVariable = withValidation(
@@ -14,9 +15,14 @@ export const deleteDynamicVariable = withValidation(
       where: { id: dynamicVariableId, agent: agentAccessWhere(user.id) },
       select: { id: true },
     });
-    return prisma.dynamicVariable.delete({
+    const deleted = await prisma.dynamicVariable.delete({
       where: { id: dynamicVariableId },
       select: { id: true, agentId: true },
     });
+    addEventFields({
+      agent: { id: deleted.agentId },
+      dynamic_variable: { id: deleted.id },
+    });
+    return deleted;
   },
 );

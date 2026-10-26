@@ -2,8 +2,13 @@ import 'server-only';
 
 import { Prisma } from '@/generated/prisma/client';
 import { RunStatus } from '@/generated/prisma/enums';
+import { TriggerType } from '@/lib/logging/constants';
 import { prisma } from '@/lib/prisma';
+import { EventKind } from '@/server/common/logging/constants';
+import { addEventFields } from '@/server/common/logging/event-fields';
+import { runWithEvent } from '@/server/common/logging/run-with-event';
 import { RUN_DISPATCH_INTERVAL_MS } from '@/server/runs/constants/run-limits';
+import { RunOperation } from '@/server/runs/constants/run-logging';
 import { ACTIVE_RUN_STATUSES } from '@/server/runs/constants/run-status-groups';
 import { executeRun } from '@/server/runs/execution/execute-run';
 import { claimRows } from '@/server/worker/claim-rows';
@@ -105,14 +110,27 @@ const claimQueuedRuns = (resultId: number, limit: number) =>
     },
   });
 
-const launchRun = (runId: number) => {
-  void executeRun(runId).catch((error: unknown) =>
-    console.error(`[runs] The run ${runId} stopped with an error.`, error),
-  );
+const ignoreLoggedFailure = () => undefined;
+
+const launchRun = (result: QueuedResult, runId: number) => {
+  void runWithEvent(
+    {
+      kind: EventKind.background_task,
+      operation: RunOperation.execute,
+      trigger: TriggerType.programmatic,
+      fields: {
+        run: { id: runId },
+        result: { id: result.id },
+        organization: { id: result.organizationId },
+      },
+    },
+    () => executeRun(runId),
+  ).catch(ignoreLoggedFailure);
 };
 
 export const dispatchRuns = async () => {
   const results = await loadQueuedResults();
+  addEventFields({ dispatch: { queued_results: results.length } });
   if (results.length === 0) return [];
   const capacity = await organizationCapacity(results);
   const launched: number[] = [];
@@ -127,8 +145,11 @@ export const dispatchRuns = async () => {
     if (limit <= 0) continue;
     const runIds = await claimQueuedRuns(result.id, limit);
     capacity.set(result.organizationId, available - runIds.length);
-    runIds.forEach(launchRun);
+    runIds.forEach((runId) => launchRun(result, runId));
     launched.push(...runIds);
   }
+  addEventFields({
+    dispatch: { claimed_runs: launched.length, run_ids: launched },
+  });
   return launched;
 };

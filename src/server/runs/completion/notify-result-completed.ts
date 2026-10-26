@@ -3,6 +3,10 @@ import 'server-only';
 import { NotificationEventType, RunStatus } from '@/generated/prisma/enums';
 import { prisma } from '@/lib/prisma';
 import { UrlGenerator } from '@/lib/url-generator/url-generator';
+import {
+  addEventFields,
+  recordStepFailure,
+} from '@/server/common/logging/event-fields';
 import { EmailNotificationKind } from '@/server/email/constants/email-notification-kind';
 import { notifyProjectMembersByEmail } from '@/server/email/notify-project-members-by-email';
 import { WebhookEvent } from '@/server/project-webhooks/constants/webhook-event';
@@ -13,6 +17,7 @@ import {
   RESULT_WEBHOOK_NOTIFICATION,
   ResultOutcome,
 } from '@/server/runs/constants/result-outcome';
+import { RunStep } from '@/server/runs/constants/run-logging';
 import { appUrl } from '@/server/runs/utils/app-url';
 import { buildResultCompletedPayload } from '@/server/runs/webhooks/build-result-completed-payload';
 
@@ -50,11 +55,11 @@ const recipientIds = async (projectId: number, createdById: number | null) => {
   return members.map((member) => member.userId);
 };
 
-const settle = async (label: string, task: () => Promise<unknown>) => {
+const settle = async (step: RunStep, task: () => Promise<unknown>) => {
   try {
     await task();
   } catch (error) {
-    console.error(`[runs] The ${label} of a completed result failed.`, error);
+    recordStepFailure(step, error);
   }
 };
 
@@ -72,8 +77,19 @@ export const notifyResultCompleted = async (resultId: number) => {
     resultId,
   });
   const summary = summaryOf(counts);
+  addEventFields({
+    result: {
+      id: resultId,
+      outcome,
+      run_count: counts.total,
+      passed_run_count: counts.success,
+      failed_run_count: counts.failed,
+      is_monitor: result.monitorRun !== null,
+    },
+    project: { id: meta.projectId },
+  });
 
-  await settle('webhook', () =>
+  await settle(RunStep.completion_webhook, () =>
     sendProjectWebhook({
       projectId: meta.projectId,
       event: WebhookEvent.resultCompleted,
@@ -82,7 +98,7 @@ export const notifyResultCompleted = async (resultId: number) => {
       payload,
     }),
   );
-  await settle('email', () =>
+  await settle(RunStep.completion_email, () =>
     notifyProjectMembersByEmail({
       projectId: meta.projectId,
       kind: EmailNotificationKind.resultsCompletion,
@@ -94,8 +110,9 @@ export const notifyResultCompleted = async (resultId: number) => {
       ].join('\n\n'),
     }),
   );
-  await settle('notification', async () => {
+  await settle(RunStep.completion_notification, async () => {
     const userIds = await recipientIds(meta.projectId, meta.createdById);
+    addEventFields({ notification: { recipient_count: userIds.length } });
     await prisma.notification.createMany({
       data: userIds.map((userId) => ({
         userId,

@@ -4,6 +4,7 @@ import { Prisma } from '@/generated/prisma/client';
 import { ObservabilityNotificationKind } from '@/generated/prisma/enums';
 import { prisma } from '@/lib/prisma';
 import { UrlGenerator } from '@/lib/url-generator/url-generator';
+import { addEventFields } from '@/server/common/logging/event-fields';
 import { EmailNotificationKind } from '@/server/email/constants/email-notification-kind';
 import {
   MILLISECONDS_PER_SECOND,
@@ -71,5 +72,8 @@ export const checkNoCalls = async (now: Date = new Date()) => {
   for (const project of projects) {
     if (await checkProject(project, now)) sent += 1;
   }
+  addEventFields({
+    no_calls: { project_count: projects.length, sent_count: sent },
+  });
   return { sent };
 };

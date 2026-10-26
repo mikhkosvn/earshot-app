@@ -20,45 +20,61 @@ import type {
   UpdateAlertInput,
 } from '@/server/alerts/types';
 import { runAction } from '@/server/common/run-action';
+import { AlertsActionOperation } from '@/server/alerts/actions/action-operation';
+import { withActionEvent } from '@/server/common/logging/with-action-event';
 
 export async function getAlertReviewAction(
   args: AlertReviewInput,
 ): Promise<AlertReview> {
-  return getAlertReview(args);
+  return withActionEvent(AlertsActionOperation.getAlertReview, () =>
+    getAlertReview(args),
+  );
 }
 
 export async function getAlertFireCountsAction(
   args: AlertReviewInput,
 ): Promise<AlertFireCounts> {
-  return getAlertFireCounts(args);
+  return withActionEvent(AlertsActionOperation.getAlertFireCounts, () =>
+    getAlertFireCounts(args),
+  );
 }
 
 export async function listAlertsAction(
   args: ProjectScopeInput,
 ): Promise<AlertRow[]> {
-  return listAlerts(args);
+  return withActionEvent(AlertsActionOperation.listAlerts, () =>
+    listAlerts(args),
+  );
 }
 
 export async function listAlertMetricOptionsAction(
   args: ProjectScopeInput,
 ): Promise<AlertMetricOption[]> {
-  return listAlertMetricOptions(args);
+  return withActionEvent(AlertsActionOperation.listAlertMetricOptions, () =>
+    listAlertMetricOptions(args),
+  );
 }
 
 export async function createAlertAction(
   args: CreateAlertInput,
 ): Promise<ActionResult<{ id: number }>> {
-  return runAction(() => createAlert(args));
+  return withActionEvent(AlertsActionOperation.createAlert, () =>
+    runAction(() => createAlert(args)),
+  );
 }
 
 export async function updateAlertAction(
   args: UpdateAlertInput,
 ): Promise<ActionResult<{ id: number }>> {
-  return runAction(() => updateAlert(args));
+  return withActionEvent(AlertsActionOperation.updateAlert, () =>
+    runAction(() => updateAlert(args)),
+  );
 }
 
 export async function deleteAlertAction(
   args: AlertIdInput,
 ): Promise<ActionResult<{ id: number }>> {
-  return runAction(() => deleteAlert(args));
+  return withActionEvent(AlertsActionOperation.deleteAlert, () =>
+    runAction(() => deleteAlert(args)),
+  );
 }

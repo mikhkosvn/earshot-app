@@ -1,7 +1,9 @@
 import 'server-only';
 
 import { Prisma } from '@/generated/prisma/client';
+import { MetricEvaluationStatus } from '@/generated/prisma/enums';
 import { prisma } from '@/lib/prisma';
+import { addEventFields } from '@/server/common/logging/event-fields';
 import { loadConversation } from '@/server/metric-scoring/context/load-conversation';
 import { selectMetrics } from '@/server/metric-scoring/context/select-metrics';
 import { scoreMetric } from '@/server/metric-scoring/score-metric';
@@ -36,6 +38,31 @@ const evaluationData = (metric: ScoringMetric, outcome: ScoreOutcome) => {
     evaluatedAt: new Date(),
   };
 };
+
+interface ScoredMetric {
+  metric: ScoringMetric;
+  status: MetricEvaluationStatus;
+}
+
+const countStatus = (scored: ScoredMetric[], status: MetricEvaluationStatus) =>
+  scored.filter((item) => item.status === status).length;
+
+const recordScoring = (conversationId: number, scored: ScoredMetric[]) =>
+  addEventFields({
+    conversation: { id: conversationId },
+    scoring: {
+      metric_count: scored.length,
+      completed_count: countStatus(scored, MetricEvaluationStatus.completed),
+      skipped_count: countStatus(scored, MetricEvaluationStatus.skipped),
+      failed_count: countStatus(scored, MetricEvaluationStatus.failed),
+      metrics: scored.map(({ metric, status }) => ({
+        id: metric.id,
+        kind: metric.type,
+        eval_type: metric.evalType,
+        status,
+      })),
+    },
+  });
 
 const storedDependencies = async (
   conversationId: number,
@@ -84,6 +111,7 @@ export const scoreConversation = async ({
     ]),
   );
   const rows = [];
+  const scored: ScoredMetric[] = [];
   for (const metric of metrics) {
     const dependencies = metric.dependencyIds.flatMap((id) => {
       const result = results.get(id);
@@ -91,6 +119,7 @@ export const scoreConversation = async ({
       return [result];
     });
     const outcome = await scoreMetric({ conversation, metric, dependencies });
+    scored.push({ metric, status: outcome.status });
     const data = evaluationData(metric, outcome);
     rows.push(
       await prisma.metricEvaluation.upsert({
@@ -109,5 +138,6 @@ export const scoreConversation = async ({
       explanation: outcome.explanation,
     });
   }
+  recordScoring(conversationId, scored);
   return rows;
 };

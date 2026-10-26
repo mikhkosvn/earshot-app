@@ -4,6 +4,7 @@ import { subHours } from 'date-fns';
 
 import { Prisma } from '@/generated/prisma/client';
 import { prisma } from '@/lib/prisma';
+import { addEventFields } from '@/server/common/logging/event-fields';
 import {
   JOB_RECENT_LIMIT,
   JOB_RECENT_WINDOW_HOURS,
@@ -29,6 +30,7 @@ export const listRecentJobs = withValidation(
       take: JOB_RECENT_LIMIT,
       select: jobViewSelect,
     });
+    addEventFields({ jobs: { kinds, count: rows.length } });
     return rows.map(toJobView);
   },
 );

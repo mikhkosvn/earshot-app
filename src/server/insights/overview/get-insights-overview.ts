@@ -2,6 +2,7 @@ import 'server-only';
 
 import { Prisma } from '@/generated/prisma/client';
 import { prisma } from '@/lib/prisma';
+import { addEventFields } from '@/server/common/logging/event-fields';
 import { withValidation } from '@/server/common/run-action';
 import { INSIGHT_CATEGORY_EXAMPLES } from '@/server/insights/constants/insight-limits';
 import { failureTrendOf } from '@/server/insights/overview/failure-trend';
@@ -86,6 +87,11 @@ export const getInsightsOverview = withValidation(
       },
     });
     const metricIds = configs.map((config) => config.metric.id);
+    addEventFields({
+      project: { id: projectId },
+      agent: { id: agentId },
+      insights: { metrics: metricIds.length },
+    });
     const [assignments, insights] = await Promise.all([
       prisma.failureCategoryAssignment.findMany({
         where: {

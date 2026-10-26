@@ -2,6 +2,7 @@ import 'server-only';
 
 import { Prisma } from '@/generated/prisma/client';
 import { prisma } from '@/lib/prisma';
+import { addEventFields } from '@/server/common/logging/event-fields';
 import { withValidation } from '@/server/common/run-action';
 import { requireProjectAccess } from '@/server/projects/utils/require-project-access';
 import { listResultsSchema } from '@/server/results/schemas';
@@ -30,6 +31,9 @@ export const listResults = withValidation(
         take: pageSize,
       }),
     ]);
+    addEventFields({
+      results: { count, row_count: rows.length, page, page_size: pageSize },
+    });
     return { count, rows: rows.map(toResultListRow) };
   },
 );

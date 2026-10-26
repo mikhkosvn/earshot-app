@@ -11,21 +11,29 @@ import type {
   UpdateRunFeedbackInput,
   VoteMetricInput,
 } from '@/server/run-reviews/types';
+import { RunReviewsActionOperation } from '@/server/run-reviews/actions/action-operation';
+import { withActionEvent } from '@/server/common/logging/with-action-event';
 
 export async function updateRunEvaluationAction(
   args: UpdateRunEvaluationInput,
 ): Promise<ActionResult<RunReviewState>> {
-  return runAction(() => updateRunEvaluation(args));
+  return withActionEvent(RunReviewsActionOperation.updateRunEvaluation, () =>
+    runAction(() => updateRunEvaluation(args)),
+  );
 }
 
 export async function updateRunFeedbackAction(
   args: UpdateRunFeedbackInput,
 ): Promise<ActionResult<RunReviewState>> {
-  return runAction(() => updateRunFeedback(args));
+  return withActionEvent(RunReviewsActionOperation.updateRunFeedback, () =>
+    runAction(() => updateRunFeedback(args)),
+  );
 }
 
 export async function voteMetricAction(
   args: VoteMetricInput,
 ): Promise<ActionResult<{ success: boolean }>> {
-  return runAction(() => voteMetric(args));
+  return withActionEvent(RunReviewsActionOperation.voteMetric, () =>
+    runAction(() => voteMetric(args)),
+  );
 }

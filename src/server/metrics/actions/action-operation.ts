@@ -1,0 +1,30 @@
+export const MetricsActionOperation = {
+  listMetrics: 'metrics.list_metrics',
+  listMetricOptions: 'metrics.list_metric_options',
+  listAgentOptions: 'metrics.list_agent_options',
+  listScenarioOptions: 'metrics.list_scenario_options',
+  listPredefinedMetrics: 'metrics.list_predefined_metrics',
+  getMetric: 'metrics.get_metric',
+  listMetricVersions: 'metrics.list_metric_versions',
+  getPatternReview: 'metrics.get_pattern_review',
+  createMetric: 'metrics.create_metric',
+  updateMetric: 'metrics.update_metric',
+  deleteMetrics: 'metrics.delete_metrics',
+  updateMetricFlags: 'metrics.update_metric_flags',
+  bulkUpdateMetricFlags: 'metrics.bulk_update_metric_flags',
+  updateMetricSampleRate: 'metrics.update_metric_sample_rate',
+  reorderMetrics: 'metrics.reorder_metrics',
+  updateMetricAgents: 'metrics.update_metric_agents',
+  assignMetricAgents: 'metrics.assign_metric_agents',
+  copyPredefinedMetrics: 'metrics.copy_predefined_metrics',
+  startMetricGeneration: 'metrics.start_metric_generation',
+  bulkCreateMetrics: 'metrics.bulk_create_metrics',
+  startQuickMetricBuild: 'metrics.start_quick_metric_build',
+  improveMetric: 'metrics.improve_metric',
+  generateEvaluationTrigger: 'metrics.generate_evaluation_trigger',
+  setPatternCorrection: 'metrics.set_pattern_correction',
+  rebuildPatternReview: 'metrics.rebuild_pattern_review',
+} as const;
+
+export type MetricsActionOperation =
+  (typeof MetricsActionOperation)[keyof typeof MetricsActionOperation];

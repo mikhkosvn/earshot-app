@@ -3,9 +3,14 @@ import 'server-only';
 import { WebhookNotification } from '@/generated/prisma/enums';
 import { prisma } from '@/lib/prisma';
 import {
+  addEventFields,
+  recordStepFailure,
+} from '@/server/common/logging/event-fields';
+import {
   DAILY_REPORT_HOUR,
   DAILY_REPORT_WINDOW_MS,
   DailyReportOutcome,
+  DailyReportStep,
 } from '@/server/daily-report/constants';
 import { sendDailyReport } from '@/server/daily-report/send-daily-report';
 import type { DailyReportDeliveryResult } from '@/server/daily-report/types';
@@ -120,6 +125,11 @@ const projectScope = (projectIds: number[] | undefined) => {
   return { id: { in: projectIds } };
 };
 
+const countOutcome = (
+  results: DailyReportDeliveryResult[],
+  outcome: DailyReportOutcome,
+) => results.filter((result) => result.outcome === outcome).length;
+
 export const sendDueDailyReports = async (
   now: Date = new Date(),
   projectIds?: number[],
@@ -133,11 +143,17 @@ export const sendDueDailyReports = async (
     try {
       results.push(await deliverProjectReport(project, now));
     } catch (error) {
-      console.error(
-        `[daily-report] The report of project ${project.id} was not sent.`,
-        error,
-      );
+      recordStepFailure(DailyReportStep.project_delivery, error);
     }
   }
+  addEventFields({
+    daily_report: {
+      project_count: projects.length,
+      sent_count: countOutcome(results, DailyReportOutcome.sent),
+      already_sent_count: countOutcome(results, DailyReportOutcome.alreadySent),
+      not_due_count: countOutcome(results, DailyReportOutcome.notDue),
+      failed_count: projects.length - results.length,
+    },
+  });
   return results;
 };

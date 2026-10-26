@@ -8,6 +8,7 @@ import {
 } from '@/generated/prisma/enums';
 import { prisma } from '@/lib/prisma';
 import { UrlGenerator } from '@/lib/url-generator/url-generator';
+import { addEventFields } from '@/server/common/logging/event-fields';
 import { ActionError, withValidation } from '@/server/common/run-action';
 import { startJob } from '@/server/jobs/start-job';
 import { startReviewOptimization } from '@/server/metric-optimizer/utils/start-review-optimization';
@@ -126,6 +127,16 @@ export const rebuildPatternReview = withValidation(
         stage: PatternReviewStage.reading_fixes,
       },
     });
+    addEventFields({
+      project: { id: projectId },
+      metric: { id: review.metricId },
+      pattern_review: {
+        id: reviewId,
+        status: PatternReviewStatus.rebuilding,
+        corrected_group_count: view.groups.filter((group) => group.correction)
+          .length,
+      },
+    });
     return startJob({
       projectId,
       userId: user.id,
@@ -134,6 +145,7 @@ export const rebuildPatternReview = withValidation(
       initialStep: 'Reading your fixes...',
       run: async (context) => {
         const entries = labEntries(view.groups);
+        addEventFields({ pattern_review: { lab_entry_count: entries.length } });
         await saveRebuild(reviewId, review.metricId, entries).catch(
           async (error: unknown) => {
             await prisma.metricPatternReview.update({

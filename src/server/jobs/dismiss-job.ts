@@ -2,6 +2,7 @@ import 'server-only';
 
 import { prisma } from '@/lib/prisma';
 import { requireUser } from '@/server/auth';
+import { addEventFields } from '@/server/common/logging/event-fields';
 import { withValidation } from '@/server/common/run-action';
 import { dismissJobSchema } from '@/server/jobs/schemas';
 import { jobAccessWhere } from '@/server/jobs/utils/job-access-where';
@@ -18,6 +19,7 @@ export const dismissJob = withValidation(
       where: { id: jobId },
       data: { dismissedAt: new Date() },
     });
+    addEventFields({ job: { id: jobId } });
     return { jobId };
   },
 );

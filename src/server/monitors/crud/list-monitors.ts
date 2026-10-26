@@ -2,6 +2,7 @@ import 'server-only';
 
 import { Prisma } from '@/generated/prisma/client';
 import { prisma } from '@/lib/prisma';
+import { addEventFields } from '@/server/common/logging/event-fields';
 import { withValidation } from '@/server/common/run-action';
 import { listMonitorsSchema } from '@/server/monitors/schemas';
 import type { MonitorListPage } from '@/server/monitors/types';
@@ -36,6 +37,10 @@ export const listMonitors = withValidation(
       ...row,
       scenarioCount: _count.evaluators,
     }));
+    addEventFields({
+      project: { id: projectId },
+      monitors: { count, returned: rows.length, page, page_size: pageSize },
+    });
     return { count, results };
   },
 );

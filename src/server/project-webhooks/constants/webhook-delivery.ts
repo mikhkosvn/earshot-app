@@ -14,3 +14,10 @@ export const WebhookSkipReason = {
 
 export type WebhookSkipReason =
   (typeof WebhookSkipReason)[keyof typeof WebhookSkipReason];
+
+export const WebhookOperation = {
+  deliver: 'webhook.deliver',
+} as const;
+
+export type WebhookOperation =
+  (typeof WebhookOperation)[keyof typeof WebhookOperation];

@@ -7,6 +7,7 @@ import {
   apiKeyRowSelect,
   toApiKeyRow,
 } from '@/server/api-keys/utils/to-api-key-row';
+import { addEventFields } from '@/server/common/logging/event-fields';
 import { withValidation } from '@/server/common/run-action';
 import { requireOrganizationAdmin } from '@/server/organization-settings/utils/require-organization-admin';
 
@@ -18,6 +19,10 @@ export const listApiKeys = withValidation(
       where: { organizationId },
       orderBy: { createdAt: 'asc' },
       select: apiKeyRowSelect,
+    });
+    addEventFields({
+      organization: { id: organizationId },
+      api_keys: { count: apiKeys.length },
     });
     return apiKeys.map(toApiKeyRow);
   },

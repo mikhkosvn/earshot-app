@@ -2,6 +2,7 @@ import 'server-only';
 
 import { PatternReviewStatus } from '@/generated/prisma/enums';
 import { prisma } from '@/lib/prisma';
+import { addEventFields } from '@/server/common/logging/event-fields';
 import { ActionError, withValidation } from '@/server/common/run-action';
 import { valueParts } from '@/server/metric-scoring/utils/value-parts';
 import {
@@ -49,6 +50,14 @@ export const setPatternCorrection = withValidation(
     await prisma.patternReviewGroup.update({
       where: { reviewId_key: { reviewId, key: groupKey } },
       data: correctionData(correction),
+    });
+    addEventFields({
+      metric: { id: review.metricId },
+      pattern_review: {
+        id: reviewId,
+        status: review.status,
+        correction_cleared: correction === null,
+      },
     });
     const row = await prisma.metricPatternReview.findUniqueOrThrow({
       where: { id: reviewId },

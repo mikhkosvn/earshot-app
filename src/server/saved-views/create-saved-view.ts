@@ -1,6 +1,7 @@
 import 'server-only';
 
 import { prisma } from '@/lib/prisma';
+import { addEventFields } from '@/server/common/logging/event-fields';
 import { ActionError, withValidation } from '@/server/common/run-action';
 import { requireProjectAccess } from '@/server/projects/utils/require-project-access';
 import { createSavedViewSchema } from '@/server/saved-views/schemas';
@@ -31,6 +32,9 @@ export const createSavedView = withValidation(
         agents: { create: agents.map((agent) => ({ agentId: agent.id })) },
       },
       select: savedViewSelect,
+    });
+    addEventFields({
+      saved_view: { id: row.id, agent_count: agents.length },
     });
     return toSavedViewItem(row);
   },

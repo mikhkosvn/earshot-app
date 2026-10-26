@@ -2,6 +2,7 @@ import 'server-only';
 
 import { prisma } from '@/lib/prisma';
 import { requireUser } from '@/server/auth';
+import { addEventFields } from '@/server/common/logging/event-fields';
 import { withValidation } from '@/server/common/run-action';
 import { monitorIdSchema } from '@/server/monitors/schemas';
 import type { MonitorRef } from '@/server/monitors/types';
@@ -16,6 +17,7 @@ export const deleteMonitor = withValidation(
       select: { id: true },
     });
     await prisma.monitor.delete({ where: { id: monitor.id } });
+    addEventFields({ monitor: { id: monitor.id } });
     return monitor;
   },
 );

@@ -4,6 +4,7 @@ import type { z } from 'zod';
 
 import type { Prisma } from '@/generated/prisma/client';
 import { prisma } from '@/lib/prisma';
+import { addEventFields } from '@/server/common/logging/event-fields';
 import { ActionError, withValidation } from '@/server/common/run-action';
 import { modifyEvaluatorsSchema } from '@/server/evaluators/schemas/evaluator-bulk';
 import { recordEvaluatorVersion } from '@/server/evaluators/utils/record-evaluator-version';
@@ -143,6 +144,13 @@ export const modifyEvaluators = withValidation(
           agentId: true,
           testProfileId: true,
           instructions: true,
+        },
+      });
+      addEventFields({
+        project: { id: args.projectId },
+        evaluators: {
+          requested_count: args.evaluatorIds.length,
+          updated_count: evaluators.length,
         },
       });
       for (const evaluator of evaluators) {

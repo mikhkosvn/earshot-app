@@ -11,6 +11,7 @@ import { uploadCallLogsSchema } from '@/server/call-logs/schemas';
 import { createCallRecord } from '@/server/call-logs/utils/create-call-record';
 import { startCallProcessing } from '@/server/call-logs/utils/processing/start-call-processing';
 import { requestOrigin } from '@/server/call-logs/utils/request-origin';
+import { addEventFields } from '@/server/common/logging/event-fields';
 import { withValidation } from '@/server/common/run-action';
 import { deleteFile } from '@/server/files/delete-file';
 import { saveFile } from '@/server/files/save-file';
@@ -75,6 +76,11 @@ export const uploadCallLogs = withValidation(
         origin,
       });
     }
+    addEventFields({
+      project: { id: projectId },
+      agent: { id: agentId },
+      call_logs: { uploaded: created.length },
+    });
     return { callLogIds: created.map((callLog) => callLog.id) };
   },
 );

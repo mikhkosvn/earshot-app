@@ -9,6 +9,7 @@ import {
   ThresholdOperator,
 } from '@/generated/prisma/enums';
 import { prisma } from '@/lib/prisma';
+import { addEventFields } from '@/server/common/logging/event-fields';
 import {
   ALERT_EVALUATION_BATCH,
   TREND_HISTORY_FACTOR,
@@ -252,6 +253,9 @@ export const evaluateNewEvaluations = async () => {
   if (!last) return { processed: 0, fired: 0 };
   const fires = await evaluateRulesForRows(ready);
   await writeEvaluationCursor(EvaluationConsumer.alerts, last.id);
+  addEventFields({
+    alert_evaluation: { processed: ready.length, fired: fires.length },
+  });
   await notifyAlertFires(fires);
   return { processed: ready.length, fired: fires.length };
 };

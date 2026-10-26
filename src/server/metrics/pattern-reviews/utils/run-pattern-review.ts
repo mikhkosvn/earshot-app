@@ -9,6 +9,7 @@ import {
   PatternReviewStatus,
 } from '@/generated/prisma/enums';
 import { prisma } from '@/lib/prisma';
+import { addEventFields } from '@/server/common/logging/event-fields';
 import { scoreConversation } from '@/server/metric-scoring/score-conversation';
 import {
   valueFromParts,
@@ -191,7 +192,17 @@ const reviewSamples = async (args: RunPatternReviewArgs) => {
     select: { metricId: true, metric: { select: { name: true } } },
   });
   const conversationIds = await recentConversationIds(args.projectId);
-  if (conversationIds.length < PATTERN_REVIEW_MIN_SAMPLES) {
+  const insufficientHistory =
+    conversationIds.length < PATTERN_REVIEW_MIN_SAMPLES;
+  addEventFields({
+    metric: { id: review.metricId },
+    pattern_review: {
+      id: args.reviewId,
+      candidate_count: conversationIds.length,
+      insufficient_history: insufficientHistory,
+    },
+  });
+  if (insufficientHistory) {
     await finishInsufficient(args.reviewId);
     return;
   }
@@ -210,6 +221,12 @@ const reviewSamples = async (args: RunPatternReviewArgs) => {
   });
   await args.setStep('Grouping the samples into patterns...');
   const groups = await groupSamples(samples, review.metric.name);
+  addEventFields({
+    pattern_review: {
+      sample_count: samples.length,
+      group_count: groups.length,
+    },
+  });
   const sampleById = new Map(
     samples.map((sample) => [sample.conversationId, sample]),
   );

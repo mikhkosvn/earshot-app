@@ -5,9 +5,13 @@ import type {
   ConversationDetail,
   GetConversationInput,
 } from '@/server/conversations/types';
+import { ConversationsActionOperation } from '@/server/conversations/actions/action-operation';
+import { withActionEvent } from '@/server/common/logging/with-action-event';
 
 export async function getConversationAction(
   args: GetConversationInput,
 ): Promise<ConversationDetail> {
-  return getConversation(args);
+  return withActionEvent(ConversationsActionOperation.getConversation, () =>
+    getConversation(args),
+  );
 }

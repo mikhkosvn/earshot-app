@@ -2,6 +2,7 @@ import 'server-only';
 
 import { OptimizationStatus } from '@/generated/prisma/enums';
 import { prisma } from '@/lib/prisma';
+import { addEventFields } from '@/server/common/logging/event-fields';
 import { UrlGenerator } from '@/lib/url-generator/url-generator';
 import type { JobContext } from '@/server/jobs/types';
 import type { LabDraft, LabRowOutcome } from '@/server/labs/types';
@@ -178,12 +179,14 @@ const optimize = async ({ sessionId, draft, context }: RunOptimizationArgs) => {
   const baseline = await scoreAll(metric.projectId, current, reviews, cache);
   const baselineMatched = matchedCount(baseline);
   let best: Attempt | null = null;
+  let iterationCount = 0;
   let rows = optimizerRows(reviews, baseline);
   for (
     let iteration = 1;
     iteration <= OPTIMIZER_ITERATION_BUDGET;
     iteration += 1
   ) {
+    iterationCount = iteration;
     const proposal = await proposeMetric({
       metric: current,
       rows,
@@ -207,6 +210,17 @@ const optimize = async ({ sessionId, draft, context }: RunOptimizationArgs) => {
     if (best.matched === reviews.length) break;
     rows = optimizerRows(reviews, outcomes);
   }
+  addEventFields({
+    metric: { id: metric.id, kind: current.type },
+    project: { id: metric.projectId },
+    optimization_session: {
+      id: sessionId,
+      review_count: reviews.length,
+      iteration_count: iterationCount,
+      baseline_matched_count: baselineMatched,
+      best_matched_count: best?.matched ?? null,
+    },
+  });
   if (!best) throw new Error('The optimiser made no proposal.');
   await saveAttempt(sessionId, baselineMatched, reviews.length, best);
   await context.setResult({

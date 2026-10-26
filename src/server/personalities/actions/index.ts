@@ -22,51 +22,71 @@ import type {
   UpdatePersonalityInput,
 } from '@/server/personalities/types';
 import { updatePersonality } from '@/server/personalities/update-personality';
+import { PersonalitiesActionOperation } from '@/server/personalities/actions/action-operation';
+import { withActionEvent } from '@/server/common/logging/with-action-event';
 
 export async function listPersonalitiesAction(
   args: ListPersonalitiesInput,
 ): Promise<PersonalityListItem[]> {
-  return listPersonalities(args);
+  return withActionEvent(PersonalitiesActionOperation.listPersonalities, () =>
+    listPersonalities(args),
+  );
 }
 
 export async function getPersonalityAction(
   args: PersonalityIdInput,
 ): Promise<PersonalityDetail> {
-  return getPersonality(args);
+  return withActionEvent(PersonalitiesActionOperation.getPersonality, () =>
+    getPersonality(args),
+  );
 }
 
 export async function createPersonalityAction(
   args: CreatePersonalityInput,
 ): Promise<ActionResult<PersonalityRef>> {
-  return runAction(() => createPersonality(args));
+  return withActionEvent(PersonalitiesActionOperation.createPersonality, () =>
+    runAction(() => createPersonality(args)),
+  );
 }
 
 export async function updatePersonalityAction(
   args: UpdatePersonalityInput,
 ): Promise<ActionResult<PersonalityRef>> {
-  return runAction(() => updatePersonality(args));
+  return withActionEvent(PersonalitiesActionOperation.updatePersonality, () =>
+    runAction(() => updatePersonality(args)),
+  );
 }
 
 export async function deletePersonalityAction(
   args: PersonalityIdInput,
 ): Promise<ActionResult<PersonalityRef>> {
-  return runAction(() => deletePersonality(args));
+  return withActionEvent(PersonalitiesActionOperation.deletePersonality, () =>
+    runAction(() => deletePersonality(args)),
+  );
 }
 
 export async function forkPersonalityAction(
   args: ForkPersonalityInput,
 ): Promise<ActionResult<PersonalityRef>> {
-  return runAction(() => forkPersonality(args));
+  return withActionEvent(PersonalitiesActionOperation.forkPersonality, () =>
+    runAction(() => forkPersonality(args)),
+  );
 }
 
 export async function setPersonalityEnabledAction(
   args: SetPersonalityEnabledInput,
 ): Promise<ActionResult<{ id: number; enabled: boolean }>> {
-  return runAction(() => setPersonalityEnabled(args));
+  return withActionEvent(
+    PersonalitiesActionOperation.setPersonalityEnabled,
+    () => runAction(() => setPersonalityEnabled(args)),
+  );
 }
 
 export async function setPersonalitiesEnabledAction(
   args: SetPersonalitiesEnabledInput,
 ): Promise<ActionResult<{ count: number }>> {
-  return runAction(() => setPersonalitiesEnabled(args));
+  return withActionEvent(
+    PersonalitiesActionOperation.setPersonalitiesEnabled,
+    () => runAction(() => setPersonalitiesEnabled(args)),
+  );
 }

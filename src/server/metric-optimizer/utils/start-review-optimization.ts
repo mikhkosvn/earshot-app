@@ -1,6 +1,8 @@
 import 'server-only';
 
 import { prisma } from '@/lib/prisma';
+import { recordStepFailure } from '@/server/common/logging/event-fields';
+import { MetricOptimizerStep } from '@/server/metric-optimizer/constants/optimizer-step';
 import { queueOptimization } from '@/server/metric-optimizer/utils/queue-optimization';
 
 export const startReviewOptimization = async (
@@ -16,10 +18,7 @@ export const startReviewOptimization = async (
     });
     return queued;
   } catch (error) {
-    console.error(
-      `[metric-optimizer] The review ${reviewId} did not start an optimisation of metric ${metricId}.`,
-      error,
-    );
+    recordStepFailure(MetricOptimizerStep.review_optimization, error);
     return null;
   }
 };

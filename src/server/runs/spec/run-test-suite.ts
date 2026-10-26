@@ -7,6 +7,7 @@ import {
   ResultSource,
 } from '@/generated/prisma/enums';
 import { prisma } from '@/lib/prisma';
+import { addEventFields } from '@/server/common/logging/event-fields';
 import { ActionError, withValidation } from '@/server/common/run-action';
 import { recordEvaluatorVersion } from '@/server/evaluators/utils/record-evaluator-version';
 import { createEvaluatorRecord } from '@/server/evaluators/utils/write-evaluator';
@@ -134,7 +135,11 @@ export const runTestSuite = withValidation(
   async (input): Promise<CreatedRunBatch> => {
     const { user } = await requireProjectAccess(input.projectId);
     const prepared = await prepareSpec(input);
+    addEventFields({ agent: { id: input.agentId } });
     if (!prepared.ok) {
+      addEventFields({
+        spec: { valid: false, error_count: prepared.errors.length },
+      });
       const [first] = prepared.errors;
       throw new ActionError(
         `${RunMessage.specInvalid} ${first.path}: ${first.message}`,
@@ -149,7 +154,7 @@ export const runTestSuite = withValidation(
       folderPath: resolved.folderPath,
       scenarios: resolved.scenarios,
     });
-    return insertRunBatch(
+    const batch = await insertRunBatch(
       {
         projectId: input.projectId,
         createdById: user.id,
@@ -167,5 +172,18 @@ export const runTestSuite = withValidation(
       },
       expandRunPlan({ sources, personalityIds: [], testProfileIds: [] }),
     );
+    addEventFields({
+      result: {
+        id: batch.resultId,
+        run_count: batch.runIds.length,
+        source: ResultSource.user,
+      },
+      spec: {
+        valid: true,
+        scenario_count: resolved.scenarios.length,
+        save_scenarios: spec.save_scenarios,
+      },
+    });
+    return batch;
   },
 );

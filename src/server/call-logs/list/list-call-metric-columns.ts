@@ -4,6 +4,7 @@ import { Prisma } from '@/generated/prisma/client';
 import { prisma } from '@/lib/prisma';
 import { projectScopeSchema } from '@/server/call-logs/schemas';
 import type { CallMetricColumn } from '@/server/call-logs/types';
+import { addEventFields } from '@/server/common/logging/event-fields';
 import { withValidation } from '@/server/common/run-action';
 import { requireProjectAccess } from '@/server/projects/utils/require-project-access';
 
@@ -20,6 +21,10 @@ export const listCallMetricColumns = withValidation(
         evalType: true,
         predefinedMetric: { select: { functionName: true } },
       },
+    });
+    addEventFields({
+      project: { id: projectId },
+      metrics: { count: metrics.length },
     });
     return metrics.map((metric) => ({
       id: metric.id,

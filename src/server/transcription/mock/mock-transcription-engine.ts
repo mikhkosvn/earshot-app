@@ -8,7 +8,15 @@ import {
   TESTING_CHANNEL_INDEX,
   TranscriptRole,
 } from '@/server/call-engine/constants';
-import { WAV_CONTENT_TYPES } from '@/server/transcription/constants';
+import {
+  addEventFields,
+  recordStepFailure,
+} from '@/server/common/logging/event-fields';
+import {
+  TranscriptionEngineKind,
+  TranscriptionStep,
+  WAV_CONTENT_TYPES,
+} from '@/server/transcription/constants';
 import { buildTurnSlots } from '@/server/transcription/mock/build-turn-slots';
 import { generateTurnText } from '@/server/transcription/mock/generate-turn-text';
 import type {
@@ -35,10 +43,7 @@ const decodeOrNull = (file: TranscriptionFile): DecodedWav | null => {
   try {
     return decodeWav(file.data);
   } catch (error) {
-    console.error(
-      `[transcription] The file ${file.fileName} did not decode.`,
-      error,
-    );
+    recordStepFailure(TranscriptionStep.wav_decode, error);
     return null;
   }
 };
@@ -54,15 +59,28 @@ const transcribe = async ({
 }: TranscribeRecordingInput): Promise<Transcription> => {
   const recording = decodeOrNull(file);
   if (!recording) {
-    return {
-      turns: await generateTurnText(SHORT_SLOTS, context),
-      durationSeconds: null,
-      testingChannelIndex: null,
-    };
+    const turns = await generateTurnText(SHORT_SLOTS, context);
+    addEventFields({
+      transcription: {
+        engine: TranscriptionEngineKind.mock,
+        decoded: false,
+        turn_count: turns.length,
+      },
+    });
+    return { turns, durationSeconds: null, testingChannelIndex: null };
   }
-  const slots = buildTurnSlots(recording);
+  const turns = await generateTurnText(buildTurnSlots(recording), context);
+  addEventFields({
+    transcription: {
+      engine: TranscriptionEngineKind.mock,
+      decoded: true,
+      channel_count: recording.channels.length,
+      duration_seconds: recording.durationSeconds,
+      turn_count: turns.length,
+    },
+  });
   return {
-    turns: await generateTurnText(slots, context),
+    turns,
     durationSeconds: recording.durationSeconds,
     testingChannelIndex: testingChannelOf(recording),
   };

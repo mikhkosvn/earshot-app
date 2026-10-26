@@ -2,9 +2,11 @@ import 'server-only';
 
 import { MemberRole } from '@/generated/prisma/enums';
 import { prisma } from '@/lib/prisma';
+import { AuthFailureReason } from '@/server/auth/constants/auth-failure-reason';
 import { signUpSchema } from '@/server/auth/schemas';
 import { hashPassword } from '@/server/auth/utils/password';
 import { startSession } from '@/server/auth/utils/start-session';
+import { addEventFields } from '@/server/common/logging/event-fields';
 import { ActionError, withValidation } from '@/server/common/run-action';
 import {
   DEFAULT_ORGANIZATION_NAME,
@@ -24,10 +26,13 @@ export const signUp = withValidation(
   async ({ name, email, password, organizationName }) => {
     const passwordHash = await hashPassword(password);
 
-    const { userId, projectId } = await prisma.$transaction(
+    const { userId, organizationId, projectId } = await prisma.$transaction(
       async (tx) => {
         const userCount = await tx.user.count();
         if (userCount > 0) {
+          addEventFields({
+            auth: { failure_reason: AuthFailureReason.signup_closed },
+          });
           throw new ActionError(
             'Sign-up is closed. Sign in to your account.',
             403,
@@ -50,12 +55,21 @@ export const signUp = withValidation(
           name: DEFAULT_PROJECT_NAME,
         });
 
-        return { userId: user.id, projectId: project.id };
+        return {
+          userId: user.id,
+          organizationId: organization.id,
+          projectId: project.id,
+        };
       },
       { timeout: PROJECT_TRANSACTION_TIMEOUT_MS },
     );
 
     await startSession(userId);
+    addEventFields({
+      user: { id: userId },
+      organization: { id: organizationId },
+      project: { id: projectId },
+    });
     await setCurrentProjectCookie(projectId);
     return { userId, projectId };
   },

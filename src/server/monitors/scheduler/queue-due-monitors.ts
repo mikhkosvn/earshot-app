@@ -1,6 +1,7 @@
 import 'server-only';
 
 import { Prisma } from '@/generated/prisma/client';
+import { addEventFields } from '@/server/common/logging/event-fields';
 import { MONITOR_CLAIM_LIMIT } from '@/server/monitors/constants/monitor-scheduler';
 import { computeNextRunAt } from '@/server/monitors/utils/compute-next-run-at';
 import { claimRows } from '@/server/worker/claim-rows';
@@ -38,13 +39,15 @@ const queueMonitor = async (
 
 export const queueDueMonitors = async () => {
   const now = new Date();
-  return claimRows<number>({
+  const ids = await claimRows<number>({
     table: 'Monitor',
     where: Prisma.sql`"isActive" = true AND "nextRunAt" <= ${now}`,
     orderBy: Prisma.sql`"nextRunAt"`,
     limit: MONITOR_CLAIM_LIMIT,
-    claim: async (tx, ids) => {
-      for (const id of ids) await queueMonitor(tx, id, now);
+    claim: async (tx, claimed) => {
+      for (const id of claimed) await queueMonitor(tx, id, now);
     },
   });
+  addEventFields({ monitors: { queued: ids.length } });
+  return ids;
 };

@@ -1,6 +1,7 @@
 import 'server-only';
 
 import { prisma } from '@/lib/prisma';
+import { addEventFields } from '@/server/common/logging/event-fields';
 import { withValidation } from '@/server/common/run-action';
 import { projectIdSchema } from '@/server/metrics/schemas';
 import {
@@ -18,6 +19,10 @@ export const listMetricOptions = withValidation(
       where: { projectId },
       orderBy: metricOrder,
       select: metricOptionSelect,
+    });
+    addEventFields({
+      project: { id: projectId },
+      metrics: { count: rows.length },
     });
     return rows.map(toMetricOption);
   },

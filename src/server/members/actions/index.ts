@@ -12,11 +12,15 @@ import type {
   UpdateMemberRoleInput,
 } from '@/server/members/types';
 import { updateMemberRole } from '@/server/members/update-member-role';
+import { MembersActionOperation } from '@/server/members/actions/action-operation';
+import { withActionEvent } from '@/server/common/logging/with-action-event';
 
 export async function listMembersAction(
   args: ListMembersInput,
 ): Promise<MemberRow[]> {
-  return listMembers(args);
+  return withActionEvent(MembersActionOperation.listMembers, () =>
+    listMembers(args),
+  );
 }
 
 export async function updateMemberRoleAction(
@@ -24,11 +28,15 @@ export async function updateMemberRoleAction(
 ): Promise<
   ActionResult<{ id: number; organizationId: number; role: MemberRole }>
 > {
-  return runAction(() => updateMemberRole(args));
+  return withActionEvent(MembersActionOperation.updateMemberRole, () =>
+    runAction(() => updateMemberRole(args)),
+  );
 }
 
 export async function removeMemberAction(
   args: RemoveMemberInput,
 ): Promise<ActionResult<{ id: number; organizationId: number }>> {
-  return runAction(() => removeMember(args));
+  return withActionEvent(MembersActionOperation.removeMember, () =>
+    runAction(() => removeMember(args)),
+  );
 }

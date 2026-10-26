@@ -1,3 +1,4 @@
+import { addEventFields } from '@/server/common/logging/event-fields';
 import 'server-only';
 
 import { withValidation } from '@/server/common/run-action';
@@ -13,6 +14,7 @@ export const getSharedResult = withValidation(
     if (link.resultId === null) {
       throw new Error('The share link does not point to a result.');
     }
+    addEventFields({ result: { id: link.resultId } });
     return loadResultDetail(link.resultId);
   },
 );

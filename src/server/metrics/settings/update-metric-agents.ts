@@ -1,6 +1,7 @@
 import 'server-only';
 
 import { prisma } from '@/lib/prisma';
+import { addEventFields } from '@/server/common/logging/event-fields';
 import { withValidation } from '@/server/common/run-action';
 import { updateMetricAgentsSchema } from '@/server/metrics/schemas';
 import {
@@ -20,6 +21,11 @@ export const updateMetricAgents = withValidation(
         metric.projectId,
         agentIds,
       );
+      addEventFields({
+        project: { id: metric.projectId },
+        metric: { id: metricId },
+        agents: { count: validIds.length },
+      });
       return tx.metric.update({
         where: { id: metricId },
         data: {

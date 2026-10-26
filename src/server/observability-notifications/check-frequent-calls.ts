@@ -3,6 +3,7 @@ import 'server-only';
 import { ObservabilityNotificationKind } from '@/generated/prisma/enums';
 import { prisma } from '@/lib/prisma';
 import { UrlGenerator } from '@/lib/url-generator/url-generator';
+import { addEventFields } from '@/server/common/logging/event-fields';
 import { EmailNotificationKind } from '@/server/email/constants/email-notification-kind';
 import {
   MILLISECONDS_PER_SECOND,
@@ -82,5 +83,8 @@ export const checkFrequentCalls = async (now: Date = new Date()) => {
   });
   let sent = 0;
   for (const project of projects) sent += await checkProject(project, now);
+  addEventFields({
+    frequent_calls: { project_count: projects.length, sent_count: sent },
+  });
   return { sent };
 };

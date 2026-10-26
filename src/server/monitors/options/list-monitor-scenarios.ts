@@ -2,6 +2,7 @@ import 'server-only';
 
 import { Prisma } from '@/generated/prisma/client';
 import { prisma } from '@/lib/prisma';
+import { addEventFields } from '@/server/common/logging/event-fields';
 import { withValidation } from '@/server/common/run-action';
 import {
   UNFOLDERED_FOLDER_KEY,
@@ -34,6 +35,10 @@ export const listMonitorScenarios = withValidation(
         orderBy: { id: Prisma.SortOrder.asc },
       }),
     ]);
+    addEventFields({
+      project: { id: projectId },
+      scenarios: { count: evaluators.length, folder_count: folders.length },
+    });
     const scenariosIn = (folderId: number | null) =>
       evaluators
         .filter((evaluator) => evaluator.folderId === folderId)

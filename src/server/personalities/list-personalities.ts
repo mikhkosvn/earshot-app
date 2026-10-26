@@ -2,6 +2,7 @@ import 'server-only';
 
 import { Prisma } from '@/generated/prisma/client';
 import { prisma } from '@/lib/prisma';
+import { addEventFields } from '@/server/common/logging/event-fields';
 import { withValidation } from '@/server/common/run-action';
 import { listPersonalitiesSchema } from '@/server/personalities/schemas';
 import type { PersonalityListItem } from '@/server/personalities/types';
@@ -60,6 +61,10 @@ export const listPersonalities = withValidation(
           select: { projectId: true },
         },
       },
+    });
+    addEventFields({
+      project: { id: projectId },
+      personalities: { count: rows.length, language_filter: language },
     });
     return rows
       .map(({ projectEnablements, projectId: ownerId, ...row }) => ({

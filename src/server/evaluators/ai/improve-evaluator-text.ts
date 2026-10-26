@@ -1,6 +1,7 @@
 import 'server-only';
 
 import { generateText } from '@/server/ai/generate-text';
+import { addEventFields } from '@/server/common/logging/event-fields';
 import { withValidation } from '@/server/common/run-action';
 import {
   EvaluatorTextKind,
@@ -36,6 +37,15 @@ export const improveEvaluatorText = withValidation(
       system: SYSTEM_PROMPT[kind],
       prompt: `Agent description:\n${description}\n\nCurrent ${EvaluatorTextKindLabel[kind]}:\n${text}`,
       mock: () => improveTextMock(kind, text),
+    });
+    addEventFields({
+      project: { id: projectId },
+      agent: { id: agentId },
+      evaluator_text: {
+        kind,
+        input_length: text.length,
+        output_length: improved.length,
+      },
     });
     return { text: improved.trim() };
   },

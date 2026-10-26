@@ -1,6 +1,7 @@
 import 'server-only';
 
 import { prisma } from '@/lib/prisma';
+import { addEventFields } from '@/server/common/logging/event-fields';
 import { withValidation } from '@/server/common/run-action';
 import { setDashboardDailyReportSchema } from '@/server/dashboards/schemas';
 import type { DashboardItem } from '@/server/dashboards/types';
@@ -18,6 +19,9 @@ export const setDashboardDailyReport = withValidation(
       where: { id: dashboardId },
       data: { includeInDailyReport },
       select: dashboardItemSelect,
+    });
+    addEventFields({
+      dashboard: { include_in_daily_report: includeInDailyReport },
     });
     return toDashboardItem(row);
   },

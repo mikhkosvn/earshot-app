@@ -1,6 +1,7 @@
 import 'server-only';
 
 import { prisma } from '@/lib/prisma';
+import { addEventFields } from '@/server/common/logging/event-fields';
 import { withValidation } from '@/server/common/run-action';
 import { projectKnowledgeIdSchema } from '@/server/project-knowledge/schemas';
 import type { ProjectKnowledgeVersionRow } from '@/server/project-knowledge/types';
@@ -21,6 +22,7 @@ export const listProjectKnowledgeVersions = withValidation(
         createdBy: { select: { name: true } },
       },
     });
+    addEventFields({ project_knowledge: { version_count: versions.length } });
     return versions.map(({ createdBy, ...version }) => ({
       ...version,
       createdByName: createdBy?.name ?? null,

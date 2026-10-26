@@ -1,3 +1,4 @@
+import { addEventFields } from '@/server/common/logging/event-fields';
 import 'server-only';
 
 import { withValidation } from '@/server/common/run-action';
@@ -9,6 +10,11 @@ export const addConversationToLab = withValidation(
   createLabTestSetSchema,
   async (input) => {
     await requireProjectAccess(input.projectId);
-    return createLabTestSet(input);
+    const testSet = await createLabTestSet(input);
+    addEventFields({
+      conversation: { id: input.conversationId },
+      lab_test_set: { id: testSet.id, review_count: testSet.reviewCount },
+    });
+    return testSet;
   },
 );

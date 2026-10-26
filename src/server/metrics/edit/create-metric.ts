@@ -6,6 +6,7 @@ import {
   MetricType,
 } from '@/generated/prisma/enums';
 import { prisma } from '@/lib/prisma';
+import { addEventFields } from '@/server/common/logging/event-fields';
 import { withValidation } from '@/server/common/run-action';
 import { startPatternReview } from '@/server/metrics/pattern-reviews/start-pattern-review';
 import { createMetricSchema } from '@/server/metrics/schemas';
@@ -59,6 +60,17 @@ export const createMetric = withValidation(
         };
       },
     );
+    addEventFields({
+      project: { id: projectId },
+      metric: {
+        id: metric.id,
+        kind: definition.type,
+        eval_type: definition.evalType,
+        agent_count: agentIds.length,
+        scenario_count: linkedScenarioIds.length,
+        add_to_rubric: addToRubric,
+      },
+    });
     await scoreScenarioHistory({
       projectId,
       userId: user.id,

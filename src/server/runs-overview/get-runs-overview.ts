@@ -1,6 +1,7 @@
 import 'server-only';
 
 import { withValidation } from '@/server/common/run-action';
+import { addEventFields } from '@/server/common/logging/event-fields';
 import { projectTimeZone } from '@/server/dashboards/utils/time/project-time-zone';
 import { rangeOf } from '@/server/dashboards/utils/plot-data/compute-plot-data';
 import { requireProjectAccess } from '@/server/projects/utils/require-project-access';
@@ -32,6 +33,13 @@ export const getRunsOverview = withValidation(
       loadOverviewRuns(projectId, range, filters),
       loadOverviewRuns(projectId, previousRange, filters),
     ]);
+    addEventFields({
+      overview: {
+        period,
+        run_count: current.length,
+        previous_run_count: previous.length,
+      },
+    });
     const context = { period, timeZone: projectTimeZone(project.timezone) };
     return {
       ...overviewStats(current, previous),

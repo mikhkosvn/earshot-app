@@ -6,6 +6,7 @@ import { JobKind, MetricEvalType } from '@/generated/prisma/enums';
 import { prisma } from '@/lib/prisma';
 import { UrlGenerator } from '@/lib/url-generator/url-generator';
 import { generateObject } from '@/server/ai/generate-object';
+import { addEventFields } from '@/server/common/logging/event-fields';
 import { ActionError, withValidation } from '@/server/common/run-action';
 import { startJob } from '@/server/jobs/start-job';
 import {
@@ -47,6 +48,7 @@ export const startMetricGeneration = withValidation(
         `The agent description needs ${AGENT_DESCRIPTION_MIN_LENGTH} characters or more. Add details to the agent first.`,
       );
     }
+    addEventFields({ project: { id: projectId }, agent: { id: agent.id } });
     return startJob({
       projectId,
       userId: user.id,

@@ -3,7 +3,9 @@ import 'server-only';
 import { NotifyOn } from '@/generated/prisma/enums';
 import { prisma } from '@/lib/prisma';
 import { UrlGenerator } from '@/lib/url-generator/url-generator';
+import { recordStepFailure } from '@/server/common/logging/event-fields';
 import { MonitorRunOutcome } from '@/server/monitors/constants/monitor-run-outcome';
+import { MonitorStep } from '@/server/monitors/constants/monitor-scheduler';
 import { EmailNotificationKind } from '@/server/email/constants/email-notification-kind';
 import { notifyProjectMembersByEmail } from '@/server/email/notify-project-members-by-email';
 import { appUrl } from '@/server/runs/utils/app-url';
@@ -61,9 +63,6 @@ export const notifyMonitorRun = async ({
       ].join('\n\n'),
     });
   } catch (error) {
-    console.error(
-      `[monitors] The email for monitor run ${monitorRunId} was not sent.`,
-      error,
-    );
+    recordStepFailure(MonitorStep.run_email, error);
   }
 };

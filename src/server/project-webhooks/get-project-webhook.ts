@@ -1,6 +1,7 @@
 import 'server-only';
 
 import { prisma } from '@/lib/prisma';
+import { addEventFields } from '@/server/common/logging/event-fields';
 import { withValidation } from '@/server/common/run-action';
 import { projectWebhookIdSchema } from '@/server/project-webhooks/schemas';
 import type { ProjectWebhookSettings } from '@/server/project-webhooks/types';
@@ -30,6 +31,13 @@ export const getProjectWebhook = withValidation(
         forwardRetellWebhooks: true,
         notifications: { select: { notification: true } },
         redactionFields: { select: { field: true } },
+      },
+    });
+    addEventFields({
+      project: { id: projectId },
+      webhook: {
+        configured: webhook !== null,
+        notification_count: webhook?.notifications.length ?? 0,
       },
     });
     if (!webhook) return EMPTY_WEBHOOK;

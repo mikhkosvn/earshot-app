@@ -4,6 +4,7 @@ import { subMinutes } from 'date-fns';
 
 import { JobStatus } from '@/generated/prisma/enums';
 import { prisma } from '@/lib/prisma';
+import { addEventFields } from '@/server/common/logging/event-fields';
 import {
   ACTIVE_JOB_STATUSES,
   JOB_MAX_RUNTIME_MINUTES,
@@ -26,5 +27,6 @@ export const failStaleJobs = async () => {
       finishedAt: new Date(),
     },
   });
+  addEventFields({ jobs: { failed_stale: count } });
   return { count };
 };

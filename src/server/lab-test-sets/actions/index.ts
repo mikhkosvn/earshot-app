@@ -9,15 +9,21 @@ import type {
   CreateLabTestSetInput,
   LabTestSetSummary,
 } from '@/server/lab-test-sets/types';
+import { LabTestSetsActionOperation } from '@/server/lab-test-sets/actions/action-operation';
+import { withActionEvent } from '@/server/common/logging/with-action-event';
 
 export async function addConversationToLabAction(
   args: CreateLabTestSetInput,
 ): Promise<ActionResult<LabTestSetSummary>> {
-  return runAction(() => addConversationToLab(args));
+  return withActionEvent(LabTestSetsActionOperation.addConversationToLab, () =>
+    runAction(() => addConversationToLab(args)),
+  );
 }
 
 export async function addRunsToLabAction(
   args: AddRunsToLabInput,
 ): Promise<ActionResult<{ count: number }>> {
-  return runAction(() => addRunsToLab(args));
+  return withActionEvent(LabTestSetsActionOperation.addRunsToLab, () =>
+    runAction(() => addRunsToLab(args)),
+  );
 }

@@ -1,6 +1,7 @@
 import 'server-only';
 
 import { prisma } from '@/lib/prisma';
+import { addEventFields } from '@/server/common/logging/event-fields';
 import { withValidation } from '@/server/common/run-action';
 import { createOptimizerScheduleSchema } from '@/server/metric-optimizer/schemas';
 import { nextScheduleRun } from '@/server/metric-optimizer/schedules/utils/next-schedule-run';
@@ -28,6 +29,10 @@ export const createOptimizerSchedule = withValidation(
         }),
       },
       select: scheduleSelect,
+    });
+    addEventFields({
+      project: { id: projectId },
+      optimizer_schedule: { id: row.id, is_active: isActive },
     });
     return toScheduleView(row);
   },

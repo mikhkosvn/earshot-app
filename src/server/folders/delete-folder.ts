@@ -1,6 +1,7 @@
 import 'server-only';
 
 import { prisma } from '@/lib/prisma';
+import { addEventFields } from '@/server/common/logging/event-fields';
 import { ActionError, withValidation } from '@/server/common/run-action';
 import { folderTargetSchema } from '@/server/folders/schemas';
 import { findFolderOrThrow } from '@/server/folders/utils/find-folder';
@@ -25,6 +26,7 @@ export const deleteFolder = withValidation(
           ],
         },
       });
+      addEventFields({ folder: { id: folder.id, deleted_count: count } });
       return { path, deletedFolderCount: count };
     });
   },

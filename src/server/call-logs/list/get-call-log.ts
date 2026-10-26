@@ -9,6 +9,7 @@ import {
   toCallLogRow,
 } from '@/server/call-logs/utils/call-log-row';
 import { requireUser } from '@/server/auth';
+import { addEventFields } from '@/server/common/logging/event-fields';
 import { withValidation } from '@/server/common/run-action';
 import { computeRubricVerdict } from '@/server/metric-scoring/compute-rubric-verdict';
 
@@ -22,6 +23,11 @@ export const getCallLog = withValidation(
     });
     const rubric = await computeRubricVerdict({
       conversationId: record.conversationId,
+    });
+    addEventFields({
+      call_log: { id: record.id, passed: rubric.passed },
+      conversation: { id: record.conversationId },
+      agent: { id: record.agentId },
     });
     return { ...toCallLogRow(record), rubric };
   },

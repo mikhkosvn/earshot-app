@@ -2,6 +2,7 @@ import 'server-only';
 
 import { JobKind, MetricType } from '@/generated/prisma/enums';
 import { prisma } from '@/lib/prisma';
+import { addEventFields } from '@/server/common/logging/event-fields';
 import { withValidation } from '@/server/common/run-action';
 import { bulkCreateMetricsSchema } from '@/server/metrics/schemas';
 import { createMetricRecord } from '@/server/metrics/utils/records/create-metric-record';
@@ -21,7 +22,7 @@ export const bulkCreateMetrics = withValidation(
       },
       select: { id: true },
     });
-    return prisma.$transaction(async (tx) => {
+    const created = await prisma.$transaction(async (tx) => {
       const agentIds = await projectAgentIds(tx, projectId);
       const created = [];
       for (const draft of metrics) {
@@ -44,5 +45,11 @@ export const bulkCreateMetrics = withValidation(
       });
       return created;
     });
+    addEventFields({
+      project: { id: projectId },
+      job: { id: jobId },
+      metrics: { created_count: created.length },
+    });
+    return created;
   },
 );

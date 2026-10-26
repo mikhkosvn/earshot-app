@@ -6,6 +6,7 @@ import { prisma } from '@/lib/prisma';
 import { UrlGenerator } from '@/lib/url-generator/url-generator';
 import { evaluatorsFromCallsSchema } from '@/server/call-logs/schemas';
 import type { CallJobStarted } from '@/server/call-logs/types';
+import { addEventFields } from '@/server/common/logging/event-fields';
 import { withValidation } from '@/server/common/run-action';
 import { createEvaluatorFromTranscript } from '@/server/evaluators/ai/create-evaluator-from-transcript';
 import { startJob } from '@/server/jobs/start-job';
@@ -41,6 +42,10 @@ export const createEvaluatorsFromCalls = withValidation(
   async ({ projectId, callLogIds, folderPath }): Promise<CallJobStarted> => {
     const { user } = await requireProjectAccess(projectId);
     const calls = await loadCalls(projectId, callLogIds);
+    addEventFields({
+      project: { id: projectId },
+      call_logs: { requested: callLogIds.length, found: calls.length },
+    });
     return startJob({
       projectId,
       userId: user.id,
@@ -60,6 +65,7 @@ export const createEvaluatorsFromCalls = withValidation(
           evaluatorIds.push(created.id);
           await setStep(progressText(evaluatorIds.length, calls.length));
         }
+        addEventFields({ evaluators: { created: evaluatorIds.length } });
         await setResult({
           summary: progressText(evaluatorIds.length, calls.length),
           deepLink: deepLinkOf(evaluatorIds),

@@ -2,6 +2,7 @@ import 'server-only';
 
 import { prisma } from '@/lib/prisma';
 import { requireUser } from '@/server/auth';
+import { addEventFields } from '@/server/common/logging/event-fields';
 import { withValidation } from '@/server/common/run-action';
 import { normalizeScore } from '@/server/metric-scoring/utils/normalize-score';
 import { valueParts } from '@/server/metric-scoring/utils/value-parts';
@@ -19,6 +20,11 @@ export const voteMetric = withValidation(
         conversation: { project: projectAccessWhere(user.id) },
       },
       select: { id: true, metric: { select: { evalType: true } } },
+    });
+    addEventFields({
+      conversation: { id: conversationId },
+      metric: { id: metricId, kind: evaluation.metric.evalType },
+      vote: { thumbs_up: thumbsUp },
     });
     const vote = { thumbsUp, voteFeedback: feedback, votedAt: new Date() };
     if (thumbsUp) {

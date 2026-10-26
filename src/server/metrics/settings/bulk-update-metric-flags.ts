@@ -1,6 +1,7 @@
 import 'server-only';
 
 import { prisma } from '@/lib/prisma';
+import { addEventFields } from '@/server/common/logging/event-fields';
 import { withValidation } from '@/server/common/run-action';
 import { OBSERVABILITY_LOCKED_FUNCTIONS } from '@/server/metrics/constants/scoring/predefined-function';
 import { bulkUpdateMetricFlagsSchema } from '@/server/metrics/schemas';
@@ -11,7 +12,7 @@ export const bulkUpdateMetricFlags = withValidation(
   async ({ projectId, metricIds, observabilityEnabled, ...flags }) => {
     await requireProjectAccess(projectId);
     const where = { projectId, id: { in: metricIds } };
-    return prisma.$transaction(async (tx) => {
+    const result = await prisma.$transaction(async (tx) => {
       const { count } = await tx.metric.updateMany({ where, data: flags });
       if (observabilityEnabled === undefined) return { count };
       await tx.metric.updateMany({
@@ -33,5 +34,13 @@ export const bulkUpdateMetricFlags = withValidation(
       });
       return { count };
     });
+    addEventFields({
+      project: { id: projectId },
+      metrics: {
+        requested_count: metricIds.length,
+        updated_count: result.count,
+      },
+    });
+    return result;
   },
 );

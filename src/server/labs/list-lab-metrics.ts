@@ -1,6 +1,7 @@
 import 'server-only';
 
 import { prisma } from '@/lib/prisma';
+import { addEventFields } from '@/server/common/logging/event-fields';
 import { withValidation } from '@/server/common/run-action';
 import { labProjectSchema } from '@/server/labs/schemas';
 import type { LabMetricListItem } from '@/server/labs/types';
@@ -39,6 +40,7 @@ export const listLabMetrics = withValidation(
         },
       },
     });
+    addEventFields({ metrics: { count: rows.length } });
     return rows.map(({ labReviews, ...metric }) => ({
       ...metric,
       score: scoreOf(

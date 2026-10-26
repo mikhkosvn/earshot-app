@@ -24,6 +24,7 @@ import { CallDirection, CallRefKind } from '@/server/call-engine/constants';
 import { getCallEngine } from '@/server/call-engine/get-call-engine';
 import type { StartCallRequest } from '@/server/call-engine/types';
 import { formatCallRef } from '@/server/call-engine/utils/call-ref';
+import { addEventFields } from '@/server/common/logging/event-fields';
 import { ActionError, withValidation } from '@/server/common/run-action';
 import { JobCompletion } from '@/server/jobs/constants';
 import { startJob } from '@/server/jobs/start-job';
@@ -94,6 +95,16 @@ export const startTestCall = withValidation(
     });
     const connection = check.connections.find((item) => item.testable);
     const target = connection?.target;
+    addEventFields({
+      project: { id: agent.projectId },
+      agent: { id: agentId, provider: agent.provider },
+      connection_check: {
+        valid: check.valid,
+        connection_count: check.connections.length,
+        connection_types: check.connections.map((item) => item.type),
+      },
+      test_call: { connection_type: connection?.type },
+    });
     if (!connection || !target) {
       throw new ActionError(
         'None of the connections can be verified by a test call.',
@@ -101,7 +112,7 @@ export const startTestCall = withValidation(
       );
     }
 
-    return startJob({
+    const started = await startJob({
       projectId: agent.projectId,
       userId: user.id,
       kind: JobKind.test_call,
@@ -109,6 +120,13 @@ export const startTestCall = withValidation(
       initialStep: TEST_CALL_IN_PROGRESS_HEADLINE,
       completion: JobCompletion.external,
       run: async (context) => {
+        addEventFields({
+          agent: { id: agentId, provider: agent.provider },
+          test_call: {
+            connection_type: connection.type,
+            direction: directionOf(agent.inbound),
+          },
+        });
         await context.setResult(
           queuedProgress(agentId, connection.type, target),
         );
@@ -126,5 +144,7 @@ export const startTestCall = withValidation(
         );
       },
     });
+    addEventFields({ job: { id: started.jobId, kind: JobKind.test_call } });
+    return started;
   },
 );

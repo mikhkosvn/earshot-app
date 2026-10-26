@@ -7,6 +7,7 @@ import {
 } from '@/generated/prisma/enums';
 import { prisma } from '@/lib/prisma';
 import { UrlGenerator } from '@/lib/url-generator/url-generator';
+import { addEventFields } from '@/server/common/logging/event-fields';
 import { startJob } from '@/server/jobs/start-job';
 import { runPatternReview } from '@/server/metrics/pattern-reviews/utils/run-pattern-review';
 import type { StartedPatternReview } from '@/server/metrics/types';
@@ -59,6 +60,12 @@ export const startPatternReview = async ({
   await prisma.metricPatternReview.update({
     where: { id: review.id },
     data: { jobId },
+  });
+  addEventFields({
+    project: { id: projectId },
+    metric: { id: metricId },
+    pattern_review: { id: review.id },
+    job: { id: jobId },
   });
   return { reviewId: review.id, jobId };
 };

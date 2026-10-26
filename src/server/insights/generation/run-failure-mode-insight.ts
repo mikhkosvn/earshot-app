@@ -2,6 +2,7 @@ import 'server-only';
 
 import { InsightStatus } from '@/generated/prisma/enums';
 import { prisma } from '@/lib/prisma';
+import { addEventFields } from '@/server/common/logging/event-fields';
 import { INSIGHT_RUN_FAILURES_MAX } from '@/server/insights/constants/insight-limits';
 import { classifyFailures } from '@/server/insights/generation/classify-failures';
 import {
@@ -130,6 +131,7 @@ export const runFailureModeInsight = async ({
     data: { metricId, windowStart, windowEnd, status: InsightStatus.running },
     select: { id: true },
   });
+  addEventFields({ metric: { id: metricId }, insight: { id: insight.id } });
   try {
     const outcome = await classifyAndStore(
       insight.id,
@@ -141,6 +143,13 @@ export const runFailureModeInsight = async ({
       where: { id: insight.id },
       data: {
         durationSeconds: (Date.now() - started) / MILLISECONDS_PER_SECOND,
+      },
+    });
+    addEventFields({
+      insight: {
+        status: outcome.status,
+        failures: outcome.failures,
+        categories: outcome.categories,
       },
     });
     return outcome;

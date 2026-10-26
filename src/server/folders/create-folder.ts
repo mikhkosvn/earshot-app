@@ -1,6 +1,7 @@
 import 'server-only';
 
 import { prisma } from '@/lib/prisma';
+import { addEventFields } from '@/server/common/logging/event-fields';
 import { withValidation } from '@/server/common/run-action';
 import { createFolderSchema } from '@/server/folders/schemas';
 import {
@@ -18,10 +19,12 @@ export const createFolder = withValidation(
       if (parentPath) await findFolderOrThrow(tx, projectId, parentPath);
       const path = joinFolderPath(parentPath, name);
       await assertFolderPathFree(tx, projectId, path);
-      return tx.folder.create({
+      const folder = await tx.folder.create({
         data: { projectId, path },
         select: { id: true, path: true },
       });
+      addEventFields({ folder: { id: folder.id } });
+      return folder;
     });
   },
 );

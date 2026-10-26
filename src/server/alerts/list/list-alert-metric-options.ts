@@ -4,6 +4,7 @@ import { Prisma } from '@/generated/prisma/client';
 import { prisma } from '@/lib/prisma';
 import { projectScopeSchema } from '@/server/alerts/schemas';
 import type { AlertMetricOption } from '@/server/alerts/types';
+import { addEventFields } from '@/server/common/logging/event-fields';
 import { withValidation } from '@/server/common/run-action';
 import { requireProjectAccess } from '@/server/projects/utils/require-project-access';
 
@@ -23,6 +24,10 @@ export const listAlertMetricOptions = withValidation(
         evalType: true,
         agents: { select: { agentId: true } },
       },
+    });
+    addEventFields({
+      project: { id: projectId },
+      metrics: { count: metrics.length },
     });
     return metrics.map(({ agents, ...metric }) => ({
       ...metric,

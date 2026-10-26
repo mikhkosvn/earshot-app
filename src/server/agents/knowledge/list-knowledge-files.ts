@@ -5,12 +5,13 @@ import { prisma } from '@/lib/prisma';
 import { agentIdSchema } from '@/server/agents/schemas';
 import type { KnowledgeFileItem } from '@/server/agents/types';
 import { requireAgentAccess } from '@/server/agents/utils/require-agent-access';
+import { addEventFields } from '@/server/common/logging/event-fields';
 import { withValidation } from '@/server/common/run-action';
 
 export const listKnowledgeFiles = withValidation(
   agentIdSchema,
   async ({ agentId }): Promise<KnowledgeFileItem[]> => {
-    await requireAgentAccess(agentId);
+    const { agent } = await requireAgentAccess(agentId);
     const rows = await prisma.knowledgeBaseFile.findMany({
       where: { agentId },
       orderBy: { id: Prisma.SortOrder.asc },
@@ -26,6 +27,11 @@ export const listKnowledgeFiles = withValidation(
           },
         },
       },
+    });
+    addEventFields({
+      project: { id: agent.projectId },
+      agent: { id: agentId },
+      knowledge_files: { count: rows.length },
     });
     return rows.map((row) => ({
       id: row.id,

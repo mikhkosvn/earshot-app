@@ -3,6 +3,7 @@ import 'server-only';
 import { Prisma } from '@/generated/prisma/client';
 import { CallProcessingStatus } from '@/generated/prisma/enums';
 import { prisma } from '@/lib/prisma';
+import { CallLogStep } from '@/server/call-logs/constants/call-log-step';
 import type { CallProcessingInput } from '@/server/call-logs/types';
 import { downloadRecording } from '@/server/call-logs/utils/processing/download-recording';
 import { scoreCallLog } from '@/server/call-logs/utils/processing/score-call-log';
@@ -10,6 +11,10 @@ import {
   applyRecordingDetails,
   attachRecording,
 } from '@/server/call-logs/utils/processing/store-recording';
+import {
+  addEventFields,
+  recordStepFailure,
+} from '@/server/common/logging/event-fields';
 import { readFileBytes } from '@/server/files/read-file-bytes';
 import { WebhookEvent } from '@/server/project-webhooks/constants/webhook-event';
 import { transcribeRecording } from '@/server/transcription/transcribe-recording';
@@ -66,6 +71,7 @@ const downloadedFile = async (
     });
     return { file, durationSeconds };
   } catch (error) {
+    recordStepFailure(CallLogStep.recording_download, error);
     await prisma.callLog.update({
       where: { id: callLogId },
       data: {
@@ -123,6 +129,9 @@ const transcribeInto = async (
       data: { testingChannelIndex: transcription.testingChannelIndex },
     });
   }
+  addEventFields({
+    transcription: { turn_count: transcription.turns.length },
+  });
   return (
     transcription.durationSeconds ??
     Math.max(0, ...transcription.turns.map((turn) => turn.endTime))
@@ -158,6 +167,12 @@ const runSteps = async (
   record: CallLogRecord,
 ) => {
   const hasTurns = record.conversation._count.turns > 0;
+  addEventFields({
+    call_log: {
+      has_recording_url: recordingUrl !== null,
+      turn_count: record.conversation._count.turns,
+    },
+  });
   if (recordingUrl || !hasTurns) {
     await setStatus(callLogId, CallProcessingStatus.transcribing);
   }
@@ -166,6 +181,7 @@ const runSteps = async (
     record,
     recordingUrl,
   );
+  addEventFields({ call_log: { has_recording: file !== null } });
   if (!hasTurns && file) {
     const transcribed = await transcribeInto(record, file);
     await setEndedAt(record, durationSeconds ?? transcribed);
@@ -179,13 +195,19 @@ export const processCallLog = async (input: CallProcessingInput) => {
     where: { id: input.callLogId },
     select: callLogSelect,
   });
+  addEventFields({
+    call_log: { id: input.callLogId },
+    project: { id: record.projectId },
+    conversation: { id: record.conversationId },
+  });
   try {
     await runSteps(input, record);
-    await scoreCallLog({
+    const verdict = await scoreCallLog({
       callLogId: input.callLogId,
       event: WebhookEvent.callLogCompleted,
       origin: input.origin,
     });
+    addEventFields({ call_log: { passed: verdict.passed } });
   } catch (error) {
     await prisma.callLog.update({
       where: { id: input.callLogId },
