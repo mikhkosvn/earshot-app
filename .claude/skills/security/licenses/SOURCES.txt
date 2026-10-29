@@ -1,0 +1,57 @@
+Sources of the files in this skill
+
+The file SKILL.md is new. All other text files are copies of files from the repositories below.
+The copies have one change only: the "allowed-tools" line of the front matter is removed from these files:
+infrastructure/security-reviewer.md, method/differential-review/guide.md, method/fp-check/guide.md, method/sharp-edges/guide.md.
+The rest of the content has no changes. Some files have a new name, listed below.
+SKILL.md lists the known errors in the copies and gives a correction for each.
+Each source skill gave only a part of its files. The list below names each file that this skill took.
+Date of the copy: 2026-10-29.
+
+1. trailofbits/skills
+   URL: https://github.com/trailofbits/skills
+   Commit: 2be6433
+   License: Creative Commons Attribution-ShareAlike 4.0 International (CC BY-SA 4.0), see trailofbits-skills-CC-BY-SA-4.0.txt
+   Copyright: Trail of Bits
+   Files:
+   - plugins/differential-review/skills/differential-review/SKILL.md -> method/differential-review/guide.md
+   - plugins/differential-review/skills/differential-review/{methodology,adversarial,patterns,reporting}.md -> method/differential-review/
+   - plugins/sharp-edges/skills/sharp-edges/SKILL.md -> method/sharp-edges/guide.md
+   - plugins/sharp-edges/skills/sharp-edges/references/{auth-patterns,config-patterns,crypto-apis,lang-javascript}.md -> method/sharp-edges/references/
+   - plugins/insecure-defaults/references/*.md -> method/insecure-defaults/
+   - plugins/fp-check/skills/fp-check/SKILL.md -> method/fp-check/guide.md
+   - plugins/fp-check/skills/fp-check/references/{standard-verification,gate-reviews,bug-class-verification,false-positive-patterns,evidence-templates}.md -> method/fp-check/references/
+   The files under method/ stay under CC BY-SA 4.0.
+
+2. agamm/claude-code-owasp
+   URL: https://github.com/agamm/claude-code-owasp
+   Commit: 8ac7965
+   License: MIT, see agamm-claude-code-owasp-MIT.txt
+   Files:
+   - .claude/skills/owasp-security/SKILL.md -> web/owasp-guide.md
+   - .claude/skills/owasp-security/reference/*.md -> web/reference/
+
+3. markusweldon/claude-owasp-security-skills
+   URL: https://github.com/markusweldon/claude-owasp-security-skills
+   Commit: 4af4f28
+   License: MIT, see markusweldon-claude-owasp-security-skills-MIT.txt
+   Files:
+   - .claude/skills/owasp-api/SKILL.md -> web/owasp-api.md
+   - .claude/skills/owasp-cicd/SKILL.md -> infrastructure/owasp-cicd.md
+
+4. Jeffallan/claude-skills
+   URL: https://github.com/Jeffallan/claude-skills
+   Commit: 143243c
+   License: MIT, see jeffallan-claude-skills-MIT.txt
+   Files:
+   - skills/security-reviewer/SKILL.md -> infrastructure/security-reviewer.md
+   - skills/security-reviewer/references/{infrastructure-security,secret-scanning,sast-tools}.md -> infrastructure/
+   - skills/devops-engineer/references/docker-patterns.md -> infrastructure/
+
+5. microsoft/postgres-skills
+   URL: https://github.com/microsoft/postgres-skills
+   Commit: 9ba96ab
+   License: MIT, see microsoft-postgres-skills-MIT.txt
+   Copyright: Microsoft Corporation
+   Files:
+   - plugin/skills/postgresql-best-practices/references/postgresql-{row-level-security,connection-management,extensions}.md -> database/
