@@ -113,6 +113,7 @@ enum CartesiaEmotion {
 
 model Personality {
   id                           Int                  @id @default(autoincrement())
+  catalogId                    Int?                 @unique
   projectId                    Int?
   forkedFromId                 Int?
   name                         String

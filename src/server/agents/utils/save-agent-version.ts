@@ -10,7 +10,7 @@ import {
 
 interface SaveAgentVersionArgs {
   agentId: number;
-  userId: number;
+  userId: number | null;
   changeReason?: string;
   extraLabels?: string[];
 }

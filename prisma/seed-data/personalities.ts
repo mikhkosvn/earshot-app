@@ -55,6 +55,7 @@ export const GLOBAL_PERSONALITIES: PersonalitySeed[] = [
     backgroundNoise: BackgroundNoise.train_station,
   },
   {
+    catalogId: 693,
     name: 'Normal Male',
     description:
       'A simple and straightforward speaker with an everyday communication style.',
@@ -75,6 +76,24 @@ export const GLOBAL_PERSONALITIES: PersonalitySeed[] = [
     startSpeakingWaitSeconds: 2.5,
     stopSpeakingNumWords: 1,
     stopSpeakingBackoffSeconds: 6,
+  },
+  {
+    catalogId: 29,
+    name: 'Assertive Conversationalist',
+    description:
+      'A confident speaker who states what they want and pushes for a clear answer.',
+    prompt:
+      'You are a confident, direct caller. You say what you need in short sentences. If the answer is vague, you ask again for a clear answer. You stay polite, but you do not let the conversation drift.',
+    language: Language.en,
+    accent: 'American',
+    gender: Gender.male,
+    isStarred: false,
+    enabledByDefault: false,
+    voiceModel: null,
+    voiceId: null,
+    speed: 1.0,
+    interruptionLevel: InterruptionLevel.low,
+    backgroundNoise: BackgroundNoise.off,
   },
   {
     name: 'Red Teaming',

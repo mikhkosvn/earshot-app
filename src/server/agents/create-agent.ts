@@ -9,7 +9,7 @@ import {
   redactionFieldsOf,
 } from '@/server/agents/utils/agent-config-data';
 import { checkConnections } from '@/server/agents/utils/check-connections';
-import { createAgentRecord } from '@/server/agents/utils/create-agent-record';
+import { createAgentRecord } from '@/server/agents/utils/agent-record/create-agent-record';
 import { addEventFields } from '@/server/common/logging/event-fields';
 import { ActionError, withValidation } from '@/server/common/run-action';
 import { requireProjectAccess } from '@/server/projects/utils/require-project-access';

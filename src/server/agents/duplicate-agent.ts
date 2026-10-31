@@ -9,7 +9,7 @@ import {
 } from '@/server/agents/constants/agent-limits';
 import { agentIdSchema } from '@/server/agents/schemas';
 import type { AgentOption } from '@/server/agents/types';
-import { createAgentRecord } from '@/server/agents/utils/create-agent-record';
+import { createAgentRecord } from '@/server/agents/utils/agent-record/create-agent-record';
 import { requireAgentAccess } from '@/server/agents/utils/require-agent-access';
 import { addEventFields } from '@/server/common/logging/event-fields';
 import { withValidation } from '@/server/common/run-action';

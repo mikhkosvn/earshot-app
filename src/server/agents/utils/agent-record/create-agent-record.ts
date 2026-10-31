@@ -15,7 +15,7 @@ type AgentRecordData = Omit<
 
 interface CreateAgentRecordArgs {
   projectId: number;
-  userId: number;
+  userId: number | null;
   data: AgentRecordData;
   redactionFields: RedactionField[];
 }

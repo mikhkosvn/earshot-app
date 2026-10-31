@@ -38,6 +38,7 @@ export type PredefinedMetricSeed = {
 };
 
 export type PersonalitySeed = {
+  catalogId?: number;
   name: string;
   description: string;
   prompt: string;

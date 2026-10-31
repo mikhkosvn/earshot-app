@@ -26,6 +26,7 @@ import {
 } from '@/server/runs/constants/run-logging';
 import { RunMessage } from '@/server/runs/constants/run-messages';
 import { failRun } from '@/server/runs/execution/fail-run';
+import { enrichProviderCallData } from '@/server/runs/execution/provider-call-data/enrich-provider-call-data';
 import { scoreRun } from '@/server/runs/execution/score-run';
 import { storeConversation } from '@/server/runs/execution/store-conversation';
 import { readTestProfileVariables } from '@/server/runs/utils/test-profile-snapshot';
@@ -154,10 +155,14 @@ export const finishRunCall = async ({
     project: { id: run.result.projectId },
     conversation: { id: run.conversationId },
   });
-  const call = toPlacedCall(
+  const call = await enrichProviderCallData({
+    runId,
     event,
-    await loadRecordingFile(event.recording_url, loadRecording),
-  );
+    call: toPlacedCall(
+      event,
+      await loadRecordingFile(event.recording_url, loadRecording),
+    ),
+  });
   const stored = await storeConversation({
     projectId: run.result.projectId,
     conversationId: run.conversationId,

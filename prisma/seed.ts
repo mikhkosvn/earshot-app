@@ -151,6 +151,7 @@ const seedPredefinedMetric = async (metric: PredefinedMetricSeed) => {
 };
 
 const personalityData = (personality: PersonalitySeed) => ({
+  catalogId: personality.catalogId ?? null,
   description: personality.description,
   prompt: personality.prompt,
   accent: personality.accent,

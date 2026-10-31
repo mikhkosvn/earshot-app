@@ -5,6 +5,7 @@ export interface GeneratedApiKey {
 }
 
 export interface ApiKeyAuth {
+  apiKeyId: number;
   organizationId: number;
   projectId: number | null;
 }

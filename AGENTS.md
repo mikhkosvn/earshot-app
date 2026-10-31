@@ -11,7 +11,11 @@
 
 # Comments
 
-**IMPORTANT:** Do not write comments. A comment that only describes code is not allowed. Keep only a comment that has a function, for example `eslint-disable`, `@ts-expect-error`, or a triple-slash directive.
+**IMPORTANT:** Do not write comments. The code is the source of truth. A comment that describes code, explains code, or marks a task is not allowed. This rule applies to every file type, including `.ts`, `.tsx`, `.css`, and `.prisma`.
+
+- When you edit a file, delete each comment that you find in it.
+- Keep only a comment that has a function, for example `eslint-disable`, `@ts-expect-error`, a triple-slash directive, `/* turbopackIgnore: true */`, or a `@type` annotation in a configuration file.
+- If code is hard to read, rename the identifier or extract a function. Do not add a comment.
 
 # Ternary operators
 
