@@ -7,7 +7,7 @@ export function TopAlertValue() {
   const { data: review } = useAlertReviewQuery();
   const topAlert = review.summary.topAlert;
 
-  if (!topAlert) return '—';
+  if (!topAlert) return '-';
   return (
     <span className="flex items-baseline gap-2">
       <span className="truncate text-base">{topAlert.name}</span>

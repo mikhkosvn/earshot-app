@@ -8,7 +8,7 @@ export const QUICK_DESCRIPTION_PLACEHOLDER =
   "Example: Check whether the agent confirms the caller's appointment date and time before ending the call. Fail the call if it hangs up without a confirmation...";
 
 export const APPLY_SCENARIOS_HELP =
-  'This will run the metric on all calls from your existing scenarios. Recommended when adding a new quality metric — ensures historical data is evaluated consistently.';
+  'This will run the metric on all calls from your existing scenarios. Recommended when adding a new quality metric. It makes sure that old calls get the same evaluation.';
 
 export const APPLY_AGENTS_HELP =
   'Choose which agents this metric is evaluated for. All agents in the project are selected by default.';

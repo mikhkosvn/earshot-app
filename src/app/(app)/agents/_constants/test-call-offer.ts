@@ -7,8 +7,8 @@ export type TestCallOfferKind =
   (typeof TestCallOfferKind)[keyof typeof TestCallOfferKind];
 
 export const TEST_CALL_OFFER_TITLE: Record<TestCallOfferKind, string> = {
-  [TestCallOfferKind.saved]: 'Saved — want to place a test call?',
-  [TestCallOfferKind.connections]: 'Connections look good — place a test call?',
+  [TestCallOfferKind.saved]: 'Saved. Do you want to place a test call?',
+  [TestCallOfferKind.connections]: 'Connections look good. Place a test call?',
 };
 
 export const TEST_CALL_OFFER_CLOSE_LABEL: Record<TestCallOfferKind, string> = {

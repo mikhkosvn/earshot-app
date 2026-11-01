@@ -49,7 +49,7 @@ export function TestProfileForm({
                 <Input
                   {...field}
                   id="test-profile-name"
-                  placeholder="e.g. Delayed order — David"
+                  placeholder="e.g. Delayed order - David"
                 />
               </LabeledField>
             )}

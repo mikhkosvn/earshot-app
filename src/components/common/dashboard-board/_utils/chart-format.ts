@@ -38,7 +38,7 @@ export const sliceColor = (index: number, color: PlotColor) => {
 };
 
 export const changeText = (change: number | null) => {
-  if (change === null) return '—';
+  if (change === null) return '-';
   if (change > 0) return `+${change}%`;
   return `${change}%`;
 };

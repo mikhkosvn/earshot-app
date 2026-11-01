@@ -126,7 +126,7 @@ const verdictOf = (status: TestConnectionStatus) => {
 
 const headlineOf = (status: TestConnectionStatus) => {
   if (status === TestConnectionStatus.passed) {
-    return 'All 1 connections are working — your agent answered and replied on each one.';
+    return 'All 1 connections are working. Your agent answered and replied on each one.';
   }
   if (status === TestConnectionStatus.unverified) {
     return 'Your agent answered but did not reply on 1 connection.';

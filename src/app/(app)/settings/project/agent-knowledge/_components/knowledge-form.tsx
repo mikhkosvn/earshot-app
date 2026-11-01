@@ -18,7 +18,7 @@ export function KnowledgeForm() {
             <h1 className="text-base font-semibold">Agent knowledge</h1>
             <p className="text-xs text-muted-foreground">
               What every improvement run in this project must know before it
-              proposes a change — wording you have to keep, an escalation path,
+              proposes a change: wording you have to keep, an escalation path,
               a tone. Saved as a new version each time, so you can read back
               what changed.
             </p>

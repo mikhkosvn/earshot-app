@@ -60,8 +60,8 @@ export function VariableFormRow({
           <Field data-invalid={fieldState.invalid} className="gap-1">
             <Textarea
               {...field}
-              placeholder="Description — what value this variable holds and its expected format"
-              aria-label="Description — what value this variable holds and its expected format"
+              placeholder="Description: what value this variable holds and its expected format"
+              aria-label="Description: what value this variable holds and its expected format"
               aria-invalid={fieldState.invalid}
               className="bg-background"
             />

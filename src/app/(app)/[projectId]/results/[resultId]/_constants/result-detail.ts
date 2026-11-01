@@ -4,7 +4,7 @@ export const PERCENT_SCALE = 100;
 
 export const LOW_PERCENT_LIMIT = 50;
 
-export const EMPTY_VALUE = '—';
+export const EMPTY_VALUE = '-';
 
 export const MetricRunTab = {
   failure: 'failure',

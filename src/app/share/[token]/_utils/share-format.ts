@@ -18,7 +18,7 @@ const NUMBER_FORMAT = new Intl.NumberFormat('en-US', {
   maximumFractionDigits: 2,
 });
 
-export const EMPTY_VALUE = '—';
+export const EMPTY_VALUE = '-';
 
 const pad = (value: number) => String(value).padStart(2, '0');
 
