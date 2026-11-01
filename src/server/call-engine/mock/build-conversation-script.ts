@@ -11,7 +11,6 @@ import type { CallerSetup, StartCallRequest } from '@/server/call-engine/types';
 const SECONDS_PER_TURN = 7;
 const MIN_TURNS = 4;
 const MAX_TURNS = 16;
-const NORMAL_SPEED = 1;
 
 const SYSTEM_PROMPT = [
   'You write realistic phone call transcripts for voice agent tests.',
@@ -30,13 +29,7 @@ const formatVariables = (variables: Record<string, string>) => {
 };
 
 const formatPersonality = (caller: CallerSetup) =>
-  [
-    caller.prompt.trim(),
-    `accent ${caller.accent ?? 'none'}`,
-    `speed ${caller.speed ?? NORMAL_SPEED}`,
-    `interruption level ${caller.interruption_level}`,
-    `background noise ${caller.background_noise}`,
-  ]
+  [caller.prompt.trim(), `accent ${caller.accent ?? 'none'}`]
     .filter((part) => part.length > 0)
     .join(', ');
 

@@ -6,7 +6,8 @@ import type { PersonalityListItem } from '@/server/personalities/types';
 
 import { personalityTitle } from '../../../_utils/personality-card-text';
 import { CardAction } from './card-action';
-import { EnabledSwitch } from './enabled-switch';
+import { DefaultChip } from './default-chip';
+import { EnabledSwitch } from './enabled/enabled-switch';
 import { StarMark } from './star-mark';
 
 interface PersonalityCardHeaderProps {
@@ -19,6 +20,7 @@ export function PersonalityCardHeader({ item }: PersonalityCardHeaderProps) {
       <h2 className="text-base/tight font-semibold">
         {personalityTitle(item)}
       </h2>
+      <DefaultChip isProjectDefault={item.isProjectDefault} />
       <StarMark starred={item.isStarred} icon={StarIcon} />
       <CardAction item={item} />
       <span className="flex-1" />

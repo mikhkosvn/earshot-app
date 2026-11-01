@@ -8,6 +8,7 @@ import {
   personalityLanguageWhere,
   visiblePersonalityWhere,
 } from '@/server/personalities/utils/personality-access';
+import { projectDefaultPersonalityId } from '@/server/personalities/utils/project-default';
 import { requireProjectAccess } from '@/server/projects/utils/require-project-access';
 
 export const setPersonalitiesEnabled = withValidation(
@@ -42,8 +43,16 @@ export const setPersonalitiesEnabled = withValidation(
       });
       return { count: personalityIds.length };
     }
+    const defaultId = await projectDefaultPersonalityId(projectId);
     await prisma.projectPersonality.deleteMany({
-      where: { projectId, personalityId: { in: personalityIds } },
+      where: {
+        projectId,
+        personalityId: {
+          in: personalityIds.filter(
+            (personalityId) => personalityId !== defaultId,
+          ),
+        },
+      },
     });
     return { count: personalityIds.length };
   },

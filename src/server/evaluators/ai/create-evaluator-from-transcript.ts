@@ -7,7 +7,7 @@ import { prisma } from '@/lib/prisma';
 import { generateObject } from '@/server/ai/generate-object';
 import { TRANSCRIPT_ROLE_LABEL } from '@/server/call-engine/constants';
 import { addEventFields } from '@/server/common/logging/event-fields';
-import { ActionError, withValidation } from '@/server/common/run-action';
+import { withValidation } from '@/server/common/run-action';
 import { transcriptEvaluatorMock } from '@/server/evaluators/ai/mocks/transcript-evaluator-mock';
 import { DEFAULT_SCENARIO_TOOLS } from '@/server/evaluators/constants/scenario-tool-descriptions';
 import { createEvaluatorFromTranscriptSchema } from '@/server/evaluators/schemas/evaluator-ai';
@@ -47,9 +47,6 @@ export const createEvaluatorFromTranscript = withValidation(
     });
     return prisma.$transaction(async (tx) => {
       const defaults = await getAgentEvaluatorDefaults(tx, projectId, agentId);
-      if (!defaults.personalityId) {
-        throw new ActionError('Enable a personality for this project first.');
-      }
       const fields = evaluatorFieldsSchema.parse({
         agentId,
         name: name || draft.name,

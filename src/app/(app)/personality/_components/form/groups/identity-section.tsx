@@ -32,7 +32,11 @@ export function IdentitySection() {
               <FieldLabel htmlFor="personality-name" className="gap-0">
                 Personality Name<span className="text-destructive">*</span>
               </FieldLabel>
-              <Input {...field} id="personality-name" aria-invalid={fieldState.invalid} />
+              <Input
+                {...field}
+                id="personality-name"
+                aria-invalid={fieldState.invalid}
+              />
               <FieldError errors={[fieldState.error]} />
             </Field>
           )}

@@ -27,9 +27,6 @@ import {
   type RunAgent,
 } from '@/server/runs/utils/run-references';
 
-const NO_PERSONALITY_MESSAGE =
-  'Enable a personality for this project before you save scenarios from a spec.';
-
 const languageOf = (item: ResolvedScenario, agent: RunAgent): Language =>
   item.scenario.language ?? agent.language;
 
@@ -52,11 +49,6 @@ const snapshotOf = (
   metricIds: item.metricIds,
 });
 
-const savedPersonalityId = (item: ResolvedScenario) => {
-  if (!item.personality) throw new ActionError(NO_PERSONALITY_MESSAGE);
-  return item.personality.id;
-};
-
 const saveScenarios = (args: {
   projectId: number;
   userId: number;
@@ -67,7 +59,7 @@ const saveScenarios = (args: {
   prisma.$transaction(async (tx) => {
     const sources: RunPlanSource[] = [];
     for (const item of args.scenarios) {
-      const personalityId = savedPersonalityId(item);
+      const personalityId = item.personality.id;
       const created = await createEvaluatorRecord(tx, {
         projectId: args.projectId,
         userId: args.userId,
@@ -113,7 +105,7 @@ const unsavedSources = (
   scenarios.map((item) => ({
     evaluatorId: null,
     evaluatorSnapshot: snapshotOf(item, agent, null),
-    personalityId: item.personality?.id ?? null,
+    personalityId: item.personality.id,
     testProfileId: item.testProfileId ?? agent.defaultTestProfileId,
     frequency: item.frequency,
   }));

@@ -17,8 +17,6 @@ export const personalityForProjectWhere = (
 export const enabledPersonalityWhere = (
   projectId: number,
 ): Prisma.PersonalityWhereInput => ({
-  OR: [
-    { projectId },
-    { projectId: null, projectEnablements: { some: { projectId } } },
-  ],
+  ...personalityForProjectWhere(projectId),
+  projectEnablements: { some: { projectId } },
 });

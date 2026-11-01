@@ -11,10 +11,14 @@ import {
   restoreEvaluatorVersionSchema,
 } from '@/server/evaluators/schemas/evaluator-fields';
 import type { EvaluatorSnapshot } from '@/server/evaluators/types';
-import { evaluatorAccessWhere } from '@/server/evaluators/utils/evaluator-access-where';
+import {
+  evaluatorAccessWhere,
+  personalityForProjectWhere,
+} from '@/server/evaluators/utils/evaluator-access-where';
 import { toEvaluatorDetail } from '@/server/evaluators/utils/evaluator-detail';
 import { recordEvaluatorVersion } from '@/server/evaluators/utils/record-evaluator-version';
 import { updateEvaluatorRecord } from '@/server/evaluators/utils/write-evaluator';
+import { ensureDefaultPersonalityId } from '@/server/personalities/utils/default-personality';
 
 const existingMetricIds = async (
   tx: Prisma.TransactionClient,
@@ -54,6 +58,27 @@ const existingTestProfileId = async (
   return profile?.id ?? null;
 };
 
+const findVisiblePersonalityId = async (
+  tx: Prisma.TransactionClient,
+  projectId: number,
+  personalityId: number | null,
+) => {
+  if (!personalityId) return null;
+  const personality = await tx.personality.findFirst({
+    where: { id: personalityId, ...personalityForProjectWhere(projectId) },
+    select: { id: true },
+  });
+  return personality?.id ?? null;
+};
+
+const existingPersonalityId = async (
+  tx: Prisma.TransactionClient,
+  projectId: number,
+  snapshot: EvaluatorSnapshot,
+) =>
+  (await findVisiblePersonalityId(tx, projectId, snapshot.personalityId)) ??
+  ensureDefaultPersonalityId(tx, projectId);
+
 export const restoreEvaluatorVersion = withValidation(
   restoreEvaluatorVersionSchema,
   async ({ evaluatorId, versionId }) => {
@@ -73,15 +98,19 @@ export const restoreEvaluatorVersion = withValidation(
         evaluator: { id: evaluatorId },
         evaluator_version: { id: versionId, restored_version: version.version },
       });
-      if (!snapshot.agentId || !snapshot.personalityId) {
+      if (!snapshot.agentId) {
         throw new ActionError(
-          'This version has no agent or personality. It cannot be restored.',
+          'This version has no agent. It cannot be restored.',
         );
       }
       const fields = evaluatorFieldsSchema.parse({
         ...snapshot,
         agentId: snapshot.agentId,
-        personalityId: snapshot.personalityId,
+        personalityId: await existingPersonalityId(
+          tx,
+          evaluator.projectId,
+          snapshot,
+        ),
         folderPath: await existingFolderPath(
           tx,
           evaluator.projectId,

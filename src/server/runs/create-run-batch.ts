@@ -4,6 +4,7 @@ import { CallerNumberMode } from '@/generated/prisma/enums';
 import { prisma } from '@/lib/prisma';
 import { addEventFields } from '@/server/common/logging/event-fields';
 import { ActionError } from '@/server/common/run-action';
+import { defaultPersonalityIdOf } from '@/server/personalities/utils/default-personality';
 import {
   RUN_BATCH_MAX_RUNS,
   RUN_FREQUENCY_MIN,
@@ -46,6 +47,14 @@ const loadEvaluators = async (projectId: number, evaluatorIds: number[]) => {
   });
 };
 
+const defaultCallerIdFor = async (
+  projectId: number,
+  evaluators: { personalityId: number | null }[],
+) => {
+  if (evaluators.every((row) => row.personalityId !== null)) return null;
+  return defaultPersonalityIdOf(projectId);
+};
+
 export const createRunBatch = async (
   args: CreateRunBatchArgs,
 ): Promise<CreatedRunBatch> => {
@@ -58,11 +67,12 @@ export const createRunBatch = async (
   await assertTestProfilesOfAgent(args.projectId, agent.id, testProfileIds);
   const mockToolIds = resolveMockToolIds(agent, args.mockToolIds);
   const frequency = Math.max(RUN_FREQUENCY_MIN, args.frequency ?? 1);
+  const defaultCallerId = await defaultCallerIdFor(args.projectId, evaluators);
 
   const sources: RunPlanSource[] = evaluators.map((row) => ({
     evaluatorId: row.id,
     evaluatorSnapshot: toEvaluatorSnapshot(row),
-    personalityId: row.personalityId,
+    personalityId: row.personalityId ?? defaultCallerId,
     testProfileId: row.testProfileId ?? agent.defaultTestProfileId,
     frequency,
   }));

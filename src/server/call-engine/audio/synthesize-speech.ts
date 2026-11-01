@@ -96,17 +96,6 @@ export const writeSpeech = (
   }
 };
 
-export const writeBackgroundNoise = (
-  samples: Float32Array,
-  { level, random }: { level: number; random: Random },
-) => {
-  let state = 0;
-  for (let index = 0; index < samples.length; index += 1) {
-    state = state * 0.85 + (random.next() * 2 - 1) * 0.15;
-    samples[index] += state * level;
-  }
-};
-
 export const toInt16 = (samples: Float32Array) => {
   const output = new Int16Array(samples.length);
   for (let index = 0; index < samples.length; index += 1) {

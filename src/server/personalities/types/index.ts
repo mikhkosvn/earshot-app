@@ -1,11 +1,6 @@
 import type { z } from 'zod';
 
-import type {
-  BackgroundNoise,
-  Gender,
-  InterruptionLevel,
-  Language,
-} from '@/generated/prisma/enums';
+import type { Gender, Language, LiveVoice } from '@/generated/prisma/enums';
 import type {
   createPersonalitySchema,
   forkPersonalitySchema,
@@ -39,14 +34,13 @@ export interface PersonalityListItem {
   name: string;
   description: string;
   language: Language;
+  voice: LiveVoice;
   accent: string | null;
   gender: Gender;
   isStarred: boolean;
   isGlobal: boolean;
+  isProjectDefault: boolean;
   forkedFromId: number | null;
-  backgroundNoise: BackgroundNoise;
-  interruptionLevel: InterruptionLevel | null;
-  speed: number | null;
   enabled: boolean;
   createdAt: Date;
 }
@@ -55,6 +49,7 @@ export interface PersonalityDetail {
   id: number;
   name: string;
   isGlobal: boolean;
+  isProjectDefault: boolean;
   values: PersonalityFormValues;
 }
 

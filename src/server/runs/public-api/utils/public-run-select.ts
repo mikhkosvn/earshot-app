@@ -1,7 +1,6 @@
 import 'server-only';
 
 import { Prisma } from '@/generated/prisma/client';
-import { publicPersonalitySelect } from '@/server/personalities/public-api/public-personality-id';
 import { PUBLIC_EVALUATION_STATUSES } from '@/server/runs/public-api/constants';
 
 export const publicRunSelect = {
@@ -30,7 +29,7 @@ export const publicRunSelect = {
   evaluator: {
     select: { name: true, scenarioType: true, expectedOutcomePrompt: true },
   },
-  personality: { select: { name: true, ...publicPersonalitySelect } },
+  personality: { select: { id: true, name: true } },
   conversation: {
     select: {
       startedAt: true,

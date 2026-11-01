@@ -1,12 +1,10 @@
 import 'server-only';
 
-import { Prisma } from '@/generated/prisma/client';
+import type { Prisma } from '@/generated/prisma/client';
 import type { RedactionField } from '@/generated/prisma/enums';
-import {
-  DEFAULT_AGENT_PERSONALITY_NAME,
-  DEFAULT_TEST_PROFILE_PREFIX,
-} from '@/server/agents/constants/agent-limits';
+import { DEFAULT_TEST_PROFILE_PREFIX } from '@/server/agents/constants/agent-limits';
 import { saveAgentVersion } from '@/server/agents/utils/save-agent-version';
+import { ensureDefaultPersonalityId } from '@/server/personalities/utils/default-personality';
 
 type AgentRecordData = Omit<
   Prisma.AgentUncheckedCreateInput,
@@ -40,17 +38,11 @@ const linkAutoMetrics = async (
 
 const enableDefaultPersonality = async (
   tx: Prisma.TransactionClient,
+  projectId: number,
   agentId: number,
 ) => {
-  const personality = await tx.personality.findFirst({
-    where: { projectId: null, name: DEFAULT_AGENT_PERSONALITY_NAME },
-    orderBy: { id: Prisma.SortOrder.asc },
-    select: { id: true },
-  });
-  if (!personality) return;
-  await tx.agentPersonality.create({
-    data: { agentId, personalityId: personality.id },
-  });
+  const personalityId = await ensureDefaultPersonalityId(tx, projectId);
+  await tx.agentPersonality.create({ data: { agentId, personalityId } });
 };
 
 export const createAgentRecord = async (
@@ -82,7 +74,7 @@ export const createAgentRecord = async (
     data: { defaultTestProfileId: testProfile.id },
   });
   await linkAutoMetrics(tx, projectId, agent.id);
-  await enableDefaultPersonality(tx, agent.id);
+  await enableDefaultPersonality(tx, projectId, agent.id);
   await saveAgentVersion(tx, { agentId: agent.id, userId });
   return agent;
 };

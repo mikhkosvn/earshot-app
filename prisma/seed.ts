@@ -12,9 +12,8 @@ import {
 } from '@/server/projects/constants/default-project-name';
 import { seedProjectDefaults } from '@/server/projects/utils/seed-project-defaults';
 
-import { GLOBAL_PERSONALITIES } from './seed-data/personalities';
 import { PREDEFINED_METRICS } from './seed-data/predefined-metrics';
-import type { PersonalitySeed, PredefinedMetricSeed } from './seed-data/types';
+import type { PredefinedMetricSeed } from './seed-data/types';
 
 const DEFAULT_SEED_EMAIL = 'admin@earshot.local';
 const DEFAULT_SEED_PASSWORD = 'earshot-dev-password';
@@ -150,56 +149,8 @@ const seedPredefinedMetric = async (metric: PredefinedMetricSeed) => {
   });
 };
 
-const personalityData = (personality: PersonalitySeed) => ({
-  catalogId: personality.catalogId ?? null,
-  description: personality.description,
-  prompt: personality.prompt,
-  accent: personality.accent,
-  gender: personality.gender,
-  isStarred: personality.isStarred,
-  enabledByDefault: personality.enabledByDefault,
-  voiceModel: personality.voiceModel,
-  voiceId: personality.voiceId,
-  speed: personality.speed,
-  interruptionLevel: personality.interruptionLevel,
-  backgroundNoise: personality.backgroundNoise,
-  idleTimeoutSeconds: personality.idleTimeoutSeconds,
-  idleMessageMaxSpokenCount: personality.idleMessageMaxSpokenCount,
-  startSpeakingWaitSeconds: personality.startSpeakingWaitSeconds,
-  stopSpeakingNumWords: personality.stopSpeakingNumWords,
-  stopSpeakingBackoffSeconds: personality.stopSpeakingBackoffSeconds,
-});
-
-const seedGlobalPersonality = async (personality: PersonalitySeed) => {
-  const existing = await prisma.personality.findFirst({
-    where: {
-      projectId: null,
-      name: personality.name,
-      language: personality.language,
-    },
-    select: { id: true },
-  });
-  if (existing) {
-    await prisma.personality.update({
-      where: { id: existing.id },
-      data: personalityData(personality),
-    });
-    return;
-  }
-  await prisma.personality.create({
-    data: {
-      name: personality.name,
-      language: personality.language,
-      ...personalityData(personality),
-    },
-  });
-};
-
 const main = async () => {
   for (const metric of PREDEFINED_METRICS) await seedPredefinedMetric(metric);
-  for (const personality of GLOBAL_PERSONALITIES) {
-    await seedGlobalPersonality(personality);
-  }
   const user = await seedUser();
   const organization = await seedOrganization(user.id);
   await prisma.organizationMember.upsert({
@@ -221,7 +172,7 @@ const main = async () => {
     timeout: TRANSACTION_TIMEOUT_MS,
   });
   console.log(
-    `Seeded ${PREDEFINED_METRICS.length} predefined metrics, ${GLOBAL_PERSONALITIES.length} global personalities, user ${user.email}, organization ${organization.id}, project ${project.id}.`,
+    `Seeded ${PREDEFINED_METRICS.length} predefined metrics, user ${user.email}, organization ${organization.id}, project ${project.id}.`,
   );
 };
 

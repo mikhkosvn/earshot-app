@@ -16,7 +16,7 @@ export function RunStatusRow({ run }: RunStatusRowProps) {
           {run.evaluatorName} ({run.id})
         </span>
         <span className="text-xs text-muted-foreground">
-          {run.personalityName ?? 'Default caller'}
+          {run.personalityName ?? '-'}
         </span>
         <RunErrorText message={run.errorMessage} />
       </div>

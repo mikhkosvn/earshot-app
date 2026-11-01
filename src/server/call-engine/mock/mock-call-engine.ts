@@ -13,10 +13,8 @@ import {
 import { buildConversationScript } from '@/server/call-engine/mock/build-conversation-script';
 import { deliverMockEvent } from '@/server/call-engine/mock/deliver-mock-event';
 import {
-  backgroundNoiseLevel,
-  isFastCaller,
   MAIN_AGENT_VOICE,
-  testingAgentVoice,
+  TESTING_AGENT_VOICE,
 } from '@/server/call-engine/mock/personality-voice';
 import { scheduleTurns } from '@/server/call-engine/mock/schedule-turns';
 import { waitFor } from '@/server/call-engine/mock/wait-for';
@@ -117,15 +115,13 @@ const runAnsweredCall = async (
   random: Random,
 ) => {
   const script = await buildConversationScript(request);
-  const testingVoice = testingAgentVoice(request.caller);
   const schedule = scheduleTurns({
     script,
     rates: {
       [TranscriptRole.main_agent]: MAIN_AGENT_VOICE.wordsPerSecond,
-      [TranscriptRole.testing_agent]: testingVoice.wordsPerSecond,
+      [TranscriptRole.testing_agent]: TESTING_AGENT_VOICE.wordsPerSecond,
     },
     maxDurationSeconds: request.max_duration_seconds,
-    fastCaller: isFastCaller(request.caller),
     random,
   });
   const recording = synthesizeCallAudio({
@@ -133,9 +129,8 @@ const runAnsweredCall = async (
     durationSeconds: schedule.durationSeconds,
     voices: {
       [TranscriptRole.main_agent]: MAIN_AGENT_VOICE,
-      [TranscriptRole.testing_agent]: testingVoice,
+      [TranscriptRole.testing_agent]: TESTING_AGENT_VOICE,
     },
-    backgroundNoise: backgroundNoiseLevel(request.caller),
     random,
   });
   await waitForCall(schedule.durationSeconds, startedMs);

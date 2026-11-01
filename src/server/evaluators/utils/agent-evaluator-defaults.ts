@@ -2,23 +2,7 @@ import 'server-only';
 
 import { Prisma } from '@/generated/prisma/client';
 import type { AgentEvaluatorDefaults } from '@/server/evaluators/types';
-import { enabledPersonalityWhere } from '@/server/evaluators/utils/evaluator-access-where';
-
-const firstProjectPersonalityId = async (
-  tx: Prisma.TransactionClient,
-  projectId: number,
-  language: Prisma.PersonalityWhereInput['language'],
-) => {
-  const personality = await tx.personality.findFirst({
-    where: { language, ...enabledPersonalityWhere(projectId) },
-    orderBy: [
-      { isStarred: Prisma.SortOrder.desc },
-      { id: Prisma.SortOrder.asc },
-    ],
-    select: { id: true },
-  });
-  return personality?.id ?? null;
-};
+import { ensureDefaultPersonalityId } from '@/server/personalities/utils/default-personality';
 
 const defaultMetricIds = async (
   tx: Prisma.TransactionClient,
@@ -63,8 +47,7 @@ export const getAgentEvaluatorDefaults = async (
   });
   const personalityId =
     agent.enabledPersonalities[0]?.personalityId ??
-    (await firstProjectPersonalityId(tx, projectId, agent.language)) ??
-    (await firstProjectPersonalityId(tx, projectId, undefined));
+    (await ensureDefaultPersonalityId(tx, projectId));
   return {
     agentId: agent.id,
     defaultTestProfileId: agent.defaultTestProfileId,

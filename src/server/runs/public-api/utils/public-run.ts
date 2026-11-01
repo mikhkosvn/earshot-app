@@ -13,7 +13,6 @@ import { formatCallDuration } from '@/server/call-logs/utils/payload/format-call
 import { MetadataKey } from '@/server/conversations/constants/metadata-keys';
 import { endedReasonLabel } from '@/server/conversations/utils/ended-reason-label';
 import type { RubricVerdict } from '@/server/metric-scoring/types';
-import { toPublicPersonalityId } from '@/server/personalities/public-api/public-personality-id';
 import { PublicRunType } from '@/server/runs/public-api/constants';
 import { storedScenarioTypeSchema } from '@/server/runs/public-api/schemas';
 import {
@@ -44,11 +43,6 @@ const isReviewedOf = (status: CallEvaluationStatus | null) => {
 const scenarioTypeOf = (row: PublicRunRow) => {
   if (row.evaluator) return row.evaluator.scenarioType;
   return storedScenarioTypeSchema.parse(row.evaluatorSnapshot).scenarioType;
-};
-
-const personalityIdOf = (row: PublicRunRow) => {
-  if (!row.personality) return null;
-  return toPublicPersonalityId(row.personality);
 };
 
 const transcriptOf = (conversation: Conversation) =>
@@ -101,7 +95,7 @@ export const toPublicRun = (row: PublicRunRow, rubric: RubricVerdict) => {
     scenario: row.evaluatorId,
     scenario_name: row.evaluator?.name ?? snapshot.name,
     scenario_type: scenarioTypeOf(row),
-    personality: personalityIdOf(row),
+    personality: row.personality?.id ?? null,
     personality_name: row.personality?.name ?? null,
     status: row.status,
     evaluation_status: row.evaluationStatus,

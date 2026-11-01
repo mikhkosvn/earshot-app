@@ -19,8 +19,6 @@ export const MOCK_TOOL_MAX_DELAY_SECONDS = 300;
 
 export const AGENT_VERSION_PAGE_SIZE = 14;
 
-export const DEFAULT_AGENT_PERSONALITY_NAME = 'Normal Male';
-
 export const DUPLICATE_AGENT_NAME_SUFFIX = ' (Copy)';
 
 export const DEFAULT_TEST_PROFILE_PREFIX = 'Default Test Profile';

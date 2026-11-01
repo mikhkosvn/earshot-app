@@ -22,13 +22,8 @@ const roundTime = (seconds: number) => Math.round(seconds * 1000) / 1000;
 
 const wordCount = (text: string) => text.split(/\s+/).filter(Boolean).length;
 
-const gapBefore = (
-  role: TranscriptRole,
-  random: Random,
-  fastCaller: boolean,
-) => {
+const gapBefore = (role: TranscriptRole, random: Random) => {
   if (role === TranscriptRole.main_agent) return random.between(1.5, 2.6);
-  if (fastCaller) return random.between(0.2, 0.6);
   return random.between(0.6, 1.4);
 };
 
@@ -42,20 +37,18 @@ export const scheduleTurns = ({
   script,
   rates,
   maxDurationSeconds,
-  fastCaller,
   random,
 }: {
   script: ConversationScript;
   rates: SpeakingRates;
   maxDurationSeconds: number;
-  fastCaller: boolean;
   random: Random;
 }): TurnSchedule => {
   const turns: TranscriptTurn[] = [];
   let cursor = random.between(0.5, 1.5);
   for (const [index, turn] of script.turns.entries()) {
     const startTime =
-      cursor + gapBefore(turn.role, random, fastCaller) * Math.min(index, 1);
+      cursor + gapBefore(turn.role, random) * Math.min(index, 1);
     const speaking = Math.max(
       MIN_TURN_SECONDS,
       wordCount(turn.content) / rates[turn.role] + 0.3,

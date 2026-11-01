@@ -5,7 +5,6 @@ import type { Random } from '@/server/call-engine/audio/random';
 import {
   toInt16,
   type Voice,
-  writeBackgroundNoise,
   writeSpeech,
 } from '@/server/call-engine/audio/synthesize-speech';
 import {
@@ -27,13 +26,11 @@ export const synthesizeCallAudio = ({
   turns,
   durationSeconds,
   voices,
-  backgroundNoise,
   random,
 }: {
   turns: TranscriptTurn[];
   durationSeconds: number;
   voices: Record<TranscriptRole, Voice>;
-  backgroundNoise: number;
   random: Random;
 }): RecordingFile => {
   const sampleRate = RECORDING_SAMPLE_RATE;
@@ -42,12 +39,6 @@ export const synthesizeCallAudio = ({
     { length: RECORDING_CHANNELS },
     () => new Float32Array(frameCount),
   );
-  if (backgroundNoise > 0) {
-    writeBackgroundNoise(floats[TESTING_CHANNEL_INDEX], {
-      level: backgroundNoise,
-      random,
-    });
-  }
   for (const turn of turns) {
     writeSpeech(floats[channelOf(turn.role)], {
       startSeconds: turn.startTime,

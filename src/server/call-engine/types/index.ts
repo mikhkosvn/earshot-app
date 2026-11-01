@@ -1,11 +1,6 @@
 import type { z } from 'zod';
 
-import type {
-  BackgroundNoise,
-  InterruptionLevel,
-  Language,
-  VoiceModel,
-} from '@/generated/prisma/enums';
+import type { Language, LiveVoice } from '@/generated/prisma/enums';
 import type {
   CallDirection,
   CallEndedReason,
@@ -25,11 +20,7 @@ export interface CallerSetup {
   prompt: string;
   language: Language;
   accent: string | null;
-  voice_model: VoiceModel | null;
-  voice_id: string | null;
-  speed: number | null;
-  interruption_level: InterruptionLevel;
-  background_noise: BackgroundNoise;
+  voice: LiveVoice;
 }
 
 export interface StartCallRequest {

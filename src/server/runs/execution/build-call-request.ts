@@ -1,11 +1,11 @@
 import 'server-only';
 
 import { Prisma } from '@/generated/prisma/client';
-import { BackgroundNoise, InterruptionLevel } from '@/generated/prisma/enums';
 import { prisma } from '@/lib/prisma';
 import { CallDirection, CallRefKind } from '@/server/call-engine/constants';
 import type { CallerSetup, StartCallRequest } from '@/server/call-engine/types';
 import { formatCallRef } from '@/server/call-engine/utils/call-ref';
+import { defaultPersonalityIdOf } from '@/server/personalities/utils/default-personality';
 import { readEvaluatorSnapshot } from '@/server/runs/utils/evaluator-snapshot';
 import { readTestProfileVariables } from '@/server/runs/utils/test-profile-snapshot';
 
@@ -13,6 +13,13 @@ type CallerPersona = Omit<
   CallerSetup,
   'instructions' | 'first_message' | 'variables'
 >;
+
+const callerPersonalitySelect = {
+  prompt: true,
+  language: true,
+  accent: true,
+  voice: true,
+} satisfies Prisma.PersonalitySelect;
 
 const runCallSelect = {
   id: true,
@@ -22,18 +29,7 @@ const runCallSelect = {
   callerNumber: true,
   evaluatorSnapshot: true,
   testProfileSnapshot: true,
-  personality: {
-    select: {
-      prompt: true,
-      language: true,
-      accent: true,
-      voiceModel: true,
-      voiceId: true,
-      speed: true,
-      interruptionLevel: true,
-      backgroundNoise: true,
-    },
-  },
+  personality: { select: callerPersonalitySelect },
   result: {
     select: {
       projectId: true,
@@ -50,48 +46,42 @@ const runCallSelect = {
   },
 } satisfies Prisma.RunSelect;
 
-export type RunForCall = Prisma.RunGetPayload<{
-  select: typeof runCallSelect;
-}>;
+const loadDefaultCaller = async (projectId: number) =>
+  prisma.personality.findUniqueOrThrow({
+    where: { id: await defaultPersonalityIdOf(projectId) },
+    select: callerPersonalitySelect,
+  });
+
+export const loadRunForCall = async (runId: number) => {
+  const run = await prisma.run.findUnique({
+    where: { id: runId },
+    select: runCallSelect,
+  });
+  if (!run) return null;
+  if (run.personality) return { ...run, personality: run.personality };
+  return {
+    ...run,
+    personality: await loadDefaultCaller(run.result.projectId),
+  };
+};
+
+export type RunForCall = NonNullable<
+  Awaited<ReturnType<typeof loadRunForCall>>
+>;
 
 export type RunCallAgent = NonNullable<RunForCall['result']['agent']>;
-
-export const loadRunForCall = (runId: number) =>
-  prisma.run.findUnique({ where: { id: runId }, select: runCallSelect });
 
 const directionOf = (inbound: boolean) => {
   if (inbound) return CallDirection.outbound;
   return CallDirection.inbound;
 };
 
-const callerPersonaOf = (
-  run: RunForCall,
-  agent: RunCallAgent,
-): CallerPersona => {
-  const personality = run.personality;
-  if (!personality) {
-    return {
-      prompt: '',
-      language: agent.language,
-      accent: null,
-      voice_model: null,
-      voice_id: null,
-      speed: null,
-      interruption_level: InterruptionLevel.off,
-      background_noise: BackgroundNoise.off,
-    };
-  }
-  return {
-    prompt: personality.prompt,
-    language: personality.language,
-    accent: personality.accent,
-    voice_model: personality.voiceModel,
-    voice_id: personality.voiceId,
-    speed: personality.speed,
-    interruption_level: personality.interruptionLevel ?? InterruptionLevel.off,
-    background_noise: personality.backgroundNoise,
-  };
-};
+const callerPersonaOf = (run: RunForCall): CallerPersona => ({
+  prompt: run.personality.prompt,
+  language: run.personality.language,
+  accent: run.personality.accent,
+  voice: run.personality.voice,
+});
 
 export const buildCallRequest = (
   run: RunForCall,
@@ -112,7 +102,7 @@ export const buildCallRequest = (
       first_message: evaluator.firstMessage,
       variables: readTestProfileVariables(run.testProfileSnapshot)
         .testingAgentVariables,
-      ...callerPersonaOf(run, agent),
+      ...callerPersonaOf(run),
     },
   };
 };

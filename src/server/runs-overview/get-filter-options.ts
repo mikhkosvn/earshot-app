@@ -3,6 +3,7 @@ import 'server-only';
 import { Prisma } from '@/generated/prisma/client';
 import { prisma } from '@/lib/prisma';
 import { withValidation } from '@/server/common/run-action';
+import { enabledPersonalityWhere } from '@/server/evaluators/utils/evaluator-access-where';
 import { requireProjectAccess } from '@/server/projects/utils/require-project-access';
 import { projectIdSchema } from '@/server/runs-overview/schemas';
 import type { RunsOverviewFilterOptions } from '@/server/runs-overview/types';
@@ -29,12 +30,7 @@ export const getFilterOptions = withValidation(
           select: { id: true, name: true },
         }),
         prisma.personality.findMany({
-          where: {
-            OR: [
-              { projectId },
-              { projectEnablements: { some: { projectId } } },
-            ],
-          },
+          where: enabledPersonalityWhere(projectId),
           orderBy: byName,
           select: { id: true, name: true },
         }),

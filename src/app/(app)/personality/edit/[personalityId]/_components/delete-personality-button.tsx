@@ -16,6 +16,7 @@ export function DeletePersonalityButton() {
   const deletePersonality = useDeletePersonalityMutation();
   const [open, setOpen] = useState(false);
   if (personality.isGlobal) return null;
+  if (personality.isProjectDefault) return null;
 
   return (
     <>

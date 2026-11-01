@@ -15,6 +15,7 @@ export const getPersonality = withValidation(
     const { user } = await requireUser();
     const personality = await prisma.personality.findUniqueOrThrow({
       where: { id: personalityId, AND: [readablePersonalityWhere(user.id)] },
+      include: { defaultForProject: { select: { id: true } } },
     });
     addEventFields({
       personality: {
@@ -26,6 +27,7 @@ export const getPersonality = withValidation(
       id: personality.id,
       name: personality.name,
       isGlobal: personality.projectId === null,
+      isProjectDefault: personality.defaultForProject !== null,
       values: toPersonalityFormValues(personality),
     };
   },

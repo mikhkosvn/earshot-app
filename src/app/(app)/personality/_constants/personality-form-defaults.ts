@@ -1,28 +1,12 @@
-import { BackgroundNoise, InterruptionLevel } from '@/generated/prisma/enums';
-import { PERSONALITY_DEFAULTS } from '@/server/personalities/constants/personality-limits';
+import { Language } from '@/generated/prisma/enums';
+import { DEFAULT_LIVE_VOICE } from '@/server/personalities/constants/live-voices';
 import type { PersonalityFormValues } from '@/server/personalities/types';
 
 export const DEFAULT_PERSONALITY_VALUES: PersonalityFormValues = {
   name: '',
   prompt: '',
-  voiceModel: null,
-  voiceId: '',
-  voiceVolume: PERSONALITY_DEFAULTS.voiceVolume,
-  interruptionLevel: InterruptionLevel.off,
-  language: null,
-  speed: PERSONALITY_DEFAULTS.speed,
-  backgroundNoise: BackgroundNoise.off,
-  backgroundNoiseUrl: '',
-  backgroundSoundVolumeBase: PERSONALITY_DEFAULTS.backgroundSoundVolumeBase,
-  backgroundSoundVolumeReduced:
-    PERSONALITY_DEFAULTS.backgroundSoundVolumeReduced,
-  packetLossPercent: PERSONALITY_DEFAULTS.packetLossPercent,
-  idleTimeoutSeconds: null,
-  idleMessageMaxSpokenCount: null,
-  startSpeakingWaitSeconds: null,
-  stopSpeakingNumWords: null,
-  stopSpeakingVoiceSeconds: null,
-  stopSpeakingBackoffSeconds: null,
+  voice: DEFAULT_LIVE_VOICE,
+  language: Language.en,
 };
 
 export const PERSONALITY_INTRO_CREATE =

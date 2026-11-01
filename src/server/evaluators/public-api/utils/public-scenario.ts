@@ -3,10 +3,6 @@ import 'server-only';
 import { Prisma } from '@/generated/prisma/client';
 import { ScenarioToolDbValue } from '@/server/evaluators/public-api/constants';
 import {
-  publicPersonalitySelect,
-  toPublicPersonalityId,
-} from '@/server/personalities/public-api/public-personality-id';
-import {
   publicTestProfileSelect,
   toPublicTestProfile,
 } from '@/server/test-profiles/public-api/utils/public-test-profile';
@@ -27,7 +23,7 @@ export const publicScenarioSelect = {
   createdAt: true,
   updatedAt: true,
   agent: { select: { providerAgentId: true } },
-  personality: { select: { ...publicPersonalitySelect, name: true } },
+  personality: { select: { id: true, name: true } },
   folder: { select: { path: true } },
   testProfile: { select: publicTestProfileSelect },
   tags: {
@@ -45,11 +41,6 @@ export type PublicScenarioRow = Prisma.EvaluatorGetPayload<{
   select: typeof publicScenarioSelect;
 }>;
 
-const publicPersonalityIdOf = (row: PublicScenarioRow) => {
-  if (!row.personality) return null;
-  return toPublicPersonalityId(row.personality);
-};
-
 const publicTestProfileOf = (row: PublicScenarioRow) => {
   if (!row.testProfile) return null;
   return toPublicTestProfile(row.testProfile);
@@ -60,7 +51,7 @@ export const toPublicScenario = (row: PublicScenarioRow) => ({
   project: row.projectId,
   agent: row.agentId,
   name: row.name,
-  personality: publicPersonalityIdOf(row),
+  personality: row.personality?.id ?? null,
   personality_name: row.personality?.name ?? null,
   tags: row.tags.map((entry) => entry.tag.name),
   tool_ids: row.tools.map((entry) => ScenarioToolDbValue[entry.tool]),

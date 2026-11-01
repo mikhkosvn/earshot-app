@@ -1,11 +1,6 @@
 import 'server-only';
 
-import {
-  BackgroundNoise,
-  InterruptionLevel,
-  JobKind,
-  type Language,
-} from '@/generated/prisma/enums';
+import { JobKind, type Language } from '@/generated/prisma/enums';
 import { prisma } from '@/lib/prisma';
 import {
   TEST_CALL_FIRST_MESSAGE,
@@ -28,6 +23,7 @@ import { addEventFields } from '@/server/common/logging/event-fields';
 import { ActionError, withValidation } from '@/server/common/run-action';
 import { JobCompletion } from '@/server/jobs/constants';
 import { startJob } from '@/server/jobs/start-job';
+import { DEFAULT_LIVE_VOICE } from '@/server/personalities/constants/live-voices';
 
 const TEST_CALL_INSTRUCTIONS =
   'You call to check that the line works. Ask if the agent can hear you. When the agent replies, say okay and end the call.';
@@ -62,11 +58,7 @@ const buildTestCallRequest = ({
     prompt: '',
     language,
     accent: null,
-    voice_model: null,
-    voice_id: null,
-    speed: null,
-    interruption_level: InterruptionLevel.off,
-    background_noise: BackgroundNoise.off,
+    voice: DEFAULT_LIVE_VOICE,
   },
 });
 

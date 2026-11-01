@@ -19,22 +19,22 @@ enum JobStatus {
 }
 
 model BackgroundJob {
-  id          String    @id @default(uuid())
-  projectId   Int
-  createdById Int?
-  kind        JobKind
-  status      JobStatus @default(queued)
-  currentStep String?
-  input       Json
-  result      Json?
-  error       String?
-  dismissedAt DateTime?
-  startedAt   DateTime?
-  finishedAt  DateTime?
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime  @updatedAt
-  project     Project   @relation(fields: [projectId], references: [id], onDelete: Cascade)
-  createdBy   User?     @relation(fields: [createdById], references: [id], onDelete: SetNull)
+  id                   String                      @id @default(uuid())
+  projectId            Int
+  createdById          Int?
+  kind                 JobKind
+  status               JobStatus                   @default(queued)
+  currentStep          String?
+  input                Json
+  result               Json?
+  error                String?
+  dismissedAt          DateTime?
+  startedAt            DateTime?
+  finishedAt           DateTime?
+  createdAt            DateTime                    @default(now())
+  updatedAt            DateTime                    @updatedAt
+  project              Project                     @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  createdBy            User?                       @relation(fields: [createdById], references: [id], onDelete: SetNull)
   patternReviews       MetricPatternReview[]
   optimizationSessions MetricOptimizationSession[]
 
@@ -43,16 +43,15 @@ model BackgroundJob {
 }
 
 model StoredFile {
-  id          String   @id @default(uuid())
-  projectId   Int
-  storageKey  String   @unique
-  fileName    String
-  contentType String
-  sizeBytes   Int
-  createdAt   DateTime @default(now())
-  project     Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  id                String             @id @default(uuid())
+  projectId         Int
+  storageKey        String             @unique
+  fileName          String
+  contentType       String
+  sizeBytes         Int
+  createdAt         DateTime           @default(now())
+  project           Project            @relation(fields: [projectId], references: [id], onDelete: Cascade)
   knowledgeBaseFile KnowledgeBaseFile?
-  clonedVoice       ClonedVoice?
   conversations     Conversation[]
 
   @@index([projectId])

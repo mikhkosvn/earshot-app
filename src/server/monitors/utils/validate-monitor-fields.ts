@@ -8,7 +8,7 @@ import {
   VOICE_CONTACT_NUMBER_REQUIRED,
 } from '@/server/monitors/constants/monitor-messages';
 import type { MonitorFieldsInput } from '@/server/monitors/types';
-import { visiblePersonalityWhere } from '@/server/personalities/utils/personality-access';
+import { enabledPersonalityWhere } from '@/server/evaluators/utils/evaluator-access-where';
 
 const uniqueIds = (ids: number[]) => [...new Set(ids)];
 
@@ -29,7 +29,7 @@ const assertPersonalities = async (
   const ids = uniqueIds(personalityIds);
   if (ids.length === 0) return;
   const count = await prisma.personality.count({
-    where: { id: { in: ids }, AND: [visiblePersonalityWhere(projectId)] },
+    where: { id: { in: ids }, AND: [enabledPersonalityWhere(projectId)] },
   });
   if (count !== ids.length) {
     throw new ActionError(MONITOR_PERSONALITIES_NOT_FOUND, 404);

@@ -3,6 +3,7 @@ import 'server-only';
 import { Prisma } from '@/generated/prisma/client';
 import { EVALUATOR_COPY_PREFIX } from '@/server/evaluators/constants/evaluator-limits';
 import { recordEvaluatorVersion } from '@/server/evaluators/utils/record-evaluator-version';
+import { ensureDefaultPersonalityId } from '@/server/personalities/utils/default-personality';
 import { upsertTags } from '@/server/tags/utils/upsert-tags';
 
 const copySourceSelect = {
@@ -63,11 +64,22 @@ const mapMetricIds = async (
   return targetMetrics.map((metric) => metric.id);
 };
 
-const copiedPersonalityId = (source: CopySource, targetProjectId: number) => {
-  if (source.projectId === targetProjectId) return source.personalityId;
-  if (source.personality?.projectId === null) return source.personalityId;
+const keptPersonalityId = (source: CopySource, targetProjectId: number) => {
+  if (!source.personality) return null;
+  if (source.personality.projectId === targetProjectId) {
+    return source.personalityId;
+  }
+  if (source.personality.projectId === null) return source.personalityId;
   return null;
 };
+
+const copiedPersonalityId = async (
+  tx: Prisma.TransactionClient,
+  source: CopySource,
+  targetProjectId: number,
+) =>
+  keptPersonalityId(source, targetProjectId) ??
+  ensureDefaultPersonalityId(tx, targetProjectId);
 
 const keepsAgentData = (source: CopySource, target: CopyTarget) =>
   source.projectId === target.projectId && target.agentId === source.agentId;
@@ -113,7 +125,7 @@ const copyOne = async (
       projectId: target.projectId,
       folderId: target.folderId,
       agentId: target.agentId,
-      personalityId: copiedPersonalityId(source, target.projectId),
+      personalityId: await copiedPersonalityId(tx, source, target.projectId),
       testProfileId: copiedTestProfileId(source, target),
       phoneNumberId: source.phoneNumberId,
       name: `${target.namePrefix}${source.name}`,

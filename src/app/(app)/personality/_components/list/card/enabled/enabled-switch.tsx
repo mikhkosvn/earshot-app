@@ -4,7 +4,8 @@ import { useCurrentProjectId } from '@/app/(app)/_hooks/use-current-project-id';
 import { Switch } from '@/components/ui/switch';
 import type { PersonalityListItem } from '@/server/personalities/types';
 
-import { useSetPersonalityEnabledMutation } from '../../../_hooks/mutations/list/use-set-personality-enabled-mutation';
+import { useSetPersonalityEnabledMutation } from '../../../../_hooks/mutations/list/use-set-personality-enabled-mutation';
+import { DefaultCallerSwitch } from './default-caller-switch';
 
 interface EnabledSwitchProps {
   item: PersonalityListItem;
@@ -13,6 +14,7 @@ interface EnabledSwitchProps {
 export function EnabledSwitch({ item }: EnabledSwitchProps) {
   const projectId = useCurrentProjectId();
   const setEnabled = useSetPersonalityEnabledMutation();
+  if (item.isProjectDefault) return <DefaultCallerSwitch name={item.name} />;
 
   return (
     <Switch

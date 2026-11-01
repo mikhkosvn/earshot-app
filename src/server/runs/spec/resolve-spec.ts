@@ -1,9 +1,9 @@
 import 'server-only';
 
-import { Prisma } from '@/generated/prisma/client';
 import { prisma } from '@/lib/prisma';
 import { enabledPersonalityWhere } from '@/server/evaluators/utils/evaluator-access-where';
 import { DEFAULT_FOLDER_PATH } from '@/server/folders/constants';
+import { defaultPersonalityIdOf } from '@/server/personalities/utils/default-personality';
 import { RunMessage } from '@/server/runs/constants/run-messages';
 import type {
   SpecScenario,
@@ -18,7 +18,7 @@ export interface ResolvedScenario {
   scenario: SpecScenario;
   frequency: number;
   metricIds: number[];
-  personality: { id: number; name: string } | null;
+  personality: { id: number; name: string };
   testProfileId: number | null;
 }
 
@@ -133,25 +133,11 @@ const folderErrors = async (projectId: number, folderPath: string) => {
   return [{ path: 'folder', message: 'The folder does not exist.' }];
 };
 
-const NO_PERSONALITY_MESSAGE =
-  'Enable a personality for this project before you save scenarios from a spec.';
-
-const savedScenarioPersonality = async (
-  projectId: number,
-  spec: TestSuiteSpec,
-  errors: SpecIssue[],
-) => {
-  if (!spec.save_scenarios) return null;
-  const personality = await prisma.personality.findFirst({
-    where: enabledPersonalityWhere(projectId),
-    orderBy: [{ name: Prisma.SortOrder.asc }, { id: Prisma.SortOrder.asc }],
+const loadDefaultCaller = async (projectId: number) =>
+  prisma.personality.findUniqueOrThrow({
+    where: { id: await defaultPersonalityIdOf(projectId) },
     select: { id: true, name: true },
   });
-  if (!personality) {
-    errors.push({ path: 'save_scenarios', message: NO_PERSONALITY_MESSAGE });
-  }
-  return personality;
-};
 
 const keyOf = (scenario: SpecScenario, index: number) =>
   scenario.key ?? `scenario_${index + 1}`;
@@ -173,7 +159,7 @@ export const resolveSpec = async (args: {
   const metrics = await loadMetrics(projectId);
   const personalities = await loadPersonalities(projectId, spec);
   const testProfiles = await loadTestProfiles(projectId, agent.id, spec);
-  const fallback = await savedScenarioPersonality(projectId, spec, errors);
+  const defaultCaller = await loadDefaultCaller(projectId);
   const scenarios = spec.scenarios.map((scenario, index) => {
     const personality = personalities.get(scenario.personality ?? 0) ?? null;
     if (scenario.personality && !personality) {
@@ -194,7 +180,7 @@ export const resolveSpec = async (args: {
       scenario,
       frequency: scenario.frequency ?? spec.frequency ?? 1,
       metricIds: resolveMetrics(scenario, index, metrics, agent.id, errors),
-      personality: personality ?? fallback,
+      personality: personality ?? defaultCaller,
       testProfileId: scenario.test_profile ?? null,
     };
   });

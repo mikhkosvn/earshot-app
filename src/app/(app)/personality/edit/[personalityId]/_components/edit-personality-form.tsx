@@ -24,7 +24,7 @@ export function EditPersonalityForm() {
         >
           <DeletePersonalityButton />
         </PersonalityHeaderCard>
-        <PersonalityFormBody advancedOpen />
+        <PersonalityFormBody />
         <PersonalityFormFooter
           status={<EditFormStatus />}
           submitLabel="Save changes"

@@ -15,8 +15,6 @@ import {
   type RunAgent,
 } from '@/server/runs/utils/run-references';
 
-const DEFAULT_PERSONALITY_NAME = 'Default caller';
-
 export type PreparedSpec =
   | {
       ok: true;
@@ -38,7 +36,7 @@ const buildPlan = (
     frequency: item.frequency,
     runs: item.frequency,
     metricCount: item.metricIds.length,
-    personalityName: item.personality?.name ?? DEFAULT_PERSONALITY_NAME,
+    personalityName: item.personality.name,
   }));
   return {
     suiteName: spec.name ?? '',

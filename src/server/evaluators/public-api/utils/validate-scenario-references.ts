@@ -12,7 +12,7 @@ import {
   fieldErrors,
   throwFieldErrors,
 } from '@/server/evaluators/public-api/utils/field-errors';
-import { findPersonalityByPublicId } from '@/server/personalities/public-api/public-personality-id';
+import { personalityForProjectWhere } from '@/server/evaluators/utils/evaluator-access-where';
 
 const toolByDbValue = new Map<string, ScenarioTool>(
   Object.entries(ScenarioToolDbValue).map(([tool, dbValue]) => [
@@ -104,9 +104,9 @@ const toolIssues = (toolIds: string[]): FieldIssue[] =>
       message: `Tool '${toolId}' is not a valid tool`,
     }));
 
-const personalityIssue = (publicId: number): FieldIssue => ({
+const personalityIssue = (personalityId: number): FieldIssue => ({
   field: ScenarioField.personality,
-  message: `Personality with id ${publicId} not found`,
+  message: `Personality with id ${personalityId} not found`,
 });
 
 const toTools = (toolIds: string[]) =>
@@ -121,10 +121,10 @@ export const validateScenarioReferences = async (
   projectId: number,
   body: CreatePublicScenarioBody,
 ) => {
-  const personality = await findPersonalityByPublicId(
-    projectId,
-    body.personality,
-  );
+  const personality = await tx.personality.findFirst({
+    where: { id: body.personality, ...personalityForProjectWhere(projectId) },
+    select: { id: true },
+  });
   const issues = [
     ...(await agentIssues(tx, projectId, body.agent)),
     ...(await metricIssues(tx, projectId, body.metrics)),

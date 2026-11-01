@@ -7,7 +7,7 @@ import {
   type FieldIssue,
   throwFieldErrors,
 } from '@/server/evaluators/public-api/utils/field-errors';
-import { resolvePersonalityIds } from '@/server/personalities/public-api/public-personality-id';
+import { personalityForProjectWhere } from '@/server/evaluators/utils/evaluator-access-where';
 import {
   NOT_FOUND_DETAIL,
   STATUS_CODE_NOT_FOUND,
@@ -64,21 +64,24 @@ export const mockToolIdsOf = (
 
 export const personalityIdsOf = async (
   projectId: number,
-  publicIds: number[] | null | undefined,
+  personalityIds: number[] | null | undefined,
 ) => {
-  if (!publicIds) return null;
-  const resolved = await resolvePersonalityIds(projectId, publicIds);
+  if (!personalityIds) return null;
+  const rows = await prisma.personality.findMany({
+    where: {
+      id: { in: personalityIds },
+      ...personalityForProjectWhere(projectId),
+    },
+    select: { id: true },
+  });
+  const found = new Set(rows.map((row) => row.id));
   throwFieldErrors(
-    publicIds
-      .filter((publicId) => !resolved.has(publicId))
-      .map((publicId) => ({
+    personalityIds
+      .filter((personalityId) => !found.has(personalityId))
+      .map((personalityId) => ({
         field: 'personality_ids',
-        message: `Personality '${publicId}' does not exist.`,
+        message: `Personality '${personalityId}' does not exist.`,
       })),
   );
-  return publicIds.flatMap((publicId) => {
-    const id = resolved.get(publicId);
-    if (id === undefined) return [];
-    return [id];
-  });
+  return personalityIds;
 };

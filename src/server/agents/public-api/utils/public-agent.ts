@@ -1,10 +1,6 @@
 import 'server-only';
 
 import type { Prisma } from '@/generated/prisma/client';
-import {
-  publicPersonalitySelect,
-  toPublicPersonalityId,
-} from '@/server/personalities/public-api/public-personality-id';
 
 export const publicAgentSelect = {
   id: true,
@@ -22,9 +18,7 @@ export const publicAgentSelect = {
   autoSyncPrompt: true,
   createdAt: true,
   updatedAt: true,
-  enabledPersonalities: {
-    select: { personality: { select: publicPersonalitySelect } },
-  },
+  enabledPersonalities: { select: { personalityId: true } },
 } satisfies Prisma.AgentSelect;
 
 export type PublicAgentRow = Prisma.AgentGetPayload<{
@@ -44,7 +38,7 @@ export const toPublicAgent = (row: PublicAgentRow) => ({
   transcript_provider: row.provider,
   vapi_api_key_configured: row.providerApiKeyEncrypted !== null,
   enabled_personalities: row.enabledPersonalities
-    .map((link) => toPublicPersonalityId(link.personality))
+    .map((link) => link.personalityId)
     .toSorted((left, right) => left - right),
   agent_speaks_first: row.agentSpeaksFirst,
   mock_tools_enabled: row.mockToolsEnabled,

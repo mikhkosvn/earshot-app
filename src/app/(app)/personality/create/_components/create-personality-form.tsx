@@ -18,7 +18,7 @@ export function CreatePersonalityForm() {
           title="Create personality"
           description={PERSONALITY_INTRO_CREATE}
         />
-        <PersonalityFormBody advancedOpen={false} />
+        <PersonalityFormBody />
         <PersonalityFormFooter
           status="Fill in the required fields to continue."
           submitLabel="Create personality"

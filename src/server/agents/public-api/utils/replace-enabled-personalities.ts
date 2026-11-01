@@ -1,26 +1,32 @@
 import 'server-only';
 
 import type { Prisma } from '@/generated/prisma/client';
+import { prisma } from '@/lib/prisma';
 import { throwFieldErrors } from '@/server/evaluators/public-api/utils/field-errors';
-import { resolvePersonalityIds } from '@/server/personalities/public-api/public-personality-id';
+import { personalityForProjectWhere } from '@/server/evaluators/utils/evaluator-access-where';
+import { ensureDefaultPersonalityId } from '@/server/personalities/utils/default-personality';
 
 const ENABLED_PERSONALITIES_FIELD = 'enabled_personalities';
 
 export const resolveEnabledPersonalityIds = async (
   projectId: number,
-  publicIds: number[],
+  personalityIds: number[],
 ) => {
-  const uniquePublicIds = [...new Set(publicIds)];
-  const resolved = await resolvePersonalityIds(projectId, uniquePublicIds);
+  const uniqueIds = [...new Set(personalityIds)];
+  const rows = await prisma.personality.findMany({
+    where: { id: { in: uniqueIds }, ...personalityForProjectWhere(projectId) },
+    select: { id: true },
+  });
+  const found = new Set(rows.map((row) => row.id));
   throwFieldErrors(
-    uniquePublicIds
-      .filter((publicId) => !resolved.has(publicId))
-      .map((publicId) => ({
+    uniqueIds
+      .filter((personalityId) => !found.has(personalityId))
+      .map((personalityId) => ({
         field: ENABLED_PERSONALITIES_FIELD,
-        message: `Personality ${publicId} does not exist.`,
+        message: `Personality ${personalityId} does not exist.`,
       })),
   );
-  return [...resolved.values()];
+  return uniqueIds;
 };
 
 export const replaceEnabledPersonalities = async (
@@ -31,13 +37,15 @@ export const replaceEnabledPersonalities = async (
     personalityIds,
   }: { projectId: number; agentId: number; personalityIds: number[] },
 ) => {
+  const defaultPersonalityId = await ensureDefaultPersonalityId(tx, projectId);
+  const linkedIds = [...new Set([defaultPersonalityId, ...personalityIds])];
   await tx.projectPersonality.createMany({
-    data: personalityIds.map((personalityId) => ({ projectId, personalityId })),
+    data: linkedIds.map((personalityId) => ({ projectId, personalityId })),
     skipDuplicates: true,
   });
   await tx.agentPersonality.deleteMany({ where: { agentId } });
   await tx.agentPersonality.createMany({
-    data: personalityIds.map((personalityId) => ({ agentId, personalityId })),
+    data: linkedIds.map((personalityId) => ({ agentId, personalityId })),
     skipDuplicates: true,
   });
 };

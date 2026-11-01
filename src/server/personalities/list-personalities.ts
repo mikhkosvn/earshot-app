@@ -52,14 +52,13 @@ export const listPersonalities = withValidation(
         isStarred: true,
         projectId: true,
         forkedFromId: true,
-        backgroundNoise: true,
-        interruptionLevel: true,
-        speed: true,
+        voice: true,
         createdAt: true,
         projectEnablements: {
           where: { projectId },
           select: { projectId: true },
         },
+        defaultForProject: { select: { id: true } },
       },
     });
     addEventFields({
@@ -67,11 +66,19 @@ export const listPersonalities = withValidation(
       personalities: { count: rows.length, language_filter: language },
     });
     return rows
-      .map(({ projectEnablements, projectId: ownerId, ...row }) => ({
-        ...row,
-        isGlobal: ownerId === null,
-        enabled: projectEnablements.length > 0,
-      }))
+      .map(
+        ({
+          projectEnablements,
+          defaultForProject,
+          projectId: ownerId,
+          ...row
+        }) => ({
+          ...row,
+          isGlobal: ownerId === null,
+          isProjectDefault: defaultForProject !== null,
+          enabled: projectEnablements.length > 0,
+        }),
+      )
       .sort(compareItems);
   },
 );

@@ -1,5 +1,6 @@
 import { Prisma } from '@/generated/prisma/client';
 import { FolderSystemRole } from '@/generated/prisma/enums';
+import { ensureDefaultPersonalityId } from '@/server/personalities/utils/default-personality';
 
 const DEFAULT_FOLDERS = [
   { path: 'Regression Suite', systemRole: FolderSystemRole.regression_suite },
@@ -108,33 +109,11 @@ const seedDefaultMetrics = async (
   }
 };
 
-const seedDefaultPersonalities = async (
-  tx: Prisma.TransactionClient,
-  projectId: number,
-) => {
-  const enabledCount = await tx.projectPersonality.count({
-    where: { projectId },
-  });
-  if (enabledCount > 0) return;
-
-  const personalities = await tx.personality.findMany({
-    where: { projectId: null, enabledByDefault: true },
-    select: { id: true },
-  });
-  await tx.projectPersonality.createMany({
-    data: personalities.map((personality) => ({
-      projectId,
-      personalityId: personality.id,
-    })),
-    skipDuplicates: true,
-  });
-};
-
 export const seedProjectDefaults = async (
   tx: Prisma.TransactionClient,
   projectId: number,
 ) => {
   await seedDefaultFolders(tx, projectId);
   await seedDefaultMetrics(tx, projectId);
-  await seedDefaultPersonalities(tx, projectId);
+  await ensureDefaultPersonalityId(tx, projectId);
 };

@@ -2,23 +2,17 @@
 
 import {
   AudioLinesIcon,
-  GaugeIcon,
   GitForkIcon,
   IdCardIcon,
-  RadioIcon,
-  SpeechIcon,
+  LanguagesIcon,
 } from 'lucide-react';
 
 import { Badge } from '@/components/ui/badge';
+import { LanguageLabel } from '@/server/agents/constants/language-labels';
 import { GenderLabel } from '@/server/personalities/constants/gender-labels';
 import type { PersonalityListItem } from '@/server/personalities/types';
 
-import {
-  accentText,
-  backgroundNoiseText,
-  interruptionText,
-  speedText,
-} from '../../../_utils/personality-card-text';
+import { voiceText } from '../../../_utils/personality-card-text';
 import { CardDetailRow } from './card-detail-row';
 import { ForkedRow } from './forked-row';
 import { PersonalityCardHeader } from './personality-card-header';
@@ -37,20 +31,12 @@ export function PersonalityCard({ item }: PersonalityCardProps) {
       <ul className="flex flex-col gap-1.5 text-xs text-muted-foreground">
         <CardDetailRow icon={IdCardIcon} text={`ID: ${item.id}`} />
         <CardDetailRow
-          icon={GaugeIcon}
-          text={`Speaking Speed: ${speedText(item.speed)}`}
-        />
-        <CardDetailRow
-          icon={RadioIcon}
-          text={`Interruption: ${interruptionText(item)}`}
-        />
-        <CardDetailRow
           icon={AudioLinesIcon}
-          text={`Background Noise: ${backgroundNoiseText(item.backgroundNoise)}`}
+          text={`Voice: ${voiceText(item)}`}
         />
         <CardDetailRow
-          icon={SpeechIcon}
-          text={`Accent: ${accentText(item.accent)}`}
+          icon={LanguagesIcon}
+          text={`Language: ${LanguageLabel[item.language]}`}
         />
         <ForkedRow forked={item.forkedFromId !== null} icon={GitForkIcon} />
       </ul>

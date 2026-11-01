@@ -210,7 +210,7 @@ export interface MockToolOption {
 export interface AgentEvaluatorDefaults {
   agentId: number;
   defaultTestProfileId: number | null;
-  personalityId: number | null;
+  personalityId: number;
   language: Language;
   metricIds: number[];
   mockTools: MockToolOption[];
