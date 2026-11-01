@@ -20,7 +20,7 @@ export function AgentSettingsForm() {
         <AgentSettingsHeader />
         <div className="grid items-start gap-3 lg:grid-cols-2">
           <BasicsCard />
-          <div className="flex flex-col gap-3 lg:max-h-[calc(100dvh-9rem)] lg:overflow-y-auto lg:pr-1">
+          <div className="flex flex-col gap-3">
             <ProviderCard />
             <KnowledgeSection />
             <MockToolsSection />

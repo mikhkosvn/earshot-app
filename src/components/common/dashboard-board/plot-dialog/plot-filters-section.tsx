@@ -1,20 +1,22 @@
 'use client';
 
-import { ChevronDownIcon, FilterIcon } from 'lucide-react';
+import { FilterIcon } from 'lucide-react';
 import { Controller, useFormContext } from 'react-hook-form';
 import { z } from 'zod';
 
-import { Button } from '@/components/ui/button';
 import {
-  Collapsible,
-  CollapsibleContent,
-  CollapsibleTrigger,
-} from '@/components/ui/collapsible';
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from '@/components/ui/accordion';
 import { PlotOutcomeLabel } from '@/server/dashboards/constants/labels/plot-option-labels';
 import { PlotOutcome } from '@/server/dashboards/constants/plot/plot-outcome';
 
 import type { PlotFormValues } from '../_schemas/plot-form-schema';
 import { PlotSelect } from './fields/plot-select';
+
+const FILTERS_ITEM_VALUE = 'filters';
 
 const outcomeSchema = z.enum(PlotOutcome);
 
@@ -27,43 +29,35 @@ export function PlotFiltersSection() {
   const { control } = useFormContext<PlotFormValues>();
 
   return (
-    <Collapsible className="rounded-lg border">
-      <CollapsibleTrigger
-        render={
-          <Button
-            type="button"
-            variant="ghost"
-            size="sm"
-            className="group w-full justify-between"
+    <Accordion className="rounded-lg border">
+      <AccordionItem value={FILTERS_ITEM_VALUE}>
+        <AccordionTrigger className="h-7 items-center px-2.5 py-0 text-[0.8rem] hover:bg-muted hover:no-underline">
+          <span className="flex items-center gap-1.5 [&_svg]:size-3.5">
+            <FilterIcon />
+            Filters
+          </span>
+        </AccordionTrigger>
+        <AccordionContent className="border-t p-3">
+          <Controller
+            name="outcome"
+            control={control}
+            render={({ field }) => (
+              <PlotSelect
+                id="plot-outcome"
+                label="Outcome"
+                items={ITEMS}
+                value={field.value}
+                onValueChange={(value) =>
+                  field.onChange(outcomeSchema.parse(value))
+                }
+              />
+            )}
           />
-        }
-      >
-        <span className="flex items-center gap-1.5">
-          <FilterIcon />
-          Filters
-        </span>
-        <ChevronDownIcon className="transition-transform group-data-panel-open:rotate-180" />
-      </CollapsibleTrigger>
-      <CollapsibleContent className="border-t p-3">
-        <Controller
-          name="outcome"
-          control={control}
-          render={({ field }) => (
-            <PlotSelect
-              id="plot-outcome"
-              label="Outcome"
-              items={ITEMS}
-              value={field.value}
-              onValueChange={(value) =>
-                field.onChange(outcomeSchema.parse(value))
-              }
-            />
-          )}
-        />
-        <p className="mt-1.5 text-xs text-muted-foreground">
-          Keep only the successful or the failed items in this plot.
-        </p>
-      </CollapsibleContent>
-    </Collapsible>
+          <p className="mt-1.5 text-xs text-muted-foreground">
+            Keep only the successful or the failed items in this plot.
+          </p>
+        </AccordionContent>
+      </AccordionItem>
+    </Accordion>
   );
 }

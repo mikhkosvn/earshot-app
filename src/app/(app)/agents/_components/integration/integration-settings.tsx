@@ -1,21 +1,21 @@
 'use client';
 
-import { ChevronDownIcon } from 'lucide-react';
-import { useState } from 'react';
 import { useWatch } from 'react-hook-form';
 
-import { Button } from '@/components/ui/button';
 import {
-  Collapsible,
-  CollapsibleContent,
-  CollapsibleTrigger,
-} from '@/components/ui/collapsible';
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from '@/components/ui/accordion';
 import { PROVIDER_INTEGRATIONS } from '@/server/agents/constants/provider-integrations';
 import type { AgentConfigValues } from '@/server/agents/types';
 
 import { IntegrationField } from './integration-field';
 import { IntegrationSwitches } from './integration-switches';
 import { RedactionField } from './redaction/redaction-field';
+
+const INTEGRATION_ITEM_VALUE = 'integration';
 
 interface IntegrationSettingsProps {
   apiKeyConfigured: boolean;
@@ -27,39 +27,29 @@ export function IntegrationSettings({
   const provider = useWatch<AgentConfigValues, 'provider'>({
     name: 'provider',
   });
-  const [open, setOpen] = useState(true);
   const integration = PROVIDER_INTEGRATIONS[provider];
 
   return (
-    <Collapsible
-      open={open}
-      onOpenChange={setOpen}
+    <Accordion
+      defaultValue={[INTEGRATION_ITEM_VALUE]}
       className="rounded-lg border"
     >
-      <CollapsibleTrigger
-        render={
-          <Button
-            type="button"
-            variant="unstyled"
-            size="unstyled"
-            className="flex w-full items-center justify-between rounded-t-lg bg-muted/50 px-3 py-2 text-xs font-semibold"
-          />
-        }
-      >
-        Integration Settings
-        <ChevronDownIcon className="size-4 transition-transform data-panel-open:rotate-180" />
-      </CollapsibleTrigger>
-      <CollapsibleContent className="flex flex-col divide-y">
-        {integration.fields.map((field) => (
-          <IntegrationField
-            key={`${provider}-${field.label}`}
-            field={field}
-            apiKeyConfigured={apiKeyConfigured}
-          />
-        ))}
-        <IntegrationSwitches provider={provider} />
-        <RedactionField />
-      </CollapsibleContent>
-    </Collapsible>
+      <AccordionItem value={INTEGRATION_ITEM_VALUE}>
+        <AccordionTrigger className="items-center rounded-t-lg rounded-b-none bg-muted/50 px-3 py-2 text-xs font-semibold hover:no-underline">
+          Integration Settings
+        </AccordionTrigger>
+        <AccordionContent className="flex flex-col divide-y pb-0">
+          {integration.fields.map((field) => (
+            <IntegrationField
+              key={`${provider}-${field.label}`}
+              field={field}
+              apiKeyConfigured={apiKeyConfigured}
+            />
+          ))}
+          <IntegrationSwitches provider={provider} />
+          <RedactionField />
+        </AccordionContent>
+      </AccordionItem>
+    </Accordion>
   );
 }

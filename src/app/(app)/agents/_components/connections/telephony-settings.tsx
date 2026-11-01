@@ -1,19 +1,27 @@
 'use client';
 
-import { ChevronDownIcon, XIcon } from 'lucide-react';
+import { XIcon } from 'lucide-react';
 import { useState } from 'react';
 import { useFormContext, useWatch } from 'react-hook-form';
 
-import { Button } from '@/components/ui/button';
 import {
-  Collapsible,
-  CollapsibleContent,
-  CollapsibleTrigger,
-} from '@/components/ui/collapsible';
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from '@/components/ui/accordion';
+import { Button } from '@/components/ui/button';
 import type { AgentConfigValues } from '@/server/agents/types';
 
 import { InboundField } from './inbound-field';
 import { PhoneNumberField } from './phone-number-field';
+
+const TELEPHONY_ITEM_VALUE = 'telephony';
+
+const openItemsOf = (open: boolean) => {
+  if (open) return [TELEPHONY_ITEM_VALUE];
+  return [];
+};
 
 export function TelephonySettings() {
   const { control, setValue } = useFormContext<AgentConfigValues>();
@@ -22,14 +30,16 @@ export function TelephonySettings() {
   if (!enabled) return null;
 
   return (
-    <Collapsible
-      open={open}
-      onOpenChange={setOpen}
+    <Accordion
+      value={openItemsOf(open)}
+      onValueChange={(values) => setOpen(values.includes(TELEPHONY_ITEM_VALUE))}
       className="rounded-lg border bg-background"
     >
-      <div className="flex items-center justify-between border-b bg-muted/50 px-3 py-2">
-        <h4 className="text-xs font-semibold">Telephony Settings</h4>
-        <div className="flex items-center gap-1">
+      <AccordionItem value={TELEPHONY_ITEM_VALUE}>
+        <div className="grid grid-cols-[1fr_auto] items-center gap-1 rounded-t-lg bg-muted/50 px-3 py-2">
+          <AccordionTrigger className="items-center py-0 text-xs font-semibold hover:no-underline">
+            Telephony Settings
+          </AccordionTrigger>
           <Button
             type="button"
             variant="ghost"
@@ -41,25 +51,12 @@ export function TelephonySettings() {
           >
             <XIcon />
           </Button>
-          <CollapsibleTrigger
-            render={
-              <Button
-                type="button"
-                variant="ghost"
-                size="icon-xs"
-                aria-label="Toggle Telephony Settings"
-                className="data-panel-open:rotate-180"
-              />
-            }
-          >
-            <ChevronDownIcon />
-          </CollapsibleTrigger>
         </div>
-      </div>
-      <CollapsibleContent className="flex flex-col gap-4 p-3">
-        <PhoneNumberField />
-        <InboundField />
-      </CollapsibleContent>
-    </Collapsible>
+        <AccordionContent className="flex flex-col gap-4 border-t p-3 [&_p:not(:last-child)]:mb-0">
+          <PhoneNumberField />
+          <InboundField />
+        </AccordionContent>
+      </AccordionItem>
+    </Accordion>
   );
 }

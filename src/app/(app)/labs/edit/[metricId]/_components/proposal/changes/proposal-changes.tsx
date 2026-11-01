@@ -1,15 +1,16 @@
 'use client';
 
-import { ChevronDownIcon } from 'lucide-react';
-
 import {
-  Collapsible,
-  CollapsibleContent,
-  CollapsibleTrigger,
-} from '@/components/ui/collapsible';
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from '@/components/ui/accordion';
 import type { ProposalChange as ProposalChangeData } from '@/server/metric-optimizer/types';
 
 import { ProposalChange } from './proposal-change';
+
+const PROPOSAL_CHANGES_ITEM_VALUE = 'proposal-changes';
 
 interface ProposalChangesProps {
   changes: readonly ProposalChangeData[];
@@ -25,16 +26,17 @@ export function ProposalChanges({ changes }: ProposalChangesProps) {
   }
 
   return (
-    <Collapsible defaultOpen className="flex flex-col gap-2">
-      <CollapsibleTrigger className="group flex w-fit items-center gap-1 text-sm font-medium">
-        <ChevronDownIcon className="size-4 -rotate-90 transition-transform group-data-panel-open:rotate-0" />
-        Proposed changes ({changes.length})
-      </CollapsibleTrigger>
-      <CollapsibleContent className="flex flex-col gap-3">
-        {changes.map((change) => (
-          <ProposalChange key={change.field} change={change} />
-        ))}
-      </CollapsibleContent>
-    </Collapsible>
+    <Accordion defaultValue={[PROPOSAL_CHANGES_ITEM_VALUE]}>
+      <AccordionItem value={PROPOSAL_CHANGES_ITEM_VALUE}>
+        <AccordionTrigger className="w-fit flex-none items-center gap-1 py-0 hover:no-underline">
+          Proposed changes ({changes.length})
+        </AccordionTrigger>
+        <AccordionContent className="flex flex-col gap-3 pt-2 pb-0 [&_p:not(:last-child)]:mb-0">
+          {changes.map((change) => (
+            <ProposalChange key={change.field} change={change} />
+          ))}
+        </AccordionContent>
+      </AccordionItem>
+    </Accordion>
   );
 }

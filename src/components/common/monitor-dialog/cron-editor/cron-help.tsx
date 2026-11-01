@@ -1,48 +1,41 @@
 'use client';
 
-import { ChevronDownIcon, CircleHelpIcon } from 'lucide-react';
+import { CircleHelpIcon } from 'lucide-react';
 
-import { Button } from '@/components/ui/button';
 import {
-  Collapsible,
-  CollapsibleContent,
-  CollapsibleTrigger,
-} from '@/components/ui/collapsible';
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from '@/components/ui/accordion';
 
 import { CRON_HELP_SECTIONS } from '../_constants/cron-help';
 
+const CRON_HELP_ITEM_VALUE = 'cron-help';
+
 export function CronHelp() {
   return (
-    <Collapsible className="rounded-lg border bg-background">
-      <h4>
-        <CollapsibleTrigger
-          render={
-            <Button
-              type="button"
-              variant="ghost"
-              className="group w-full justify-between font-medium"
-            />
-          }
-        >
+    <Accordion className="rounded-lg border bg-background">
+      <AccordionItem value={CRON_HELP_ITEM_VALUE}>
+        <AccordionTrigger className="h-8 items-center px-2.5 py-0 hover:bg-muted hover:no-underline">
           <span className="flex items-center gap-2">
-            <CircleHelpIcon />
+            <CircleHelpIcon className="size-4" />
             Need Help?
           </span>
-          <ChevronDownIcon className="transition-transform group-data-panel-open:rotate-180" />
-        </CollapsibleTrigger>
-      </h4>
-      <CollapsibleContent className="flex flex-col gap-3 border-t p-3">
-        {CRON_HELP_SECTIONS.map((section) => (
-          <div key={section.title} className="flex flex-col gap-1">
-            <h5 className="text-xs font-semibold">{section.title}</h5>
-            {section.lines.map((line) => (
-              <p key={line} className="text-xs text-muted-foreground">
-                {line}
-              </p>
-            ))}
-          </div>
-        ))}
-      </CollapsibleContent>
-    </Collapsible>
+        </AccordionTrigger>
+        <AccordionContent className="flex flex-col gap-3 border-t p-3 [&_p:not(:last-child)]:mb-0">
+          {CRON_HELP_SECTIONS.map((section) => (
+            <div key={section.title} className="flex flex-col gap-1">
+              <h5 className="text-xs font-semibold">{section.title}</h5>
+              {section.lines.map((line) => (
+                <p key={line} className="text-xs text-muted-foreground">
+                  {line}
+                </p>
+              ))}
+            </div>
+          ))}
+        </AccordionContent>
+      </AccordionItem>
+    </Accordion>
   );
 }

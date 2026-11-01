@@ -1,38 +1,31 @@
 'use client';
 
-import { ChevronDownIcon } from 'lucide-react';
-
-import { Button } from '@/components/ui/button';
 import {
-  Collapsible,
-  CollapsibleContent,
-  CollapsibleTrigger,
-} from '@/components/ui/collapsible';
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from '@/components/ui/accordion';
 
 import { WorkflowCoverageSummary } from './workflow-coverage-summary';
 import { WorkflowPathList } from './workflow-path-list';
 
+const WORKFLOW_COVERAGE_ITEM_VALUE = 'workflow-coverage';
+
 export function WorkflowCoverageCard() {
   return (
-    <Collapsible className="rounded-xl border bg-background">
-      <CollapsibleTrigger
-        render={
-          <Button
-            variant="unstyled"
-            size="unstyled"
-            className="group flex w-full items-center justify-between gap-4 px-4 py-3 text-left"
-          />
-        }
-      >
-        <span className="text-sm font-medium">Workflow Coverage</span>
-        <span className="flex items-center gap-4">
-          <WorkflowCoverageSummary />
-          <ChevronDownIcon className="size-4 text-muted-foreground transition-transform group-data-panel-open:rotate-180" />
-        </span>
-      </CollapsibleTrigger>
-      <CollapsibleContent className="border-t px-4 py-3">
-        <WorkflowPathList />
-      </CollapsibleContent>
-    </Collapsible>
+    <Accordion className="rounded-xl border bg-background">
+      <AccordionItem value={WORKFLOW_COVERAGE_ITEM_VALUE}>
+        <AccordionTrigger className="items-center gap-4 px-4 py-3 hover:no-underline">
+          <span className="text-sm font-medium">Workflow Coverage</span>
+          <span className="ml-auto flex items-center gap-4 font-normal">
+            <WorkflowCoverageSummary />
+          </span>
+        </AccordionTrigger>
+        <AccordionContent className="border-t px-4 py-3">
+          <WorkflowPathList />
+        </AccordionContent>
+      </AccordionItem>
+    </Accordion>
   );
 }
