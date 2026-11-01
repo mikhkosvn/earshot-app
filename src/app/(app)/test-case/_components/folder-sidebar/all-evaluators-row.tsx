@@ -1,33 +1,31 @@
 'use client';
 
 import { FoldersIcon } from 'lucide-react';
+import Link from 'next/link';
 
-import { Button } from '@/components/ui/button';
+import { useCurrentProjectId } from '@/app/(app)/_hooks/use-current-project-id';
+import { buttonVariants } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
-import { ALL_EVALUATORS_FOLDER_PATH } from '@/server/folders/constants';
+import { UrlGenerator } from '@/lib/url-generator/url-generator';
 
-import { useEvaluatorListParams } from '../../_hooks/use-evaluator-list-params';
+import { useRouteFolderId } from '../../_hooks/folders/use-route-folder-id';
 
 export function AllEvaluatorsRow() {
-  const [{ folder }, setParams] = useEvaluatorListParams();
-  const isSelected = folder === ALL_EVALUATORS_FOLDER_PATH;
+  const projectId = useCurrentProjectId();
+  const isSelected = useRouteFolderId() === null;
 
   return (
-    <Button
-      type="button"
-      variant="ghost"
-      size="sm"
+    <Link
+      href={UrlGenerator.evaluators({ values: { project: projectId } })}
       aria-current={isSelected}
       className={cn(
+        buttonVariants({ variant: 'ghost', size: 'sm' }),
         'h-7 justify-start gap-2 px-2 text-xs font-normal',
         isSelected && 'bg-muted font-medium',
       )}
-      onClick={() =>
-        setParams({ folder: ALL_EVALUATORS_FOLDER_PATH, page: null })
-      }
     >
       <FoldersIcon className="size-3.5 text-muted-foreground" />
       All Evaluators
-    </Button>
+    </Link>
   );
 }

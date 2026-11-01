@@ -24,6 +24,7 @@ import type {
   CallsType,
   DashboardType,
   EvaluatorCreateType,
+  EvaluatorFolderType,
   EvaluatorsType,
   EvaluatorType,
   FileType,
@@ -144,6 +145,14 @@ export class UrlGenerator {
   static evaluators({ options, values }: EvaluatorsType = {}) {
     return createTypedLink(
       '/test-case' as Route,
+      evaluatorsParser,
+      options,
+    )(values);
+  }
+
+  static evaluatorFolder({ folderId, options, values }: EvaluatorFolderType) {
+    return createTypedLink(
+      `/test-case/folder/${folderId}` as Route,
       evaluatorsParser,
       options,
     )(values);

@@ -9,8 +9,7 @@ import { Field, FieldDescription, FieldLabel } from '@/components/ui/field';
 import { Skeleton } from '@/components/ui/skeleton';
 
 import { useDuplicateEvaluatorsMutation } from '../../_hooks/mutations/evaluator-actions/use-duplicate-evaluators-mutation';
-import { useEvaluatorListParams } from '../../_hooks/use-evaluator-list-params';
-import { createFolderParam } from '../../_utils/list/create-folder-param';
+import { useRouteFolderPath } from '../../_hooks/folders/use-route-folder-path';
 import { AgentSelect } from '../fields/selects/agent-select';
 import { FolderSelect } from '../fields/selects/folder-select';
 import { ProjectSelect } from '../fields/selects/project-select';
@@ -25,10 +24,10 @@ export function DuplicateEvaluatorsForm({
   onDone,
 }: DuplicateEvaluatorsFormProps) {
   const projectId = useCurrentProjectId();
-  const [{ folder }] = useEvaluatorListParams();
+  const routeFolderPath = useRouteFolderPath();
   const [targetProjectId, setTargetProjectId] = useState(projectId);
   const [agentId, setAgentId] = useState<number | null>(null);
-  const [folderPath, setFolderPath] = useState(createFolderParam(folder));
+  const [folderPath, setFolderPath] = useState(routeFolderPath);
   const duplicateEvaluators = useDuplicateEvaluatorsMutation();
 
   return (

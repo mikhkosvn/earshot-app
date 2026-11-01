@@ -3,23 +3,16 @@ import { io } from 'next/cache';
 import { Suspense } from 'react';
 
 import { ShellService } from '@/app/(app)/_service';
+import { EvaluatorsToolbar } from '@/app/(app)/test-case/_components/toolbar/evaluators-toolbar';
+import { EvaluatorService } from '@/app/(app)/test-case/_service';
 import { QueryErrorBoundary } from '@/components/common/query-error-boundary';
 import getQueryClient from '@/lib/query-client/get-query-client';
 
-import { EvaluatorService } from '../_service';
-import { toListEvaluatorsInput } from '../_utils/list/evaluator-list-input';
-import { loadEvaluatorListParams } from '../_utils/list/load-evaluator-list-params';
-import { EvaluatorsLayout } from './evaluators-layout';
-import { EvaluatorsSkeleton } from './evaluators-skeleton';
+import { EvaluatorsToolbarSkeleton } from './evaluators-toolbar-skeleton';
 
-interface EvaluatorsDataProps {
-  searchParams: Promise<Record<string, string | string[] | undefined>>;
-}
-
-export async function EvaluatorsData({ searchParams }: EvaluatorsDataProps) {
+export async function EvaluatorsToolbarData() {
   await io();
 
-  const params = await loadEvaluatorListParams(searchParams);
   const queryClient = getQueryClient();
   const projectId = await queryClient.query({
     ...ShellService.getCurrentProjectIdQuery(),
@@ -27,14 +20,6 @@ export async function EvaluatorsData({ searchParams }: EvaluatorsDataProps) {
   });
   void queryClient
     .query({ ...EvaluatorService.getFoldersQuery({ projectId }), retry: false })
-    .catch(noop);
-  void queryClient
-    .query({
-      ...EvaluatorService.getListQuery(
-        toListEvaluatorsInput(projectId, params),
-      ),
-      retry: false,
-    })
     .catch(noop);
   void queryClient
     .query({
@@ -46,8 +31,8 @@ export async function EvaluatorsData({ searchParams }: EvaluatorsDataProps) {
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
       <QueryErrorBoundary>
-        <Suspense fallback={<EvaluatorsSkeleton />}>
-          <EvaluatorsLayout />
+        <Suspense fallback={<EvaluatorsToolbarSkeleton />}>
+          <EvaluatorsToolbar />
         </Suspense>
       </QueryErrorBoundary>
     </HydrationBoundary>

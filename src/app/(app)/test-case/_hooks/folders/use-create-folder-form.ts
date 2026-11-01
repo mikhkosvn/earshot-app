@@ -19,17 +19,10 @@ export const useCreateFolderForm = (
   });
   const createFolder = useCreateFolderMutation();
 
-  const onSubmit = form.handleSubmit((values) =>
-    createFolder.mutate(
-      { projectId, parentPath, name: values.name },
-      {
-        onSuccess: (result) => {
-          if (!result.ok) return;
-          onCreated();
-        },
-      },
-    ),
-  );
+  const onSubmit = form.handleSubmit((values) => {
+    createFolder.mutate({ projectId, parentPath, name: values.name });
+    onCreated();
+  });
 
   return { form, onSubmit, isPending: createFolder.isPending };
 };

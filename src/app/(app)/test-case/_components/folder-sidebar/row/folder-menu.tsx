@@ -19,11 +19,11 @@ import {
 } from '@/components/ui/dropdown-menu';
 import type { FolderView } from '@/server/folders/types';
 
-import { FolderDialog } from '../../_constants/folder-dialog';
-import { useDuplicateFolderMutation } from '../../_hooks/mutations/folders/use-duplicate-folder-mutation';
-import { CreateFolderDialog } from './dialogs/create-folder-dialog';
-import { DeleteFolderDialog } from './dialogs/delete-folder-dialog';
-import { RenameFolderDialog } from './dialogs/rename-folder-dialog';
+import { FolderDialog } from '../../../_constants/folder-dialog';
+import { useDuplicateFolderMutation } from '../../../_hooks/mutations/folders/use-duplicate-folder-mutation';
+import { CreateFolderDialog } from '../dialogs/create-folder-dialog';
+import { DeleteFolderDialog } from '../dialogs/delete-folder-dialog';
+import { RenameFolderDialog } from '../dialogs/rename-folder-dialog';
 
 interface FolderMenuProps {
   folder: FolderView;

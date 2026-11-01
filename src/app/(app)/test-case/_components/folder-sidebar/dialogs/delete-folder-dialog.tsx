@@ -27,17 +27,10 @@ export function DeleteFolderDialog({
       isPending={deleteFolder.isPending}
       title={`Delete folder "${folder.name}"?`}
       description="This action cannot be undone. This will permanently delete the folder and all scenarios inside it."
-      onConfirm={() =>
-        deleteFolder.mutate(
-          { projectId, path: folder.path },
-          {
-            onSuccess: (result) => {
-              if (!result.ok) return;
-              onOpenChange(false);
-            },
-          },
-        )
-      }
+      onConfirm={() => {
+        deleteFolder.mutate({ projectId, path: folder.path });
+        onOpenChange(false);
+      }}
     />
   );
 }

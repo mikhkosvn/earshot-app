@@ -7,12 +7,11 @@ import { useCurrentProjectId } from '@/app/(app)/_hooks/use-current-project-id';
 import { Button } from '@/components/ui/button';
 import { UrlGenerator } from '@/lib/url-generator/url-generator';
 
-import { useEvaluatorListParams } from '../../_hooks/use-evaluator-list-params';
-import { createFolderParam } from '../../_utils/list/create-folder-param';
+import { useRouteFolderPath } from '../../_hooks/folders/use-route-folder-path';
 
 export function AddEvaluatorLink() {
   const projectId = useCurrentProjectId();
-  const [{ folder }] = useEvaluatorListParams();
+  const folderPath = useRouteFolderPath();
 
   return (
     <Button
@@ -22,7 +21,7 @@ export function AddEvaluatorLink() {
       render={
         <Link
           href={UrlGenerator.evaluatorCreate({
-            values: { project: projectId, folder: createFolderParam(folder) },
+            values: { project: projectId, folder: folderPath },
           })}
         />
       }

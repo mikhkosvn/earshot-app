@@ -12,9 +12,9 @@ import {
   generateEvaluatorsFormSchema,
   type GenerateEvaluatorsFormValues,
 } from '@/app/(app)/test-case/_schemas/generate-evaluators-form-schema';
+import { useFolderListUrl } from '@/app/(app)/test-case/_hooks/folders/use-folder-list-url';
 import { EvaluatorService } from '@/app/(app)/test-case/_service';
 import { ScenarioType } from '@/generated/prisma/enums';
-import { UrlGenerator } from '@/lib/url-generator/url-generator';
 import { GenerationScenarioType } from '@/server/evaluator-generation/constants';
 
 import { useCreateFolderParam } from './use-create-folder-param';
@@ -22,6 +22,7 @@ import { useCreateFolderParam } from './use-create-folder-param';
 export const useAiModeForm = () => {
   const projectId = useCurrentProjectId();
   const router = useRouter();
+  const folderListUrl = useFolderListUrl();
   const folderPath = useCreateFolderParam();
   const { data: firstAgentId } = useSuspenseQuery({
     ...EvaluatorService.getAgentsQuery({ projectId }),
@@ -57,13 +58,10 @@ export const useAiModeForm = () => {
         onSuccess: (result) => {
           if (!result.ok) return;
           router.push(
-            UrlGenerator.evaluators({
-              values: {
-                project: projectId,
-                folder: values.folderPath,
-                reopenSheet: true,
-                sessionId: result.data.sessionId,
-              },
+            folderListUrl(values.folderPath, {
+              project: projectId,
+              reopenSheet: true,
+              sessionId: result.data.sessionId,
             }),
           );
         },

@@ -1,24 +1,30 @@
 import 'server-only';
 
 import { Prisma } from '@/generated/prisma/client';
+import { prisma } from '@/lib/prisma';
 import {
   EvaluatorSortField,
   FilterLogic,
   type SortDirection,
 } from '@/server/evaluators/constants/evaluator-list';
 import type { EvaluatorFilterInput } from '@/server/evaluators/types';
-import {
-  ALL_EVALUATORS_FOLDER_PATH,
-  FOLDER_PATH_SEPARATOR,
-} from '@/server/folders/constants';
+import { FOLDER_PATH_SEPARATOR } from '@/server/folders/constants';
 
-const folderWhere = (folderPath: string): Prisma.EvaluatorWhereInput => {
-  if (folderPath === ALL_EVALUATORS_FOLDER_PATH) return {};
+const folderWhere = async (
+  projectId: number,
+  folderId: number | null,
+): Promise<Prisma.EvaluatorWhereInput> => {
+  if (folderId === null) return {};
+  const folder = await prisma.folder.findFirst({
+    where: { id: folderId, projectId },
+    select: { path: true },
+  });
+  if (!folder) return { folderId };
   return {
     folder: {
       OR: [
-        { path: folderPath },
-        { path: { startsWith: `${folderPath}${FOLDER_PATH_SEPARATOR}` } },
+        { id: folderId },
+        { path: { startsWith: `${folder.path}${FOLDER_PATH_SEPARATOR}` } },
       ],
     },
   };
@@ -70,12 +76,12 @@ const metricsWhere = (
   return [{ metrics: { some: { metricId: { in: metricIds } } } }];
 };
 
-export const evaluatorFilterWhere = (
+export const evaluatorFilterWhere = async (
   filter: EvaluatorFilterInput,
-): Prisma.EvaluatorWhereInput => ({
+): Promise<Prisma.EvaluatorWhereInput> => ({
   projectId: filter.projectId,
   AND: [
-    folderWhere(filter.folderPath),
+    await folderWhere(filter.projectId, filter.folderId),
     searchWhere(filter.search),
     ...tagsWhere(filter.tags, filter.tagLogic),
     ...metricsWhere(filter.metricIds, filter.metricLogic),

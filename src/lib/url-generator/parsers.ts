@@ -41,8 +41,8 @@ export const personalityParser = {
 export const evaluatorsParser = {
   ...projectParser,
   ...paginationParser,
-  folder: parseAsString,
   reopenSheet: parseAsBoolean,
+  improve: parseAsBoolean,
   progressId: parseAsString,
   sessionId: parseAsInteger,
   [TEST_PROFILE_QUERY_KEY]: parseAsInteger,

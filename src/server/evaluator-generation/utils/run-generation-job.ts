@@ -269,7 +269,7 @@ export const runGenerationJob = async (
     where: { id: session.id },
     data: { status: GenerationSessionStatus.completed },
   });
-  const deepLink = sessionDeepLink({
+  const deepLink = await sessionDeepLink({
     projectId: session.projectId,
     folderPath: options.folderPath,
     jobId: context.jobId,

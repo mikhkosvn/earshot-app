@@ -7,11 +7,10 @@ import { ConfigureRunDialog } from '@/components/common/run-dialogs/configure-ru
 import { RunStatusDialog } from '@/components/common/run-dialogs/run-status/run-status-dialog';
 import { Button } from '@/components/ui/button';
 
-interface RunEvaluatorsButtonProps {
-  selectedIds: number[];
-}
+import { useSelectedEvaluatorIds } from '../../../_hooks/table/use-selected-evaluator-ids';
 
-export function RunEvaluatorsButton({ selectedIds }: RunEvaluatorsButtonProps) {
+export function RunEvaluatorsButton() {
+  const selectedIds = useSelectedEvaluatorIds();
   const [isConfigureOpen, setConfigureOpen] = useState(false);
   const [startedResultId, setStartedResultId] = useState<number | null>(null);
 

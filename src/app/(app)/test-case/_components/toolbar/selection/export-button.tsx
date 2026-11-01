@@ -5,13 +5,11 @@ import { useState } from 'react';
 
 import { Button } from '@/components/ui/button';
 
+import { useSelectedEvaluatorIds } from '../../../_hooks/table/use-selected-evaluator-ids';
 import { ExportEvaluatorsDialog } from '../../actions/export-evaluators-dialog';
 
-interface ExportButtonProps {
-  selectedIds: number[];
-}
-
-export function ExportButton({ selectedIds }: ExportButtonProps) {
+export function ExportButton() {
+  const selectedIds = useSelectedEvaluatorIds();
   const [isOpen, setOpen] = useState(false);
 
   return (

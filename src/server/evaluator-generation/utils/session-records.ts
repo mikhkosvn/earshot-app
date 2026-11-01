@@ -55,18 +55,27 @@ interface SessionLinkArgs {
   jobId?: string;
 }
 
-export const sessionDeepLink = ({
+const sessionFolderId = async (projectId: number, folderPath: string) => {
+  const folder = await prisma.folder.findUnique({
+    where: { projectId_path: { projectId, path: folderPath } },
+    select: { id: true },
+  });
+  return folder?.id ?? null;
+};
+
+export const sessionDeepLink = async ({
   projectId,
   folderPath,
   sessionId,
   jobId,
-}: SessionLinkArgs) =>
-  UrlGenerator.evaluators({
-    values: {
-      project: projectId,
-      folder: folderPath,
-      reopenSheet: true,
-      sessionId: sessionId ?? null,
-      progressId: jobId ?? null,
-    },
-  });
+}: SessionLinkArgs) => {
+  const values = {
+    project: projectId,
+    reopenSheet: true,
+    sessionId: sessionId ?? null,
+    progressId: jobId ?? null,
+  };
+  const folderId = await sessionFolderId(projectId, folderPath);
+  if (folderId === null) return UrlGenerator.evaluators({ values });
+  return UrlGenerator.evaluatorFolder({ folderId, values });
+};

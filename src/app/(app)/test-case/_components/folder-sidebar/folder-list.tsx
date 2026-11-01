@@ -4,9 +4,12 @@ import { useSuspenseQuery } from '@tanstack/react-query';
 
 import { useCurrentProjectId } from '@/app/(app)/_hooks/use-current-project-id';
 
+import { usePendingFolderCreates } from '../../_hooks/folders/use-pending-folder-creates';
 import { EvaluatorService } from '../../_service';
+import { withPendingFolders } from '../../_utils/folders/folder-list-entries';
 import { AllEvaluatorsRow } from './all-evaluators-row';
-import { FolderRow } from './folder-row';
+import { FolderListEntryRow } from './row/folder-list-entry-row';
+import { FolderRow } from './row/folder-row';
 
 interface FolderListProps {
   search: string;
@@ -17,12 +20,16 @@ export function FolderList({ search }: FolderListProps) {
   const { data: folders } = useSuspenseQuery(
     EvaluatorService.getFoldersQuery({ projectId }),
   );
+  const pendingCreates = usePendingFolderCreates();
   const needle = search.trim().toLowerCase();
-  const visible = folders.filter((folder) =>
-    folder.path.toLowerCase().includes(needle),
+  const matches = (path: string) => path.toLowerCase().includes(needle);
+  const pinned = folders.filter(
+    (folder) => folder.isRegressionSuite && matches(folder.path),
   );
-  const pinned = visible.filter((folder) => folder.isRegressionSuite);
-  const others = visible.filter((folder) => !folder.isRegressionSuite);
+  const others = withPendingFolders(
+    folders.filter((folder) => !folder.isRegressionSuite),
+    pendingCreates,
+  ).filter((entry) => matches(entry.path));
 
   return (
     <nav aria-label="Folders" className="flex flex-col gap-0.5">
@@ -30,8 +37,8 @@ export function FolderList({ search }: FolderListProps) {
         <FolderRow key={folder.id} folder={folder} />
       ))}
       <AllEvaluatorsRow />
-      {others.map((folder) => (
-        <FolderRow key={folder.id} folder={folder} />
+      {others.map((entry) => (
+        <FolderListEntryRow key={entry.key} entry={entry} />
       ))}
     </nav>
   );

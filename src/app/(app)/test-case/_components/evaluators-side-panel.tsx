@@ -3,6 +3,7 @@
 import dynamic from 'next/dynamic';
 
 import { useGenerationSheetParams } from '../_hooks/generation/use-generation-sheet-params';
+import { useImprovePanelParams } from '../_hooks/improve/use-improve-panel-params';
 import { ImprovePanel } from './improve-panel/improve-panel';
 
 const GenerationSheet = dynamic(
@@ -13,18 +14,12 @@ const GenerationSheet = dynamic(
   { ssr: false },
 );
 
-interface EvaluatorsSidePanelProps {
-  isImproveOpen: boolean;
-  onImproveClose: () => void;
-}
-
-export function EvaluatorsSidePanel({
-  isImproveOpen,
-  onImproveClose,
-}: EvaluatorsSidePanelProps) {
+export function EvaluatorsSidePanel() {
   const [{ reopenSheet }] = useGenerationSheetParams();
+  const [{ improve }, setImproveParams] = useImprovePanelParams();
 
   if (reopenSheet) return <GenerationSheet />;
-  if (isImproveOpen) return <ImprovePanel onClose={onImproveClose} />;
+  if (improve)
+    return <ImprovePanel onClose={() => setImproveParams({ improve: null })} />;
   return null;
 }

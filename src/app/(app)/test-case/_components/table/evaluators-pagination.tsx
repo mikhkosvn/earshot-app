@@ -7,10 +7,7 @@ import { TablePagination } from '@/components/common/table-pagination/table-pagi
 import { useEvaluatorListQuery } from '../../_hooks/use-evaluator-list-query';
 
 export function EvaluatorsPagination() {
-  const { data: count } = useSuspenseQuery({
-    ...useEvaluatorListQuery(),
-    select: (page) => page.count,
-  });
+  const { data } = useSuspenseQuery(useEvaluatorListQuery());
 
-  return <TablePagination totalCount={count} />;
+  return <TablePagination totalCount={data.count} />;
 }

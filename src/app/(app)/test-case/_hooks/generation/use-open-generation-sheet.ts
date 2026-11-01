@@ -1,15 +1,22 @@
 'use client';
 
-import { useEvaluatorListParams } from '@/app/(app)/test-case/_hooks/use-evaluator-list-params';
+import { useRouter } from 'next/navigation';
 
-import { useGenerationSheetParams } from './use-generation-sheet-params';
+import { useCurrentProjectId } from '@/app/(app)/_hooks/use-current-project-id';
+import { useFolderListUrl } from '@/app/(app)/test-case/_hooks/folders/use-folder-list-url';
 
 export const useOpenGenerationSheet = () => {
-  const [, setSheetParams] = useGenerationSheetParams();
-  const [, setListParams] = useEvaluatorListParams();
+  const router = useRouter();
+  const projectId = useCurrentProjectId();
+  const folderListUrl = useFolderListUrl();
 
-  return async (sessionId: number, folderPath: string) => {
-    await setListParams({ folder: folderPath, page: null });
-    await setSheetParams({ reopenSheet: true, sessionId, progressId: null });
+  return (sessionId: number, folderPath: string) => {
+    router.push(
+      folderListUrl(folderPath, {
+        project: projectId,
+        reopenSheet: true,
+        sessionId,
+      }),
+    );
   };
 };

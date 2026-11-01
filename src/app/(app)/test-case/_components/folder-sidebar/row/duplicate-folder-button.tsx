@@ -11,7 +11,7 @@ import {
 } from '@/components/ui/tooltip';
 import type { FolderView } from '@/server/folders/types';
 
-import { useDuplicateFolderMutation } from '../../_hooks/mutations/folders/use-duplicate-folder-mutation';
+import { useDuplicateFolderMutation } from '../../../_hooks/mutations/folders/use-duplicate-folder-mutation';
 
 interface DuplicateFolderButtonProps {
   folder: FolderView;

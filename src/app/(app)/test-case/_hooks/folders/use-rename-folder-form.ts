@@ -19,17 +19,10 @@ export const useRenameFolderForm = (
   });
   const renameFolder = useRenameFolderMutation();
 
-  const onSubmit = form.handleSubmit((values) =>
-    renameFolder.mutate(
-      { projectId, path: folder.path, name: values.name },
-      {
-        onSuccess: (result) => {
-          if (!result.ok) return;
-          onRenamed();
-        },
-      },
-    ),
-  );
+  const onSubmit = form.handleSubmit((values) => {
+    renameFolder.mutate({ projectId, path: folder.path, name: values.name });
+    onRenamed();
+  });
 
   return { form, onSubmit, isPending: renameFolder.isPending };
 };

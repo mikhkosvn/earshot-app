@@ -20,20 +20,16 @@ import {
 } from '@/components/ui/dropdown-menu';
 
 import { EvaluatorActionDialog } from '../../../_constants/evaluator-action-dialog';
+import { useClearEvaluatorSelection } from '../../../_hooks/table/use-clear-evaluator-selection';
+import { useSelectedEvaluatorIds } from '../../../_hooks/table/use-selected-evaluator-ids';
 import { AddTagsDialog } from '../../actions/add-tags-dialog';
 import { DuplicateEvaluatorsDialog } from '../../actions/duplicate-evaluators-dialog';
 import { ModifyScenariosDialog } from '../../actions/modify/modify-scenarios-dialog';
 import { MoveToFolderDialog } from '../../actions/move-to-folder-dialog';
 
-interface ActionsMenuProps {
-  selectedIds: number[];
-  onSelectionChange: (ids: number[]) => void;
-}
-
-export function ActionsMenu({
-  selectedIds,
-  onSelectionChange,
-}: ActionsMenuProps) {
+export function ActionsMenu() {
+  const selectedIds = useSelectedEvaluatorIds();
+  const clearSelection = useClearEvaluatorSelection();
   const [dialog, setDialog] = useState<EvaluatorActionDialog | null>(null);
   const [monitorOpen, setMonitorOpen] = useState(false);
   const closeDialog = (open: boolean) => {
@@ -105,7 +101,7 @@ export function ActionsMenu({
         open={dialog === EvaluatorActionDialog.move}
         onOpenChange={closeDialog}
         evaluatorIds={selectedIds}
-        onMoved={() => onSelectionChange([])}
+        onMoved={clearSelection}
       />
       <CreateMonitorDialog
         open={monitorOpen}

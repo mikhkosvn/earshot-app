@@ -1,24 +1,16 @@
 'use client';
 
-import { Checkbox } from '@/components/ui/checkbox';
-import { TableCell, TableRow } from '@/components/ui/table';
-import { LanguageLabel } from '@/server/agents/constants/language-labels';
-import type { EvaluatorListRow } from '@/server/evaluators/types';
+import { FlexRender } from '@tanstack/react-table';
 
-import { AgentChip } from './agent-chip';
-import { AuthorDate } from './author-date';
-import { EvaluatorRowActions } from './evaluator-row-actions';
+import { TableCell, TableRow } from '@/components/ui/table';
+
+import type { EvaluatorTableRow } from '../../../_constants/evaluator-table/evaluator-table-features';
+import { useIsEvaluatorRowExpanded } from '../../../_hooks/table/use-is-evaluator-row-expanded';
+import { useIsEvaluatorRowSelected } from '../../../_hooks/table/use-is-evaluator-row-selected';
 import { EvaluatorRowDetails } from './evaluator-row-details';
-import { PhoneNumberCell } from './phone-number-cell';
-import { RowExpandButton } from './row-expand-button';
-import { TagList } from './tag-list';
 
 interface EvaluatorRowProps {
-  row: EvaluatorListRow;
-  isSelected: boolean;
-  onSelectToggle: () => void;
-  isExpanded: boolean;
-  onExpandToggle: () => void;
+  row: EvaluatorTableRow;
 }
 
 const rowState = (isSelected: boolean) => {
@@ -26,60 +18,23 @@ const rowState = (isSelected: boolean) => {
   return undefined;
 };
 
-export function EvaluatorRow({
-  row,
-  isSelected,
-  onSelectToggle,
-  isExpanded,
-  onExpandToggle,
-}: EvaluatorRowProps) {
+export function EvaluatorRow({ row }: EvaluatorRowProps) {
+  const isSelected = useIsEvaluatorRowSelected(row.id);
+  const isExpanded = useIsEvaluatorRowExpanded(row);
+
   return (
     <>
       <TableRow data-state={rowState(isSelected)}>
-        <TableCell>
-          <RowExpandButton isExpanded={isExpanded} onToggle={onExpandToggle} />
-        </TableCell>
-        <TableCell>
-          <div className="flex items-center gap-2">
-            <Checkbox
-              aria-label={`Select evaluator ${row.id}`}
-              checked={isSelected}
-              onCheckedChange={onSelectToggle}
-            />
-            <span className="font-semibold">{row.id}</span>
-          </div>
-        </TableCell>
-        <TableCell className="max-w-56 truncate font-medium">
-          {row.name}
-        </TableCell>
-        <TableCell className="max-w-40 truncate">
-          {row.personalityName ?? '-'}
-        </TableCell>
-        <TableCell>
-          <AgentChip agentId={row.agentId} agentName={row.agentName} />
-        </TableCell>
-        <TableCell>
-          <PhoneNumberCell phoneNumber={row.phoneNumber} />
-        </TableCell>
-        <TableCell className="max-w-40 truncate">
-          {row.testProfileName ?? '--'}
-        </TableCell>
-        <TableCell>{LanguageLabel[row.language]}</TableCell>
-        <TableCell>{row.metricCount}</TableCell>
-        <TableCell>
-          <TagList tags={row.tags} />
-        </TableCell>
-        <TableCell className="whitespace-nowrap">
-          <AuthorDate date={row.createdAt} author={row.createdByName} />
-        </TableCell>
-        <TableCell className="whitespace-nowrap">
-          <AuthorDate date={row.updatedAt} author={row.updatedByName} />
-        </TableCell>
-        <TableCell>
-          <EvaluatorRowActions row={row} />
-        </TableCell>
+        {row.getAllCells().map((cell) => (
+          <TableCell
+            key={cell.id}
+            className={cell.column.columnDef.meta?.cellClassName}
+          >
+            <FlexRender cell={cell} />
+          </TableCell>
+        ))}
       </TableRow>
-      <EvaluatorRowDetails row={row} isExpanded={isExpanded} />
+      <EvaluatorRowDetails row={row.original} isExpanded={isExpanded} />
     </>
   );
 }

@@ -8,12 +8,14 @@ import type {
 
 export type EvaluatorListParams = inferParserType<typeof evaluatorListParams>;
 
+
 export const toEvaluatorFilterInput = (
   projectId: number,
+  folderId: number | null,
   params: EvaluatorListParams,
 ): EvaluatorFilterInput => ({
   projectId,
-  folderPath: params.folder,
+  folderId,
   search: params.search,
   tags: params.tags,
   tagLogic: params.tagLogic,
@@ -25,9 +27,10 @@ export const toEvaluatorFilterInput = (
 
 export const toListEvaluatorsInput = (
   projectId: number,
+  folderId: number | null,
   params: EvaluatorListParams,
 ): ListEvaluatorsInput => ({
-  ...toEvaluatorFilterInput(projectId, params),
+  ...toEvaluatorFilterInput(projectId, folderId, params),
   page: params.page,
   pageSize: params.pageSize,
   sortBy: params.sortBy,

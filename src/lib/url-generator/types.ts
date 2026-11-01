@@ -61,6 +61,10 @@ export interface PersonalityEditType extends ProjectQueryType {
 
 export type EvaluatorsType = TypedLinkProps<typeof evaluatorsParser>;
 
+export interface EvaluatorFolderType extends EvaluatorsType {
+  folderId: number;
+}
+
 export type EvaluatorCreateType = TypedLinkProps<typeof evaluatorCreateParser>;
 
 export interface EvaluatorType extends ProjectQueryType {

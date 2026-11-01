@@ -11,10 +11,12 @@ import {
   FilterLogic,
   SortDirection,
 } from '@/server/evaluators/constants/evaluator-list';
-import { DEFAULT_FOLDER_PATH } from '@/server/folders/constants';
+
+export const legacyFolderParams = {
+  folder: parseAsString,
+};
 
 export const evaluatorListParams = {
-  folder: parseAsString.withDefault(DEFAULT_FOLDER_PATH),
   page: parseAsInteger.withDefault(1),
   pageSize: parseAsInteger.withDefault(DEFAULT_PAGE_SIZE),
   search: parseAsString.withDefault(''),

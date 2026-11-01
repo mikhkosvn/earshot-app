@@ -12,10 +12,10 @@ import {
   evaluatorFormSchema,
   type EvaluatorFormValues,
 } from '@/app/(app)/test-case/_schemas/evaluator-form-schema';
+import { useFolderListUrl } from '@/app/(app)/test-case/_hooks/folders/use-folder-list-url';
 import { EvaluatorService } from '@/app/(app)/test-case/_service';
 import { Language, ScenarioType } from '@/generated/prisma/enums';
 import { DEFAULT_PAGE_SIZE } from '@/components/common/table-pagination/pagination-config';
-import { UrlGenerator } from '@/lib/url-generator/url-generator';
 import { DEFAULT_SCENARIO_TOOLS } from '@/server/evaluators/constants/scenario-tool-descriptions';
 
 import { useCreateFolderParam } from './use-create-folder-param';
@@ -23,6 +23,7 @@ import { useCreateFolderParam } from './use-create-folder-param';
 export const useManualEvaluatorForm = () => {
   const projectId = useCurrentProjectId();
   const router = useRouter();
+  const folderListUrl = useFolderListUrl();
   const folderPath = useCreateFolderParam();
   const { data: firstAgent } = useSuspenseQuery({
     ...EvaluatorService.getAgentsQuery({ projectId }),
@@ -62,13 +63,10 @@ export const useManualEvaluatorForm = () => {
         onSuccess: (result) => {
           if (!result.ok) return;
           router.push(
-            UrlGenerator.evaluators({
-              values: {
-                project: projectId,
-                folder: result.data.folderPath,
-                page: 1,
-                pageSize: DEFAULT_PAGE_SIZE,
-              },
+            folderListUrl(result.data.folderPath, {
+              project: projectId,
+              page: 1,
+              pageSize: DEFAULT_PAGE_SIZE,
             }),
           );
         },

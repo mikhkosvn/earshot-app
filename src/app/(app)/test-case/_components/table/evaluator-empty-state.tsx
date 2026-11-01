@@ -9,8 +9,7 @@ import { EmptyState } from '@/components/common/empty-state';
 import { Button } from '@/components/ui/button';
 import { UrlGenerator } from '@/lib/url-generator/url-generator';
 
-import { useEvaluatorListParams } from '../../_hooks/use-evaluator-list-params';
-import { createFolderParam } from '../../_utils/list/create-folder-param';
+import { useRouteFolderPath } from '../../_hooks/folders/use-route-folder-path';
 import { GenerateEvaluatorsDialog } from '../generate/generate-evaluators-dialog';
 
 interface EvaluatorEmptyStateProps {
@@ -19,7 +18,7 @@ interface EvaluatorEmptyStateProps {
 
 export function EvaluatorEmptyState({ count }: EvaluatorEmptyStateProps) {
   const projectId = useCurrentProjectId();
-  const [{ folder }] = useEvaluatorListParams();
+  const folderPath = useRouteFolderPath();
   const [isGenerateOpen, setGenerateOpen] = useState(false);
 
   if (count > 0) return null;
@@ -42,7 +41,7 @@ export function EvaluatorEmptyState({ count }: EvaluatorEmptyStateProps) {
                 href={UrlGenerator.evaluatorCreate({
                   values: {
                     project: projectId,
-                    folder: createFolderParam(folder),
+                    folder: folderPath,
                   },
                 })}
               />

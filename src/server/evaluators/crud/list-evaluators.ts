@@ -64,7 +64,7 @@ export const listEvaluators = withValidation(
   listEvaluatorsSchema,
   async ({ page, pageSize, sortBy, sortDir, ...filter }) => {
     await requireProjectAccess(filter.projectId);
-    const where = evaluatorFilterWhere(filter);
+    const where = await evaluatorFilterWhere(filter);
     const [count, rows] = await prisma.$transaction([
       prisma.evaluator.count({ where }),
       prisma.evaluator.findMany({

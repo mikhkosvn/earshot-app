@@ -128,7 +128,7 @@ export const runAssistantJob = async (
   };
 
   if (decision.needsClarification && decision.question) {
-    const deepLink = sessionDeepLink({
+    const deepLink = await sessionDeepLink({
       projectId: session.projectId,
       folderPath: options.folderPath,
       sessionId: session.id,
@@ -191,7 +191,7 @@ export const runAssistantJob = async (
     extraInstructionsList: instructions,
     generationJobId: jobId,
     summary: decision.message,
-    deepLink: sessionDeepLink({
+    deepLink: await sessionDeepLink({
       projectId: session.projectId,
       folderPath: options.folderPath,
       jobId,

@@ -12,7 +12,7 @@ const idList = z.array(z.number().int().positive());
 
 export const evaluatorFilterSchema = z.object({
   projectId: projectIdSchema,
-  folderPath: z.string().min(1),
+  folderId: z.number().int().positive().nullable(),
   search: z.string().trim(),
   tags: z.array(z.string()),
   tagLogic: z.enum(FilterLogic),

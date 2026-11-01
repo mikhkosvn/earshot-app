@@ -5,7 +5,7 @@ import { useForm } from 'react-hook-form';
 
 import { useCurrentProjectId } from '@/app/(app)/_hooks/use-current-project-id';
 import { useStartAssistantMutation } from '@/app/(app)/test-case/_hooks/mutations/generation/use-start-assistant-mutation';
-import { useEvaluatorListParams } from '@/app/(app)/test-case/_hooks/use-evaluator-list-params';
+import { useRouteFolderPath } from '@/app/(app)/test-case/_hooks/folders/use-route-folder-path';
 import {
   type GenerateEvaluatorsFormOutput,
   generateEvaluatorsFormSchema,
@@ -13,17 +13,9 @@ import {
 } from '@/app/(app)/test-case/_schemas/generate-evaluators-form-schema';
 import { ScenarioType } from '@/generated/prisma/enums';
 import { GenerationScenarioType } from '@/server/evaluator-generation/constants';
-import {
-  ALL_EVALUATORS_FOLDER_PATH,
-  DEFAULT_FOLDER_PATH,
-} from '@/server/folders/constants';
+import { DEFAULT_FOLDER_PATH } from '@/server/folders/constants';
 
 import { useOpenGenerationSheet } from './use-open-generation-sheet';
-
-const defaultFolder = (folder: string) => {
-  if (folder === ALL_EVALUATORS_FOLDER_PATH) return DEFAULT_FOLDER_PATH;
-  return folder;
-};
 
 const autoOptions = (values: GenerateEvaluatorsFormOutput) => ({
   ...values,
@@ -44,7 +36,7 @@ export const useGenerateEvaluatorsForm = (
   onStarted: () => void,
 ) => {
   const projectId = useCurrentProjectId();
-  const [{ folder }] = useEvaluatorListParams();
+  const routeFolderPath = useRouteFolderPath();
   const openSheet = useOpenGenerationSheet();
   const form = useForm<
     GenerateEvaluatorsFormValues,
@@ -54,7 +46,7 @@ export const useGenerateEvaluatorsForm = (
     resolver: zodResolver(generateEvaluatorsFormSchema),
     defaultValues: {
       agentId: null,
-      folderPath: defaultFolder(folder),
+      folderPath: routeFolderPath ?? DEFAULT_FOLDER_PATH,
       numScenarios: 1,
       scenarioType: GenerationScenarioType.workflow,
       evaluatorFormat: ScenarioType.instruction,
@@ -73,10 +65,10 @@ export const useGenerateEvaluatorsForm = (
     startAssistant.mutate(
       { projectId, ...toOptions(values, isManual) },
       {
-        onSuccess: async (result) => {
+        onSuccess: (result) => {
           if (!result.ok) return;
           onStarted();
-          await openSheet(result.data.sessionId, values.folderPath);
+          openSheet(result.data.sessionId, values.folderPath);
         },
       },
     ),

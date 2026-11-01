@@ -55,7 +55,7 @@ export const proposeEvaluatorImprovements = withValidation(
   async ({ filter, limit, prompt }): Promise<EvaluatorImprovementReply> => {
     await requireProjectAccess(filter.projectId);
     const rows = await prisma.evaluator.findMany({
-      where: evaluatorFilterWhere(filter),
+      where: await evaluatorFilterWhere(filter),
       select: {
         id: true,
         name: true,

@@ -8,17 +8,13 @@ import { DeleteConfirmDialog } from '@/components/common/delete-confirm-dialog/d
 import { Button } from '@/components/ui/button';
 
 import { useDeleteEvaluatorsMutation } from '../../../_hooks/mutations/evaluators/use-delete-evaluators-mutation';
+import { useClearEvaluatorSelection } from '../../../_hooks/table/use-clear-evaluator-selection';
+import { useSelectedEvaluatorIds } from '../../../_hooks/table/use-selected-evaluator-ids';
 
-interface DeleteEvaluatorsButtonProps {
-  selectedIds: number[];
-  onDeleted: () => void;
-}
-
-export function DeleteEvaluatorsButton({
-  selectedIds,
-  onDeleted,
-}: DeleteEvaluatorsButtonProps) {
+export function DeleteEvaluatorsButton() {
   const projectId = useCurrentProjectId();
+  const selectedIds = useSelectedEvaluatorIds();
+  const clearSelection = useClearEvaluatorSelection();
   const [isOpen, setOpen] = useState(false);
   const deleteEvaluators = useDeleteEvaluatorsMutation();
 
@@ -45,7 +41,7 @@ export function DeleteEvaluatorsButton({
               onSuccess: (result) => {
                 if (!result.ok) return;
                 setOpen(false);
-                onDeleted();
+                clearSelection();
               },
             },
           )
