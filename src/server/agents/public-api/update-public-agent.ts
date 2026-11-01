@@ -68,6 +68,10 @@ export const updatePublicAgent = async ({
     },
     personalities: { count: personalityIds?.length },
   });
+  const providerApiKeyEncrypted = await encryptedPublicApiKey(
+    body.vapi_api_key,
+    providerChanged,
+  );
 
   const row = await prisma.$transaction(
     async (tx) => {
@@ -76,10 +80,7 @@ export const updatePublicAgent = async ({
         data: {
           ...publicAgentData(body),
           ...(body.agent_name && { name: body.agent_name }),
-          providerApiKeyEncrypted: encryptedPublicApiKey(
-            body.vapi_api_key,
-            providerChanged,
-          ),
+          providerApiKeyEncrypted,
         },
       });
       if (personalityIds) {

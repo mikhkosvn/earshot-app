@@ -15,6 +15,7 @@ const nextConfig: NextConfig = {
   partialPrefetching: true,
   reactCompiler: true,
   skipTrailingSlashRedirect: true,
+  serverExternalPackages: ['@google-cloud/kms'],
   experimental: {
     serverActions: {
       bodySizeLimit: '510mb',

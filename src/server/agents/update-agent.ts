@@ -18,7 +18,7 @@ import { addEventFields } from '@/server/common/logging/event-fields';
 import { withValidation } from '@/server/common/run-action';
 import { encryptSecret } from '@/server/crypto/encrypt-secret';
 
-const webhookSecretData = (secret: string) => {
+const webhookSecretData = async (secret: string) => {
   const trimmed = secret.trim();
   if (!trimmed) return undefined;
   return encryptSecret(trimmed);
@@ -52,6 +52,8 @@ export const updateAgent = withValidation(
       agent: { id: agentId, provider: current.provider },
     });
     const redactionFields = redactionFieldsOf(values);
+    const configData = await agentConfigData(values, current.provider);
+    const webhookSecretEncrypted = await webhookSecretData(webhookSecret);
 
     const agent = await prisma.$transaction(
       async (tx) => {
@@ -59,9 +61,9 @@ export const updateAgent = withValidation(
         await tx.agent.update({
           where: { id: agentId },
           data: {
-            ...agentConfigData(values, current.provider),
+            ...configData,
             webhookUrl: webhookUrl.trim() || null,
-            webhookSecretEncrypted: webhookSecretData(webhookSecret),
+            webhookSecretEncrypted,
             redactionFields: {
               create: redactionFields.map((field) => ({ field })),
             },

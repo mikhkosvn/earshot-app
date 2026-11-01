@@ -26,7 +26,7 @@ export const createPhoneNumber = withValidation(
         ...data,
         organizationId,
         accountSid: accountSidForProvider(data.provider, accountSid),
-        authTokenEncrypted: encryptSecret(authToken),
+        authTokenEncrypted: await encryptSecret(authToken),
         importedById: user.id,
       },
       select: phoneNumberRowSelect,

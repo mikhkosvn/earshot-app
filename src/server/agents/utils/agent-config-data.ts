@@ -45,7 +45,7 @@ export const redactionFieldsOf = (values: {
   return [...new Set(values.redactionFields)];
 };
 
-const encryptedApiKeyOf = (
+const encryptedApiKeyOf = async (
   values: AgentConfigValues,
   previousProvider: AgentProvider | null,
 ) => {
@@ -55,7 +55,7 @@ const encryptedApiKeyOf = (
   return undefined;
 };
 
-export const agentConfigData = (
+export const agentConfigData = async (
   values: AgentConfigValues,
   previousProvider: AgentProvider | null,
 ) => ({
@@ -66,7 +66,7 @@ export const agentConfigData = (
   phoneNumber: phoneNumberOf(values),
   inbound: values.inbound,
   providerAgentId: emptyToNull(values.providerAgentId),
-  providerApiKeyEncrypted: encryptedApiKeyOf(values, previousProvider),
+  providerApiKeyEncrypted: await encryptedApiKeyOf(values, previousProvider),
   providerConfig: providerConfigOf(values.provider, values.providerConfig),
   autoImportCalls: values.autoImportCalls,
   autoSyncPrompt: values.autoSyncPrompt,

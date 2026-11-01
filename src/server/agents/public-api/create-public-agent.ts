@@ -35,7 +35,10 @@ export const createPublicAgent = async ({
     ...publicAgentData(body),
     name: body.agent_name,
     description: body.description ?? '',
-    providerApiKeyEncrypted: encryptedPublicApiKey(body.vapi_api_key, false),
+    providerApiKeyEncrypted: await encryptedPublicApiKey(
+      body.vapi_api_key,
+      false,
+    ),
   };
   const check = checkConnections({
     provider: data.provider,

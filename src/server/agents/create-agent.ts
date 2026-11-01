@@ -18,7 +18,7 @@ export const createAgent = withValidation(
   createAgentSchema,
   async ({ projectId, ...values }): Promise<CreatedAgent> => {
     const { user } = await requireProjectAccess(projectId);
-    const data = agentConfigData(values, null);
+    const data = await agentConfigData(values, null);
     const check = checkConnections({
       provider: data.provider,
       phoneNumber: data.phoneNumber,

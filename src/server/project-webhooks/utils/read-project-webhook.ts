@@ -21,14 +21,14 @@ export const readProjectWebhook = async (projectId: number) => {
   if (!webhook) return null;
   return {
     url: webhook.url,
-    secret: decryptOptionalSecret(webhook.secretEncrypted),
+    secret: await decryptOptionalSecret(webhook.secretEncrypted),
     skipCallsWithoutContent: webhook.skipCallsWithoutContent,
     notifications: webhook.notifications.map((row) => row.notification),
     redactionFields: webhook.redactionFields.map((row) => row.field),
   };
 };
 
-const decryptOptionalSecret = (secretEncrypted: string | null) => {
+const decryptOptionalSecret = async (secretEncrypted: string | null) => {
   if (!secretEncrypted) return null;
   return decryptSecret(secretEncrypted);
 };

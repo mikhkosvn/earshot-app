@@ -12,7 +12,7 @@ export const saveProjectWebhook = withValidation(
   async ({ projectId, secret, notifications, redactionFields, ...data }) => {
     await requireProjectAccess(projectId);
     const secretData = secret !== '' && {
-      secretEncrypted: encryptSecret(secret),
+      secretEncrypted: await encryptSecret(secret),
     };
     await prisma.$transaction([
       prisma.projectWebhook.upsert({

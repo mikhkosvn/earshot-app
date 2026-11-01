@@ -9,14 +9,14 @@ import { addEventFields } from '@/server/common/logging/event-fields';
 import { withValidation } from '@/server/common/run-action';
 import { encryptSecret } from '@/server/crypto/encrypt-secret';
 
-const sourceData = (connector: KnowledgeConnectorFormValues) => {
+const sourceData = async (connector: KnowledgeConnectorFormValues) => {
   if (connector.type === KnowledgeConnectorType.website_scraper) {
     return { url: connector.url, query: null, credentialsEncrypted: null };
   }
   return {
     url: null,
     query: connector.query,
-    credentialsEncrypted: encryptSecret(connector.serviceAccountJson),
+    credentialsEncrypted: await encryptSecret(connector.serviceAccountJson),
   };
 };
 
@@ -31,7 +31,7 @@ export const createKnowledgeConnector = withValidation(
         type: connector.type,
         syncEnabled: connector.syncEnabled,
         syncIntervalDays: connector.syncIntervalDays,
-        ...sourceData(connector),
+        ...(await sourceData(connector)),
       },
       select: { id: true, agentId: true },
     });

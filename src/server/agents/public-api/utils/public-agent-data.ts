@@ -9,7 +9,7 @@ const textOrNull = (value: string | null) => {
   return value;
 };
 
-export const encryptedPublicApiKey = (
+export const encryptedPublicApiKey = async (
   apiKey: string | null | undefined,
   providerChanged: boolean,
 ) => {

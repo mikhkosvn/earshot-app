@@ -1,30 +1,36 @@
 import 'server-only';
 
-import { createDecipheriv } from 'node:crypto';
-
-import {
-  AUTH_TAG_LENGTH_BYTES,
-  CIPHER_ALGORITHM,
-  CIPHER_VERSION,
-  IV_LENGTH_BYTES,
-} from '@/server/crypto/constants';
+import { CIPHER_SEPARATOR, CipherVersion } from '@/server/crypto/constants';
 import { getEncryptionKey } from '@/server/crypto/utils/get-encryption-key';
+import { getKmsKeyName } from '@/server/crypto/utils/kms/get-kms-key-name';
+import { unwrapDataKey } from '@/server/crypto/utils/kms/unwrap-data-key';
+import { openPayload } from '@/server/crypto/utils/open-payload';
 
-export const decryptSecret = (cipherText: string) => {
-  const [version, body] = cipherText.split(':');
-  if (version !== CIPHER_VERSION || !body) {
-    throw new Error('The secret has an unknown format.');
+const decryptWithEnvelope = async (wrappedKey: string, body: string) => {
+  const keyName = getKmsKeyName();
+  if (!keyName) {
+    throw new Error(
+      'KMS_KEY_NAME is not set. It is necessary to read a v2 secret.',
+    );
   }
-  const payload = Buffer.from(body, 'base64');
-  const iv = payload.subarray(0, IV_LENGTH_BYTES);
-  const authTag = payload.subarray(
-    IV_LENGTH_BYTES,
-    IV_LENGTH_BYTES + AUTH_TAG_LENGTH_BYTES,
+  const dataKey = await unwrapDataKey(
+    keyName,
+    Buffer.from(wrappedKey, 'base64'),
   );
-  const encrypted = payload.subarray(IV_LENGTH_BYTES + AUTH_TAG_LENGTH_BYTES);
-  const decipher = createDecipheriv(CIPHER_ALGORITHM, getEncryptionKey(), iv);
-  decipher.setAuthTag(authTag);
-  return Buffer.concat([decipher.update(encrypted), decipher.final()]).toString(
-    'utf8',
-  );
+  try {
+    return openPayload(dataKey, body);
+  } finally {
+    dataKey.fill(0);
+  }
+};
+
+export const decryptSecret = async (cipherText: string) => {
+  const [version, first, second, extra] = cipherText.split(CIPHER_SEPARATOR);
+  if (version === CipherVersion.v1 && first && second === undefined) {
+    return openPayload(getEncryptionKey(), first);
+  }
+  if (version === CipherVersion.v2 && first && second && extra === undefined) {
+    return decryptWithEnvelope(first, second);
+  }
+  throw new Error('The secret has an unknown format.');
 };

@@ -12,11 +12,19 @@ export const saveProviderApiKeys = withValidation(
   saveProviderApiKeysSchema,
   async ({ projectId, keys }) => {
     await requireProjectAccess(projectId);
-    const typedKeys = Object.values(ProviderKeyProvider).flatMap((provider) => {
-      const value = keys[provider];
-      if (!value) return [];
-      return [{ provider, encryptedKey: encryptSecret(value) }];
-    });
+    const enteredKeys = Object.values(ProviderKeyProvider).flatMap(
+      (provider) => {
+        const value = keys[provider];
+        if (!value) return [];
+        return [{ provider, value }];
+      },
+    );
+    const typedKeys = await Promise.all(
+      enteredKeys.map(async ({ provider, value }) => ({
+        provider,
+        encryptedKey: await encryptSecret(value),
+      })),
+    );
     await prisma.$transaction(
       typedKeys.map(({ provider, encryptedKey }) =>
         prisma.providerApiKey.upsert({

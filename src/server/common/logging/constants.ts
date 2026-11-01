@@ -20,6 +20,7 @@ export const ExternalService = {
   file_storage: 'file_storage',
   transcription: 'transcription',
   vapi: 'vapi',
+  kms: 'kms',
 } as const;
 export type ExternalService =
   (typeof ExternalService)[keyof typeof ExternalService];

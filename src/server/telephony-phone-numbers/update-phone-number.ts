@@ -27,7 +27,9 @@ export const updatePhoneNumber = withValidation(
       data: {
         ...data,
         accountSid: accountSidForProvider(data.provider, accountSid),
-        ...(authToken && { authTokenEncrypted: encryptSecret(authToken) }),
+        ...(authToken && {
+          authTokenEncrypted: await encryptSecret(authToken),
+        }),
       },
       select: phoneNumberRowSelect,
     });

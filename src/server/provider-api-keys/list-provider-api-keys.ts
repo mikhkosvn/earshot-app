@@ -25,14 +25,16 @@ export const listProviderApiKeys = withValidation(
     const byProvider = new Map(
       records.map((record) => [record.provider, record]),
     );
-    return Object.values(ProviderKeyProvider).map((provider) => {
-      const record = byProvider.get(provider);
-      if (!record) return { provider, maskedKey: null, updatedAt: null };
-      return {
-        provider,
-        maskedKey: maskSecret(decryptSecret(record.encryptedKey)),
-        updatedAt: record.updatedAt,
-      };
-    });
+    return Promise.all(
+      Object.values(ProviderKeyProvider).map(async (provider) => {
+        const record = byProvider.get(provider);
+        if (!record) return { provider, maskedKey: null, updatedAt: null };
+        return {
+          provider,
+          maskedKey: maskSecret(await decryptSecret(record.encryptedKey)),
+          updatedAt: record.updatedAt,
+        };
+      }),
+    );
   },
 );
