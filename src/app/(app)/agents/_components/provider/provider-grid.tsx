@@ -44,6 +44,7 @@ export function ProviderGrid({ collapsedCount }: ProviderGridProps) {
         ))}
       </div>
       <ProviderMoreToggle
+        canExpand={PROVIDER_TILE_ORDER.length > collapsedCount}
         expanded={expanded}
         onToggle={() => setExpanded((value) => !value)}
       />

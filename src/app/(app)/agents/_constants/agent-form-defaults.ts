@@ -5,7 +5,7 @@ export const DEFAULT_AGENT_CONFIG_VALUES: AgentConfigValues = {
   name: '',
   language: Language.en,
   description: '',
-  provider: AgentProvider.custom,
+  provider: AgentProvider.vapi,
   telephonyEnabled: false,
   phoneNumber: '',
   inbound: true,

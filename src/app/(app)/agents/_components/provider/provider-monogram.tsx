@@ -4,6 +4,8 @@ import { AgentProvider } from '@/generated/prisma/enums';
 import { cn } from '@/lib/utils';
 
 import { PROVIDER_MONOGRAM } from '../../_constants/provider-display';
+import { PipecatLogo } from './pipecat-logo';
+import { VapiLogo } from './vapi-logo';
 
 interface ProviderMonogramProps {
   provider: AgentProvider;
@@ -16,6 +18,12 @@ export function ProviderMonogram({
 }: ProviderMonogramProps) {
   if (provider === AgentProvider.custom) {
     return <UnplugIcon className={cn('size-4', className)} />;
+  }
+  if (provider === AgentProvider.vapi) {
+    return <VapiLogo className={cn('size-4', className)} />;
+  }
+  if (provider === AgentProvider.pipecat) {
+    return <PipecatLogo className={cn('size-4', className)} />;
   }
   return (
     <span

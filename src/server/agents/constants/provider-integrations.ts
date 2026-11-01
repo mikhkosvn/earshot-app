@@ -52,24 +52,24 @@ export interface ProviderIntegration {
 }
 
 export const PROVIDER_TILE_ORDER: AgentProvider[] = [
-  AgentProvider.custom,
-  AgentProvider.livekit,
-  AgentProvider.pipecat,
-  AgentProvider.elevenlabs,
-  AgentProvider.retell,
+  // AgentProvider.custom,
+  // AgentProvider.livekit,
   AgentProvider.vapi,
-  AgentProvider.cisco,
-  AgentProvider.bland,
-  AgentProvider.synthflow,
-  AgentProvider.koreai,
-  AgentProvider.genesys,
-  AgentProvider.gemini_cx,
-  AgentProvider.amazon_connect,
-  AgentProvider.agentforce,
-  AgentProvider.sierra,
-  AgentProvider.telnyx,
-  AgentProvider.assemblyai,
-  AgentProvider.agora,
+  AgentProvider.pipecat,
+  // AgentProvider.elevenlabs,
+  // AgentProvider.retell,
+  // AgentProvider.cisco,
+  // AgentProvider.bland,
+  // AgentProvider.synthflow,
+  // AgentProvider.koreai,
+  // AgentProvider.genesys,
+  // AgentProvider.gemini_cx,
+  // AgentProvider.amazon_connect,
+  // AgentProvider.agentforce,
+  // AgentProvider.sierra,
+  // AgentProvider.telnyx,
+  // AgentProvider.assemblyai,
+  // AgentProvider.agora,
 ];
 
 export const CREDENTIAL_CHECK_PROVIDERS: AgentProvider[] = [
@@ -164,7 +164,7 @@ export const PROVIDER_INTEGRATIONS: Record<AgentProvider, ProviderIntegration> =
         ),
         apiKeyField(
           'VAPI Private API Key',
-          'Required for all VAPI operations — calls and testing.',
+          'Required for all VAPI operations: calls and testing.',
         ),
       ],
       autoImportDescription: 'Pull calls from VAPI every 30 seconds.',
@@ -261,10 +261,10 @@ export const PROVIDER_INTEGRATIONS: Record<AgentProvider, ProviderIntegration> =
           placeholder: 'us-central1 or global',
         }),
         configField('gcpProjectId', 'GCP Project ID', {
-          placeholder: 'Optional — taken from the service account email',
+          placeholder: 'Optional. Taken from the service account email',
         }),
         configField('cxAgentId', 'CX Agent ID', {
-          placeholder: "Optional — the agent's id in CX Agent Studio",
+          placeholder: "Optional. The agent's ID in CX Agent Studio",
         }),
       ],
       postConversationMetadata: false,

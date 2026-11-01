@@ -5,14 +5,17 @@ import { Button } from '@/components/ui/button';
 import { ProviderMoreToggleLabel } from './provider-more-toggle-label';
 
 interface ProviderMoreToggleProps {
+  canExpand: boolean;
   expanded: boolean;
   onToggle: () => void;
 }
 
 export function ProviderMoreToggle({
+  canExpand,
   expanded,
   onToggle,
 }: ProviderMoreToggleProps) {
+  if (!canExpand) return null;
   return (
     <Button
       type="button"
