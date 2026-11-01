@@ -15,6 +15,7 @@
 
 - When you edit a file, delete each comment that you find in it.
 - Keep only a comment that has a function, for example `eslint-disable`, `@ts-expect-error`, a triple-slash directive, `/* turbopackIgnore: true */`, or a `@type` annotation in a configuration file.
+- Exception: you can comment out code that is not needed for now, for example a feature or a UI element. The comment holds only the disabled code. Do not add text that explains it.
 - If code is hard to read, rename the identifier or extract a function. Do not add a comment.
 
 # Ternary operators
