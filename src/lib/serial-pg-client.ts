@@ -4,6 +4,11 @@ import pg from 'pg';
 
 type QueryArgs = Parameters<pg.Client['query']>;
 
+const QUERY_TIMEOUT_MESSAGE = 'Query read timeout';
+
+const isQueryTimeout = (error: unknown) =>
+  error instanceof Error && error.message === QUERY_TIMEOUT_MESSAGE;
+
 const isPromiseQuery = (args: unknown[]) => {
   const [first] = args;
   if (typeof args.at(-1) === 'function') return false;
@@ -20,6 +25,9 @@ export class SerialPgClient extends pg.Client {
       if (!isPromiseQuery(args)) return query(...args);
       const result = tail.then(() => query(...args));
       tail = result.catch(() => undefined);
+      result.catch((error: unknown) => {
+        if (isQueryTimeout(error)) void this.end().catch(() => undefined);
+      });
       return result;
     }) as pg.Client['query'];
   }
